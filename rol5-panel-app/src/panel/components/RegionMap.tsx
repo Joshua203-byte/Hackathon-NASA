@@ -11,6 +11,8 @@ import { countryName, regionNames } from '../labels';
 import { SpaceSky } from '../space/SpaceSky';
 import { markIntroSeen } from '../space/introPlan';
 import { warmEarthTiles } from '../space/warmTiles';
+import { addHdLayer, addNightLayer, addViirsLayer, buildNightCanvas, buildViirsCanvas, imageryDate, introStartLon, liveAllowed } from '../space/liveEarth';
+import { subsolarPoint } from '../space/sun';
 
 const EARTH_TILES = 'earth/{z}/{x}/{y}.jpg';
 /** Vista inicial de la intro: el planeta entero, visto desde el lado del Atlántico y África. */
@@ -102,6 +104,9 @@ export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback
   const onIntroStartRef = useRef(onIntroStart);
   onIntroStartRef.current = onIntroStart;
   const runRef = useRef(0);
+  const startRef = useRef(INTRO_START);
+  /** Fecha de la imagen de GIBS si respondió; null = solo el Blue Marble propio. */
+  const [liveDate, setLiveDate] = useState<string | null>(null);
   const flightRef = useRef<{ timers: number[] } | null>(null);
   const [layer, setLayer] = useState<MapLayer>(readLayer);
   const [hover, setHover] = useState<{ x: number; y: number; id: string } | null>(null);
@@ -124,12 +129,14 @@ export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback
   useEffect(() => {
     if (!box.current) return;
     const [south, north] = meta.bbox.lat; const [west, east] = meta.bbox.lon;
+    const now = new Date(); const sun = subsolarPoint(now);
+    startRef.current = { center: [introStartLon(sun, (west + east) / 2), 12], zoom: INTRO_START.zoom };
     let map: MlMap;
     try {
       map = new maplibregl.Map({
         container: box.current,
         style: globeStyle(),
-        ...(introRef.current ? INTRO_START : { bounds: [[west, south], [east, north]] as [[number, number], [number, number]], fitBoundsOptions: { padding: finalPadding() } }),
+        ...(introRef.current ? startRef.current : { bounds: [[west, south], [east, north]] as [[number, number], [number, number]], fitBoundsOptions: { padding: finalPadding() } }),
         minZoom: 0.4,
         maxZoom: 11,
         attributionControl: false,
@@ -152,7 +159,19 @@ export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback
       map.addLayer({ id: 'cells-fill', type: 'fill', source: 'cells', paint: { 'fill-color': NO_DATA, 'fill-opacity': 0.86 * lit, 'fill-opacity-transition': { duration: 1400, delay: 0 }, 'fill-outline-color': 'rgba(255,255,255,0.3)' } });
       map.addLayer({ id: 'borders-line', type: 'line', source: 'borders', paint: { 'line-color': 'rgba(255,255,255,0.92)', 'line-opacity': lit, 'line-opacity-transition': { duration: 1400, delay: 0 }, 'line-width': ['interpolate', ['linear'], ['zoom'], 3, 0.6, 5, 1, 9, 2.2] } });
       map.addLayer({ id: 'cell-selected', type: 'line', source: 'cells', filter: ['==', ['get', 'id'], ''], paint: { 'line-color': '#fff', 'line-width': 3 } });
-      setReady(true);
+      // Día y noche reales (local, sin red) y, si GIBS responde, la Tierra del último día completo con sus nubes.
+      const date = imageryDate(now);
+      const alive = () => mapRef.current === map;
+      const night = buildNightCanvas(new URL(import.meta.env.BASE_URL, window.location.href).href + 'earth-night/{z}/{x}/{y}.jpg', sun)
+        .then(c => { if (c && alive()) addNightLayer(map, c, 'cells-fill'); }).catch(() => { /* sin noche: queda el planeta iluminado */ });
+      let clouds: Promise<void> = Promise.resolve();
+      if (liveAllowed()) {
+        addHdLayer(map, 'cells-fill');
+        clouds = buildViirsCanvas(date).then(async c => { await night; if (c && alive()) { addViirsLayer(map, c, map.getLayer('noche') ? 'noche' : 'cells-fill', date); setLiveDate(date); } }).catch(() => { /* sin nubes: Blue Marble */ });
+      }
+      // La intro espera a la noche (local y rápida) y, un momento, a las nubes: así no cambian a mitad del vuelo. Con plazo:
+      // si la red va lenta se arranca igual y las nubes entran con un fundido cuando lleguen.
+      void Promise.race([Promise.all([night, clouds]), new Promise(r => window.setTimeout(r, introRef.current ? 2500 : 0))]).then(() => { if (alive()) setReady(true); });
     });
     map.on('click', 'cells-fill', e => {
       const id = e.features?.[0]?.properties?.id;
@@ -233,7 +252,7 @@ export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback
     };
     let begun = false; // `idle` y el plazo de seguridad pueden llegar los dos: el vuelo empieza una sola vez
     const begin = () => { if (begun || run !== runRef.current) return; begun = true; timers.push(window.setTimeout(fly, INTRO_HOLD_MS)); };
-    if (replay) { map.flyTo({ ...INTRO_START, padding: introPadding(), bearing: 0, pitch: 0, duration: 2600, easing: easeInOut, essential: true }); map.once('moveend', () => { if (run === runRef.current) begin(); }); }
+    if (replay) { map.flyTo({ ...startRef.current, padding: introPadding(), bearing: 0, pitch: 0, duration: 2600, easing: easeInOut, essential: true }); map.once('moveend', () => { if (run === runRef.current) begin(); }); }
     else if (map.loaded()) begin();
     else { map.once('idle', begin); timers.push(window.setTimeout(begin, 3500)); }
   }, [regionCamera, finishIntro, meta]);
@@ -296,6 +315,10 @@ export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback
 
   const nCountries = new Set(cells.map(c => c.country)).size;
   const arrival = `${nCountries >= 7 ? (es ? 'Centroamérica' : 'Central America') : regionNames(cells, lang)} · ${nCountries} ${es ? 'países' : 'countries'} · ${cells.length.toLocaleString(es ? 'es' : 'en')} ${es ? 'celdas de lluvia' : 'rainfall cells'}`;
+  const liveDay = liveDate ? new Date(`${liveDate}T12:00:00Z`).toLocaleDateString(es ? 'es' : 'en', { day: 'numeric', month: 'short', timeZone: 'UTC' }) : null;
+  const liveNote = liveDay
+    ? (es ? `La Tierra el ${liveDay}, con sus nubes (NASA VIIRS) · día y noche de este momento` : `Earth on ${liveDay}, with its clouds (NASA VIIRS) · day and night as of now`)
+    : (es ? 'Día y noche de este momento · cielo real' : 'Day and night as of now · real sky');
   const recenter = () => { const map = mapRef.current; const cam = map && regionCamera(map); if (map && cam) map.flyTo({ center: cam.center, zoom: cam.zoom, padding: NO_PADDING, bearing: 0, pitch: 0, duration: 1600, easing: easeInOut }); };
 
   const pick = (l: MapLayer) => { writeLayer(l); setLayer(l); };
@@ -328,6 +351,7 @@ export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback
               <p className="intro-sub">{es ? '¿Cuánta confianza merece una tendencia de lluvia?' : 'How much confidence does a rainfall trend deserve?'}</p>
             </div>
             <p className="intro-arrive" aria-live="polite">{arrival}</p>
+            <p className="intro-live">{liveNote}</p>
             <button type="button" className="intro-skip" onClick={e => { e.stopPropagation(); skipIntro(); }}>{es ? 'Saltar' : 'Skip'}</button>
           </div>
         )}

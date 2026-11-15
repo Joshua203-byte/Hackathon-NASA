@@ -90,12 +90,19 @@ export function SpaceSky({ map, es, detail }: Props) {
 
 function drawBody(ctx: CanvasRenderingContext2D, b: Body, frame: ReturnType<typeof skyFrame>, w: number, h: number, es: boolean, detail: number) {
   const p = project(toHorizon(frame, b.vec), w, h);
-  if (!p || p[0] < -60 || p[0] > w + 60 || p[1] < -60 || p[1] > h + 60) return;
+  const m = b.kind === 'sun' ? 260 : 60;
+  if (!p || p[0] < -m || p[0] > w + m || p[1] < -m || p[1] > h + m) return;
   const [x, y] = p;
   if (b.kind === 'sun') {
-    const g = ctx.createRadialGradient(x, y, 0, x, y, 90);
-    g.addColorStop(0, 'rgba(255,244,214,0.95)'); g.addColorStop(0.12, 'rgba(255,226,150,0.55)'); g.addColorStop(1, 'rgba(255,200,100,0)');
-    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, 90, 0, 6.2832); ctx.fill();
+    // Halo amplio y núcleo blanco, sumados a lo que haya debajo (como un destello, no como un disco opaco).
+    ctx.save(); ctx.globalCompositeOperation = 'lighter';
+    const halo = ctx.createRadialGradient(x, y, 0, x, y, 260);
+    halo.addColorStop(0, 'rgba(255,236,190,0.55)'); halo.addColorStop(0.18, 'rgba(255,214,140,0.2)'); halo.addColorStop(0.5, 'rgba(255,190,110,0.06)'); halo.addColorStop(1, 'rgba(255,180,90,0)');
+    ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(x, y, 260, 0, 6.2832); ctx.fill();
+    const core = ctx.createRadialGradient(x, y, 0, x, y, 26);
+    core.addColorStop(0, 'rgba(255,255,250,1)'); core.addColorStop(0.35, 'rgba(255,248,225,0.95)'); core.addColorStop(1, 'rgba(255,230,170,0)');
+    ctx.fillStyle = core; ctx.beginPath(); ctx.arc(x, y, 26, 0, 6.2832); ctx.fill();
+    ctx.restore();
   } else {
     const r = b.kind === 'moon' ? 4.2 : Math.max(1.9, Math.min(4.2, 2.6 + (-b.mag) * 0.55));
     const g = ctx.createRadialGradient(x, y, 0, x, y, r * 4.5);
