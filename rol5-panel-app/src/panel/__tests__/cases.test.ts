@@ -11,10 +11,10 @@ describe('enlaces de casos (Rol 4)', () => {
     expect(findCase(null)).toBeUndefined();
   });
 
-  it('conserva idioma, lente y capa; fija celda, indicador, ventana y espejo; quita case y tour', () => {
+  it('conserva idioma y capa; fija la lente compatible, celda, indicador, ventana y espejo; quita case y tour', () => {
     const q = new URLSearchParams(caseSearch('?lang=en&lens=com&layer=slope&case=3&tour=2&win=2004-2024', findCase('2')!));
     expect(q.get('lang')).toBe('en');
-    expect(q.get('lens')).toBe('com');
+    expect(q.get('lens')).toBe('agri');
     expect(q.get('layer')).toBe('slope');
     expect(q.get('cell')).toBe('N1475W08765');
     expect(q.get('ind')).toBe('may_oct_mm');

@@ -24,12 +24,13 @@ const fmt = n => n.toFixed(1).replace('-', '−');
 const signed = n => (n > 0 ? '+' : '') + fmt(n);
 const pFmt = n => n < .001 ? '< 0.001' : n.toFixed(3);
 const root = resolve('dist');
+const base = (process.env.BASE_URL || 'http://cases.local/').replace(/\/?$/, '/');
 const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH || 'C:/Program Files/Google/Chrome/Application/chrome.exe' });
 try {
   const page = await browser.newPage({ acceptDownloads: true, viewport: { width: 1100, height: 900 } });
   const errors = [];
   page.on('pageerror', e => errors.push(e.message));
-  await page.route('http://cases.local/**', async route => {
+  if (!process.env.BASE_URL) await page.route('http://cases.local/**', async route => {
     const pathname = new URL(route.request().url()).pathname;
     const file = resolve(root, '.' + (pathname === '/' ? '/index.html' : pathname));
     assert.ok(file.startsWith(root + '/') || file.startsWith(root + '\\'));
@@ -69,7 +70,7 @@ try {
       const median = (slopes[slopes.length / 2 - 1] + slopes[slopes.length / 2]) / 2;
       assert.ok(Math.abs(median - d.statistics.slope_per_decade) <= .00051, `${id}/${ind}: Sen desde CSV`);
       for (const lang of ['es', 'en']) {
-        await page.goto(`http://cases.local/?cell=${id}&ind=${ind}&lens=${ind === 'annual_mm' ? 'com' : 'agri'}&lang=${lang}`);
+        await page.goto(`${base}?cell=${id}&ind=${ind}&lens=${ind === 'annual_mm' ? 'com' : 'agri'}&lang=${lang}`);
         await page.waitForSelector('.compare');
         assert.equal(await page.locator('.verdict').getAttribute('data-verdict'), d.verdict);
         assert.match(await page.locator('.verdict-completeness').innerText(), /24\/24/);
@@ -115,7 +116,7 @@ try {
   }
   // Abrir desde otra celda y otro indicador también debe arrancar el caso correcto.
   for (const lang of ['es', 'en']) {
-    await page.goto(`http://cases.local/?cell=N1495W09125&ind=annual_mm&lens=com&lang=${lang}`);
+    await page.goto(`${base}?cell=N1495W09125&ind=annual_mm&lens=com&lang=${lang}`);
     await page.waitForSelector('.compare');
     await page.getByRole('button', { name: lang === 'es' ? 'Recorrido' : 'Tour', exact: true }).click();
     await page.waitForSelector('.tour');
@@ -137,7 +138,40 @@ try {
     await page.getByRole('button', { name: lang === 'es' ? 'Terminar' : 'Done', exact: true }).click();
     assert.equal(await page.locator('.tour').count(), 0);
   }
+  for (const [n, id] of ids.entries()) {
+    await page.goto(`${base}?case=${n + 1}&lang=es&lens=com`);
+    await page.waitForSelector('.compare');
+    assert.equal(new URL(page.url()).searchParams.get('cell'), id);
+    assert.equal(new URL(page.url()).searchParams.get('ind'), 'may_oct_mm');
+    assert.equal(new URL(page.url()).searchParams.get('lens'), 'agri');
+    assert.equal(await page.locator('.case-link').count(), 3);
+    if (n === 1) assert.equal(new URL(page.url()).searchParams.get('win'), '2001-2010');
+    if (n === 2) {
+      assert.equal(new URL(page.url()).searchParams.get('mirror'), ids[0]);
+      await page.waitForSelector('[data-tour="mirror"]');
+    }
+  }
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(`${base}?case=1&lang=es`);
+  await page.waitForSelector('.compare');
+  await page.locator('.case-link').nth(1).click();
+  await page.waitForFunction(() => new URLSearchParams(location.search).get('cell') === 'N1475W08765');
+  await page.getByRole('button', { name: 'Recorrido', exact: true }).click();
+  await page.waitForSelector('.tour');
+  assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'Sin desbordamiento horizontal en móvil');
+  await page.screenshot({ path: `${output}/mobile-tour.png` });
+  await page.getByRole('button', { name: 'Siguiente', exact: true }).click();
+  await page.getByRole('button', { name: 'Siguiente', exact: true }).click();
+  await page.waitForFunction(() => new URLSearchParams(location.search).get('win') === '2008-2023');
+  await page.getByRole('button', { name: 'Siguiente', exact: true }).click();
+  await page.getByRole('button', { name: 'Terminar', exact: true }).click();
+  const mobilePassport = JSON.parse(await download('Descargar JSON', 'mobile-passport.json'));
+  assert.equal(mobilePassport.cell.id, 'N1475W08765');
+  assert.equal(mobilePassport.selected_window.start, 2008);
+  assert.equal(mobilePassport.selected_window.end, 2023);
   assert.deepEqual(errors, []);
+  report.base_url = base;
+  report.case_links = '3 enlaces cortos, tarjetas, ventana y espejo; móvil 390 × 844 sin desbordamiento y pasaporte descargado';
   report.tour = '4 pasos ES/EN, inicio desde otro indicador, recarga del paso 3 y foco en pasaporte';
   writeFileSync(`${output}/report.json`, JSON.stringify(report, null, 2));
   console.log('PASS recorrido real ES/EN; report.json y descargas guardadas en ' + output);

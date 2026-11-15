@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-15T10:27:21.182Z",
+  "generated_at": "2026-11-15T10:41:56.444Z",
   "pipeline_commit": "a7a5b18",
   "dataset_doi": "10.5067/GPM/IMERG/3B-MONTH/07",
   "checks": [
@@ -121,5 +121,7 @@
       ]
     }
   ],
+  "base_url": "http://cases.local/",
+  "case_links": "3 enlaces cortos, tarjetas, ventana y espejo; móvil 390 × 844 sin desbordamiento y pasaporte descargado",
   "tour": "4 pasos ES/EN, inicio desde otro indicador, recarga del paso 3 y foco en pasaporte"
 }
