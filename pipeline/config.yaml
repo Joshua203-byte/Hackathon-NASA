@@ -7,8 +7,8 @@
 #
 # Al subir el commit de congelación, cambiar `frozen` a true.
 
-version: "v1-2026-11-14"
-frozen: false
+version: "v1-2026-11-15-frozen"
+frozen: true
 
 dataset:
   name: "GPM IMERG Final Run, mensual, 0.1°, V07"
