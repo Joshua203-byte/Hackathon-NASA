@@ -145,7 +145,7 @@ def recipe(cfg: dict) -> dict:
         "conversion": "mm/mes = tasa (mm/h) × 24 × días reales del mes (con bisiestos)",
         "indicators": {k: s["units"] for k, s in cfg["indicators"].items()},
         "trend": "scipy.stats.theilslopes; pendiente × 10 = por década",
-        "significance": "Mann-Kendall (pymannkendall); Hamed-Rao si la autocorrelación lag-1 de los residuos es significativa",
+        "significance": "Mann-Kendall (pymannkendall); Hamed-Rao si la autocorrelación lag-1 de los residuos es positiva y significativa",
         "multiple_testing": f"Benjamini-Hochberg por indicador sobre las celdas (nivel {st['fdr']['level']})",
         "footprint": (f"Sen + Mann-Kendall en toda ventana de ≥{st['footprint']['min_len']} años; resumen con ventanas de "
                       f"≥{st['footprint']['summary_min_len']} años; p sin corregir"),

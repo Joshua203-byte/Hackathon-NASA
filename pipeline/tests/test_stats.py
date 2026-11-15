@@ -188,3 +188,23 @@ def test_cv():
     assert stats.cv([100, 100, 100, 100]) == 0.0
     assert stats.cv([10, 20, 30]) == pytest.approx(0.5)
     assert math.isnan(stats.cv([1, 2]))
+
+
+def test_hamed_rao_solo_con_autocorrelacion_positiva():
+    import numpy as np
+    years = list(range(2001, 2025))
+    rng = np.random.default_rng(5)
+    # autocorrelación NEGATIVA fuerte (alterna arriba y abajo): se usa la original, p no se infla
+    neg = [100 + (12 if i % 2 else -12) + rng.normal(0, 2) + 0.5 * i for i in range(24)]
+    r = stats.mann_kendall(years, neg)
+    assert r.lag1 < -0.5 and r.variant == "original"
+    p_orig, _ = stats.mk_original(np.array(neg))
+    assert r.p == p_orig
+    # autocorrelación POSITIVA fuerte (AR1 0.8): se corrige
+    e = [0.0]
+    for _ in range(23):
+        e.append(0.8 * e[-1] + rng.normal(0, 10))
+    pos = [100 + v + 1.0 * i for i, v in enumerate(e)]
+    r2 = stats.mann_kendall(years, pos)
+    if r2.lag1 > 1.96 / 24 ** 0.5:
+        assert r2.variant == "hamed_rao"

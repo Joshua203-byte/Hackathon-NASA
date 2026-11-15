@@ -7,12 +7,12 @@
 #
 # Al subir el commit de congelación, cambiar `frozen` a true.
 
-version: "v1-2026-11-15-frozen"
-frozen: true
+version: "v1-2026-11-14"
+frozen: false
 
 dataset:
   name: "GPM IMERG Final Run, mensual, 0.1°, V07"
-  doi: "10.5067/GPM/IMERG/3B-MONTH/07"   # confirmado por Rol 1 en el catálogo CMR de NASA (14 nov 2026)
+  doi: "POR CONFIRMAR"        # lo confirma Rol 1 (David) en la página del dataset
   aux:
     - "NOAA CPC ONI"
     - "Natural Earth"
@@ -91,7 +91,8 @@ calibration:
   cv_mix: [0.12, 0.20, 0.35]
 
 # Cambios de umbral hechos DESPUÉS de congelar. Ej.: "2026-11-15 10:20 p_max_sign_rule null->0.20, motivo: ..."
-threshold_changes: []
+threshold_changes:
+  - "2026-11-15 02:10 mann_kendall: Hamed-Rao solo con autocorrelacion lag-1 POSITIVA significativa (antes tambien con negativa). Motivo: la revision independiente de 9 celdas con scipy encontro p=1.6e-14 donde Mann-Kendall original da 0.04; 273 de 6075 series usaban Hamed-Rao, 250 con r1 negativa, y 8 veredictos consistente dependian de ello. El cambio solo hace el veredicto mas conservador; no se ajusto ningun umbral."
 
 # Limitaciones por defecto del pasaporte. Rol 3 (Camila) es la dueña del texto final.
 limitations:

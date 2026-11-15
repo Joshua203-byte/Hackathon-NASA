@@ -8,22 +8,22 @@
  ],
  "false_positive_rate": {
   "consistente": 0.0,
-  "limitada": 0.333
+  "limitada": 0.331
  },
  "power": {
   "injected_trend_pct_per_decade": -10.0,
   "detected_consistente": 0.152,
-  "detected_limitada_o_mas": 0.724
+  "detected_limitada_o_mas": 0.723
  },
  "power_all": [
   {
    "injected_trend_pct_per_decade": -10.0,
    "detected_consistente": 0.152,
-   "detected_limitada_o_mas": 0.724
+   "detected_limitada_o_mas": 0.723
   },
   {
    "injected_trend_pct_per_decade": -5.0,
-   "detected_consistente": 0.008,
+   "detected_consistente": 0.007,
    "detected_limitada_o_mas": 0.476
   },
   {

@@ -121,7 +121,9 @@ def mann_kendall(years, values, sen: SenResult | None = None, lag1_z: float = 1.
     """Mann-Kendall con revisión de autocorrelación (plan 4.3).
 
     1. Se calcula la autocorrelación de retardo 1 de los residuos de la recta de Sen.
-    2. Si |r1| > z / sqrt(n) se usa la variante de Hamed y Rao (pymannkendall); si no, la original.
+    2. Si r1 > z / sqrt(n) (autocorrelación POSITIVA significativa) se usa la variante de Hamed y Rao (pymannkendall);
+       si no, la original. Con r1 negativa NO se corrige: la corrección reduciría la varianza y daría p de ~1e-14 para
+       series de 24 puntos (hallazgo de la revisión independiente del 15 nov 2026; ver threshold_changes).
     3. Se guarda cuál se usó.
     """
     x, y = clean(years, values)
@@ -132,7 +134,7 @@ def mann_kendall(years, values, sen: SenResult | None = None, lag1_z: float = 1.
         sen = sen_slope(x, y)
     r1 = lag1_autocorr(x, y, sen.slope_dec, sen.intercept)
     p_orig, z_orig = mk_original(y)
-    if math.isfinite(r1) and abs(r1) > lag1_z / math.sqrt(n):
+    if math.isfinite(r1) and r1 > lag1_z / math.sqrt(n):
         try:
             # Hamed-Rao puede dar varianza negativa en series cortas: entonces p es NaN y se usa la original.
             with np.errstate(all="ignore"):
