@@ -26,19 +26,21 @@ except ImportError:  # sin joblib: serial
     Parallel = None
 
 
-def _one(seed, years, trend, cfg, ar1):
+def _one(seed, years, trend, cfg, ar1, cv):
     rng = np.random.default_rng(seed)
-    vals = synth.make_series(rng, years, 1000.0, 0.12, trend, ar1)
+    vals = synth.make_series(rng, years, 1000.0, cv, trend, ar1)
     return analyze.analyze_indicator("may_oct_mm", years, vals, cfg)
 
 
 def scenario(trend, n, cfg, seed, ar1=0.1):
     years = list(range(cfg["period"][0], cfg["period"][1] + 1))
     seeds = np.random.SeedSequence(seed).generate_state(n)
+    mix = cfg["calibration"].get("cv_mix", [0.12])
+    cvs = [mix[i % len(mix)] for i in range(n)]
     if Parallel:
-        ana = Parallel(n_jobs=-1)(delayed(_one)(int(s), years, trend, cfg, ar1) for s in seeds)
+        ana = Parallel(n_jobs=-1)(delayed(_one)(int(s), years, trend, cfg, ar1, cv) for s, cv in zip(seeds, cvs))
     else:
-        ana = [_one(int(s), years, trend, cfg, ar1) for s in seeds]
+        ana = [_one(int(s), years, trend, cfg, ar1, cv) for s, cv in zip(seeds, cvs)]
     adj = stats.fdr_adjust([a.mk.p for a in ana], cfg["stats"]["fdr"]["method"])
     cons = lim = 0
     for a, pf in zip(ana, adj):
@@ -63,7 +65,7 @@ def main():
         c, l = scenario(t, n, cfg, seed + 1 + i)
         power.append({"injected_trend_pct_per_decade": round(t * 100, 1),
                       "detected_consistente": round(c, 3), "detected_limitada_o_mas": round(l, 3)})
-    res = {"n_sim": n, "seed": seed,
+    res = {"n_sim": n, "seed": seed, "cv_mix": cfg["calibration"].get("cv_mix"),
            "false_positive_rate": {"consistente": round(fp_c, 4), "limitada": round(fp_l, 4)},
            "power": power[0], "power_all": power}
     Path(a.out).write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")

@@ -102,8 +102,12 @@ def base_verdict(
     lim = v["limitada"]
     pct_ok = (_finite(mean) and mean != 0 and
               abs(slope_dec) >= (lim["min_slope_pct_of_mean_per_decade"] / 100.0) * abs(mean))
-    weak = (_finite(p) and p < lim["p_unadjusted_max"]) or (
-        _finite(sign_agreement) and sign_agreement >= lim["sign_agreement_min"] and pct_ok)
+    # Opcional (idea de Elena, ver docs/rol2-notas-elena.md): tope de p en la regla de signo.
+    # null = regla exacta del plan 4.6; con un valor, el signo estable solo cuenta si p < ese valor.
+    p_cap = lim.get("p_max_sign_rule")
+    sign_rule = (_finite(sign_agreement) and sign_agreement >= lim["sign_agreement_min"] and pct_ok
+                 and (p_cap is None or (_finite(p) and p < p_cap)))
+    weak = (_finite(p) and p < lim["p_unadjusted_max"]) or sign_rule
     if weak:
         return "limitada", fail + pending
 

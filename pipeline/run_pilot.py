@@ -20,7 +20,7 @@ def main():
     ap.add_argument("--cells"); ap.add_argument("--series"); ap.add_argument("--monthly")
     ap.add_argument("--enso-results"); ap.add_argument("--break2014"); ap.add_argument("--enso-json")
     ap.add_argument("--out", required=True); ap.add_argument("--commit", default="LOCAL")
-    ap.add_argument("--calibration"); ap.add_argument("--synthetic", action="store_true"); ap.add_argument("--n-cells", type=int, default=40)
+    ap.add_argument("--calibration"); ap.add_argument("--narratives"); ap.add_argument("--synthetic", action="store_true"); ap.add_argument("--n-cells", type=int, default=40)
     a = ap.parse_args()
     cfg = load_config(a.config)
     cal = json.loads(Path(a.calibration).read_text(encoding="utf-8")) if a.calibration else None
@@ -35,7 +35,8 @@ def main():
             monthly=io.read_monthly(a.monthly) if a.monthly else None,
             enso_results=io.read_enso_results(a.enso_results) if a.enso_results else None,
             breaks=io.read_break2014(a.break2014) if a.break2014 else None,
-            enso_phase=io.read_enso_json(a.enso_json) if a.enso_json else None, commit=a.commit, calibration=cal)
+            enso_phase=io.read_enso_json(a.enso_json) if a.enso_json else None, commit=a.commit, calibration=cal,
+            narratives=json.loads(Path(a.narratives).read_text(encoding="utf-8")) if a.narratives else None)
     print(res)
 
 

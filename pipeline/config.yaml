@@ -64,6 +64,10 @@ verdict:
     p_unadjusted_max: 0.10            # señal débil, NO confirmada (la interfaz lo dice)
     sign_agreement_min: 0.80
     min_slope_pct_of_mean_per_decade: 5
+    # OPCIONAL, decidir en grupo ANTES de ver el mapa real. null = regla exacta del plan (4.6).
+    # La calibración muestra que sin tope ~1/3 de las series sin tendencia salen `limitada`.
+    # Con 0.20 baja a ~17 % (Elena) a costa de potencia. Si se activa, anotarlo en threshold_changes.
+    p_max_sign_rule: null
   # Etiqueta aparte, no es un veredicto. Regla relativa: coeficiente de variación del indicador
   # por encima del percentil indicado entre todas las celdas de ese indicador.
   alta_variabilidad:
@@ -83,6 +87,11 @@ calibration:
   seed: 20261114
   # tendencias inyectadas, como fracción de la media por década (negativas = menos lluvia)
   injected_trends: [-0.10, -0.05, -0.20]
+  # coeficientes de variación de las series simuladas (se reparten por igual); la lluvia real varía mucho entre celdas
+  cv_mix: [0.12, 0.20, 0.35]
+
+# Cambios de umbral hechos DESPUÉS de congelar. Ej.: "2026-11-15 10:20 p_max_sign_rule null->0.20, motivo: ..."
+threshold_changes: []
 
 # Limitaciones por defecto del pasaporte. Rol 3 (Camila) es la dueña del texto final.
 limitations:

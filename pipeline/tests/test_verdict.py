@@ -176,3 +176,14 @@ def test_todas_las_razones_de_ventana_estan_en_el_catalogo():
         _, _, r = V.window_verdict(w, **BASE)
         assert V.all_codes_known(r)
     assert "ventana_pocos_anios" in REASONS
+
+
+def test_p_max_sign_rule_opcional():
+    import copy
+    base_kw = dict(valid_years=24, n_years=24, slope_dec=-30.0, mean=400.0, ci=(-80.0, 20.0), p=0.30, p_fdr=0.6,
+                   sign_agreement=0.85, sig_fraction=0.1, enso_survives=True, break_flag=False)
+    assert V.base_verdict(**base_kw, cfg=CFG)[0] == "limitada"                # regla del plan (null)
+    cfg2 = copy.deepcopy(CFG)
+    cfg2["verdict"]["limitada"]["p_max_sign_rule"] = 0.20
+    assert V.base_verdict(**base_kw, cfg=cfg2)[0] == "sin_evidencia"           # tope activo: p=0.30 no cuenta
+    assert V.base_verdict(**{**base_kw, "p": 0.15}, cfg=cfg2)[0] == "limitada"

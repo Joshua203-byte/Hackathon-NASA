@@ -83,3 +83,24 @@ def test_enso_y_2014_entran_al_veredicto(tmp_path):
     for c in cells:
         d = json.loads((tmp_path / "cells" / f"{c['id']}.json").read_text())
         assert all(ci["verdict"] != "consistente" for ci in d["indicators"].values())
+
+
+def test_narrativa_resumen_y_receta(tmp_path):
+    cells, _, _, _ = gen(tmp_path, 10)
+    meta = json.loads((tmp_path / "meta.json").read_text())
+    assert "recipe" in meta and meta["recipe"]["verdict_rules"]["consistente"] and meta["threshold_changes"] == []
+    d = json.loads((tmp_path / "cells" / f"{cells[0]['id']}.json").read_text())
+    nar = next(iter(d["indicators"].values()))["narrative"]
+    assert nar["generated_by"] == "template" and nar["es"] and nar["en"]
+    rows = (tmp_path / "verdict_summary.csv").read_text().strip().splitlines()
+    assert rows[0].startswith("indicator,country,consistente") and len(rows) > 1
+    assert sum(int(r.split(",")[-1]) for r in rows[1:]) == 10 * 3
+
+
+def test_narrativa_de_rol6_tiene_prioridad(tmp_path):
+    cells, series, _ = synth.make_region(6, tuple(CFG["period"]))
+    k = f"{cells[0]['id']}|may_oct_mm"
+    export.run(cells, series, CFG, tmp_path, narratives={k: {"es": "X", "en": "Y", "generated_by": "AI"}})
+    d = json.loads((tmp_path / "cells" / f"{cells[0]['id']}.json").read_text())
+    assert d["indicators"]["may_oct_mm"]["narrative"]["generated_by"] == "AI"
+    assert d["indicators"]["jul_aug_mm"]["narrative"]["generated_by"] == "template"

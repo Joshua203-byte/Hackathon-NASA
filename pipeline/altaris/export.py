@@ -8,7 +8,7 @@ from pathlib import Path
 
 import numpy as np
 
-from . import analyze, indicators as ind, reasons, stats
+from . import analyze, indicators as ind, narrative, reasons, stats
 from .analyze import num
 
 
@@ -26,7 +26,7 @@ def _clean_json(o):
 
 
 def run(cells, series, cfg, out_dir, *, monthly=None, enso_results=None, breaks=None, enso_phase=None,
-        calibration=None, commit="LOCAL", data_kind="observed", generated_at=None) -> dict:
+        calibration=None, narratives=None, commit="LOCAL", data_kind="observed", generated_at=None) -> dict:
     """Corre todo y escribe los JSON. Devuelve un resumen (conteo de veredictos)."""
     out = Path(out_dir)
     (out / "cells").mkdir(parents=True, exist_ok=True)
@@ -60,6 +60,7 @@ def run(cells, series, cfg, out_dir, *, monthly=None, enso_results=None, breaks=
     # 4) construir y escribir
     counts: dict[str, dict[str, int]] = {k: {} for k in keys}
     grid_cells = []
+    by_country: dict = {}
     for cell in cells:
         c = cell["id"]
         built_all, grid_ind = {}, {}
@@ -72,10 +73,15 @@ def run(cells, series, cfg, out_dir, *, monthly=None, enso_results=None, breaks=
             built = analyze.build_indicator(
                 a, cfg, cfg["indicators"][k]["units"], p_fdr=p_fdr[(c, k)], enso_phase=enso_phase,
                 enso_test=er, break_2014=breaks.get((c, k)), tags=tags)
+            nar = (narratives or {}).get(f"{c}|{k}")
+            built["narrative"] = nar if nar else narrative.template(
+                k, cfg["indicators"][k]["units"], cfg["period"], a.valid_years, a.n_years, built["statistics"], built["verdict"])
             built_all[k] = built
             grid_ind[k] = analyze.grid_indicator(
                 a, built, p_fdr=p_fdr[(c, k)], enso_r=None if er is None else er.get("enso_r"),
                 enso_p_fdr=None if er is None else er.get("enso_p_fdr"))
+            by_country.setdefault((k, cell.get("country", ""), built["verdict"]), 0)
+            by_country[(k, cell.get("country", ""), built["verdict"])] += 1
             counts[k][built["verdict"]] = counts[k].get(built["verdict"], 0) + 1
 
         clim, canicula = [None] * 12, None
@@ -99,6 +105,8 @@ def run(cells, series, cfg, out_dir, *, monthly=None, enso_results=None, breaks=
         "bbox": cfg["bbox"],
         "n_cells": len(cells),
         "indicators": keys,
+        "threshold_changes": cfg.get("threshold_changes", []),
+        "recipe": recipe(cfg),
         "thresholds": {"version": cfg["version"], "frozen": cfg["frozen"], "stats": cfg["stats"], "verdict": cfg["verdict"],
                        "window_verdict": cfg["window_verdict"]},
         "calibration": calibration,
@@ -107,4 +115,45 @@ def run(cells, series, cfg, out_dir, *, monthly=None, enso_results=None, breaks=
     }
     (out / "meta.json").write_text(json.dumps(_clean_json(meta), ensure_ascii=False, indent=1), encoding="utf-8")
     (out / "reasons.json").write_text(json.dumps(reasons.catalog(), ensure_ascii=False, indent=1), encoding="utf-8")
+    _write_summary(out / "verdict_summary.csv", by_country)
     return {"n_cells": len(cells), "verdicts": counts}
+
+
+def _write_summary(path, by_country) -> None:
+    """Tabla para Rol 6: celdas por indicador, país y veredicto."""
+    order = ("consistente", "limitada", "sin_evidencia", "incompleta")
+    rows = sorted({(k, c) for k, c, _ in by_country})
+    lines = ["indicator,country," + ",".join(order) + ",total"]
+    for k, c in rows:
+        vals = [by_country.get((k, c, v), 0) for v in order]
+        lines.append(f"{k},{c}," + ",".join(map(str, vals)) + f",{sum(vals)}")
+    Path(path).write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def recipe(cfg: dict) -> dict:
+    """Receta reproducible para el pasaporte (idea de Elena, adaptada a este motor)."""
+    a, b = cfg["period"]
+    v, st = cfg["verdict"], cfg["stats"]
+    lim, con = v["limitada"], v["consistente"]
+    cap = lim.get("p_max_sign_rule")
+    return {
+        "data_search": {"short_name": "GPM_3IMERGM", "version": "07", "temporal": f"{a}-01 a {b}-12",
+                        "bbox": cfg["bbox"], "tool": "earthaccess (NASA Earthdata)"},
+        "conversion": "mm/mes = tasa (mm/h) × 24 × días reales del mes (con bisiestos)",
+        "indicators": {k: s["units"] for k, s in cfg["indicators"].items()},
+        "trend": "scipy.stats.theilslopes; pendiente × 10 = por década",
+        "significance": "Mann-Kendall (pymannkendall); Hamed-Rao si la autocorrelación lag-1 de los residuos es significativa",
+        "multiple_testing": f"Benjamini-Hochberg por indicador sobre las celdas (nivel {st['fdr']['level']})",
+        "footprint": (f"Sen + Mann-Kendall en toda ventana de ≥{st['footprint']['min_len']} años; resumen con ventanas de "
+                      f"≥{st['footprint']['summary_min_len']} años; p sin corregir"),
+        "verdict_rules": {
+            "incompleta": f"faltan más de {v['max_missing_years']} años válidos",
+            "consistente": (f"p_FDR < {st['fdr']['level']}, IC 95 % sin 0, sign_agreement ≥ {con['sign_agreement_min']}, "
+                            f"sig_fraction ≥ {con['sig_fraction_min']}, sobrevive ENSO, sin salto 2014"),
+            "limitada": (f"p < {lim['p_unadjusted_max']} o (sign_agreement ≥ {lim['sign_agreement_min']} y |pendiente| ≥ "
+                         f"{lim['min_slope_pct_of_mean_per_decade']} % de la media por década"
+                         + (f" y p < {cap}" if cap is not None else "") + ")"),
+            "sin_evidencia": "todo lo demás",
+        },
+        "command": "python pipeline/run_pilot.py (ver pipeline/README.md)",
+    }
