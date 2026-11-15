@@ -1,4 +1,4 @@
-# Estado del proyecto (corte domingo 15 de noviembre, 02:45, El Salvador)
+# Estado del proyecto (corte domingo 15 de noviembre, 03:00, El Salvador)
 
 Entrega: domingo 15 de noviembre 23:59. Meta interna de envío: 21:00. Congelación: 15:00.
 Repositorio oficial: `Joshua203-byte/Hackathon-NASA`. Todo lo descrito aquí está en `main`.
@@ -14,11 +14,11 @@ Repositorio oficial: `Joshua203-byte/Hackathon-NASA`. Todo lo descrito aquí est
 | ENSO y salto 2014 | `data/rol3/`, `pipeline/06_enso.py` | Calculado en las 2 025 celdas. Sin revisar por Camila |
 | Motor estadístico | `pipeline/` | 70 pruebas pasan. Umbrales congelados (`frozen: true`). Un cambio anotado en `threshold_changes` |
 | Calibración | `pipeline/calibration.json` | 1 000 simulaciones con la configuración congelada |
-| JSON final | Zip `altaris_json_final_v2.zip` (22 MB), fuera del repositorio | Motor `802a9b0`. Una corrida desde cero reproduce los mismos veredictos y cifras. Carga en el panel sin errores |
+| JSON final | `rol5-panel-app/public/data/` (en `main` desde el PR #3) | Regenerado desde cero con la receta de la sección 6 sobre el motor de `main` (`pipeline_commit` `a7a5b18`; código del motor igual a `802a9b0`). Mismos veredictos y cifras que el zip v2 y que `docs/07`. Incluye el `enso.json` real de `data/rol3/`. Los ejemplos simulados de las pruebas están en `src/panel/__tests__/fixtures/data/` |
 | Revisión independiente | `docs/07`, sección 6 | 9 celdas recalculadas con `scipy`; coinciden |
 | Panel de celda | `rol5-panel-app/` | Carga el JSON real y traduce las razones con `reasons.json`. 38 pruebas, compila |
-| Mapa MapLibre | `rol5-panel-app/` | 2 025 celdas, bordes, capas de veredicto, pendiente, estabilidad y ENSO |
-| Despliegue en Cloudflare | `rol5-panel-app/wrangler.jsonc`, `npm run deploy` | URL declarada: <https://altaris.altaris-panel-rol5.workers.dev>. **Falta confirmar que sirve el JSON v2** |
+| Mapa MapLibre | `rol5-panel-app/` | 2 025 celdas, bordes, capas de veredicto, pendiente, estabilidad y ENSO. Los 3 casos de Camila como tarjetas y marcadores; enlaces cortos `?case=1`, `?case=2`, `?case=3` |
+| Despliegue en Cloudflare | `rol5-panel-app/wrangler.jsonc`, `npm run deploy` | <https://altaris.altaris-panel-rol5.workers.dev> sirve el mismo `public/data/` de `main` (comprobado archivo por archivo, salvo saltos de línea) y el panel carga sin errores. Probado en escritorio y en vista móvil emulada |
 | Paquete de revisión para Camila | [08-revision-camila.md](08-revision-camila.md), [casos-candidatos.md](casos-candidatos.md) | Decisiones, evidencia y candidatos a los 3 casos |
 | Formulario en inglés | [rol6/submission-en.md](rol6/submission-en.md) | Con cifras reales. Lo que falta va marcado `[PENDING]` |
 | Cifras regionales | [07-cifras-y-candidatos.md](07-cifras-y-candidatos.md) | Provisionales hasta la revisión de Camila |
@@ -29,7 +29,7 @@ En orden de riesgo. Lo de arriba bloquea a lo de abajo.
 
 | # | Qué | Quién | Depende de | Hora meta |
 |---|---|---|---|---|
-| 1 | Confirmar que la URL pública sirve el zip v2 (no el primero, que el panel rechaza) y probarla en incógnito y en teléfono | Izel, Elena | Zip v2 | 06:00 |
+| 1 | Probar la URL pública en incógnito y en un teléfono real (ya está confirmado que sirve el JSON final) | Izel, Elena | Nada | 06:00 |
 | 2 | ~~Revisión científica~~ **Hecha (04:15)**. Ver `docs/08`, sección Resolución | Camila | — | — |
 | 3 | Leer completas las guías 2026 de envío y evaluación: campos, límites, idioma, rúbrica, redacción de la declaración de IA. Confirmar que IMERG figura en los recursos del reto | Andrés | Nada | 06:00 |
 | 4 | Verificar acceso al portal y que los seis ven la pestaña Project | Andrés | Nada | 06:00 |
@@ -70,7 +70,7 @@ Resueltas: FDR 0,05; `p_max_sign_rule: null`; techo `limitada` por ventana; peri
 ## 5. Riesgos
 
 - **Nadie ha leído las guías 2026 completas.** Solo está confirmada, por una respuesta en el foro oficial, la regla de la demo (30 s o 7 láminas), la declaración de IA y el requisito de una fuente NASA de los recursos del reto.
-- **El JSON no está en el repositorio.** Vive en el zip y en la copia local de quien despliega. Si se regenera, hay que volver a publicar.
+- **Cada regeneración del JSON exige tres pasos.** Commit de `rol5-panel-app/public/data/`, `npm run deploy` y comprobar la URL. Si se omite uno, el repositorio y la URL quedan distintos.
 
 ## 6. Cómo regenerar el JSON
 
@@ -84,8 +84,10 @@ python run_pilot.py --cells ../data/rol1/cells.csv --series ../data/rol1/series.
 
 Después, copiar a `<carpeta>/data/`:
 
-- `data/rol3/enso.json` (el real; el de `rol5-panel-app/public/data/` es simulado);
+- `data/rol3/enso.json` (el real);
 - `tour.json`, `glossary.json` y `decision_rules.json` desde `rol5-panel-app/public/data/`.
+
+Para publicar: `<carpeta>/data/` sobre `rol5-panel-app/public/data/`, commit y, desde `rol5-panel-app/`, `npm run deploy` (requiere `npx wrangler login` y la variable `CLOUDFLARE_ACCOUNT_ID`).
 
 El panel no arranca si `meta.json` trae `dataset_doi: "POR CONFIRMAR"`; el DOI sale de `pipeline/config.yaml`.
 
@@ -94,7 +96,7 @@ El panel no arranca si `meta.json` trae `dataset_doi: "POR CONFIRMAR"`; el DOI s
 | Rama | Estado |
 |---|---|
 | `main` | Todo lo vigente |
-| `izel/panel-celda` | Mezclada (mapa y despliegue en Cloudflare) |
+| `izel/panel-celda` | Mezclada (mapa, despliegue en Cloudflare y JSON final, PR #3) |
 | `andres/piloto-choluteca` | Mezclada (piloto y lectura de `reasons.json`) |
 | `claude/sleepy-carson-nhvqxs` | Igual a `main` |
 | `Joshua`, `andres/producto-entrega`, `david-Elena2` | Ya contenidas en `main` |
