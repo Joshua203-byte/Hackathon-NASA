@@ -11,7 +11,8 @@
     "typecheck": "tsc -p .",
     "test:e2e": "node e2e/accept.mjs",
     "test:e2e:real": "node e2e/real-cases.mjs",
-    "deploy": "npm run build && wrangler deploy"
+    "deploy": "npm run build && wrangler deploy",
+    "deploy:ca": "node scripts/build-ca.mjs && wrangler deploy -c wrangler.ca.jsonc"
   },
   "keywords": [],
   "author": "",
