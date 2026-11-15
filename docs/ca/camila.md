@@ -1,151 +1,215 @@
 # Camila · Rol 3 · Ciencia · Centroamérica
 
-**Rama:** `ca/camila-ciencia`  ·  **Hora meta:** 11:30 criterios · 12:30 firma  ·  Plan completo: [docs/10-centroamerica.md](../10-centroamerica.md)
+**Rama:** `ca/camila-ciencia`  ·  **Actualizado con el JSON real de 7 países** (`altaris_ca_json.zip`, motor `7e93e46`, 4 332 celdas)  ·  Plan: [docs/10-centroamerica.md](../10-centroamerica.md)
 
-Escrito para: Joshua (GO/NO-GO), Andrés (formulario y README) e Izel (textos del panel). Todo lo de abajo es el contrato C5. Las cifras marcadas **[CON DATOS]** se rellenan cuando llegue el JSON de 7 países.
+Escrito para: Joshua (GO/NO-GO), Andrés (formulario y README) e Izel (textos del panel). Es el contrato C5.
 
 ## Reglas
 
 - Subo **solo a `ca/camila-ciencia`**. No hago `push` a `main` ni a la rama de otra persona.
-- Toco **solo mis archivos**: `docs/ca/camila.md`, `docs/09-casos-y-textos-camila.md` y `docs/08-revision-camila.md`. No cambio `config_centroamerica.yaml`: es de Joshua y ningún umbral se toca.
-- No subo el JSON grande (~300 MB).
-- `docs/09` queda **intacto**: es el respaldo si hay NO-GO. Las variantes de Centroamérica viven en este archivo.
+- Toco **solo mis archivos**: `docs/ca/camila.md`, `docs/09-casos-y-textos-camila.md` y `docs/08-revision-camila.md`. Ningún umbral cambia.
+- El JSON grande **no se sube**. Lo revisé desde una carpeta fuera del repositorio.
+- `docs/09` queda **intacto**: es el respaldo si hay NO-GO. Las variantes de 7 países viven aquí.
+
+## Resumen para decidir (12:45)
+
+1. **Condiciones científicas del GO: se cumplen.** En las 2 025 celdas de GTM, SLV y HND, pendiente, intervalo, p, huella, ENSO y bandera son **idénticos** a la versión de 3 países (0 diferencias). Lo único que cambia es `p_fdr` y, por eso, el veredicto de 29 celdas, todas de Guatemala y todas de `limitada` a `consistente`.
+2. **Los 3 casos conservan sus cifras y su veredicto.** Solo cambia el `p_fdr`.
+3. **Hay que corregir textos que dejan de ser ciertos**, sobre todo la frase de ENSO y todo lo que diga "solo Guatemala" (sección 3.2).
+4. **El hallazgo se amplía con la misma salvedad.** Las bandas `consistente` de Costa Rica y Panamá se parecen a la de Guatemala y NASA POWER las contradice (sección 2).
+
+**Mi recomendación científica: GO**, con las cuatro reglas de redacción de la sección 6. Si el formulario presenta las 196 celdas como "hallazgo climático", no firmo.
 
 ---
 
 ## 1. Por qué un veredicto puede cambiar solo por haber más celdas
 
-### Qué cambia y qué no (lo comprobé en `pipeline/altaris/verdict.py`)
+### Qué cambia y qué no (leído en `pipeline/altaris/verdict.py` y comprobado en los datos)
 
-| Se calcula **por celda** (no cambia al añadir países) | Depende de **cuántas celdas** se corrigen juntas |
+| Por **celda** (no cambia) | Depende de **cuántas celdas** se corrigen juntas |
 |---|---|
-| Pendiente de Sen, intervalo de confianza, p de Mann–Kendall, huella, ENSO, bandera de 2013–2015, ciclo mensual, cada ventana | Solo `p_fdr` (la p ajustada de Benjamini–Hochberg, por indicador) |
+| Pendiente de Sen, intervalo, p de Mann–Kendall, huella, ENSO, bandera de 2013–2015, ciclo mensual | Solo `p_fdr` (Benjamini–Hochberg, por indicador) |
 
-El único criterio del veredicto que usa `p_fdr` es el de `consistente`. `limitada` y `sin_evidencia` se deciden con la p sin ajustar, la huella y el tamaño de la pendiente. Consecuencias:
+Solo `consistente` usa `p_fdr`. Por eso `sin_evidencia` no puede cambiar, y los únicos cambios posibles son `consistente` ↔ `limitada`.
 
-1. **Una celda `sin_evidencia` no puede cambiar.** Es el caso de los casos 1 y 2.
-2. **Los únicos cambios posibles son `consistente` ↔ `limitada`**, y solo en celdas cuyo único motivo de fallo (o de acierto) es el FDR.
-3. En las celdas de Guatemala, El Salvador y Honduras, **pendiente, intervalo y p tienen que ser idénticos** a los actuales. Si no lo son, es un error y no un efecto del FDR: es la condición 1 del GO.
+### Qué pasó de verdad
+
+| Indicador | Antes (3 países) | Ahora (7 países) | En las celdas comunes |
+|---|---|---|---|
+| Lluvia de temporada | 44 `consistente` | 196 | 14 celdas de Guatemala suben de `limitada` a `consistente`. Ninguna baja |
+| Lluvia anual | 56 | 231 | 15 celdas de Guatemala suben. Ninguna baja |
+| Canícula | 0 | 0 | Sin cambios |
+
+Las 2 025 celdas comunes tienen **0 diferencias** en pendiente, IC, p, huella, ENSO y bandera. La clave `2001-2024` de `window_results` difiere en 40 casos solo porque hereda el veredicto del periodo base.
+
+El FDR actuó **en el sentido contrario al peor caso** que calculé antes (todas bajarían): como las celdas nuevas aportan señal propia, a las de Guatemala les resultó **más fácil** pasar. Mi sensibilidad extrema seguía siendo válida (con celdas nuevas sin señal, las 44 habrían bajado), pero el resultado dependía de las celdas nuevas, no de las de Guatemala. Eso es justo lo que hay que explicar.
 
 ### Texto para el panel, el formulario y el pasaporte
 
-**ES.** El veredicto *consistente* exige que la señal siga siendo significativa después de corregir por comparaciones múltiples. Esa corrección depende de cuántos lugares se miran a la vez: con más celdas en el análisis, cada una tiene que ser más convincente para pasar, y con más celdas con señal real, las demás lo tienen más fácil. El umbral no cambia (0,05); cambia el número de comparaciones. Por eso, al pasar de 3 a 7 países, una celda puede subir o bajar entre *consistente* y *limitada* sin que sus datos ni sus cifras hayan cambiado.
+**ES.** El veredicto *consistente* exige que la señal siga siendo significativa después de corregir por comparaciones múltiples. Esa corrección depende de cuántos lugares se miran a la vez y de cuántos tienen señal. Al pasar de 3 a 7 países el umbral no cambió (0,05); cambió el número de comparaciones. Por eso 29 celdas de Guatemala pasaron de *señal débil* a *consistente* sin que cambiara ninguna de sus cifras.
 
-**EN.** The *consistent* verdict requires the signal to remain significant after correcting for multiple comparisons. That correction depends on how many places are examined together: with more cells in the analysis, each one must be more convincing to pass, and with more cells carrying a real signal, the others pass more easily. The threshold does not change (0.05); the number of comparisons does. So going from 3 to 7 countries, a cell can move between *consistent* and *limited* even though its data and its figures have not changed.
+**EN.** The *consistent* verdict requires the signal to remain significant after correcting for multiple comparisons. That correction depends on how many places are examined together and how many carry a signal. Going from 3 to 7 countries the threshold did not change (0.05); the number of comparisons did. That is why 29 Guatemalan cells moved from *weak signal* to *consistent* without any of their figures changing.
 
-**Frase corta (una línea, para el cambio de versión):** "Más comparaciones, mismo umbral."
+**Frase corta:** "Más comparaciones, mismo umbral."
 
-### Lo que esto significa para el hallazgo de Guatemala
+### Un efecto parecido en ENSO, que hay que evitar citar
 
-Calculé con los datos reales actuales cuánto margen tienen las celdas `consistente`:
+La correlación anual con ONI era significativa tras FDR en 576 celdas de los 3 países y ahora lo es en **1** de 4 332. La correlación de cada celda no cambió: cambió la corrección. **No se cita el número de celdas con correlación anual significativa** en ninguna versión. Para ENSO se usa el signo (sección 3.2), no el conteo de significativas anuales.
 
-| Indicador | `consistente` hoy | Rango de `p_fdr` | Si las ~2 300 celdas nuevas **no tuvieran ninguna señal** | Si solo el 5 % de las nuevas tuviera una señal muy fuerte |
+---
+
+## 2. Qué muestra el JSON real de 7 países
+
+### 2.1 Veredictos (lluvia de temporada)
+
+| País | Celdas | `consistente` | `limitada` | `sin_evidencia` |
 |---|---|---|---|---|
-| Lluvia de temporada | 44 | 0,032 a 0,045 | **0 de 44** siguen | 44 de 44 siguen |
-| Lluvia anual | 56 | hasta 0,046 | 31 de 56 siguen | 56 de 56 siguen |
+| Honduras | 939 | 0 | 295 | 644 |
+| El Salvador | 169 | 0 | 70 | 99 |
+| Guatemala | 917 | 58 | 542 | 317 |
+| Belice | 192 | 1 | 125 | 66 |
+| Nicaragua | 1 076 | 15 | 600 | 461 |
+| Costa Rica | 425 | 80 | 129 | 216 |
+| Panamá | 614 | 42 | 340 | 232 |
 
-Es un análisis de sensibilidad con casos extremos, **no una predicción**: depende de cuántas celdas nuevas tengan señal, y eso solo se sabe con los datos. Pero dice dos cosas ya:
+**Ninguna celda `incompleta`** en ningún país ni indicador. El mensaje de Honduras y El Salvador se mantiene: 0 celdas `consistente`, con 24 años no se afirma una tendencia. Anual: BLZ 5, CRI 106, GTM 71, NIC 1, PAN 48. Todas las tablas salen de `verdict_summary.csv`; las dejo aquí solo para leer.
 
-- **Ninguna de las 44 celdas tiene margen.** Todas están entre 0,032 y 0,045 frente al umbral de 0,05. Con el doble de celdas y sin señal nueva, todas lo cruzan hacia arriba. Esto **refuerza** la lectura de "pregunta abierta" para la franja: ya era frágil en la versión de 3 países y ahora está medido.
-- **El número de celdas `consistente` en 7 países es incierto en ambos sentidos.** Hay 69 celdas de temporada y 72 anuales que hoy son `limitada` solo por el FDR y que podrían subir si las celdas nuevas aportan señal.
+### 2.2 Las nuevas bandas `consistente` de Costa Rica y Panamá se parecen a la de Guatemala
 
-**Consecuencia para los textos:** hasta tener el JSON de 7 países, en la versión de Centroamérica **no se escribe** "44 celdas consistentes", "solo en Guatemala" ni "Honduras: ninguna". Todo eso sale de `ca_tables.py` (Joshua).
+| País | Celdas | Dirección | Mediana por década | Año de Pettitt más frecuente | Zona |
+|---|---|---|---|---|---|
+| Guatemala | 58 | 58 a la baja | −18,4 % | 2012 (42), 2009 (16) | lat 14,85 a 15,35, lon −91,75 a −90,05 (tierras altas) |
+| Costa Rica | 80 | 80 a la baja | −15,8 % | 2012 (42), 2010 (25), 2011 (13) | lat 8,95 a 10,25, lon −83,85 a −82,75 |
+| Panamá | 42 | 34 a la baja, 8 al alza | −17,7 % | 2012 (19), 2011 (15), 2017 (5) | lat 7,35 a 9,45, lon −82,85 a −78,15 |
+| Nicaragua | 15 | 13 a la baja, 2 al alza | −14,1 % | 2012 (12) | lat 11,45 a 14,55, lon −85,55 a −83,85 |
 
----
+- Todas son bajadas grandes (−11 % a −31 % por década), con cambio estadístico hacia **2010–2012**, en la mitad del registro. Es la misma firma de Guatemala.
+- Con el chequeo escalón/rampa ([`check_step_vs_ramp.py`](../../pipeline/check_step_vs_ramp.py), sobre las series `consistente` de temporada y anual) los países se comportan distinto. En **Costa Rica el escalón gana en 140 de 186 series y en Panamá en 73 de 90**. En Nicaragua y Belice gana la rampa (18 de 22). En Guatemala, 102 de 129 no se distinguen (23 escalón, 4 rampa). El corte de Costa Rica y Panamá cae en 2010–2012, **antes** del paso de TRMM a GPM (2014): la bandera de 2013–2015 no puede atraparlo y esa explicación no sirve aquí. **No sé qué lo causa** y no lo especulo en el texto.
+- **Contraste con NASA POWER** (corrida mía, en una copia aparte; ver [`data/rol3/ca_power/`](../../data/rol3/ca_power/)). En la celda más fuerte de cada país:
 
-## 2. Qué hago si un caso cambia
+| Celda | IMERG, temporada (mm por década) | POWER, temporada (mm por década, p) | Mismo signo | r año a año |
+|---|---|---|---|---|
+| `N0955W08325` (Costa Rica) | −335 (IC −507 a −189) | **+483** (IC +288 a +594, p < 0,0001) | no | −0,41 |
+| `N0765W07815` (Panamá) | +353 (IC +211 a +449) | −197 (IC −494 a +117, p 0,24) | no | 0,01 |
+| `N1495W09125` (Guatemala, de antes) | −452 | +40 (p 0,60) | no | 0,18 |
 
-Los tres IDs **quedan fijos**: `N1335W08715`, `N1475W08765`, `N1495W09125`. **No se reemplaza un caso después de ver que cambió**; sería elegir después de ver el resultado, que es justo lo que el proyecto no hace.
+En las dos celdas nuevas, las fuentes dan signo contrario y casi no coinciden en qué años fueron húmedos o secos. En Costa Rica POWER ve un aumento **significativo**. Son 2 celdas de las 138 `consistente` nuevas de temporada, así que no generalizo, pero no hay ninguna de las tres comprobadas donde las dos fuentes coincidan. POWER (~0,5° de resolución, reanálisis) no es independiente de IMERG del todo, por eso se presenta como contraste y no como prueba.
 
-| Caso | Qué no cambia | Qué puede cambiar | Si cambia |
+**Lectura:** el producto de lluvia puede estar mostrando en tres regiones de montaña un cambio que no es del clima, o puede ser real. Con este registro no se separa. La salvedad de Guatemala (docs/09, caso 3) se aplica **igual** a Costa Rica y Panamá.
+
+### 2.3 Banderas de 2013–2015 por país
+
+| País | Temporada | Canícula | Anual |
 |---|---|---|---|
-| 1. Choluteca `N1335W08715` | Pendiente −48, IC −257 a +171, p 0,785, `sin_evidencia`, ENSO −0,64, POWER +171 | `p_fdr` (hoy 0,88) y el "2 025 celdas" del texto | Se escribe el nuevo `p_fdr` y el número de celdas del JSON. El veredicto **no puede** cambiar |
-| 2. `N1475W08765` | Las tres lecturas (completo, 2008–2023, 2001–2010) con sus cifras, POWER | `p_fdr` del periodo completo | Igual. Los veredictos de ventana no usan FDR |
-| 3. `N1495W09125` | Pendiente −452, IC −641 a −282, p 0,00012, huella 1,00 / 0,96, ENSO −0,05, POWER +40 | `p_fdr` (hoy 0,032) y, por eso, **el veredicto** | Ver abajo |
+| Belice | 26 de 192 (13,5 %) | 5 (2,6 %) | 6 (3,1 %) |
+| Costa Rica | 0 | 5 (1,2 %) | 0 |
+| Guatemala | 111 de 917 (12,1 %) | 320 (34,9 %) | 104 (11,3 %) |
+| Honduras | 1 | 21 (2,2 %) | 0 |
+| Nicaragua | 9 (0,8 %) | 14 (1,3 %) | 2 |
+| Panamá | 42 de 614 (6,8 %) | 135 (22,0 %) | 35 (5,7 %) |
+| El Salvador | 1 | 15 (8,9 %) | 0 |
 
-**Caso 3, la contingencia acordada de antemano:**
-
-- **Si sigue `consistente`:** el texto de `docs/09` sirve, con el número de celdas y el `p_fdr` nuevos.
-- **Si baja a `limitada` solo por el FDR** (lo esperable en el peor escenario: p ajustado 0,032 → 0,068): la celda y sus cifras son las mismas. El caso pasa a ser **más didáctico, no menos**: "La misma celda pasa o no la prueba según con cuántos lugares se compare". Cambia la etiqueta de *tendencia consistente* a *señal débil, no confirmada*, se explica el FDR con el texto de la sección 1, y el contraste con Choluteca queda en *limitada* frente a *sin evidencia*. Se mantienen las salvedades de la franja. **No** se usa la frase "el único lugar con tendencia consistente".
-- **Si el motivo de fallo no es solo el FDR** (otra razón en `verdict_reasons`): es un error de datos, no un efecto del FDR. NO-GO hasta explicarlo.
-
-**Cómo leo la condición 2 del GO (docs/10, sección 6):** "las 3 celdas de los casos conservan sus cifras" significa pendiente, IC, p, huella, ENSO y POWER idénticos. `p_fdr` y el veredicto de `consistente` pueden cambiar, y no impiden el GO si el único motivo es el FDR. Joshua: si lo entiendes distinto, dímelo antes de las 12:30.
+"Sobre todo un fenómeno de Guatemala" **sigue siendo cierto**, y Panamá es el segundo. En Costa Rica la bandera casi no aparece, y sin embargo sus 80 celdas `consistente` tienen cambio en 2010–2012: la bandera de 2013–2015 **no protege** a Costa Rica, justo lo que ya se veía en Guatemala.
 
 ---
 
-## 3. Limitaciones nuevas (ES / EN)
+## 3. Los casos y los textos
 
-Se **añaden** a las seis de `config.yaml`, que no cambian. Hecho con datos reales de 3 países (`season_check.py`, abajo); lo de los 4 países nuevos queda como hipótesis hasta verificar.
+### 3.1 Qué pasa con los 3 casos (verificado en el JSON de 7 países)
 
-**Estas tres frases dependen de datos de los países nuevos. Se publican solo con los números verificados; las marcas `[CON DATOS]` se rellenan con la tabla de la sección 4.**
+Los IDs quedan fijos: `N1335W08715`, `N1475W08765`, `N1495W09125`.
+
+| Caso | Cifras por celda | Veredicto | `p_fdr` antes → ahora |
+|---|---|---|---|
+| 1. Choluteca | Idénticas (−48,1; IC −257,4 a +170,9; p 0,785; ENSO −0,64) | `sin_evidencia` | 0,879 → 0,874 |
+| 2. `N1475W08765` | Idénticas (−48,3; IC −163,7 a +108,0; p 0,535). 2008–2023: −345 (p 0,003). 2001–2010: +382 (p 0,02) | `sin_evidencia`; ventanas `limitada` | 0,781 → 0,737 |
+| 3. `N1495W09125` | Idénticas (−452,4; IC −641,3 a −282,1; p 0,00012; ENSO −0,05) | `consistente` (temporada y anual) | 0,032 → **0,024** (anual 0,020 → 0,013) |
+
+Para la versión de 7 países, en los textos de `docs/09` cambia solo esto:
+- "Tras corregir por las **2 025** celdas" → "**4 332**".
+- Caso 1, p ajustado "0,88" → "**0,87**". Caso 3, "0,032" → "**0,024**".
+- Caso 3, canícula `N1495W09125`: sigue `limitada` por la bandera de 2014.
+
+### 3.2 Textos que dejan de ser ciertos
+
+| Texto actual | Por qué | Qué escribir |
+|---|---|---|
+| "Los años El Niño son más secos en toda la región" / "la correlación con ONI es negativa en todas las celdas" | 154 celdas de temporada y 161 de canícula tienen correlación **positiva** (Costa Rica 81, Nicaragua 52, Panamá 21 en temporada). Ninguna es significativa tras FDR. En Costa Rica y Nicaragua están en promedio más al este (hacia el Caribe) que las negativas; en Panamá, más al oeste | "En este registro, los años El Niño son más secos: todas las correlaciones significativas con ONI son negativas (1 767 celdas de temporada y 2 112 de canícula, de 4 332). Unas pocas celdas de Costa Rica, Nicaragua y Panamá tienen correlación positiva, pero ninguna es significativa; no se distingue un contraste Pacífico–Caribe" |
+| "No hay efecto espejo" | Se mantiene, con el matiz de arriba | Igual que la fila anterior. **No** decir "no hay ninguna celda con signo positivo" |
+| "Honduras, Guatemala y El Salvador" donde diga "los tres países" | Ya son siete | "siete países de Centroamérica" |
+| "Solo en Guatemala hay celdas `consistente`" / "una franja del oeste" | Ahora también hay en Costa Rica, Panamá, Nicaragua y Belice | "Cuatro zonas: las tierras altas de Guatemala y áreas de Costa Rica, Panamá y Nicaragua" |
+| "Honduras: 924 de 939 con pendiente negativa; mediana −4,5 %" | No cambia (celdas idénticas) | Se mantiene |
+| "El 17,6 % de banderas en canícula" | Cambia al sumar países | No dar un total: dar la tabla 2.3 |
+
+### 3.3 Qué decir del hallazgo
+
+**ES.** En 24 años de lluvia IMERG, ningún lugar de Honduras ni de El Salvador sostiene una tendencia. En cuatro zonas de montaña (las tierras altas de Guatemala y áreas de Costa Rica, Panamá y Nicaragua) 196 celdas pasan todas las pruebas. Las bajas son muy grandes (de −11 % a −31 % por década), el cambio se ubica hacia 2010–2012 y, en las celdas donde lo comprobamos, NASA POWER no reproduce el signo. Son preguntas abiertas, no hallazgos climáticos: pueden ser reales o un artefacto del producto en zonas con pocos pluviómetros.
+
+**EN.** In 24 years of IMERG rainfall, no place in Honduras or El Salvador supports a trend. In four mountainous areas (Guatemala's highlands and parts of Costa Rica, Panama and Nicaragua), 196 cells pass every test. The declines are very large (−11 % to −31 % per decade), the change falls around 2010–2012, and at the cells where we checked, NASA POWER does not reproduce the sign. These are open questions, not climate findings: they may be real or an artefact of the product in areas with few rain gauges.
+
+---
+
+## 4. Limitaciones nuevas (ES / EN), con datos
+
+Se **añaden** a las seis de `config.yaml`. Ya sin marcas pendientes.
 
 1. **Temporada lluviosa distinta según la zona**
-   - **ES.** "Los indicadores de mayo–octubre y de julio–agosto describen el ciclo típico de la vertiente Pacífica. En otras zonas la temporada lluviosa cae en otros meses: en Honduras, 119 celdas de la costa Caribe tienen su máximo desde julio en adelante, y [CON DATOS: n] de las celdas de Belice, Nicaragua, Costa Rica y Panamá se comportan igual. Para ellas el indicador mide otra cosa que su temporada de lluvias."
-   - **EN.** "The May–October and July–August indicators describe the typical Pacific-slope cycle. In other areas the rainy season falls in other months: in Honduras, 119 Caribbean-coast cells peak from July onwards, and [CON DATOS: n] cells in Belize, Nicaragua, Costa Rica and Panama behave the same way. For these cells the indicator measures something other than their rainy season."
-
+   - **ES.** "Los indicadores de mayo–octubre y de julio–agosto describen el ciclo típico de la vertiente Pacífica. En la mayoría de las celdas mayo–octubre reúne entre el 56 % y el 91 % de la lluvia anual, pero en 106 celdas de la costa Caribe de Honduras reúne menos del 55 %, y en 48 de Costa Rica menos del 60 %. La canícula (julio–agosto) no aplica en 1 501 de 4 332 celdas (688 de 1 076 en Nicaragua)."
+   - **EN.** "The May–October and July–August indicators describe the typical Pacific-slope cycle. In most cells May–October holds 56 % to 91 % of annual rainfall, but in 106 Caribbean-coast cells in Honduras it holds under 55 %, and in 48 cells in Costa Rica under 60 %. The midsummer dry spell (July–August) does not apply in 1,501 of 4,332 cells (688 of 1,076 in Nicaragua)."
 2. **Istmo angosto**
-   - **ES.** "En Costa Rica y Panamá el istmo es angosto: una celda satelital de unos 11 km puede mezclar mar y tierra, y la máscara de país usa el centro de la celda. Los valores de celdas costeras pueden reflejar lluvia sobre el mar."
-   - **EN.** "In Costa Rica and Panama the isthmus is narrow: an 11 km satellite cell can mix sea and land, and the country mask uses the cell centre. Values for coastal cells may reflect rain over the sea."
-
+   - **ES.** "En Costa Rica y Panamá el istmo es angosto: una celda satelital de unos 11 km puede mezclar mar y tierra, y la máscara de país usa el centro de la celda. Los valores costeros pueden reflejar lluvia sobre el mar."
+   - **EN.** "In Costa Rica and Panama the isthmus is narrow: an 11 km satellite cell can mix sea and land, and the country mask uses the cell centre. Coastal values may reflect rain over the sea."
 3. **ENSO por vertiente**
-   - **ES.** "La relación entre ENSO y la lluvia puede ser distinta en la vertiente Caribe y en la Pacífica. [CON DATOS: resultado] En los datos de 3 países la correlación con ONI es negativa en casi todas las celdas; esa lectura no se extiende a los países nuevos sin comprobarla."
-   - **EN.** "The relationship between ENSO and rainfall may differ between the Caribbean and Pacific slopes. [CON DATOS: result] In the 3-country data the correlation with ONI is negative in almost every cell; that reading is not extended to the new countries without checking."
+   - **ES.** "Todas las correlaciones significativas con ONI son negativas. Unas pocas celdas de Costa Rica, Nicaragua y Panamá tienen signo positivo, sin significancia; en Costa Rica y Nicaragua están en promedio más al este, pero no forman un patrón claro. Con este registro no se puede afirmar un contraste entre vertientes."
+   - **EN.** "All significant correlations with ONI are negative. A few cells in Costa Rica, Nicaragua and Panama have a positive sign without significance; in Costa Rica and Nicaragua they lie on average further east, but form no clear pattern. This record cannot support a claim of contrast between slopes."
+4. **Número de comparaciones**
+   - **ES.** "El veredicto *consistente* depende de cuántas celdas se analizan juntas (corrección FDR): con más celdas, el mismo dato puede quedar en otro veredicto. El umbral no cambió."
+   - **EN.** "The *consistent* verdict depends on how many cells are analysed together (FDR correction): with more cells, the same data can fall under a different verdict. The threshold did not change."
+5. **Las zonas `consistente` y el producto**
+   - **ES.** "En las cuatro zonas `consistente` el cambio se ubica entre 2010 y 2012, en el centro del registro, antes del paso de TRMM a GPM. En los sitios donde lo contrastamos, NASA POWER da el signo contrario. No podemos separar un cambio real de un efecto del producto."
+   - **EN.** "In the four `consistent` areas the change falls between 2010 and 2012, mid-record and before the TRMM-to-GPM transition. At the sites where we compared, NASA POWER gives the opposite sign. We cannot tell a real change from a product effect."
 
-4. **Número de comparaciones (para el pasaporte y el formulario)**
-   - **ES.** "El veredicto *consistente* depende de cuántas celdas se analizan juntas (corrección FDR): con más celdas el mismo dato puede quedar en otro veredicto. El umbral no cambió."
-   - **EN.** "The *consistent* verdict depends on how many cells are analysed together (FDR correction): with more cells the same data can fall under a different verdict. The threshold did not change."
+### Temporada por país (`season_check.py` sobre el JSON real)
 
-**Texto que ya no es cierto en la versión de 7 países y hay que revisar** (en `docs/09` y en `submission-en-ca.md`):
-
-- "ENSO: más El Niño, menos lluvia **en toda la región**" y "no hay efecto espejo Pacífico–Caribe". Solo se mantienen si los 7 países lo muestran. Se comprueba con `enso_results.csv`.
-- "Tras corregir por las **2 025 celdas**".
-- "Honduras, Guatemala y El Salvador" donde diga "los tres países".
-- "El cambio entre antes y después de la bandera de 2013–2015 es **sobre todo un fenómeno de Guatemala**". Se comprueba por país en `ca_tables.py`.
-
----
-
-## 4. Temporada lluviosa por país
-
-**3 países (datos reales actuales, `python pipeline/season_check.py --data rol5-panel-app/public/data`):**
-
-| País | Celdas | Empieza en mayo | Empieza en junio | Julio o después | Sin canícula |
-|---|---|---|---|---|---|
-| GTM | 917 | 815 | 102 | 0 | 78 |
-| HND | 939 | 393 | 427 | 119 | 262 |
-| SLV | 169 | 169 | 0 | 0 | 0 |
-| **Total** | 2 025 | 1 377 | 529 | 119 | 340 |
-
-**7 países [CON DATOS]:** pegar aquí la salida de `season_check.py` sobre el JSON de Joshua, con filas BLZ, NIC, CRI y PAN.
-
-| País | Celdas | Antes de mayo | Mayo | Junio | Julio o después | Sin canícula |
+| País | Celdas | Empieza en mayo | Empieza en junio | Julio o después | Sin canícula | % de lluvia anual en may–oct (mediana) |
 |---|---|---|---|---|---|---|
-| BLZ | | | | | | |
-| NIC | | | | | | |
-| CRI | | | | | | |
-| PAN | | | | | | |
+| BLZ | 192 | 0 | 191 | 1 | 23 | 69 |
+| CRI | 425 | 250 | 167 | 8 | 165 | 69 |
+| GTM | 917 | 815 | 102 | 0 | 78 | 77 |
+| HND | 939 | 393 | 427 | 119 | 262 | 70 |
+| NIC | 1 076 | 602 | 474 | 0 | 688 | 77 |
+| PAN | 614 | 93 | 521 | 0 | 285 | 69 |
+| SLV | 169 | 169 | 0 | 0 | 0 | 90 |
+| **Total** | 4 332 | 2 322 | 1 882 | 128 | 1 501 | — |
 
-Lectura: "mayo" y "junio" calzan con la ventana mayo–octubre. "Antes de mayo" y "julio o después" no. Si en un país más de ~1 de cada 4 celdas no calza, el nombre "lluvia de temporada" en el mapa engaña para ese país y hay que decirlo en la leyenda, no solo en la limitación (aviso a Izel y Elena).
+La ventana de 6 meses "empieza en mayo o junio" en 4 204 de 4 332 celdas, así que **el nombre "lluvia de temporada" es correcto en casi toda la región**. Corrijo lo que había supuesto: los países nuevos no fallan en la temporada; lo que falla es la **canícula** (no aplica en el 35 % de las celdas, sobre todo en Nicaragua y Panamá). Aviso a Izel: el panel debe seguir mostrando "canícula no aplicable" en esas celdas, y el resumen por país de canícula no debe contarlas como `sin_evidencia`.
 
 ---
 
-## 5. Checklist científico (docs/10, sección 6) · firma a las 12:30
+## 5. Checklist científico (docs/10, sección 6)
 
-Marco lo que **ya pude comprobar** sin datos nuevos. Lo demás se firma con el JSON y la `COMPARACION` de Joshua.
+- [x] El motor no usa FDR salvo en `consistente`. Solo hay cambios `consistente` ↔ `limitada` (comprobado: 29 celdas, todas hacia arriba).
+- [x] **Celdas comunes idénticas**: 2 025 celdas, 0 diferencias en pendiente, IC, p, huella, ENSO y bandera, en los 3 indicadores.
+- [x] **Todo cambio de veredicto en GTM/SLV/HND se explica por el FDR**: 14 + 15 celdas, todas de Guatemala, todas `limitada` → `consistente`, y en todas la razón que desaparece es `fdr_no_significativo`.
+- [x] **Los 3 casos conservan sus cifras y su veredicto** (sección 3.1).
+- [x] Ningún umbral cambió. `meta.json` trae las dos entradas de `threshold_changes` y ninguna es un umbral (la segunda es un `-0.0`; sin efecto sobre veredictos, según Joshua, y no lo contradice ninguna de mis comprobaciones).
+- [x] 0 celdas `incompleta` en los 7 países.
+- [x] Limitaciones nuevas escritas y rellenas con datos (sección 4). `season_check.py` pegado.
+- [x] ENSO por país revisado; frase corregida (3.2). La correlación anual significativa se **retira** de los textos.
+- [x] Bandera por país (2.3): "sobre todo Guatemala" se mantiene; Panamá es la segunda.
+- [ ] **Formulario de 7 países** (`submission-en-ca.md`, de Andrés): comprobar que ninguna frase de la sección 3.2 sobrevive y que las cuatro reglas de la sección 6 se cumplen. Se revisa cuando lo suba.
+- [ ] Revisión final de las 18:00.
 
-- [x] El motor no usa FDR salvo en `consistente` (leído en `verdict.py`). Solo puede haber cambios `consistente` ↔ `limitada`.
-- [x] Los textos de la explicación del FDR y las limitaciones nuevas están escritos en ES y EN (secciones 1 y 3).
-- [x] La contingencia de los casos está acordada de antemano (sección 2).
-- [x] Ningún umbral cambia: `config_centroamerica.yaml` solo cambia `bbox` y `countries` (comprobado con `diff`).
-- [ ] **[CON DATOS]** `compare_regions.py`: pendiente, intervalo y p de GTM/SLV/HND idénticos a los actuales (0 diferencias).
-- [ ] **[CON DATOS]** Todo cambio de veredicto en GTM/SLV/HND tiene como único motivo el FDR.
-- [ ] **[CON DATOS]** Las 3 celdas de los casos conservan sus cifras por celda; se anota su nuevo `p_fdr` y veredicto.
-- [ ] **[CON DATOS]** `season_check.py` pegado en la sección 4; `[CON DATOS]` de la limitación 1 rellenado.
-- [ ] **[CON DATOS]** Correlación de ENSO por país (y por vertiente en CRI, PAN y NIC); limitación 3 rellenada. Si hay países con signo positivo, **se retira la frase "en toda la región"**.
-- [ ] **[CON DATOS]** Bandera de 2013–2015 por país; la frase "sobre todo Guatemala" se mantiene o se corrige.
-- [ ] **[CON DATOS]** Ninguna celda `incompleta` inesperada en los países nuevos (24 de 24 años válidos).
-- [ ] **[CON DATOS]** Las frases prohibidas siguen sin aparecer en `submission-en-ca.md`: "rainfall is declining in Honduras", "ENSO explains the trend", "falls 30 % per decade", resultados de usuarios sin hacer.
+**Revisión científica hecha. Firma de Camila:** ______________________  **Hora:** ________
 
-**Firma:** ______________________  **Hora:** ________
+---
+
+## 6. Cuatro reglas de redacción (condición de mi recomendación de GO)
+
+1. **No presentar las 196 celdas como "hallazgo climático" ni como "tendencia confirmada".** Se dice "pasan todas las pruebas" y "pregunta abierta".
+2. La salvedad de la franja de Guatemala se aplica **también** a Costa Rica y Panamá (sección 2.2), con el contraste de NASA POWER de las 3 celdas.
+3. No citar el número de celdas con ENSO significativo anual, ni "negativa en todas las celdas".
+4. No decir "solo en Guatemala" ni "los tres países".
 
 ---
 
@@ -153,7 +217,9 @@ Marco lo que **ya pude comprobar** sin datos nuevos. Lo demás se firma con el J
 
 | Qué hice | Qué comprobé y cómo | Qué falta |
 |---|---|---|
-| Expliqué por qué el veredicto puede cambiar por haber más celdas (ES/EN, una línea y un párrafo) | Leí `verdict.py`: solo `consistente` usa `p_fdr`, así que `sin_evidencia` no puede cambiar y los casos 1 y 2 conservan su veredicto. Recalculé el BH con los `p_value` reales y reproduje `p_fdr` (diferencia máxima 1,8e-4) | Que Joshua confirme que el FDR se calcula sobre todas las celdas de los 7 países, por indicador, sin separar por país |
-| Medí la sensibilidad de las 44 celdas `consistente` al número de celdas | Con 0 % de señal en las celdas nuevas, 0 de 44 siguen (caso 3: `p_fdr` 0,032 → 0,068); con 5 % de señal fuerte, 44 de 44. Es un análisis de sensibilidad, no una predicción | El resultado real, con el JSON de 7 países |
-| Definí la contingencia de los 3 casos y cómo leo la condición 2 del GO | Los IDs quedan fijos y no se sustituyen. Casos 1 y 2 no pueden cambiar de veredicto; el caso 3 puede bajar a `limitada` solo por el FDR | Que Joshua acepte mi lectura de la condición 2 |
-| Redacté 4 limitaciones nuevas en ES y EN y marqué las frases de `docs/09` que dejan de ser ciertas | `season_check.py` sobre los datos reales de 3 países (119 celdas de HND con temporada desde julio) y `diff` de `config.yaml` contra `config_centroamerica.yaml` | Rellenar `[CON DATOS]` con la salida de `season_check.py` y la correlación ENSO por país. No verifiqué nada de BLZ, NIC, CRI y PAN: son hipótesis hasta tener datos |
+| Descomprimí `altaris_ca_json.zip` fuera del repositorio y revisé el JSON de 7 países (4 332 celdas) | Comparé las 2 025 celdas comunes con `main`: pendiente, IC, p, huella, ENSO y bandera idénticos (0 diferencias). Los 29 cambios de veredicto son `limitada` → `consistente` en Guatemala, con `fdr_no_significativo` como razón que desaparece | Que Joshua confirme que `compare_regions.py` coincide con mis 0 diferencias |
+| Expliqué el efecto del número de celdas en el veredicto y lo medí | 44 → 196 en temporada (GTM 44 → 58); mi sensibilidad extrema (todas bajan) no ocurrió porque las celdas nuevas aportan señal. La correlación anual de ENSO pasó de 576 significativas a 1 | — |
+| Verifiqué los 3 casos | Cifras por celda idénticas; `p_fdr` 0,032 → 0,024 en el caso 3; veredictos iguales | — |
+| Revisé ENSO, bandera de 2014 y temporada por país | Correlaciones: 0 positivas significativas. `season_check.py` y la mediana de lluvia may–oct sobre anual por país | — |
+| Analicé las bandas `consistente` de CRI, PAN y NIC | Pettitt 2010–2012; escalón gana en 140 de 186 series de Costa Rica y 73 de 90 de Panamá (rampa en Nicaragua y Belice); POWER da signo contrario en las 2 celdas que corrí (CRI +483, p < 0,0001; PAN −197) | Con más tiempo: correr POWER en 3 o 4 celdas más; David puede hacerlo con `04_power.py --cells` |
+| Redacté textos, limitaciones y 4 reglas | Sección 3.2 lista lo que deja de ser cierto en `docs/09` y el formulario | Revisar `submission-en-ca.md` cuando Andrés lo suba. **Firma de Camila** |

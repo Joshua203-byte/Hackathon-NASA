@@ -1,0 +1,15 @@
+cell_id,indicator,valid_years,slope_per_decade,ci_low,ci_high,p_value,mk_variant
+N0955W08325,power_may_oct_mm,24,483.075,288.244,594.125,0.0000,original
+N0955W08325,power_jul_aug_mm,24,148.348,73.625,216.114,0.0006,original
+N0955W08325,power_annual_mm,24,760.935,508.429,1034.342,0.0000,original
+N0955W08325,t2m_may_oct_mean_C,24,0.224,0.117,0.407,0.0006,original
+N0955W08325,t2m_annual_mean_C,24,0.223,0.087,0.374,0.0006,original
+N0955W08325,allsky_may_oct_mean_MJ_m2_day,24,0.226,0.100,0.346,0.0025,original
+N0955W08325,allsky_annual_mean_MJ_m2_day,24,0.294,0.137,0.448,0.0012,original
+N0765W07815,power_may_oct_mm,24,-196.755,-493.500,117.167,0.2437,original
+N0765W07815,power_jul_aug_mm,24,-147.241,-316.677,49.235,0.1069,original
+N0765W07815,power_annual_mm,24,77.373,-430.950,496.889,0.9013,original
+N0765W07815,t2m_may_oct_mean_C,24,0.333,0.200,0.548,0.0002,original
+N0765W07815,t2m_annual_mean_C,24,0.310,0.143,0.478,0.0016,original
+N0765W07815,allsky_may_oct_mean_MJ_m2_day,24,-0.037,-0.321,0.303,0.9013,original
+N0765W07815,allsky_annual_mean_MJ_m2_day,24,0.182,-0.142,0.503,0.3334,original

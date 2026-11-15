@@ -1,0 +1,7 @@
+cell_id,site,indicator,imerg_slope_dec_mm,power_slope_dec_mm,same_sign,pearson_r_interannual,imerg_mean_mm,power_mean_mm
+N0955W08325,,may_oct_mm,-335.16,483.08,no,-0.414,1894.3,1573.1
+N0955W08325,,jul_aug_mm,-108.52,148.35,no,0.117,591.5,522.1
+N0955W08325,,annual_mm,-612.62,760.93,no,-0.484,3007.3,2530.4
+N0765W07815,,may_oct_mm,352.62,-196.76,no,0.009,2243.0,2691.1
+N0765W07815,,jul_aug_mm,73.46,-147.24,no,0.115,700.1,925.9
+N0765W07815,,annual_mm,563.84,77.37,sí,0.134,3327.0,4062.2
