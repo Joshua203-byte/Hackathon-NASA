@@ -1,0 +1,8 @@
+// Despliegue de la web pública (Rol 4): solo archivos estáticos de dist/, sin código de servidor.
+// `npm run deploy` compila y publica. Requiere `npx wrangler login` y CLOUDFLARE_ACCOUNT_ID si el login no lee la cuenta.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "altaris",
+  "compatibility_date": "2026-11-13",
+  "assets": { "directory": "./dist" }
+}

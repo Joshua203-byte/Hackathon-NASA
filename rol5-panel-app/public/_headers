@@ -1,0 +1,8 @@
+# Cloudflare Pages. Los JS/CSS de Vite llevan hash: se pueden cachear para siempre.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+# Los datos se reemplazan en cada entrega del motor: caché corta.
+/data/*
+  Cache-Control: public, max-age=300
+/geo/*
+  Cache-Control: public, max-age=86400
