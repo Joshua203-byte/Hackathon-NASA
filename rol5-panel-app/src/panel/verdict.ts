@@ -49,8 +49,8 @@ const REASONS: Record<string, L10n> = {
     en: 'Sign or significance changes when the year window moves',
   },
   posible_salto_2014: {
-    es: 'Posible salto en 2014: no se puede descartar un efecto del cambio de satélites',
-    en: 'Possible 2014 break: an instrument-change effect cannot be ruled out',
+    es: 'Posible salto entre 2013 y 2015: no se puede descartar un efecto del cambio de satélites',
+    en: 'Possible break between 2013 and 2015: an instrument-change effect cannot be ruled out',
   },
 };
 

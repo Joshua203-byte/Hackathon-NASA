@@ -1,6 +1,73 @@
 # Revisión científica: lo que Camila tiene que decidir (corte domingo 15 de noviembre, 02:45)
 
-Todas las cifras salen del JSON final (motor `802a9b0`, 2 025 celdas, 2001–2024) y de `data/rol3/`. Las fichas completas de los candidatos están en [casos-candidatos.md](casos-candidatos.md). Nada de esto está decidido: son los datos para decidir.
+Todas las cifras salen del JSON final (motor `802a9b0`, 2 025 celdas, 2001–2024) y de `data/rol3/`. Las fichas completas de los candidatos están en [casos-candidatos.md](casos-candidatos.md).
+
+## Resolución (domingo 15, 04:15): Camila, con Claude
+
+**Ninguna decisión cambia veredictos ni cifras. No hace falta regenerar el JSON por esta revisión.**
+
+| # | Decisión | Qué se hizo |
+|---|---|---|
+| 1 | **Opción A.** La regla de 2013–2015 se queda como está y el cambio de 2012 se declara como salvedad de la franja | Nada que regenerar. Sin entrada nueva en `threshold_changes` |
+| 2 | `survives` sigue exigiendo **las dos** variantes. La razón se **reescribe**, no se oculta | `pipeline/altaris/reasons.py` y los dos `reasons.json` del panel |
+| 3 | Se aprueba la frase de ENSO propuesta, con una precisión (abajo) | Texto para el caso, el formulario y el panel |
+| 4 | Casos: **1** `N1335W08715`, **2** `N1475W08765`, **3** `N1495W09125` frente a `N1335W08715` | IDs pasados a David y a Joshua (comandos abajo) |
+| 5 | Lectura general aprobada con dos correcciones. Limitaciones de `config.yaml` aprobadas sin cambios | — |
+
+### 1. Por qué A, y no B
+
+Corrí un chequeo nuevo, [`pipeline/check_step_vs_ramp.py`](../pipeline/check_step_vs_ramp.py). Para cada serie `consistente` compara una recta (rampa) con dos medias separadas por el mejor año de corte (escalón), usando BIC con un margen de 2:
+
+| Año de Pettitt | Temporada: escalón / no se distingue / rampa | Anual: escalón / no se distingue / rampa |
+|---|---|---|
+| 2012 | 1 / 35 / 0 | 0 / 29 / 0 |
+| 2009 | 5 / 3 / 0 | 7 / 12 / 3 |
+| 2010 y 2016 | — | 3 / 2 / 0 |
+
+- Las celdas con cambio en 2012 **no se distinguen de una rampa**, que es lo que dice el punto 1 de la decisión: 2012 es la mitad del registro. Ese año no es evidencia de un salto.
+- Donde el escalón sí gana, el corte cae casi siempre en **2009**, cinco años antes del cambio a GPM. La opción B no tocaría esas celdas y castigaría justo a las que parecen rampa. Ataca el problema equivocado y además cambia umbrales después de ver el mapa.
+- C queda descartada: sube veredictos después de ver el mapa.
+
+**Salvedad obligatoria de la franja** (caso 3, formulario y panel): "La caída de la franja de las tierras altas de Guatemala es grande, de −13 % a −31 % por década. En la mayoría de sus celdas la prueba de Pettitt ubica un cambio en 2012 o en 2009, y con 24 años no se distingue un escalón de una tendencia gradual. Es una zona con pocos pluviómetros, y NASA POWER no reproduce el signo de IMERG. Puede ser una señal real o un artefacto del producto: no se puede separar con este registro."
+
+### 2. Texto de `enso_no_sobrevive`
+
+- Nuevo: "Al descontar ENSO, la pendiente cambia de signo o sale de su intervalo de confianza" (en inglés: "When ENSO is removed, the slope changes sign or leaves its confidence interval"). Describe lo que mide la prueba y es correcto en cualquier veredicto, incluido `sin_evidencia`.
+- No se oculta, porque ocultarla obligaría a cambiar el motor y a regenerar.
+- Se mantienen las dos variantes. Es el criterio más conservador y no cambia ningún veredicto.
+- De paso, `posible_salto_2014` dice ahora "Posible salto entre 2013 y 2015", que es la ventana real de la regla. En las celdas con bandera el año más frecuente es 2015.
+
+### 3. ENSO
+
+Frase aprobada: "En este registro, los años El Niño son más secos en toda la región; no se distingue un contraste Pacífico–Caribe."
+Precisión: la correlación con ONI habla de la variabilidad de un año a otro, no de la tendencia. En la franja de Guatemala la correlación es débil (−0,05 en `N1495W09125`), y su tendencia sobrevive a las dos variantes. No escribir "ENSO explica la tendencia" ni "ENSO causa la caída".
+
+### 4. Casos: ajustes a las salvedades
+
+- **Caso 1, `N1335W08715`:** sin cambios. Además: POWER da el signo contrario (+171 mm por década en temporada), otra razón para no afirmar nada.
+- **Caso 2, `N1475W08765`:** para "sube" conviene citar **2001–2010** (+382 mm por década, p 0,02, `limitada`, signo opuesto al del periodo base) en lugar de 2001–2016 (+177, p 0,26, que no es significativa). Hay que decir que es una ventana corta, de 10 años. Así quedan tres lecturas de la misma celda: periodo completo `sin_evidencia`; 2008–2023 baja −345 mm por década, p 0,003, `limitada`; 2001–2010 sube +382, `limitada`. Todas las cifras están comprobadas en `cells/N1475W08765.json`.
+- **Caso 3, `N1495W09125`:** sigue siendo `consistente` con A y también lo sería con B (su cambio cae en 2009). El escalón se ajusta un poco mejor que la rampa (diferencia de BIC de 2,7), así que hay que decir "la lluvia es más baja desde alrededor de 2009" y no "cae 30 % por década". Va con la salvedad de la franja.
+
+```bash
+# David
+python pipeline/04_power.py --cells N1335W08715 N1475W08765 N1495W09125
+# Joshua
+python pipeline/case_figures.py --data rol5-panel-app/public/data --cells N1335W08715 N1475W08765 N1495W09125
+```
+
+### 5. Lectura general
+
+Aprobada, con dos correcciones:
+- Las banderas de 2014 se dan **siempre por país**: en canícula, 35 % en Guatemala y 2 % en Honduras. No dar el 17,6 % solo.
+- `limitada` no se cuenta como hallazgo en ningún texto: en ruido puro aparece en un tercio de las series.
+
+Las limitaciones de `config.yaml` quedan como están. La salvedad de la franja va en el texto del caso y no en el pasaporte general, porque cambiar `limitations` obligaría a regenerar.
+
+**Pendiente menor para quien regenere:** la narrativa en inglés del JSON escribe las unidades en español ("mm/temporada per decade"). Está corregido en `pipeline/altaris/narrative.py`, pero solo se verá si se regenera el JSON. Si la congelación de las 15:00 regenera, entra solo. Si no, queda así.
+
+---
+
+*Lo que sigue es el paquete original de revisión, sin cambios.*
 
 Orden sugerido: la decisión 1 es la única que puede cambiar el mapa, así que va primero.
 

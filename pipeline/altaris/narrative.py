@@ -15,6 +15,8 @@ NAME = {
     "jul_aug_mm": ("Lluvia de canícula (jul–ago)", "Midsummer-drought rainfall (Jul–Aug)"),
     "annual_mm": ("Lluvia anual", "Annual rainfall"),
 }
+# Las unidades de config.yaml están en español; la frase en inglés las traduce.
+UNITS_EN = {"mm/temporada": "mm/season", "mm/2 meses": "mm/2 months", "mm/año": "mm/year"}
 
 
 def template(key: str, units: str, period, valid_years: int, n_years: int, stat: dict | None, verdict: str) -> dict:
@@ -29,7 +31,7 @@ def template(key: str, units: str, period, valid_years: int, n_years: int, stat:
         lo, hi = (round(x, 1) if x is not None and math.isfinite(x) else None for x in stat["ci_95"])
         es = (f"{es_n}, {a}–{b}: pendiente de Sen de {st} {units} por década (IC 95 %: {lo} a {hi}). "
               f"Veredicto: {LABEL['es'][verdict]}.")
-        en = (f"{en_n}, {a}–{b}: Sen slope of {st} {units} per decade (95% CI: {lo} to {hi}). "
+        en = (f"{en_n}, {a}–{b}: Sen slope of {st} {UNITS_EN.get(units, units)} per decade (95% CI: {lo} to {hi}). "
               f"Verdict: {LABEL['en'][verdict]}.")
         if verdict == "sin_evidencia":
             es += " No encontrar una tendencia también es un hallazgo."
