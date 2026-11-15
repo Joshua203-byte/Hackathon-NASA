@@ -11,11 +11,11 @@ Entrega: domingo 15 de noviembre 23:59. Meta interna de envío: 21:00. Congelaci
 | ENSO y salto 2014 (Rol 3) | `data/rol3/`, `pipeline/06_enso.py` | Calculado sobre las 2 025 celdas. **Falta la revisión de Camila** |
 | Motor estadístico (Rol 2) | `pipeline/` | Listo: 70 pruebas pasan. Umbrales congelados (`frozen: true`), un cambio anotado en `threshold_changes` (Hamed-Rao). Calibración de 1 000 simulaciones |
 | JSON final | fuera del repositorio (zip, ~22 MB; 143 MB sin comprimir) | Generado y comprobado contra el panel. Una segunda corrida desde cero da los mismos veredictos y cifras |
-| Cifras y candidatos a casos | [07-cifras-y-candidatos.md](07-cifras-y-candidatos.md) | Provisionales hasta la revisión de Camila |
+| Cifras y candidatos a casos | [07-cifras-y-candidatos.md](07-cifras-y-candidatos.md), [08-revision-camila.md](08-revision-camila.md), [casos-candidatos.md](casos-candidatos.md) | Provisionales hasta la revisión de Camila. `docs/08` resume lo que ella tiene que decidir |
 | Panel de celda (Rol 5) | `rol5-panel-app/` | Carga el JSON real y traduce los códigos de razón con `reasons.json` |
 | Mapa MapLibre (Rol 4) | `rol5-panel-app/` (mezclado a `main` el 15 nov, 03:30) | Hecho. Pinta `grid.json` con bordes y capas de veredicto, pendiente, estabilidad y ENSO |
 | Lectura de `reasons.json` y piloto de Choluteca | `rol5-panel-app/`, [07-piloto-real-choluteca.md](07-piloto-real-choluteca.md) (mezclado a `main` el 15 nov, 03:30) | Hecho. El piloto se abre con `?dataset=pilot` |
-| Contenido y entrega (Rol 6) | `docs/rol6/` | Formulario en inglés (borrador con datos simulados), fuentes, guion de pruebas, video de ensayo |
+| Contenido y entrega (Rol 6) | `docs/rol6/` | Formulario en inglés ya con cifras reales (faltan casos, URL y guía oficial), fuentes, guion de pruebas, video de ensayo con datos simulados |
 | URL pública | — | No hay |
 
 Las ramas `izel/panel-celda` y `andres/piloto-choluteca` ya están en `main`: compila, pasan las pruebas y el mapa funciona con el JSON real.
@@ -86,4 +86,4 @@ Resueltas: FDR 0,05; `p_max_sign_rule: null`; techo `limitada` por ventana; peri
 - **Con salvedad:** la franja `consistente` de Guatemala. Es una caída muy grande, con un cambio hacia 2012 que la regla de la bandera no cubre, en una zona donde IMERG y POWER discrepan.
 - **No:** "la lluvia baja" en Honduras; un efecto espejo de ENSO (no aparece); "ENSO explica la señal" (casi todas las celdas que no sobreviven al control no tenían tendencia que explicar); cualquier resultado de pruebas con personas, que aún no se hicieron.
 - IMERG y NASA POWER discrepan en el signo en 7 de 9 comparaciones: va como limitación.
-- El formulario (`docs/rol6/submission-en.md`) y el video de ensayo todavía describen datos simulados; hay que reescribirlos con las cifras reales.
+- El video de ensayo todavía usa datos simulados y no debe enviarse. El formulario ya tiene cifras reales, con marcas `[PENDING]` en lo que falta.
