@@ -2,10 +2,18 @@
 
 **Reto:** NASA Space Apps Challenge 2026 — *Be An Earth System Trend Detective!*
 **Equipo:** Camila, Joshua, Elena, Izel, David y un sexto integrante por confirmar
-**Versión 3:** sábado 14 nov 2026, 20:10 (hora de El Salvador). Incorpora la revisión del grupo y las evidencias verificables por criterio de evaluación.
+**Versión 3.1:** sábado 14 nov 2026, 21:15 (hora de El Salvador). Incorpora la revisión del grupo y las evidencias verificables por criterio de evaluación. La 3.1 corrige tres puntos sobre la v3 (ver abajo).
 **Cierre de entrega:** domingo 15 nov 2026, 23:59 hora local. **Meta interna de entrega: domingo 21:00.**
 
 > Este documento describe el **alcance máximo**. Cada pieza lleva una prioridad (P0, P1, P2) para poder recortar sin rediseñar. Es **autosuficiente**: reemplaza al contexto maestro anterior y no depende de ningún otro archivo del repo.
+
+### Correcciones de la versión 3.1 (sobre la v3)
+
+| Punto | En la v3 | En la v3.1 |
+|---|---|---|
+| Globo 3D | Se avanzaba la primera noche, en los huecos de B1 y B2 | Empieza solo cuando Rol 4 terminó su P0 de la noche. La primera noche es del mapa por celdas |
+| Enlace de criterios de `docs/03` | Sin nota | La página enlazada muestra fechas de 2024; ninguna guía leída es la de 2026 |
+| Calendario | Kickoff a las 19:30 | El kickoff se atrasó: los hitos H1 a H6 no se mueven, se comprime B1 |
 
 ### Cambios de la versión 3 (sobre la v2)
 
@@ -14,7 +22,7 @@
 | Criterios de evaluación | Una tabla de cobertura | Evidencias y pruebas de aceptación por criterio, con dueño y compuerta a las 18:00 (sección 1.5) |
 | Idea del grupo: clasificación por sector | Solo tarjetas de preguntas | Selector de lente que recolorea el mapa con los veredictos ya calculados (P1, sección 4.12) |
 | Idea del grupo: aprender | Glosario y narrador | Recorrido guiado de 4 pasos para no expertos (P1, sección 4.13) |
-| Globo 3D | Textura estática | Textura satelital de NASA con licencia confirmada; se puede empezar antes del mediodía |
+| Globo 3D | Textura estática | Textura satelital de NASA con licencia por confirmar |
 | Impact | No se declaraba replicabilidad | Replicable cambiando `config.yaml`, con prueba y README (P1) |
 | Creativity | Sin posicionamiento | Sección 1.6, comparada con otras herramientas de NASA y por verificar |
 | Demo en láminas | Sin lámina de equipo | La lámina 1 lleva equipo, integrantes y reto |
@@ -61,7 +69,9 @@
 | Cobertura de IMERG fuera del Triángulo, para sostener la afirmación de replicabilidad | Sin confirmar | Rol 1 |
 | Afirmaciones sobre Climate Engine, DAVe y AppEEARS (sección 1.6) | Vienen del contexto maestro anterior, sin verificar | Rol 3 |
 
-**Los criterios de evaluación no están en el repo.** Hay que añadirlos a `docs/` cuando Rol 6 los tenga. El resumen que usa este plan está en la sección 1.5.
+**Los criterios de evaluación no están copiados en el repo.** `docs/03-recursos-y-links.md` solo enlaza la guía de jueces. Al abrir ese enlace el 14 de noviembre, la página mostraba fechas de 2024 y llamaba "Influence" al criterio de impacto, así que parece una edición anterior. El resumen de la sección 1.5 viene de la guía de 2025. **Ninguna de las dos es la de 2026:** Rol 6 la busca, la copia a `docs/` y avisa si algo cambia.
+
+Requisitos para llegar al juicio global según la edición enlazada: reto oficial; de 1 a 6 integrantes, todos registrados y con evento local asignado; formulario completo y enviado antes del cierre; todo en inglés (el video puede ir en otro idioma con subtítulos en inglés); trabajo original y todos los recursos externos listados.
 
 ---
 
@@ -487,7 +497,7 @@ La asignación de nombres es **tentativa**: no conozco las fortalezas de cada pe
 | 5 | Web: panel de celda, huella, pasaporte | Izel | Rol 4 |
 | 6 | Producto, contenido, usuarios, demo y entrega | Sexto integrante (por confirmar) | Rol 5 |
 
-Rol 6 debe tener dueño nombrado antes de las 20:30. Si al final son cinco personas: Rol 3 mantiene la auditoría de textos; **Rol 2 redacta el formulario en B4–B5**, cuando tiene menos carga; Roles 4 y 5 se reparten los textos de la interfaz, las pruebas con usuarios y la demo; y Rol 1 se encarga de la lista de recursos externos y del registro de uso de IA.
+Rol 6 debe tener dueño nombrado en el kickoff, antes de repartir cualquier otra tarea. Si al final son cinco personas: Rol 3 mantiene la auditoría de textos; **Rol 2 redacta el formulario en B4–B5**, cuando tiene menos carga; Roles 4 y 5 se reparten los textos de la interfaz, las pruebas con usuarios y la demo; y Rol 1 se encarga de la lista de recursos externos y del registro de uso de IA.
 
 ### 5.1 Calendario común
 
@@ -507,6 +517,8 @@ Rol 6 debe tener dueño nombrado antes de las 20:30. Si al final son cinco perso
 - **Dom 06:00 — mapa:** si el cálculo de todas las celdas no terminó, bajar a rejilla de 0.2° o a 30 puntos.
 - **Dom 12:00 — P2:** se hace P2 solo si P0 y P1 están desplegados y funcionando.
 - **Dom 18:00 — compuerta por criterio:** cada dueño (sección 1.5) comprueba la evidencia de su criterio. Lo que falte se corrige o se declara como limitación.
+
+**Si el kickoff empezó tarde:** los hitos H1 a H6 y la entrega de las 21:00 no se mueven. Se comprime B1, y lo primero que se lanza es la descarga de IMERG de Rol 1, antes de cerrar cualquier otra discusión.
 
 **Sincronizaciones de 10 minutos:** 00:00, 06:00, 12:00, 15:00, 18:00.
 
@@ -661,12 +673,12 @@ Rol 6 debe tener dueño nombrado antes de las 20:30. Si al final son cinco perso
 - [ ] Leyenda por capa. Paleta distinguible para daltonismo; el veredicto no depende solo del color (añadir textura o icono).
 - [ ] Bordes de países y nombres de referencia.
 - [ ] Pantalla de entrada "Claim Investigator": tres preguntas que abren los 3 casos.
-- [ ] **Globo 3D (P1).** No depende de datos, así que se empieza en cuanto el mapa por celdas esté desplegado (primer despliegue de B1), y se avanza en los huecos de B1 y B2. Si Rol 4 no puede, lo toma Rol 5.
+- [ ] **Globo 3D (P1).** No depende de datos, pero sí compite por las horas de Rol 4. Se empieza solo cuando su P0 de la noche esté hecho: mapa por celdas, estado en la URL, clic en celda y primer despliegue. Lo normal es el domingo por la mañana. Si Rol 4 no puede, lo toma Rol 5.
   - Proyección de globo con una textura satelital de NASA (por ejemplo Blue Marble). Confirmar licencia y cita con Rol 6. Sin llamadas en vivo.
   - La región del Triángulo resaltada; Honduras marcada como foco.
   - Animación de acercamiento hasta la región; al llegar, se pasa a la vista por celdas.
   - Botón "saltar" para ir directo al mapa, y los enlaces profundos abren sin pasar por el globo.
-  - Versión mínima antes del sueño (esfera, textura, acercamiento), aunque sea sencilla; los detalles después.
+  - Primero la versión mínima (esfera, textura, acercamiento); los detalles después.
   - Tope de 3 a 4 horas en total. Si a las 12:00 no está, se recorta.
 
 **B4–B5 (12:00–18:00)**
