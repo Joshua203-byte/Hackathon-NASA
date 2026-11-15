@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-15T10:41:56.444Z",
+  "generated_at": "2026-11-15T10:59:01.370Z",
   "pipeline_commit": "a7a5b18",
   "dataset_doi": "10.5067/GPM/IMERG/3B-MONTH/07",
   "checks": [
@@ -23,7 +23,7 @@
       "verdict": "sin_evidencia",
       "slope": -4.26,
       "csv_sen": -4.25977272727272,
-      "window": "sin_evidencia",
+      "window": "limitada",
       "languages": [
         "es",
         "en"
@@ -36,7 +36,7 @@
       "verdict": "sin_evidencia",
       "slope": 10.727,
       "csv_sen": 10.726785714285729,
-      "window": "sin_evidencia",
+      "window": "limitada",
       "languages": [
         "es",
         "en"
@@ -88,7 +88,7 @@
       "verdict": "consistente",
       "slope": -452.382,
       "csv_sen": -452.3823684210526,
-      "window": "limitada",
+      "window": "sin_evidencia",
       "languages": [
         "es",
         "en"
@@ -101,7 +101,7 @@
       "verdict": "limitada",
       "slope": -171.333,
       "csv_sen": -171.33333333333331,
-      "window": "limitada",
+      "window": "sin_evidencia",
       "languages": [
         "es",
         "en"
@@ -114,7 +114,7 @@
       "verdict": "consistente",
       "slope": -469.171,
       "csv_sen": -469.1709134615385,
-      "window": "limitada",
+      "window": "sin_evidencia",
       "languages": [
         "es",
         "en"
@@ -122,6 +122,10 @@
     }
   ],
   "base_url": "http://cases.local/",
-  "case_links": "3 enlaces cortos, tarjetas, ventana y espejo; móvil 390 × 844 sin desbordamiento y pasaporte descargado",
-  "tour": "4 pasos ES/EN, inicio desde otro indicador, recarga del paso 3 y foco en pasaporte"
+  "case_links": "3 enlaces cortos, tarjetas, ventana y espejo; mÃ³vil 390 Ã— 844 sin desbordamiento y pasaporte descargado",
+  "tour": "4 pasos ES/EN, inicio desde otro indicador, recarga del paso 3 y foco en pasaporte",
+  "selected_window": [
+    2001,
+    2010
+  ]
 }

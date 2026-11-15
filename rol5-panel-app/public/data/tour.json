@@ -53,8 +53,8 @@
         "en": "Changing the years changes the reading"
       },
       "body": {
-        "es": "Ahora comparamos 2008–2023 con 2001–2024 en la misma celda. La pendiente pasa a −344,5 mm por década y el veredicto de ventana es limitado. Las ventanas se solapan y sus pruebas no se corrigen por comparaciones múltiples: no confirman una tendencia regional.",
-        "en": "Now compare 2008–2023 with 2001–2024 in the same cell. The slope becomes −344.5 mm per decade and the window verdict is limited. Windows overlap and their tests are not corrected for multiple comparisons: they do not confirm a regional trend."
+        "es": "Ahora comparamos 2001–2010, solo 10 años, con 2001–2024 en la misma celda. La pendiente cambia de −48,3 a +381,9 mm por década y el veredicto de ventana es limitado. Este recorte corto invierte el signo: no confirma un aumento de la lluvia. Las ventanas se solapan y sus pruebas no se corrigen por comparaciones múltiples.",
+        "en": "Now compare 2001–2010, only 10 years, with 2001–2024 in the same cell. The slope changes from −48.3 to +381.9 mm per decade and the window verdict is limited. This short window reverses the sign: it does not confirm increasing rainfall. Windows overlap and their tests are not corrected for multiple comparisons."
       },
       "set": {
         "cell": "N1475W08765",
@@ -62,8 +62,8 @@
         "lens": "agri",
         "enso": false,
         "win": [
-          2008,
-          2023
+          2001,
+          2010
         ]
       }
     },
@@ -75,8 +75,8 @@
         "en": "Take the evidence with you"
       },
       "body": {
-        "es": "Descarga el pasaporte JSON o Markdown. Conserva los datos del periodo base y de la ventana 2008–2023, la completitud, los controles ENSO y de 2014 y la procedencia NASA. Copia el enlace para reproducir esta selección.",
-        "en": "Download the JSON or Markdown passport. It preserves the base-period and 2008–2023 window results, completeness, ENSO and 2014 checks, and NASA provenance. Copy the link to reproduce this selection."
+        "es": "Descarga el pasaporte JSON o Markdown. Conserva los datos del periodo base y de la ventana 2001–2010, la completitud, los controles ENSO y de 2014 y la procedencia NASA. Copia el enlace para reproducir esta selección.",
+        "en": "Download the JSON or Markdown passport. It preserves the base-period and 2001–2010 window results, completeness, ENSO and 2014 checks, and NASA provenance. Copy the link to reproduce this selection."
       },
       "set": {
         "cell": "N1475W08765",
@@ -84,8 +84,8 @@
         "lens": "agri",
         "enso": false,
         "win": [
-          2008,
-          2023
+          2001,
+          2010
         ]
       }
     }

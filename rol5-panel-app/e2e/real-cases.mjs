@@ -19,7 +19,7 @@ const grid = read('public/data/grid.json').cells;
 const tour = read('public/data/tour.json');
 const output = 'node_modules/.cache/real-cases';
 mkdirSync(output, { recursive: true });
-const report = { generated_at: new Date().toISOString(), pipeline_commit: meta.pipeline_commit, dataset_doi: meta.dataset_doi, checks: [] };
+const report = { generated_at: new Date().toISOString(), pipeline_commit: meta.pipeline_commit, dataset_doi: meta.dataset_doi, selected_window: [2001, 2010], checks: [] };
 const fmt = n => n.toFixed(1).replace('-', '−');
 const signed = n => (n > 0 ? '+' : '') + fmt(n);
 const pFmt = n => n < .001 ? '< 0.001' : n.toFixed(3);
@@ -82,12 +82,12 @@ try {
         assert.equal(await dots.count(), 24);
         await dots.first().hover({ force: true });
         await page.waitForFunction(value => document.querySelector('[data-tour="series"] .recharts-tooltip-wrapper')?.textContent.includes(value), fmt(d.series[0].value));
-        await page.locator('rect[data-k="2008-2023"]').dispatchEvent('pointerup');
-        const window = d.footprint.find(w => w[0] === 2008 && w[1] === 2023);
+        await page.locator('rect[data-k="2001-2010"]').dispatchEvent('pointerup');
+        const window = d.footprint.find(w => w[0] === 2001 && w[1] === 2010);
         assert.ok((await rows.nth(0).innerText()).includes(signed(window[2])));
         assert.ok((await rows.nth(1).innerText()).includes(`[${fmt(window[4])}, ${fmt(window[5])}]`));
         assert.ok((await rows.nth(2).innerText()).includes(pFmt(window[3])));
-        const windowLabel = d.window_results['2008-2023'].verdict === 'limitada'
+        const windowLabel = d.window_results['2001-2010'].verdict === 'limitada'
           ? (lang === 'es' ? 'Señal débil' : 'Weak signal') : null;
         if (windowLabel) assert.ok((await rows.nth(4).innerText()).includes(windowLabel));
         const p = JSON.parse(await download(lang === 'es' ? 'Descargar JSON' : 'Download JSON', `${id}-${ind}-${lang}.json`));
@@ -102,15 +102,15 @@ try {
         assert.equal(p.provenance.dataset_doi, meta.dataset_doi);
         assert.deepEqual(p.enso_test, d.enso_test);
         assert.deepEqual(p.break_2014, d.break_2014);
-        assert.deepEqual(p.selected_window.ci_95, d.window_results['2008-2023'].ci_95);
+        assert.deepEqual(p.selected_window.ci_95, d.window_results['2001-2010'].ci_95);
         assert.equal(p.selected_window.slope_per_decade, window[2]);
         assert.equal(p.selected_window.p_uncorrected, window[3]);
-        assert.equal(p.selected_window.verdict, d.window_results['2008-2023'].verdict);
+        assert.equal(p.selected_window.verdict, d.window_results['2001-2010'].verdict);
         const md = await download(lang === 'es' ? 'Descargar Markdown' : 'Download Markdown', `${id}-${ind}-${lang}.md`);
-        for (const text of [id, meta.dataset_doi, meta.pipeline_commit, '2008–2023', '24/24', signed(d.statistics.slope_per_decade), signed(window[2])]) assert.ok(md.includes(text), text);
+        for (const text of [id, meta.dataset_doi, meta.pipeline_commit, '2001–2010', '24/24', signed(d.statistics.slope_per_decade), signed(window[2])]) assert.ok(md.includes(text), text);
         assert.ok(!/NaN|undefined/.test(md));
       }
-      report.checks.push({ cell: id, indicator: ind, csv_years: raw.length, verdict: d.verdict, slope: d.statistics.slope_per_decade, csv_sen: median, window: d.window_results['2008-2023'].verdict, languages: ['es', 'en'] });
+      report.checks.push({ cell: id, indicator: ind, csv_years: raw.length, verdict: d.verdict, slope: d.statistics.slope_per_decade, csv_sen: median, window: d.window_results['2001-2010'].verdict, languages: ['es', 'en'] });
       console.log(`PASS ${id}/${ind}: CSV → JSON → pantalla → pasaportes ES/EN`);
     }
   }
@@ -125,8 +125,8 @@ try {
       await page.waitForFunction(n => document.querySelector('.tour-head')?.textContent.includes(`${n}/4`), step);
       assert.ok((await page.locator('.tour').innerText()).includes(tour.steps[step - 1].title[lang]));
       if (step === 3) {
-        await page.waitForFunction(() => new URLSearchParams(location.search).get('win') === '2008-2023');
-        assert.ok((await page.locator('.compare').innerText()).includes('−344.5'));
+        await page.waitForFunction(() => new URLSearchParams(location.search).get('win') === '2001-2010');
+        assert.ok((await page.locator('.compare').innerText()).includes('+381.9'));
         await page.reload();
         await page.waitForSelector('.tour');
         assert.equal(new URL(page.url()).searchParams.get('tour'), '3');
@@ -162,13 +162,13 @@ try {
   await page.screenshot({ path: `${output}/mobile-tour.png` });
   await page.getByRole('button', { name: 'Siguiente', exact: true }).click();
   await page.getByRole('button', { name: 'Siguiente', exact: true }).click();
-  await page.waitForFunction(() => new URLSearchParams(location.search).get('win') === '2008-2023');
+  await page.waitForFunction(() => new URLSearchParams(location.search).get('win') === '2001-2010');
   await page.getByRole('button', { name: 'Siguiente', exact: true }).click();
   await page.getByRole('button', { name: 'Terminar', exact: true }).click();
   const mobilePassport = JSON.parse(await download('Descargar JSON', 'mobile-passport.json'));
   assert.equal(mobilePassport.cell.id, 'N1475W08765');
-  assert.equal(mobilePassport.selected_window.start, 2008);
-  assert.equal(mobilePassport.selected_window.end, 2023);
+  assert.equal(mobilePassport.selected_window.start, 2001);
+  assert.equal(mobilePassport.selected_window.end, 2010);
   assert.deepEqual(errors, []);
   report.base_url = base;
   report.case_links = '3 enlaces cortos, tarjetas, ventana y espejo; móvil 390 × 844 sin desbordamiento y pasaporte descargado';
