@@ -1,0 +1,35 @@
+{
+ "n_sim": 1000,
+ "seed": 20261114,
+ "cv_mix": [
+  0.12,
+  0.2,
+  0.35
+ ],
+ "false_positive_rate": {
+  "consistente": 0.0,
+  "limitada": 0.333
+ },
+ "power": {
+  "injected_trend_pct_per_decade": -10.0,
+  "detected_consistente": 0.152,
+  "detected_limitada_o_mas": 0.724
+ },
+ "power_all": [
+  {
+   "injected_trend_pct_per_decade": -10.0,
+   "detected_consistente": 0.152,
+   "detected_limitada_o_mas": 0.724
+  },
+  {
+   "injected_trend_pct_per_decade": -5.0,
+   "detected_consistente": 0.008,
+   "detected_limitada_o_mas": 0.476
+  },
+  {
+   "injected_trend_pct_per_decade": -20.0,
+   "detected_consistente": 0.544,
+   "detected_limitada_o_mas": 0.916
+  }
+ ]
+}
