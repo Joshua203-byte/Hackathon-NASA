@@ -30,8 +30,8 @@ export const CASES: readonly CaseLink[] = [
     title: { es: 'Centro de Honduras: según los años', en: 'Central Honduras: it depends on the years' },
     note: { es: 'Abre la ventana 2001–2010, de solo 10 años', en: 'Opens the 2001–2010 window, only 10 years' },
     story: {
-      es: ['Una sola celda, tres respuestas según los años que se miren: con el periodo completo no hay evidencia; de 2008 a 2023 la lluvia parece bajar; de 2001 a 2010 parece subir.', 'El cambio no viene de la lluvia sino de los años elegidos. Pruébalo tocando otras casillas en la huella de abajo.', 'Aviso: 2001–2010 es una ventana corta, de solo 10 años.'],
-      en: ['One cell, three answers depending on the years you look at: the full period shows no evidence; from 2008 to 2023 rainfall seems to fall; from 2001 to 2010 it seems to rise.', 'The change comes from the years chosen, not from the rain. Try it by tapping other squares in the footprint below.', 'Note: 2001–2010 is a short window, only 10 years.'],
+      es: ['Una sola celda, tres respuestas según los años que se miren: con el periodo completo no hay evidencia; de 2008 a 2023 la lluvia parece bajar; de 2001 a 2010 parece subir.', 'El cambio no viene de la lluvia sino de los años elegidos. Pruébalo moviendo los años con el control de abajo.', 'Aviso: 2001–2010 es una ventana corta, de solo 10 años.'],
+      en: ['One cell, three answers depending on the years you look at: the full period shows no evidence; from 2008 to 2023 rainfall seems to fall; from 2001 to 2010 it seems to rise.', 'The change comes from the years chosen, not from the rain. Try it by moving the years with the control below.', 'Note: 2001–2010 is a short window, only 10 years.'],
     },
   },
   {
