@@ -1,6 +1,6 @@
 # ALTARIS — references and assisted work
 
-English companion to the resource record, prepared with OpenAI Codex assistance on 15 November 2026. Reconcile with the frozen build before submission. This list describes the checked repository; it does not certify a seven-country observed release.
+English companion to the resource record, prepared with OpenAI Codex assistance on 15 November 2026. Reconcile with the frozen build before submission. The seven-country observed export is now available and checked (engine `7e93e46`, 4,332 land cells); publication and scientific release approval are separate pending gates. See [numerical verification](cotejo-formulario-ca.md).
 
 ## Data
 
@@ -23,4 +23,4 @@ The prototype WebM is a rehearsal with synthetic data and must not be submitted.
 
 ## Release items still to verify
 
-Exact expanded-run provenance, final media and map assets, dependency/license notices, repository license, public links and the final SI inventory. The current materials do not report human testing results. Testing the three-country app, if completed, must be described with that scope.
+Expanded-run provenance is in `data/ca/rol1/provenance.json` and `data/ca/json-light/meta.json` in integration. Still verify final media and map assets, dependency/license notices, repository license, English linked material, public links and the final SI inventory. The current materials do not report human testing results. Testing the three-country app, if completed, must be described with that scope.

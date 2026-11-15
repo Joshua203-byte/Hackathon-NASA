@@ -21,14 +21,18 @@ git checkout ca/andres-producto
 - [x] Variante del README y de los textos de entrega para Centroamérica, con marcas `[PENDING-CA]`.
 - [x] Guion del video de 30 s en dos versiones (3 países / Centroamérica).
 - [ ] Seguir con lo pendiente: guías 2026, acceso al portal y las 5 sesiones con personas (sobre la URL de producción actual).
-- [ ] Con las tablas de Joshua y las limitaciones de Camila: rellenar los `[PENDING-CA]` y correr el cotejo de cifras.
+- [x] Rellenar cifras CA con las tablas de Joshua y ejecutar el cotejo: 41/41. La revisión/firma científica de Camila permanece pendiente de aprobación.
 
 ## Reporte (lo llenas tú)
 
+**Actualización con resultados reales de integración `09ebae1`:** se recibió el ZIP oficial de Joshua, SHA256 `77e7978646f518e4bdbbabbf4694fbbe6f70a53b462b8c0e2bdd4229e475e9b6`, motor `7e93e46`, 4 332 celdas observadas. El formulario ya incorpora las tablas, los p ajustados nuevos, ENSO y temporadas. Pasó **41/41** comprobaciones de `check_form_ca.py`, sin marcas de cifras CA pendientes. Evidencia y alcance en [cotejo-formulario-ca.md](../rol6/cotejo-formulario-ca.md).
+
+Los pendientes externos conservan marcas específicas: video, publicación, personas, elegibilidad del recurso NASA y auditoría final. No se eliminaron para simular que existe una entrega lista. El reporte científico de Camila en el commit consultado sigue sin firma; que existan las tablas de Joshua no sustituye esa firma ni el GO de las 12:45.
+
 | Qué hice | Qué comprobé y cómo | Qué falta |
 |---|---|---|
-| [Formulario de siete países](../rol6/submission-en-ca.md), por campos oficiales | Siete países; marcadores en cifras y conclusiones que requieren nueva corrida. Explica FDR sin cambiar umbrales | Export observado, tablas y comparación de Joshua, revisión de Camila y cotejador adaptado |
-| [README alternativo en inglés](../rol6/README-en-ca.md) y [referencias](../rol6/references-en.md) | El README raíz y `submission-en.md` se conservan intactos. Los enlaces del README alternativo están preparados para su ubicación final en la raíz | GO, cifras, procedencia, URL, licencias y promoción posterior |
+| [Formulario de siete países](../rol6/submission-en-ca.md), por campos oficiales | Cifras de integración y ZIP oficial. 41/41 cotejos; casos con p ajustados 0,8735, 0,7374 y 0,02424. ENSO positivo en países nuevos y veredictos consistentes fuera de Guatemala expresados correctamente | Firma de Camila, GO y pendientes externos de entrega |
+| [README alternativo en inglés](../rol6/README-en-ca.md) y [referencias](../rol6/references-en.md) | Cobertura, procedencia y hash actualizados. README raíz y formulario de tres países intactos. Enlaces del README alternativo preparados para su promoción a la raíz | GO, URL, licencias, inglés final y promoción posterior |
 | [Guion de 28 s para ambas versiones](../rol6/guion-video-30s.md) | Mismos textos/caso; cambia plano inicial. Sin prometer contraste ENSO o cifras regionales. Ventanas del caso 2 cotejadas con export actual | Captura congelada, dos ensayos cronometrados, revisión y reproducción pública |
 | [Guías 2026 verificadas directamente](../rol6/guias-2026-resumen.md) | Lectura completa en navegador de envío/evaluación (13 nov); pestaña Resources. Rúbrica 1–5; marca SI confirmada; IMERG no figura por nombre | Interpretación de fuente NASA listada si lo requiere el organizador; no se contactó a terceros |
 | Respaldo de tres países comprobado | `python pipeline/check_form_numbers.py .`: 45/45 expectativas coinciden con los datos locales. El script usa cifras fijas; no analiza automáticamente el texto del formulario | No acredita cifras de CA ni una nueva publicación |
@@ -36,10 +40,10 @@ git checkout ca/andres-producto
 
 ## Relevo y cierre pendiente
 
-Los materiales preparables sin datos están listos. Las referencias remotas consultadas de `docs/ca/joshua.md` y `docs/ca/camila.md` aún contenían listas sin resultados ni firma. No se usó el mock como observación ni se completaron resultados inexistentes.
+La nota anterior sobre ausencia de resultados de Joshua quedó superada por integración `09ebae1`: ya están `TABLAS.md`, `COMPARACION.md` y `TEMPORADAS.csv`, y se recibió el ZIP. Se completaron las cifras de producto con esos resultados. El checklist de Camila consultado sigue sin completar y sin firma. No se usó el mock como observación ni se completaron resultados de personas inexistentes.
 
-1. Recibir export, tablas, comparación y limitaciones firmadas. Confirmar commits, completar `[PENDING-CA]` y cotejar casos, calibración y cobertura de POWER.
-2. Usar el cotejador adaptado por Joshua. El actual `pipeline/check_form_numbers.py` tiene expectativas de tres países y no certifica CA.
+1. **Hecho:** recibir export, tablas y comparación; completar cifras CA, casos, calibración y alcance de POWER. **Pendiente:** revisión y limitaciones definitivas firmadas por Camila.
+2. **Hecho:** ejecutar `check_form_ca.py` de integración sobre el ZIP oficial: 41/41. El cotejador no valida toda la prosa; la evidencia complementaria está en el reporte enlazado. `check_form_numbers.py` se conserva para tres países.
 3. Joshua decide GO/NO-GO. Con NO-GO conservar los materiales oficiales. Con GO, integrar según docs/10, verificar URL y promover el README alternativo a la raíz para resolver sus enlaces.
 4. Grabar sobre la versión congelada y recoger resultados de personas. Si no hubo sesiones, declararlo. Las sesiones previstas son sobre producción de tres países: no validan por sí solas CA.
 5. Revisar inglés en materiales enlazados, licencias y enlaces públicos. Comprobar portal y guardar confirmación del envío. Este reporte no acredita envío, aceptación de términos ni acceso a la cuenta.
