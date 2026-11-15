@@ -1,4 +1,4 @@
-# Estado del proyecto (corte domingo 15 de noviembre, 07:30, El Salvador)
+# Estado del proyecto (corte domingo 15 de noviembre, 08:45, El Salvador)
 
 Entrega: domingo 15 de noviembre 23:59. Meta interna de envío: 21:00. Congelación: 15:00.
 Repositorio oficial: `Joshua203-byte/Hackathon-NASA`. Todo lo descrito aquí está en `main`.
@@ -54,8 +54,9 @@ En orden de riesgo. Lo de arriba bloquea a lo de abajo.
 | # | Qué | Quién |
 |---|---|---|
 | 18 | **Volver a publicar** (`npm run deploy`) y comprobar la URL. Las 6 075 narrativas en inglés decían "mm/temporada"; el motor ya lo traducía, pero el JSON no se había regenerado. Ya está corregido en `public/data/` de `main` (solo cambia el texto en inglés; ninguna cifra) | Izel |
-| 19 | Vista en inglés del panel: el eje de las gráficas dice "mm/temporada", el veredicto del periodo base en la tabla comparativa sale como código (`sin_evidencia`, `consistente`) y la fuente de POWER dice "punto … consulta" | Izel |
-| 20 | Borrar `public/data/cells/N0000W00000.json`: es una celda de prueba con `NaN` que se publica junto a los datos reales. Las pruebas ya usan su copia en `fixtures/` | Izel |
+| 19 | Vista en inglés del panel (eje "mm/temporada", veredicto como código, fuente de POWER): **resuelto en la rama `claude/sleepy-carson-nhvqxs`**, junto con el rediseño de usabilidad. Falta que Joshua lo apruebe y se mezcle a `main` | Joshua, Izel |
+| 21 | **Rediseño de usabilidad** en la rama `claude/sleepy-carson-nhvqxs` (commit `f29c529`): intro de 3 pasos, selectores con nombres legibles, mapa y panel lado a lado, veredicto en lenguaje simple, tarjetas por sección y textos de los casos de `docs/09`. Pasan las 44 pruebas, `e2e/real-cases.mjs` y `e2e/pilot.mjs`. **Decidir antes de las 12:00** si entra, para que las pruebas con personas usen la versión final | Joshua |
+| 20 | ~~Borrar `public/data/cells/N0000W00000.json`~~ **Hecho** en `main`; entra en la próxima publicación | — |
 
 **Resuelto (06:25):** el repositorio de GitHub ya es público. Se comprobó sin iniciar sesión y se revisó que no haya credenciales en los archivos ni en el historial.
 

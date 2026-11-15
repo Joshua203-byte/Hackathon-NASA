@@ -32,7 +32,7 @@ Three indicators: rainy-season rainfall (May–October), midsummer rainfall (Jul
 
 ## Earth science data and method
 
-**Data.** NASA GPM IMERG Final Run, monthly, 0.1°, V07 ([doi:10.5067/GPM/IMERG/3B-MONTH/07](https://doi.org/10.5067/GPM/IMERG/3B-MONTH/07)), 2001–2024, 288 monthly files accessed through NASA Earthdata. Every cell has 24 of 24 valid years. NOAA CPC Oceanic Niño Index for ENSO. NASA POWER as a second source at three comparison sites and at the three case cells, with 2 m air temperature and solar radiation as a secondary variable. Natural Earth for borders.
+**Data.** NASA GPM IMERG Final Run, monthly, 0.1°, V07 ([doi:10.5067/GPM/IMERG/3B-MONTH/07](https://doi.org/10.5067/GPM/IMERG/3B-MONTH/07)), 2001–2024, 288 monthly files accessed through NASA Earthdata from NASA GES DISC, the archive listed among the challenge resources. Every cell has 24 of 24 valid years. NOAA CPC Oceanic Niño Index for ENSO. NASA POWER as a second source at three comparison sites and at the three case cells, with 2 m air temperature and solar radiation as a secondary variable. Natural Earth for borders.
 
 **Method.** For each cell and indicator:
 
@@ -46,6 +46,8 @@ Three indicators: rainy-season rainfall (May–October), midsummer rainfall (Jul
 **Verdict.** A deterministic rule assigns one of four labels. *Consistent* requires FDR-adjusted p < 0.05, an interval that excludes zero, the same sign in at least 90 % of windows of 15 years or more, survival of the ENSO check and no break flag around 2014. *Limited* means a weak, unconfirmed signal. *No evidence* and *incomplete* cover the rest. A single window can never be rated above *limited*.
 
 **Thresholds were frozen before the regional run.** One change was made afterwards and is recorded in the passport: an independent recalculation of nine cells exposed a flaw in how the autocorrelation correction was applied, and fixing it only made verdicts more conservative.
+
+The trend and significance methods follow the two statistical references listed in the challenge resources (Mann–Kendall and Sen's slope; statistical significance).
 
 No machine learning and no prediction. Generative AI does not compute any figure or decide any verdict.
 
@@ -96,7 +98,7 @@ Limitations, also shown in every passport:
 
 Camila, Joshua, Elena, Izel, David and Andrés worked across science, data, web and product roles. The web app uses React, TypeScript, Recharts and MapLibre. The analysis uses Python with NumPy, SciPy and pymannkendall.
 
-**Use of AI.** Claude and OpenAI Codex assisted with code, tests, documentation and bilingual copy; Codex also assisted with the prototype video. Cell narratives are produced offline from deterministic templates and are labelled as such. No AI model computes statistics or assigns verdicts. [Resource and AI-use record](fuentes.md) `[PENDING: guide]` confirm the required AI-disclosure wording and any watermark rule for the video.
+**Use of AI.** Claude and OpenAI Codex assisted with code, tests, documentation and bilingual copy; Codex also assisted with the prototype video. Cell narratives are produced offline from deterministic templates and are labelled as such. No AI model computes statistics or assigns verdicts. The project idea, scientific decisions and case selection are the team's own. [Resource and AI-use record](fuentes.md) `[PENDING: guide]` confirm the required AI-disclosure wording and any watermark rule for the video.
 
 ## Submission links
 
