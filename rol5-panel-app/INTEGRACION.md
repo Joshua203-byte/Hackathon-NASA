@@ -1,6 +1,6 @@
 # Integración del panel — Rol 5
 
-El panel está implementado y probado con datos simulados. No hay resultados observados de los roles 1–3 ni aplicación de mapa del Rol 4 en el repositorio al realizar esta entrega. No se afirma validación científica ni comprensión con usuarios reales.
+El panel está implementado y probado con datos simulados; el mapa MapLibre del Rol 4 está integrado (ver «Integración con Rol 4»). No se afirma validación científica ni comprensión con usuarios reales.
 
 ## Datos del pipeline
 
@@ -53,7 +53,11 @@ En `cells/{id}.json`, `secondary_variables` es una lista opcional:
 
 ## Integración con Rol 4
 
-Importar `CellPanel` y pasar `cell`, `gridRow`, `meta`, `status`, `refs` y opcionalmente `mirror`. `Shell.tsx` proporciona un selector geográfico sin mapa base para probar el circuito completo. El mapa MapLibre y despliegue del Rol 4 siguen siendo una dependencia externa.
+Importar `CellPanel` y pasar `cell`, `gridRow`, `meta`, `status`, `refs` y opcionalmente `mirror`.
+
+**Mapa (Rol 4).** `src/panel/components/RegionMap.tsx` pinta `grid.json` con MapLibre GL (carga diferida). Sin mapa base externo: fondo liso, bordes de país de `public/geo/borders.geojson` (copia de `data/rol1/borders.geojson`, Natural Earth) y una celda de 0,1° por registro. Clic en una celda escribe `?cell=` y el panel carga solo `cells/{id}.json`; no se descargan los 143 MB de detalle. Capas en `?layer=`: `verdict` (por defecto), `slope` (mm/década, escala saturada en el percentil 95), `stability` (`sign_agreement`) y `enso` (`enso_r`, se desactiva si no hay datos). La leyenda de veredicto muestra el conteo por indicador para cotejar con `verdict_summary.csv`. Faltantes en gris, nunca como cero. Si el navegador no crea WebGL se usa la rejilla SVG de `CellMap.tsx`. Con teclado, la celda se elige en el selector de la barra superior. Las funciones puras están en `src/panel/mapLayers.ts` con pruebas en `__tests__/mapLayers.test.ts`.
+
+**Datos reales.** Se descomprime el zip del motor sobre `public/data/`. No se commitea `public/data/` hasta que Joshua avise: pesa ~145 MB. Las pruebas `integration.test.ts` y `panel.test.ts` leen los ejemplos simulados de `public/data/`; con datos reales cargados, correrlas así: `git stash push -- public/data; npm test; git stash pop`.
 
 El estado vive en la URL. La lente Comunidades selecciona lluvia anual según `meta.lenses`; Agricultura respeta sus indicadores y descarta canícula donde no aplica. Energía conserva el indicador de lluvia y muestra el bloque de segunda variable cuando existe. `?mirror=ID` selecciona la segunda celda; la compatibilidad con `case=3` usa otra celda disponible, no afirma que exista un efecto espejo científico.
 
