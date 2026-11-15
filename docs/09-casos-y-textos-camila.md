@@ -39,7 +39,7 @@ Español para el panel y la demo, inglés para el formulario. Toda cifra sale de
 - **2008–2023:** −345 mm por década, p 0,003. **Señal débil, no confirmada.**
 - **2001–2010:** +382 mm por década, p 0,02. **Señal débil, no confirmada**, con signo contrario.
 
-El cambio no viene de la lluvia sino de los años elegidos: los años más húmedos de la serie son 2008 (1 616 mm), 2010 y 2011. Empezar en 2008 los pone al principio, y la pendiente baja; terminar en 2010 los pone al final, y la pendiente sube. Las ventanas se solapan y no se corrigen por comparaciones múltiples, por eso ninguna pasa de "señal débil". Además, NASA POWER sugiere lo contrario en la misma celda: lluvia anual al alza (+360 mm por década, p 0,003).
+El cambio no viene de la lluvia sino de los años elegidos: 2008 es el año más húmedo de la serie (1 616 mm), y 2010 y 2011 también están entre los más húmedos. Empezar en 2008 los pone al principio, y la pendiente baja; terminar en 2010 los pone al final, y la pendiente sube. Las ventanas se solapan y no se corrigen por comparaciones múltiples, por eso ninguna pasa de "señal débil". Además, NASA POWER sugiere lo contrario en la misma celda: lluvia anual al alza (+360 mm por década, p 0,003).
 
 **EN.** One cell, three answers depending on the years you look at:
 
@@ -47,7 +47,7 @@ El cambio no viene de la lluvia sino de los años elegidos: los años más húme
 - **2008–2023:** −345 mm per decade, p 0.003. **Weak signal, not confirmed.**
 - **2001–2010:** +382 mm per decade, p 0.02. **Weak signal, not confirmed**, with the opposite sign.
 
-The change comes from the years chosen, not from the rain: the wettest years in the series are 2008 (1,616 mm), 2010 and 2011. Starting in 2008 puts them at the beginning and the slope falls; ending in 2010 puts them at the end and the slope rises. The windows overlap and are not corrected for multiple comparisons, so none goes beyond "weak signal". NASA POWER even suggests the opposite at this cell: annual rainfall rising (+360 mm per decade, p 0.003).
+The change comes from the years chosen, not from the rain: 2008 is the wettest year in the series (1,616 mm), and 2010 and 2011 are also among the wettest. Starting in 2008 puts them at the beginning and the slope falls; ending in 2010 puts them at the end and the slope rises. The windows overlap and are not corrected for multiple comparisons, so none goes beyond "weak signal". NASA POWER even suggests the opposite at this cell: annual rainfall rising (+360 mm per decade, p 0.003).
 
 **Aviso:** 2001–2010 es una ventana corta, de 10 años. Hay que decirlo si se muestra.
 

@@ -39,13 +39,15 @@ En orden de riesgo. Lo de arriba bloquea a lo de abajo.
 | 8 | ~~Textos de los 3 casos y de las limitaciones~~ **Hecho (05:00)** en [09-casos-y-textos-camila.md](09-casos-y-textos-camila.md), y pasado al formulario | Camila | — | — |
 | 9 | Recorrido real y pasaportes cotejados: caso 2, paso 3 en 2001–2010 (10 años), CSV/JSON/pantalla y 36 descargas ES/EN. Enlaces de Elena integrados, prueba móvil superada. [Evidencia](09-cotejo-panel-pasaporte.md) | Izel | Iniciar sesión en Cloudflare, publicar y verificar URL | 12:00 |
 | 10 | ~~`10_narrate.py` sobre el JSON final~~ **Revisado (05:00):** no se corre, se queda la plantilla del motor (`docs/09` §3). Andrés confirma | Andrés, Camila | — | — |
-| 11 | 5 sesiones con personas sobre la URL pública | Andrés | URL y un caso revisado | 12:00–15:00 |
+| 11 | 5 sesiones con personas: **avanzada, no terminada \*.** Guion con los casos reales y respuestas correctas en [rol6/guion-pruebas-casos.md](rol6/guion-pruebas-casos.md) (David). \* Falta que Andrés reclute, haga las sesiones y pase el resultado | Andrés | URL y un caso revisado | 12:00–15:00 |
 | 12 | Corregir lo que salga de las pruebas | Izel, Elena | Las sesiones | 15:00 |
 | 13 | Congelación: `git tag congelada-1500` y `git push origin congelada-1500`; despliegue final sobre la etiqueta | Joshua, Izel | Todo lo anterior | 15:00 |
 | 14 | Video definitivo de 30 s o menos, con datos reales, producto NASA y procedencia visibles | Andrés | Versión congelada | 18:00 |
-| 15 | Completar los `[PENDING]` del formulario y probar los enlaces | Andrés, Joshua | Casos, URL, video, guía | 18:00 |
-| 16 | Revisión del equipo: todo número del formulario sale del JSON | Todos | Formulario | 18:00 |
+| 15 | `[PENDING]` del formulario: **avanzada.** Completado lo que ya tenía respuesta (casos, URL, POWER). Quedan: `repo` (**el repositorio es privado**, ver abajo), `video`, `testing` y `guide` \* | Andrés, Joshua | Video, pruebas, guía | 18:00 |
+| 16 | ~~Revisión: todo número del formulario sale del JSON~~ **Hecha.** 45 de 45 cifras coinciden ([rol6/cotejo-formulario.md](rol6/cotejo-formulario.md)); se corrigió la frase de los años húmedos del caso 2. Repetible con `python pipeline/check_form_numbers.py .` | Todos | — | — |
 | 17 | Envío desde la cuenta del equipo; guardar confirmación, URL y hora | Andrés | Todo | 21:00 |
+
+**Urgente para Joshua (o Elena):** el repositorio de GitHub es **privado**. El enlace del formulario da 404 sin iniciar sesión, y la guía pide enlaces sin contraseña ni permiso. Hay que hacerlo público, o enlazar una copia pública, antes del envío.
 
 Pendiente menor de Joshua: copiar este documento al Project de Claude, que sigue en la versión 2 del plan.
 

@@ -1,13 +1,14 @@
 # ALTARIS — Earth Trend Intelligence
 
-Working English copy for the project form. Andrés owns the submission. Updated Sunday 15 November, 02:45, with the observed results (engine `802a9b0`, thresholds frozen). Every number below comes from the exported JSON or from `docs/07-cifras-y-candidatos.md`.
+Working English copy for the project form. Andrés owns the submission. Updated Sunday 15 November, about 06:00, with the observed results (exported JSON `pipeline_commit a7a5b18`, thresholds frozen). Every number below comes from the exported JSON, `data/rol1/` or `pipeline/calibration.json`; 45 of them were checked automatically against those files (see `docs/rol6/cotejo-formulario.md`).
 
 **Still open before sending:**
 
-- Camila's scientific sign-off and case choice are done (see `docs/09-casos-y-textos-camila.md`).
-- `[PENDING: URL]` marks links that Izel and Elena supply after deployment.
-- `[PENDING: guide]` marks items that depend on the official 2026 submission guide, which nobody on the team has read in full. Match headings and length limits to the live form.
-- No user-testing result exists yet. Do not claim one.
+- Done: Camila's scientific sign-off and case choice (`docs/09-casos-y-textos-camila.md`); the public app serves the final data and was checked on a phone.
+- `[PENDING: repo]` **The code repository is private**: both GitHub links return 404 without logging in. The guide asks for links that need no password or permission. Joshua must make the repository public, or the team must link a public copy.
+- `[PENDING: video]` The demo video does not exist yet.
+- `[PENDING: guide]` \* Items that depend on the official 2026 guide. A summary is in `docs/rol6/guias-2026-resumen.md`; the AI-use wording is on hold until the app is tested.
+- `[PENDING: testing]` No user-testing result exists yet. Do not claim one.
 
 ## Project summary
 
@@ -32,7 +33,7 @@ Three indicators: rainy-season rainfall (May–October), midsummer rainfall (Jul
 
 ## Earth science data and method
 
-**Data.** NASA GPM IMERG Final Run, monthly, 0.1°, V07 ([doi:10.5067/GPM/IMERG/3B-MONTH/07](https://doi.org/10.5067/GPM/IMERG/3B-MONTH/07)), 2001–2024, 288 monthly files accessed through NASA Earthdata. Every cell has 24 of 24 valid years. NOAA CPC Oceanic Niño Index for ENSO. NASA POWER as a second source at three sites. Natural Earth for borders.
+**Data.** NASA GPM IMERG Final Run, monthly, 0.1°, V07 ([doi:10.5067/GPM/IMERG/3B-MONTH/07](https://doi.org/10.5067/GPM/IMERG/3B-MONTH/07)), 2001–2024, 288 monthly files accessed through NASA Earthdata. Every cell has 24 of 24 valid years. NOAA CPC Oceanic Niño Index for ENSO. NASA POWER as a second source at three comparison sites and at the three case cells, with 2 m air temperature and solar radiation as a secondary variable. Natural Earth for borders.
 
 **Method.** For each cell and indicator:
 
@@ -73,7 +74,7 @@ Neighbouring cells are strongly correlated, so these are not thousands of indepe
 ## Three cases
 
 1. **Dry Corridor, Honduras** (Choluteca, cell `N1335W08715`). Rainy-season rainfall: −48 mm per decade, 95 % interval from −257 to +171, adjusted p 0.88. Verdict: no evidence. Not finding a trend is a finding too. El Niño years are drier here (correlation with ONI −0.64).
-2. **Same place, three stories** (cell `N1475W08765`, Honduras). Full period 2001–2024: −48 mm per decade, no evidence. 2008–2023: −345 mm per decade, a weak, unconfirmed signal. 2001–2010, a short 10-year window: +382 mm per decade, also a weak signal, with the opposite sign. The wettest years (2008, 2010, 2011) fall at the start or at the end depending on the window. Windows overlap and are not corrected, so none goes beyond *limited*.
+2. **Same place, three stories** (cell `N1475W08765`, Honduras). Full period 2001–2024: −48 mm per decade, no evidence. 2008–2023: −345 mm per decade, a weak, unconfirmed signal. 2001–2010, a short 10-year window: +382 mm per decade, also a weak signal, with the opposite sign. The wettest year (2008) and the wet years 2010 and 2011 fall at the start or at the end depending on the window. Windows overlap and are not corrected, so none goes beyond *limited*.
 3. **Two sites, two verdicts** (cell `N1495W09125`, Guatemala's western highlands, against Choluteca). Rainy-season rainfall −452 mm per decade on a mean of 1,478 mm, adjusted p 0.032: *consistent*, next to *no evidence* in Choluteca, with the same product, years and ENSO phases. It stays an open question: the drop concentrates around 2009, gauges are sparse, and NASA POWER sees no decline at this cell (r 0.18 between the two sources year to year).
 
 ## Impact and limitations
@@ -90,7 +91,7 @@ Limitations, also shown in every passport:
 - Footprint windows overlap and their p-values are not corrected.
 - The project describes the past. It makes no forecast and no causal claim.
 
-`[PENDING]` User testing: five sessions are planned. Add the actual sample size, task completion and comprehension results, or state that none were collected.
+`[PENDING: testing]` User testing: five sessions are planned. Add the actual sample size, task completion and comprehension results, or state that none were collected.
 
 ## Team and tools
 
@@ -100,6 +101,6 @@ Camila, Joshua, Elena, Izel, David and Andrés worked across science, data, web 
 
 ## Submission links
 
-- [Code repository](https://github.com/Joshua203-byte/Hackathon-NASA)
-- Public app: <https://altaris.altaris-panel-rol5.workers.dev> `[PENDING: URL]` confirm it serves the final data and opens in a private window
-- Demo video, 30 seconds or less: `[PENDING: URL]`. The current file ([altaris-prototype.webm](altaris-prototype.webm)) is a rehearsal made with simulated data and must not be submitted.
+- [Code repository](https://github.com/Joshua203-byte/Hackathon-NASA) `[PENDING: repo]` private today; make it public before sending
+- Public app: <https://altaris.altaris-panel-rol5.workers.dev> (checked: final data, 2,025 cells; opens on a phone). Direct links to the cases: [case 1](https://altaris.altaris-panel-rol5.workers.dev/?case=1), [case 2](https://altaris.altaris-panel-rol5.workers.dev/?case=2), [case 3](https://altaris.altaris-panel-rol5.workers.dev/?case=3). The case links already open on the public app; the guided tour with the real case (merged into `main`) appears once Izel redeploys.
+- Demo video, 30 seconds or less: `[PENDING: video]`. The current file ([altaris-prototype.webm](altaris-prototype.webm)) is a rehearsal made with simulated data and must not be submitted.
