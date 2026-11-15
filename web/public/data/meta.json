@@ -1,0 +1,163 @@
+{
+ "generated_at": "2026-11-15T00:00:00-06:00",
+ "pipeline_commit": "79e3ba1",
+ "synthetic": true,
+ "dataset": "DATOS SINTÉTICOS (inventados para desarrollo; no usar en la entrega)",
+ "dataset_doi": "POR CONFIRMAR",
+ "period": [
+  2001,
+  2024
+ ],
+ "bbox": {
+  "lat": [
+   12.5,
+   18.5
+  ],
+  "lon": [
+   -92.5,
+   -83.0
+  ]
+ },
+ "n_cells": 5,
+ "indicators": [
+  "may_oct_mm",
+  "jul_aug_mm",
+  "annual_mm"
+ ],
+ "indicator_info": {
+  "may_oct_mm": {
+   "units": "mm/temporada",
+   "label_es": "Lluvia de temporada (may–oct)",
+   "label_en": "Rainy-season rainfall (May–Oct)"
+  },
+  "jul_aug_mm": {
+   "units": "mm/2 meses",
+   "label_es": "Lluvia de canícula (jul–ago)",
+   "label_en": "Midsummer-drought rainfall (Jul–Aug)"
+  },
+  "annual_mm": {
+   "units": "mm/año",
+   "label_es": "Lluvia anual",
+   "label_en": "Annual rainfall"
+  }
+ },
+ "thresholds": {
+  "stats": {
+   "alpha": 0.05,
+   "fdr_method": "fdr_bh",
+   "autocorr_alpha": 0.05
+  },
+  "footprint": {
+   "min_len": 10,
+   "verdict_min_len": 15,
+   "min_valid_fraction": 0.8,
+   "mark_year": 2014,
+   "n_jobs": -1
+  },
+  "verdict": {
+   "max_missing_years": 2,
+   "fdr_level": 0.1,
+   "sign_agreement_consistente": 0.9,
+   "sig_fraction_consistente": 0.5,
+   "require_enso_survives": true,
+   "p_raw_limitada": 0.1,
+   "sign_agreement_limitada": 0.8,
+   "min_slope_pct_mean_per_decade": 5.0,
+   "p_max_sign_rule": null,
+   "cv_alta_variabilidad": 0.3
+  }
+ },
+ "threshold_changes": [],
+ "calibration": {
+  "n_sim": 1000,
+  "seed": 20261115,
+  "false_positive_rate": {
+   "consistente": 0.001,
+   "limitada": 0.281
+  },
+  "power": {
+   "injected_trend_pct_per_decade": -10,
+   "detected_consistente": 0.105,
+   "detected_limitada_o_mas": 0.744
+  },
+  "power_all": [
+   {
+    "injected_trend_pct_per_decade": -10,
+    "detected_consistente": 0.105,
+    "detected_limitada_o_mas": 0.744
+   },
+   {
+    "injected_trend_pct_per_decade": -5,
+    "detected_consistente": 0.004,
+    "detected_limitada_o_mas": 0.455
+   },
+   {
+    "injected_trend_pct_per_decade": -20,
+    "detected_consistente": 0.519,
+    "detected_limitada_o_mas": 0.946
+   }
+  ],
+  "assumptions": [
+   "series reales elegidas al azar entre las completas y barajadas en el tiempo",
+   "barajar destruye también la autocorrelación",
+   "FDR aplicado sobre el conjunto de series simuladas",
+   "la prueba ENSO se da por superada y no hay bandera de 2014"
+  ]
+ },
+ "aux_data": [
+  "NOAA CPC ONI",
+  "Natural Earth admin 0",
+  "Textura satelital de la Tierra (NASA)"
+ ],
+ "lenses": {
+  "agri": [
+   "may_oct_mm",
+   "jul_aug_mm"
+  ],
+  "com": [
+   "annual_mm"
+  ],
+  "ene": []
+ },
+ "inputs_available": {
+  "enso_test": true,
+  "break_2014": true,
+  "climatology": true,
+  "enso_phases": true
+ },
+ "recipe": {
+  "data_search": {
+   "short_name": "GPM_3IMERGM",
+   "version": "07",
+   "temporal": "2001-01 a 2024-12",
+   "bbox": {
+    "lat": [
+     12.5,
+     18.5
+    ],
+    "lon": [
+     -92.5,
+     -83.0
+    ]
+   },
+   "tool": "earthaccess (NASA Earthdata)"
+  },
+  "conversion": "mm/mes = tasa (mm/h) × 24 × días reales del mes (con bisiestos)",
+  "indicators": {
+   "may_oct_mm": "mm/temporada",
+   "jul_aug_mm": "mm/2 meses",
+   "annual_mm": "mm/año"
+  },
+  "trend": "scipy.stats.theilslopes(y, x, alpha=0.95); pendiente × 10 = por década",
+  "significance": "pymannkendall: original_test, o hamed_rao_modification_test si la autocorrelación lag-1 de los residuos de Sen es significativa (límites de Anderson)",
+  "multiple_testing": "statsmodels multipletests(method='fdr_bh') por indicador sobre las celdas de tierra",
+  "footprint": "Sen + Mann-Kendall original en toda ventana de ≥10 años; resumen sobre ventanas de ≥15 años; p sin corregir",
+  "verdict_rules": {
+   "incompleta": "faltan más de 2 años válidos",
+   "consistente": "p_FDR < 0.1 y IC 95 % sin 0 y sign_agreement ≥ 0.9 y sig_fraction ≥ 0.5 y sobrevive ENSO y sin salto 2014",
+   "limitada": "no consistente y (p < 0.1 o (sign_agreement ≥ 0.8 y |pendiente| ≥ 5.0 % de la media por década))",
+   "sin_evidencia": "todo lo demás"
+  },
+  "command": "python pipeline/run_all.py"
+ }
+}

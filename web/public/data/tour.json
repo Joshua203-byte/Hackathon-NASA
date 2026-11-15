@@ -1,0 +1,28 @@
+{
+ "status": "BORRADOR (Rol 5). Rol 6 escribe los textos finales. Los marcadores {slope}, {ci_lo}, {ci_hi}, {p}, {verdict}, {units} y {period} se sustituyen con las cifras de la celda, para no escribir números a mano.",
+ "steps": [
+  {
+   "target": "series",
+   "glossary": "sen_slope",
+   "title": {"es": "¿Qué es una tendencia?", "en": "What is a trend?"},
+   "body": {"es": "Cada punto es la lluvia de un año. La recta azul resume el cambio: {slope} {units} por década en {period}.", "en": "Each dot is one year's rainfall. The blue line sums up the change: {slope} {units} per decade over {period}."}
+  },
+  {
+   "target": "verdict",
+   "glossary": "p_value",
+   "title": {"es": "¿Es de fiar?", "en": "Can we trust it?"},
+   "body": {"es": "El cambio real podría estar entre {ci_lo} y {ci_hi}. Por eso el veredicto es: {verdict}.", "en": "The real change could be anywhere between {ci_lo} and {ci_hi}. That is why the verdict is: {verdict}."}
+  },
+  {
+   "target": "footprint",
+   "glossary": "footprint",
+   "title": {"es": "¿Y si cambio los años?", "en": "What if I change the years?"},
+   "body": {"es": "Cada casilla repite el cálculo con otros años. Toca una para compararla. La línea punteada marca 2014, cuando cambiaron los satélites.", "en": "Each square repeats the calculation with different years. Tap one to compare. The dotted line marks 2014, when the satellites changed."}
+  },
+  {
+   "target": "decide",
+   "title": {"es": "¿Qué preguntas conviene hacerse?", "en": "Which questions should we ask?"},
+   "body": {"es": "ALTARIS no dice qué hacer. Muestra qué datos locales faltan antes de decidir.", "en": "ALTARIS does not say what to do. It shows which local data are missing before deciding."}
+  }
+ ]
+}

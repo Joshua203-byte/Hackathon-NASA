@@ -1,0 +1,315 @@
+{
+ "cells": [
+  {
+   "id": "N1325W08715",
+   "lat": 13.25,
+   "lon": -87.15,
+   "country": "HND",
+   "cluster": null,
+   "canicula": true,
+   "ind": {
+    "annual_mm": {
+     "mean": 1416.8,
+     "slope_dec": -77.34,
+     "ci95": [
+      -218.16,
+      11.0
+     ],
+     "p": 0.0702,
+     "p_fdr": 0.1755,
+     "sign_agreement": 0.982,
+     "sig_fraction": 0.036,
+     "enso_r": -0.48,
+     "enso_p_fdr": 0.03,
+     "valid_years": 24,
+     "verdict": "limitada",
+     "tags": []
+    },
+    "jul_aug_mm": {
+     "mean": 277.5,
+     "slope_dec": -50.15,
+     "ci95": [
+      -84.27,
+      -29.75
+     ],
+     "p": 0.0002,
+     "p_fdr": 0.0009,
+     "sign_agreement": 1.0,
+     "sig_fraction": 0.927,
+     "enso_r": -0.48,
+     "enso_p_fdr": 0.03,
+     "valid_years": 24,
+     "verdict": "consistente",
+     "tags": []
+    },
+    "may_oct_mm": {
+     "mean": 1278.4,
+     "slope_dec": -91.04,
+     "ci95": [
+      -216.99,
+      -0.68
+     ],
+     "p": 0.0445,
+     "p_fdr": 0.1113,
+     "sign_agreement": 1.0,
+     "sig_fraction": 0.145,
+     "enso_r": -0.48,
+     "enso_p_fdr": 0.03,
+     "valid_years": 24,
+     "verdict": "limitada",
+     "tags": []
+    }
+   }
+  },
+  {
+   "id": "N1345W08815",
+   "lat": 13.45,
+   "lon": -88.15,
+   "country": "SLV",
+   "cluster": null,
+   "canicula": true,
+   "ind": {
+    "annual_mm": {
+     "mean": 1613.3,
+     "slope_dec": 167.43,
+     "ci95": [
+      -212.13,
+      530.28
+     ],
+     "p": 0.5352,
+     "p_fdr": 0.5352,
+     "sign_agreement": 0.855,
+     "sig_fraction": 0.0,
+     "enso_r": -0.48,
+     "enso_p_fdr": 0.03,
+     "valid_years": 24,
+     "verdict": "limitada",
+     "tags": [
+      "alta_variabilidad"
+     ]
+    },
+    "jul_aug_mm": {
+     "mean": 356.9,
+     "slope_dec": 29.93,
+     "ci95": [
+      -53.42,
+      121.2
+     ],
+     "p": 0.413,
+     "p_fdr": 0.4419,
+     "sign_agreement": 0.927,
+     "sig_fraction": 0.0,
+     "enso_r": -0.48,
+     "enso_p_fdr": 0.03,
+     "valid_years": 24,
+     "verdict": "limitada",
+     "tags": [
+      "alta_variabilidad"
+     ]
+    },
+    "may_oct_mm": {
+     "mean": 1463.7,
+     "slope_dec": 131.42,
+     "ci95": [
+      -193.99,
+      479.62
+     ],
+     "p": 0.5683,
+     "p_fdr": 0.5683,
+     "sign_agreement": 0.836,
+     "sig_fraction": 0.0,
+     "enso_r": -0.48,
+     "enso_p_fdr": 0.03,
+     "valid_years": 24,
+     "verdict": "limitada",
+     "tags": [
+      "alta_variabilidad"
+     ]
+    }
+   }
+  },
+  {
+   "id": "N1455W08765",
+   "lat": 14.55,
+   "lon": -87.65,
+   "country": "HND",
+   "cluster": null,
+   "canicula": true,
+   "ind": {
+    "annual_mm": {
+     "mean": 1414.1,
+     "slope_dec": -164.73,
+     "ci95": [
+      -319.38,
+      -19.29
+     ],
+     "p": 0.0309,
+     "p_fdr": 0.1546,
+     "sign_agreement": 0.873,
+     "sig_fraction": 0.164,
+     "enso_r": -0.48,
+     "enso_p_fdr": 0.03,
+     "valid_years": 24,
+     "verdict": "limitada",
+     "tags": []
+    },
+    "jul_aug_mm": {
+     "mean": 311.0,
+     "slope_dec": -34.76,
+     "ci95": [
+      -65.93,
+      -3.63
+     ],
+     "p": 0.0161,
+     "p_fdr": 0.0403,
+     "sign_agreement": 1.0,
+     "sig_fraction": 0.255,
+     "enso_r": -0.48,
+     "enso_p_fdr": 0.03,
+     "valid_years": 24,
+     "verdict": "limitada",
+     "tags": []
+    },
+    "may_oct_mm": {
+     "mean": 1277.3,
+     "slope_dec": -166.5,
+     "ci95": [
+      -306.67,
+      -17.75
+     ],
+     "p": 0.0309,
+     "p_fdr": 0.1113,
+     "sign_agreement": 0.873,
+     "sig_fraction": 0.182,
+     "enso_r": -0.48,
+     "enso_p_fdr": 0.03,
+     "valid_years": 24,
+     "verdict": "limitada",
+     "tags": []
+    }
+   }
+  },
+  {
+   "id": "N1465W09055",
+   "lat": 14.65,
+   "lon": -90.55,
+   "country": "GTM",
+   "cluster": null,
+   "canicula": true,
+   "ind": {
+    "annual_mm": {
+     "mean": 1465.3,
+     "slope_dec": -51.13,
+     "ci95": [
+      -243.64,
+      105.87
+     ],
+     "p": 0.3812,
+     "p_fdr": 0.4765,
+     "sign_agreement": 0.945,
+     "sig_fraction": 0.0,
+     "enso_r": -0.48,
+     "enso_p_fdr": 0.03,
+     "valid_years": 21,
+     "verdict": "incompleta",
+     "tags": []
+    },
+    "jul_aug_mm": {
+     "mean": 332.7,
+     "slope_dec": -26.46,
+     "ci95": [
+      -69.03,
+      7.7
+     ],
+     "p": 0.1742,
+     "p_fdr": 0.2903,
+     "sign_agreement": 1.0,
+     "sig_fraction": 0.073,
+     "enso_r": -0.48,
+     "enso_p_fdr": 0.03,
+     "valid_years": 21,
+     "verdict": "incompleta",
+     "tags": []
+    },
+    "may_oct_mm": {
+     "mean": 1331.7,
+     "slope_dec": -42.51,
+     "ci95": [
+      -244.61,
+      104.86
+     ],
+     "p": 0.2906,
+     "p_fdr": 0.4843,
+     "sign_agreement": 0.964,
+     "sig_fraction": 0.0,
+     "enso_r": -0.48,
+     "enso_p_fdr": 0.03,
+     "valid_years": 21,
+     "verdict": "incompleta",
+     "tags": []
+    }
+   }
+  },
+  {
+   "id": "N1575W08685",
+   "lat": 15.75,
+   "lon": -86.85,
+   "country": "HND",
+   "cluster": null,
+   "canicula": false,
+   "ind": {
+    "annual_mm": {
+     "mean": 2069.2,
+     "slope_dec": -114.85,
+     "ci95": [
+      -320.93,
+      77.28
+     ],
+     "p": 0.2437,
+     "p_fdr": 0.4062,
+     "sign_agreement": 1.0,
+     "sig_fraction": 0.073,
+     "enso_r": 0.41,
+     "enso_p_fdr": 0.08,
+     "valid_years": 24,
+     "verdict": "limitada",
+     "tags": []
+    },
+    "jul_aug_mm": {
+     "mean": 332.3,
+     "slope_dec": -7.89,
+     "ci95": [
+      -49.28,
+      26.59
+     ],
+     "p": 0.4419,
+     "p_fdr": 0.4419,
+     "sign_agreement": 0.964,
+     "sig_fraction": 0.0,
+     "enso_r": 0.41,
+     "enso_p_fdr": 0.08,
+     "valid_years": 24,
+     "verdict": "sin_evidencia",
+     "tags": []
+    },
+    "may_oct_mm": {
+     "mean": 1023.7,
+     "slope_dec": -30.8,
+     "ci95": [
+      -163.52,
+      69.46
+     ],
+     "p": 0.503,
+     "p_fdr": 0.5683,
+     "sign_agreement": 0.909,
+     "sig_fraction": 0.0,
+     "enso_r": 0.41,
+     "enso_p_fdr": 0.08,
+     "valid_years": 24,
+     "verdict": "sin_evidencia",
+     "tags": []
+    }
+   }
+  }
+ ]
+}

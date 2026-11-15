@@ -1,0 +1,39 @@
+{
+ "_status": {"term": {"es": "BORRADOR", "en": "DRAFT"}, "short": {"es": "Borrador de Rol 5 para que el panel funcione. Rol 6 es dueño de este archivo y lo revisa.", "en": "Rol 5 draft so the panel works. Rol 6 owns and reviews this file."}},
+ "sen_slope": {
+  "term": {"es": "Pendiente de Sen", "en": "Sen slope"},
+  "short": {"es": "Cuánto cambia la lluvia por década. Se calcula con la mediana de todas las pendientes entre pares de años, así que un año extremo casi no la mueve.", "en": "How much rainfall changes per decade. It is the median of the slopes between every pair of years, so one extreme year barely moves it."}
+ },
+ "ci": {
+  "term": {"es": "Intervalo de confianza del 95 %", "en": "95% confidence interval"},
+  "short": {"es": "Rango de pendientes compatibles con los datos. Si incluye 0, no se puede descartar que no haya cambio.", "en": "Range of slopes compatible with the data. If it includes 0, no change cannot be ruled out."}
+ },
+ "p_value": {
+  "term": {"es": "p-valor", "en": "p-value"},
+  "short": {"es": "Qué tan raro sería ver una tendencia así si en realidad no hubiera ninguna. Un p pequeño no es la probabilidad de que el cambio sea real.", "en": "How unusual a trend like this would be if there were really none. A small p is not the probability that the change is real."}
+ },
+ "fdr": {
+  "term": {"es": "Corrección FDR", "en": "FDR correction"},
+  "short": {"es": "Al probar miles de celdas, algunas salen significativas por azar. La corrección de Benjamini-Hochberg ajusta los p para controlar esos falsos hallazgos.", "en": "When testing thousands of cells, some look significant by chance. The Benjamini-Hochberg correction adjusts p-values to control those false findings."}
+ },
+ "completeness": {
+  "term": {"es": "Completitud", "en": "Completeness"},
+  "short": {"es": "Cuántos años tienen todos sus meses con dato. Los años incompletos nunca se rellenan con ceros.", "en": "How many years have data for all their months. Incomplete years are never filled with zeros."}
+ },
+ "footprint": {
+  "term": {"es": "Huella de estabilidad", "en": "Stability footprint"},
+  "short": {"es": "La tendencia calculada en todas las ventanas de años posibles. Un triángulo de un solo color es evidencia firme; uno manchado, evidencia frágil.", "en": "The trend computed over every possible window of years. A single-colored triangle is firm evidence; a patchy one is fragile evidence."}
+ },
+ "enso": {
+  "term": {"es": "ENSO / ONI", "en": "ENSO / ONI"},
+  "short": {"es": "El Niño y La Niña: calentamiento o enfriamiento del Pacífico que cambia la lluvia en Centroamérica. El índice ONI (de NOAA) mide su fase.", "en": "El Niño and La Niña: Pacific warming or cooling that shifts rainfall in Central America. The ONI index (from NOAA) tracks its phase."}
+ },
+ "mm_season": {
+  "term": {"es": "mm por temporada", "en": "mm per season"},
+  "short": {"es": "Milímetros de lluvia sumados de mayo a octubre. 1 mm equivale a 1 litro por metro cuadrado.", "en": "Millimeters of rain added up from May to October. 1 mm equals 1 liter per square meter."}
+ },
+ "allsky": {
+  "term": {"es": "ALLSKY_SFC_SW_DWN", "en": "ALLSKY_SFC_SW_DWN"},
+  "short": {"es": "Radiación solar que llega a la superficie con cielo real (con nubes), de NASA POWER.", "en": "Solar radiation reaching the surface under actual (cloudy) skies, from NASA POWER."}
+ }
+}

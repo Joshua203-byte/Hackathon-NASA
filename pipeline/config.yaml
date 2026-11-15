@@ -1,0 +1,85 @@
+# ALTARIS — configuración del pipeline
+# Los umbrales del veredicto se proponen aquí (Rol 2) y se CONGELAN en el kickoff.
+# Si se cambian después de ver el mapa, hay que anotarlo en `threshold_changes`
+# (se copia a meta.json y al pasaporte).
+
+region:
+  name: "Triángulo Norte de Centroamérica"
+  bbox: {lat: [12.5, 18.5], lon: [-92.5, -83.0]}
+  countries: [GTM, SLV, HND]
+
+# Periodo base. Si IMERG Final 2025 está completo, cambiar a [2001, 2025].
+period: [2001, 2024]
+
+indicators:
+  may_oct_mm: {units: "mm/temporada", label_es: "Lluvia de temporada (may–oct)", label_en: "Rainy-season rainfall (May–Oct)"}
+  jul_aug_mm: {units: "mm/2 meses", label_es: "Lluvia de canícula (jul–ago)", label_en: "Midsummer-drought rainfall (Jul–Aug)"}
+  annual_mm:  {units: "mm/año", label_es: "Lluvia anual", label_en: "Annual rainfall"}
+
+# Asignación de indicadores a lentes por sector (sección 4.12). Se copia a meta.json.
+lenses:
+  agri: [may_oct_mm, jul_aug_mm]
+  com: [annual_mm]
+  ene: []
+
+stats:
+  alpha: 0.05              # nivel de la prueba por celda (IC 95 % y p de la huella)
+  fdr_method: fdr_bh       # Benjamini-Hochberg por indicador sobre las celdas de tierra
+  autocorr_alpha: 0.05     # prueba de autocorrelación lag-1 de la serie sin tendencia
+
+footprint:
+  min_len: 10              # ventanas de 10 años o más (120 con 2001–2024)
+  verdict_min_len: 15      # para el veredicto solo cuentan las de 15 años o más (55 con 2001–2024)
+  min_valid_fraction: 0.8  # una ventana con menos de este % de años válidos se descarta (p = null)
+  mark_year: 2014          # cambio de era TRMM→GPM, se marca en la huella
+  n_jobs: -1               # procesos en paralelo para la huella (joblib); 1 = sin paralelismo
+
+verdict:
+  # incompleta: faltan más de `max_missing_years` años válidos
+  max_missing_years: 2
+  # consistente (deben cumplirse todas)
+  fdr_level: 0.10          # PROPUESTA: Wilks (2016) sugiere ~2× el nivel global (0.05) por correlación espacial. Decidir 0.05 o 0.10 en el kickoff
+  sign_agreement_consistente: 0.90
+  sig_fraction_consistente: 0.50
+  require_enso_survives: true   # si la prueba ENSO aún no existe, se omite la condición y se añade la razón `enso_pendiente`
+  # limitada (basta una)
+  p_raw_limitada: 0.10
+  sign_agreement_limitada: 0.80
+  min_slope_pct_mean_per_decade: 5.0   # |pendiente| ≥ 5 % de la media por década
+  # OPCIONAL (no está en el plan): exigir además p sin ajustar < este valor en la regla de signo.
+  # Con null la regla queda exactamente como en la sección 4.6. Ver docs/rol2-motor-estadistico.md:
+  # la calibración muestra que sin este tope `limitada` se activa en ~1/3 de las series sin tendencia.
+  p_max_sign_rule: null
+  # etiqueta aparte
+  cv_alta_variabilidad: 0.30   # PROPUESTA: coeficiente de variación de la serie (desv. est. / media)
+
+calibration:
+  n_sim: 1000
+  seed: 20261115
+  injected_trend_pct_per_decade: [-10, -5, -20]   # el primero es el principal, los demás si hay tiempo
+
+paths:
+  # Entradas (Rol 1 y Rol 3). Ver pipeline/README.md para el formato.
+  cells: data/interim/cells.csv
+  indicators: data/interim/indicators.csv          # o indicators.nc
+  climatology: data/interim/climatology.csv        # opcional
+  break_2014: data/interim/break_2014.csv          # opcional (Rol 1, P1)
+  enso_test: data/interim/enso_test.csv            # opcional (Rol 3)
+  enso_phases: data/interim/enso_phases.csv        # opcional (Rol 3)
+  narratives: data/interim/narratives.json         # opcional (Rol 6, 10_narrate.py); si falta se usa plantilla
+  # Salidas intermedias
+  trends: data/interim/trends.csv
+  footprint: data/interim/footprint.json
+  footprint_summary: data/interim/footprint_summary.csv
+  verdicts: data/interim/verdicts.csv
+  verdict_summary: data/interim/verdict_summary.csv
+  calibration: data/interim/calibration.json
+  # Salida para la web
+  web_data: web/public/data
+
+# Metadatos que se copian a meta.json
+dataset: "GPM IMERG Final Run, mensual, 0.1°, V07"
+dataset_doi: "POR CONFIRMAR"
+aux_data: ["NOAA CPC ONI", "Natural Earth admin 0", "Textura satelital de la Tierra (NASA)"]
+
+threshold_changes: []   # p. ej. ["2026-11-15 10:20 fdr_level 0.05→0.10, motivo: ..."]

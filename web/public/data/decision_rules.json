@@ -1,0 +1,84 @@
+{
+ "status": "BORRADOR (Rol 5) a partir de la sección 4.11 del plan. Rol 6 revisa la redacción, Rol 3 audita contra la regla de oro y Rol 6 verifica que los enlaces abran.",
+ "scenarios": {
+  "baja": {"es": "Baja en la lluvia observada", "en": "Observed decrease in rainfall"},
+  "alza": {"es": "Alza en la lluvia observada", "en": "Observed increase in rainfall"},
+  "variabilidad": {"es": "Alta variabilidad sin tendencia clara", "en": "High variability without a clear trend"}
+ },
+ "lenses": {
+  "agri": {
+   "label": {"es": "Agricultura", "en": "Agriculture"},
+   "scenarios": {
+    "baja": {
+     "questions": {
+      "consistente": {
+       "es": ["¿Cuánta humedad retiene el suelo de la parcela?", "¿Hay acceso a riego auxiliar o a captación de agua lluvia?", "¿Qué dice la asistencia técnica local sobre el calendario de siembra?"],
+       "en": ["How much moisture does the plot's soil hold?", "Is there access to supplementary irrigation or rainwater harvesting?", "What does local technical assistance say about the planting calendar?"]
+      },
+      "default": {
+       "es": ["¿Hay registros locales de lluvia o de humedad que confirmen lo que se percibe?", "¿Qué decisiones costosas se están tomando hoy solo por percepción de sequía?"],
+       "en": ["Are there local rainfall or moisture records that confirm what people perceive?", "Which costly decisions are being made today based only on a perceived drought?"]
+      }
+     },
+     "missing": {"es": ["Textura del suelo", "Pendiente del terreno", "Variedad de semilla", "Disponibilidad de riego"], "en": ["Soil texture", "Terrain slope", "Seed variety", "Irrigation availability"]}
+    },
+    "alza": {
+     "questions": {
+      "consistente": {
+       "es": ["¿Cómo drena la parcela?", "¿Hay laderas expuestas a erosión?", "¿Hay historial de enfermedades por exceso de humedad?"],
+       "en": ["How does the plot drain?", "Are there slopes exposed to erosion?", "Is there a history of diseases from excess moisture?"]
+      },
+      "default": {
+       "es": ["¿Qué muestran los registros de eventos extremos diarios, que este análisis mensual no ve?"],
+       "en": ["What do records of daily extreme events show, which this monthly analysis cannot see?"]
+      }
+     },
+     "missing": {"es": ["Topografía", "Historial de anegamiento", "Capacidad de drenaje"], "en": ["Topography", "Waterlogging history", "Drainage capacity"]}
+    },
+    "variabilidad": {
+     "questions": {
+      "default": {
+       "es": ["¿Qué capacidad hay de absorber un año malo?", "¿Hay acceso a pronósticos de corto plazo?"],
+       "en": ["How much capacity is there to absorb a bad year?", "Is there access to short-term forecasts?"]
+      }
+     },
+     "missing": {"es": ["Capacidad financiera", "Acceso a información agrometeorológica semanal"], "en": ["Financial capacity", "Access to weekly agrometeorological information"]}
+    }
+   }
+  },
+  "com": {
+   "label": {"es": "Comunidades", "en": "Communities"},
+   "scenarios": {
+    "baja": {
+     "questions": {"default": {
+      "es": ["¿De qué fuentes depende el agua de consumo?", "¿Qué pasó en los años más secos del registro?"],
+      "en": ["Which sources does drinking water depend on?", "What happened in the driest years of the record?"]
+     }},
+     "missing": {"es": ["Fuentes de agua", "Población que depende de ellas", "Registros de escasez"], "en": ["Water sources", "Population depending on them", "Shortage records"]}
+    },
+    "alza": {
+     "questions": {"default": {
+      "es": ["¿Qué zonas se han inundado o deslizado antes?", "¿Quién vive ahí?"],
+      "en": ["Which areas have flooded or had landslides before?", "Who lives there?"]
+     }},
+     "missing": {"es": ["Mapas de amenaza local", "Registros de eventos"], "en": ["Local hazard maps", "Event records"]}
+    },
+    "variabilidad": {
+     "questions": {"default": {
+      "es": ["¿Qué planes existen para un año extremo en cualquier sentido?"],
+      "en": ["What plans exist for an extreme year in either direction?"]
+     }},
+     "missing": {"es": ["Planes de contingencia", "Sistemas de alerta"], "en": ["Contingency plans", "Warning systems"]}
+    }
+   }
+  },
+  "ene": {
+   "label": {"es": "Energía", "en": "Energy"},
+   "pending": {"es": "Análisis cuantitativo pendiente: la lente de Energía solo se activa en los sitios de los casos cuando la segunda variable de NASA POWER esté validada.", "en": "Quantitative analysis pending: the Energy lens only activates at the case sites once the second NASA POWER variable is validated."}
+  }
+ },
+ "next_steps": [
+  {"label": {"es": "NASA SERVIR (monitoreo de sequía)", "en": "NASA SERVIR (drought monitoring)"}, "url": "https://servirglobal.net/"},
+  {"label": {"es": "NASA Harvest (monitoreo de cultivos)", "en": "NASA Harvest (crop monitoring)"}, "url": "https://www.nasaharvest.org/"}
+ ]
+}

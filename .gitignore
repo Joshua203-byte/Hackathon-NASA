@@ -218,3 +218,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ALTARIS: datos crudos e intermedios (se regeneran con el pipeline)
+data/raw/
+data/interim/
+data/synthetic/
+# Web
+web/node_modules/
+web/dist/
