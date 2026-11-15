@@ -12,7 +12,7 @@ frozen: false
 
 dataset:
   name: "GPM IMERG Final Run, mensual, 0.1°, V07"
-  doi: "POR CONFIRMAR"        # lo confirma Rol 1 (David) en la página del dataset
+  doi: "10.5067/GPM/IMERG/3B-MONTH/07"   # confirmado por Rol 1 en el catálogo CMR de NASA (14 nov 2026)
   aux:
     - "NOAA CPC ONI"
     - "Natural Earth"
