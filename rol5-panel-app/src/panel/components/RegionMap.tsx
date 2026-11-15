@@ -7,7 +7,7 @@ import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { ENSO_RAMP, MAP_LAYERS, NO_DATA, SLOPE_RAMP, STABILITY_RAMP, fillColor, gridToGeoJSON, hasEnso, parseLayer, slopeLimit, verdictCounts, type MapLayer } from '../mapLayers';
 import { VERDICTS, type GridCell, type IndicatorKey, type Lang, type Meta, type Verdict } from '../types';
 import { VERDICT_UI } from '../verdict';
-import { regionNames } from '../labels';
+import { countryName, regionNames } from '../labels';
 
 const FALLBACK_COLORS: Record<Verdict, string> = { consistente: '#1b7837', limitada: '#e08214', sin_evidencia: '#7f7f7f', incompleta: '#b2182b' };
 
@@ -186,7 +186,7 @@ export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback
         {!ready && <p className="region-map-loading">{es ? 'Cargando mapa…' : 'Loading map…'}</p>}
         {hover && h && (
           <div className="region-map-tip" style={{ left: hover.x + 12, top: hover.y + 12 }} role="tooltip">
-            <strong>{h.id}</strong> · {h.country}<br />
+            <strong>{h.id}</strong> · {countryName(h.country, lang)}<br />
             {g?.verdict ? `${VERDICT_UI[g.verdict].icon} ${VERDICT_UI[g.verdict].label[lang]}` : '—'}<br />
             {es ? 'Pendiente' : 'Slope'}: {fmt(g?.slope_dec)} mm/{es ? 'década' : 'decade'} · {es ? 'Signo estable' : 'Sign stable'}: {typeof g?.sign_agreement === 'number' ? `${Math.round(g.sign_agreement * 100)} %` : '—'}
           </div>
