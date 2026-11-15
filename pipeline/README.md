@@ -36,3 +36,10 @@ Cada veredicto trae códigos de razón (`reasons.json`, es/en) para que el panel
 
 ## Estructura
 `altaris/stats.py` (Sen, MK, huella, FDR) · `verdict.py` · `reasons.py` · `indicators.py` (mm/h→mm, indicadores, canícula) · `analyze.py` · `export.py` · `io.py` · `synth.py` (datos sintéticos) · `tests/`.
+
+## Rol 1 · Datos de entrada reales (David)
+Los CSV de entrada ya existen con datos reales de IMERG en `data/rol1/` (`cells.csv`, `series.csv`, `monthly.csv`, más `piloto_choluteca/` para el H1). Se regeneran con `python run_rol1.py` (requiere cuenta Earthdata: `pip install -r requirements-rol1.txt`). Contraste con NASA POWER y segunda variable: `python 04_power.py`. Detalle, verificación y fuentes: [docs/rol1-datos.md](../docs/rol1-datos.md).
+```bash
+python run_pilot.py --cells ../data/rol1/piloto_choluteca/cells.csv --series ../data/rol1/piloto_choluteca/series.csv \
+    --monthly ../data/rol1/piloto_choluteca/monthly.csv --out <carpeta> --commit $(git rev-parse --short HEAD)
+```

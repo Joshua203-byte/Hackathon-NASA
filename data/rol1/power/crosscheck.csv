@@ -1,0 +1,10 @@
+cell_id,site,indicator,imerg_slope_dec_mm,power_slope_dec_mm,same_sign,pearson_r_interannual,imerg_mean_mm,power_mean_mm
+N1335W08715,"Choluteca (HND, Pacífico)",may_oct_mm,-48.11,171.13,no,0.801,1464.4,1136.1
+N1335W08715,"Choluteca (HND, Pacífico)",jul_aug_mm,-4.26,48.57,no,0.828,354.1,271.0
+N1335W08715,"Choluteca (HND, Pacífico)",annual_mm,10.73,218.68,sí,0.829,1665.2,1276.7
+N1575W08685,"La Ceiba (HND, Caribe)",may_oct_mm,-81.39,199.53,no,0.616,898.7,1111.2
+N1575W08685,"La Ceiba (HND, Caribe)",jul_aug_mm,-14.20,90.93,no,0.493,258.9,337.3
+N1575W08685,"La Ceiba (HND, Caribe)",annual_mm,-27.07,476.77,no,0.559,1794.6,2172.4
+N1465W09055,"Ciudad de Guatemala (GTM, altiplano)",may_oct_mm,-86.15,74.81,no,0.405,1487.6,1231.6
+N1465W09055,"Ciudad de Guatemala (GTM, altiplano)",jul_aug_mm,-43.04,3.62,no,0.333,454.7,400.8
+N1465W09055,"Ciudad de Guatemala (GTM, altiplano)",annual_mm,36.60,82.27,sí,0.349,1898.9,1364.9

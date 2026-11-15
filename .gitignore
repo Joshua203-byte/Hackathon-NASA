@@ -218,3 +218,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Rol 1: datos crudos e intermedios de IMERG (se regeneran con pipeline/01-03). data/rol1/ sí se versiona.
+data/raw/
+data/interim/
