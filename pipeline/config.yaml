@@ -1,0 +1,94 @@
+# ALTARIS · pipeline/config.yaml  (Rol 2 · Joshua)
+#
+# CONGELADO ANTES DE VER RESULTADOS REGIONALES.
+# Estos umbrales se escribieron sin haber corrido el motor sobre datos reales de IMERG.
+# Regla del plan (sección 4.6): no se tocan después de ver el mapa. Si hay que cambiar algo,
+# se anota en el pasaporte y se sube la versión de este archivo.
+#
+# Al subir el commit de congelación, cambiar `frozen` a true.
+
+version: "v1-2026-11-14"
+frozen: false
+
+dataset:
+  name: "GPM IMERG Final Run, mensual, 0.1°, V07"
+  doi: "POR CONFIRMAR"        # lo confirma Rol 1 (David) en la página del dataset
+  aux:
+    - "NOAA CPC ONI"
+    - "Natural Earth"
+
+# Periodo base. Cambiar a [2001, 2025] solo si Rol 1 confirma que 2025 está completo.
+period: [2001, 2024]
+bbox:
+  lat: [12.5, 18.5]
+  lon: [-92.5, -83.0]
+
+indicators:
+  may_oct_mm:
+    months: [5, 6, 7, 8, 9, 10]
+    units: "mm/temporada"
+  jul_aug_mm:
+    months: [7, 8]
+    units: "mm/2 meses"
+  annual_mm:
+    months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    units: "mm/año"
+
+lenses:
+  agri: [may_oct_mm, jul_aug_mm]
+  com: [annual_mm]
+  ene: []
+
+stats:
+  confidence: 0.95            # nivel del IC de la pendiente de Sen
+  alpha_mk: 0.05              # p de Mann-Kendall para llamar "significativa" a una ventana
+  lag1_z: 1.96                # corte de autocorrelación de retardo 1 (|r1| > z/sqrt(n) -> Hamed-Rao)
+  fdr:
+    method: fdr_bh            # Benjamini-Hochberg, por indicador, sobre celdas de tierra
+    level: 0.05
+  footprint:
+    min_len: 10               # ventanas más cortas no se calculan
+    summary_min_len: 15       # sign_agreement y sig_fraction solo con ventanas de >= 15 años
+    min_valid_fraction: 0.9   # una ventana con menos años válidos queda sin resultado
+
+verdict:
+  # incompleta: faltan más de este número de años válidos del periodo base
+  max_missing_years: 2
+  consistente:
+    sign_agreement_min: 0.90
+    sig_fraction_min: 0.50
+    require_ci_excludes_zero: true
+    require_enso_survives: true       # si el control ENSO aún no llegó: se anota enso_pendiente
+    forbid_break_2014: true           # una celda con salto en 2014 no pasa de limitada
+  limitada:
+    p_unadjusted_max: 0.10            # señal débil, NO confirmada (la interfaz lo dice)
+    sign_agreement_min: 0.80
+    min_slope_pct_of_mean_per_decade: 5
+  # Etiqueta aparte, no es un veredicto. Regla relativa: coeficiente de variación del indicador
+  # por encima del percentil indicado entre todas las celdas de ese indicador.
+  alta_variabilidad:
+    percentile: 75
+
+# Veredicto por ventana (resultado de `window_results` que el panel de Rol 5 muestra en el comparador).
+# Una ventana NO tiene control de comparaciones múltiples entre celdas, ni huella propia, ni controles
+# ENSO ni de 2014. Por eso el techo de una ventana es `limitada` ("señal débil, no confirmada").
+# La ventana que coincide con el periodo base hereda el veredicto del periodo base.
+window_verdict:
+  max_label: limitada
+  p_max: 0.05
+  require_ci_excludes_zero: true
+
+calibration:
+  n_sim: 1000
+  seed: 20261114
+  # tendencias inyectadas, como fracción de la media por década (negativas = menos lluvia)
+  injected_trends: [-0.10, -0.05, -0.20]
+
+# Limitaciones por defecto del pasaporte. Rol 3 (Camila) es la dueña del texto final.
+limitations:
+  - "Celda satelital de unos 11 km: no captura microclimas de ladera."
+  - "Agregados mensuales: no miden rachas de días secos ni eventos extremos diarios."
+  - "Registro corto (24 años): la variabilidad de décadas y la tendencia pueden confundirse."
+  - "El registro une las eras TRMM y GPM alrededor de 2014: no se puede descartar un efecto instrumental."
+  - "IMERG Final se ajusta con pluviómetros; donde hay pocos, el ajuste es más débil."
+  - "Las ventanas de la huella se solapan: no son pruebas independientes y sus p no se corrigen."
