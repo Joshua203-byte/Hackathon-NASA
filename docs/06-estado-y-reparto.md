@@ -1,5 +1,7 @@
 # Estado y reparto (corte sábado 14 de noviembre, 23:50, El Salvador)
 
+**Actualización del 15 de noviembre.** La ingesta IMERG ya está en `main` y el [piloto real de Choluteca](07-piloto-real-choluteca.md) quedó conectado al panel. El resto de este documento conserva el corte histórico de las 23:50. Para procedencia y tareas restantes de datos, consultar [Rol 1](rol1-datos.md).
+
 Entrega: domingo 15 de noviembre 23:59. Meta interna de envío: 21:00. Este documento resume qué hay en `main`, qué falta y quién hace qué desde ahora. Reemplaza el reparto por defecto de [05-cronograma-y-relevos.md](05-cronograma-y-relevos.md) solo donde lo contradice; los horarios H1 a H3 de ese documento siguen.
 
 ## 1. Qué hay en `main`

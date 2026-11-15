@@ -37,6 +37,7 @@ export function Shell() {
     <div className="shell">
       <header className="topbar no-print">
         <strong>ALTARIS</strong>
+        <a style={{ color: 'white' }} href="?dataset=pilot&cell=N1335W08715&ind=may_oct_mm&lang=es">Piloto real · Choluteca</a>
         <label>{es ? 'Celda' : 'Cell'}{' '}
           <select value={url.cell ?? ''} onChange={(e) => setUrl({ cell: e.target.value || null, win: null }, 'push')}>
             <option value="">—</option>

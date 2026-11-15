@@ -54,7 +54,11 @@ const REASONS: Record<string, L10n> = {
   },
 };
 
-export const reasonText = (key: string, lang: Lang): string => REASONS[key]?.[lang] ?? key;
+let pipelineReasons: Record<string, L10n> = {};
+export function setReasonCatalog(catalog: Record<string, L10n>) {
+  pipelineReasons = catalog;
+}
+export const reasonText = (key: string, lang: Lang): string => pipelineReasons[key]?.[lang] ?? REASONS[key]?.[lang] ?? key;
 
 export type NoticeKind = 'caveat' | 'break_2014' | 'canicula' | 'overlap';
 export interface Notice {

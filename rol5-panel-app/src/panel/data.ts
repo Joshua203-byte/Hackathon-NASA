@@ -1,11 +1,18 @@
 import { validateCell, validateMeta } from './contract';
+import { setReasonCatalog } from './verdict';
 import { useEffect, useState } from 'react';
 import type { CellDetail, GridCell, Meta } from './types';
 import type { RefData } from './refs';
 import type { CellStatus } from './components/CellPanel';
 
 /** BASE_URL: en GitHub Pages la app vive bajo /Hackathon-NASA/ y una ruta absoluta /data/ daría 404. */
-const url = (path: string) => `${(import.meta.env.VITE_DATA_BASE_URL || `${import.meta.env.BASE_URL}data`).replace(/\/$/, "")}/${path}`;
+const pilot = new URLSearchParams(window.location.search).get('dataset') === 'pilot';
+const dataBase = (import.meta.env.VITE_DATA_BASE_URL || `${import.meta.env.BASE_URL}data`).replace(/\/$/, '');
+const url = (path: string) => `${dataBase}/${pilot ? 'pilot/' : ''}${path}`;
+const reference = <T,>(path: string) => fetch(`${dataBase}/${path}`).then(r => {
+  if (!r.ok) throw new Error(`${r.status} ${path}`);
+  return r.json() as Promise<T>;
+}).catch(() => null);
 
 /** Se lee como texto y se parsea aparte: un NaN en el JSON lanza aquí y se traduce en status 'error'. */
 export async function fetchJson<T>(path: string, signal?: AbortSignal): Promise<T> {
@@ -27,16 +34,18 @@ export function useBoot() {
   useEffect(() => {
     (async () => {
       try {
-        const [meta, grid, enso, rules, tour, glossary] = await Promise.all([
+        const [meta, grid, enso, rules, tour, glossary, reasons] = await Promise.all([
           fetchJson<Meta>('meta.json'),
           fetchJson<{ cells: GridCell[] }>('grid.json'),
           optional<RefData['enso']>('enso.json'),
-          optional<RefData['rules']>('decision_rules.json'),
-          optional<RefData['tour']>('tour.json'),
-          optional<RefData['glossary']>('glossary.json'),
+          reference<RefData['rules']>('decision_rules.json'),
+          reference<RefData['tour']>('tour.json'),
+          reference<RefData['glossary']>('glossary.json'),
+          optional<Record<string, { es: string; en: string }>>('reasons.json'),
         ]);
         validateMeta(meta);
         if (!Array.isArray(grid.cells)) throw new Error("Invalid grid.json");
+        setReasonCatalog(reasons ?? {});
         setState({ boot: { meta, grid: grid.cells, refs: { enso, rules, tour, glossary } }, error: null });
       } catch (e) {
         setState({ boot: null, error: String(e) });
