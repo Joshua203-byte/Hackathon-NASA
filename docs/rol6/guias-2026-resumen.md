@@ -1,4 +1,30 @@
-# Guías oficiales 2026: lo que se pudo confirmar (tarea 3)
+# Guías oficiales 2026 — verificación directa de Andrés
+
+## Revisión vigente del 15 de noviembre de 2026
+
+Con asistencia de Codex se leyeron **completas en el navegador** la [guía de envío](https://www.spaceappschallenge.org/resources/project-submission-guide/) y la [guía de evaluación](https://www.spaceappschallenge.org/resources/judging-awards-guide/), ambas fechadas el 13 de noviembre de 2026, y la [pestaña Resources del reto](https://www.spaceappschallenge.org/2026/challenges/earth-system-trend-detective/?tab=resources). Esta sección sustituye las dudas y afirmaciones del registro histórico conservado debajo; no reproduce literalmente las guías.
+
+### Confirmaciones y correcciones
+
+- **Horario:** abre el 14 de noviembre a las 09:00 y cierra el 15 a las 23:59, en la zona del evento local. Para Universal Event rige la residencia del Team Owner. Las 21:00 de El Salvador son nuestra meta interna; falta verificar la inscripción y zona del equipo.
+- **Equipo:** miembros visibles en Members, inscritos en el mismo evento, incluido el propietario, y sin lista de espera en evento local. Tamaño elegible: 1–6 para evento local, 2–6 para Universal Event. Git no acredita registro.
+- **Portal:** perfil → My Team → Project → Edit. Guardar progreso no envía. El bloqueo de edición es un aviso que otro miembro puede retirar. Tras enviar debe aparecer una confirmación; se puede editar y reenviar antes del cierre y se revisa la última entrega guardada.
+- **Campos:** nombre, resumen de alto nivel, enlace a demo, enlace al proyecto final, descripción detallada, uso de Super Intelligence (SI), datos NASA y datos de socios/otras referencias. No se observaron límites de caracteres publicados en las guías: verificarlos en el formulario real.
+- **Evaluación:** Impact, Creativity, Validity, Relevance y Presentation, **cada uno en escala de 1 a 5**. La meta de 10 del plan antiguo no es la escala oficial. La página del proyecto es la base principal de evaluación; la demo complementa el texto y la presentación considera ambos.
+- **Demo:** hasta 30 s o siete láminas, incluidas portada e introducción. Exceder el límite impide evaluación global. Enlaces públicos sin registro, contraseña ni permisos. Videos/documentos se alojan externamente; el editor permite imágenes JPG/PNG/GIF de hasta 10 MB.
+- **Idioma:** inglés en formulario y materiales enlazados. Voz de video en otro idioma requiere subtítulos en inglés. El README raíz y varios documentos enlazados actualmente en español deben revisarse para la entrega. Se preparó un README alternativo en inglés, condicionado al GO.
+- **Personas:** no incluir representaciones de menores de 18 años. Los resultados de usuarios no pueden sustituirse por la meta del protocolo.
+- **SI:** la marca visible de imágenes/videos generados **sí es un requisito de la guía oficial**, no solo del foro. Audio generado y código/datos asistidos requieren reconocimiento en texto y metadatos. Declarar dónde y cómo se usó SI; no sustituir la ideación por SI ni incorporar/modificar marcas NASA en contenido generado. La respuesta al campo SI es para recogida de información y no se muestra a jueces; sí ven las marcas y declaraciones en el proyecto.
+- **NASA:** la guía de envío exige un dato o recurso NASA para premio global; el foro agrega que esté listado en el reto. La pestaña Resources incluye Giovanni, **Hydrology Time Series de GES DISC**, AppEEARS, Climate Data Online y un artículo de SeaWiFS, además de recursos de socios. **No nombra explícitamente IMERG.** Usar observaciones del archivo GES DISC no demuestra uso de la herramienta enlazada ni resuelve por sí solo la interpretación de elegibilidad. El formulario debe describir lo realmente utilizado; consultar al organizador si hace falta cerrar esa interpretación. No se envió ningún mensaje desde esta tarea.
+- **Calendario publicado:** nominados globales 3 dic 2026; finalistas/menciones 17 dic; ganadores 26 ene 2027. Hay revisión local/universal, global y ejecutiva. La lectura no acredita aceptación de términos ni elegibilidad del equipo.
+
+### Pendientes y entregables
+
+La lectura de las dos guías está completada. Falta comprobar Members, evento/zona, Project y campos reales. El navegador integrado mostraba Login; el control del Chrome existente se detuvo al no poder verificar su URL con seguridad. No se accedió a la cuenta ni se modificó el portal. Andrés confirmó que no tiene resultados de personas.
+
+Preparados: [formulario CA](submission-en-ca.md), [README alternativo](README-en-ca.md), [guion de ambas versiones](guion-video-30s.md) y [referencias en inglés](references-en.md). Faltan datos y revisión científica de CA, sesiones reales, versión congelada, grabación, licencias/idioma final y enlaces verificados. La nueva copia corrige la precisión sobre IMERG; `submission-en.md` se conserva intacto como exige el reparto y debe revisarse antes de un envío real.
+
+## Registro histórico anterior — superado por la revisión de arriba
 
 Revisado el domingo 15 de noviembre de 2026 de madrugada, mientras el equipo dormía. Para Andrés, que es quien envía.
 

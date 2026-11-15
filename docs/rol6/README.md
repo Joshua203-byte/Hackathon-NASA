@@ -1,5 +1,7 @@
 # Entrega ALTARIS · Andrés, Rol 6
 
+**Actualización del 15 de noviembre — ampliación:** [reporte de Andrés](../ca/andres.md), [formulario de siete países](submission-en-ca.md), [README alternativo en inglés](README-en-ca.md), [guion de video en dos versiones](guion-video-30s.md) y [referencias en inglés](references-en.md). Las [guías oficiales 2026](guias-2026-resumen.md) ya se leyeron directamente. La ampliación conserva marcadores hasta recibir datos y revisión; el formulario de tres países sigue siendo el respaldo.
+
 > **Documento histórico (corte del 14 de noviembre).** El estado vigente y lo que falta están en [06-estado-y-reparto.md](../06-estado-y-reparto.md). Desde entonces hay datos reales, mapa y despliegue.
 
 **Corte del 14 de noviembre de 2026, El Salvador.** Andrés coordina producto, contenido, pruebas, demo y envío. El panel permite ensayar con cuatro celdas simuladas. Todavía faltan el conjunto observado, la selección científica de los tres casos y las sesiones con personas.
