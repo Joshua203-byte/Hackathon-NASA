@@ -31,10 +31,10 @@ export const SeriesChart = memo(function SeriesChart({ data, period, selected, l
   return (
     <figure data-tour={tourAnchor ?? undefined} style={{ margin: 0 }}>
       <ResponsiveContainer width="100%" height={240}>
-        <ComposedChart data={rows} margin={{ top: 8, right: 12, bottom: 4, left: 4 }}>
+        <ComposedChart data={rows} margin={{ top: 8, right: 12, bottom: 4, left: 8 }}>
           <CartesianGrid strokeOpacity={0.2} />
           <XAxis dataKey="year" type="number" domain={[period[0], period[1]]} tickCount={7} allowDecimals={false} />
-          <YAxis width={56} domain={yDomain ?? ['auto', 'auto']} label={{ value: unitLabel(data.units, lang), angle: -90, position: 'insideLeft' }} />
+          <YAxis width={56} domain={yDomain ?? ['auto', 'auto']} label={{ value: unitLabel(data.units, lang), angle: -90, position: 'insideLeft', style: { textAnchor: 'middle' }, fontSize: 12 }} />
           <Tooltip
             isAnimationActive={false}
             formatter={(v, name) => [Array.isArray(v) ? v.map((x) => fmtNum(Number(x))).join(' – ') : fmtNum(typeof v === 'number' ? v : null), name]}
