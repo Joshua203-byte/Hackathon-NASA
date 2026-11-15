@@ -7,6 +7,13 @@ export const IND_LABEL: Record<IndicatorKey, L10n> = {
   annual_mm: { es: 'Lluvia de todo el año', en: 'Annual rainfall' },
 };
 
+/** Texto del selector: dice qué meses se suman. Que es un total por año y el periodo (2001–2024) van en la nota bajo el selector. */
+export const IND_OPTION: Record<IndicatorKey, L10n> = {
+  may_oct_mm: { es: 'Lluvia de temporada (mayo a octubre)', en: 'Rainy season (May to October)' },
+  jul_aug_mm: { es: 'Lluvia de canícula (julio y agosto)', en: 'Midsummer (July and August)' },
+  annual_mm: { es: 'Lluvia de todo el año (enero a diciembre)', en: 'Whole year (January to December)' },
+};
+
 export const LENS_LABEL: Record<Lens, L10n> = {
   agri: { es: 'Agricultura', en: 'Agriculture' },
   com: { es: 'Comunidades y agua', en: 'Communities and water' },

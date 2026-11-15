@@ -2,7 +2,7 @@
 import { CellMap } from './panel/components/CellMap';
 import { CASES, caseSearch, findCase, type CaseLink } from './panel/cases';
 import { VERDICT_UI } from './panel/verdict';
-import { IND_LABEL, LENS_LABEL } from './panel/labels';
+import { IND_OPTION, LENS_LABEL } from './panel/labels';
 import { selectIndicator } from './panel/lenses';
 import { useEffect } from 'react';
 import { lazy, Suspense } from 'react';
@@ -125,10 +125,11 @@ export function Shell() {
                 {boot.grid.map((c) => <option key={c.id} value={c.id}>{c.id} · {c.country}</option>)}
               </select>
             </label>
-            <label className="control">{es ? '¿Qué lluvia quieres ver?' : 'Which rainfall?'}
+            <label className="control control-ind">{es ? '¿Qué lluvia quieres ver?' : 'Which rainfall?'}
               <select value={url.ind} onChange={(e) => setUrl({ ind: e.target.value as typeof url.ind, win: null })}>
-                {INDICATORS.map((i) => <option key={i} value={i}>{IND_LABEL[i][url.lang]}</option>)}
+                {INDICATORS.map((i) => <option key={i} value={i}>{IND_OPTION[i][url.lang]}</option>)}
               </select>
+              <small className="control-hint">{es ? `Se suma la lluvia de esos meses en cada año: un total por año, de ${boot.meta.period[0]} a ${boot.meta.period[1]} (${yearsN} años).` : `The rain of those months is added up in each year: one total per year, from ${boot.meta.period[0]} to ${boot.meta.period[1]} (${yearsN} years).`}</small>
             </label>
             <label className="control">{es ? '¿Para qué la necesitas?' : 'What do you need it for?'}
               <select value={url.lens} onChange={(e) => { const lens = e.target.value as typeof url.lens; setUrl({ lens, ind: cell ? selectIndicator(lens, url.ind, boot.meta, cell) : lens === "com" ? "annual_mm" : "may_oct_mm", win: null }); }}>
