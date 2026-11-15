@@ -42,11 +42,11 @@ export const SeriesChart = memo(function SeriesChart({ data, period, selected, l
           {selected && <ReferenceArea x1={selected.start} x2={selected.end} fillOpacity={0.08} />}
           {satelliteEra && <ReferenceLine x={GPM_FIRST_YEAR} strokeDasharray="4 3" label={{ value: 'TRMM → GPM', position: 'insideTopRight', fontSize: 10 }} />}
           {/* IC 95 % de la pendiente (abanico), no de los valores */}
-          <Area dataKey="band" name={es ? 'IC 95 % de la pendiente' : '95% CI of the slope'} stroke="none" fill="#555" fillOpacity={0.15} isAnimationActive={false} connectNulls={false} />
+          <Area dataKey="band" name={es ? 'IC 95 % de la pendiente' : '95% CI of the slope'} stroke="none" fill="#2a78d6" fillOpacity={0.14} isAnimationActive animationDuration={700} connectNulls={false} />
           <Line dataKey="sen" name={es ? 'Recta de Sen (periodo base)' : 'Sen line (base period)'} stroke="#555" dot={false} strokeWidth={1.5} isAnimationActive={false} />
           <Line dataKey="winSen" name={es ? 'Recta de Sen (ventana)' : 'Sen line (window)'} stroke="#111" dot={false} strokeWidth={2.5} isAnimationActive={false} connectNulls={false} />
           {/* connectNulls={false}: un año sin dato corta la línea; nunca se dibuja como 0 */}
-          <Line dataKey="value" name={unitLabel(data.units, lang)} stroke="#1f6fb2" strokeWidth={1.5} dot={{ r: 3 }} isAnimationActive={false} connectNulls={false} />
+          <Line dataKey="value" name={unitLabel(data.units, lang)} stroke="#2a78d6" strokeWidth={2} dot={{ r: 3.5, strokeWidth: 0, fill: '#2a78d6' }} activeDot={{ r: 6 }} isAnimationActive animationDuration={900} connectNulls={false} />
         </ComposedChart>
       </ResponsiveContainer>
       <figcaption>

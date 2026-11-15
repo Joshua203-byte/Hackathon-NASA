@@ -100,7 +100,7 @@ export function Shell() {
             const v = boot.grid.find(g => g.id === c.cell)?.ind[c.ind]?.verdict;
             const current = url.cell === c.cell;
             return (
-              <a key={c.n} href={caseSearch(location.search, c)} aria-current={current ? 'true' : undefined} className={current ? 'case-link active' : 'case-link'}
+              <a key={c.n} href={caseSearch(location.search, c)} aria-current={current ? 'true' : undefined} className={current ? 'case-link active' : 'case-link'} style={v ? { ['--c' as string]: `var(${VERDICT_UI[v].cssVar})` } : undefined}
                 onClick={e => { if (e.button === 0 && !e.metaKey && !e.ctrlKey && !e.shiftKey) { e.preventDefault(); openCase(c); } }}>
                 <span className="case-num" aria-hidden="true">{c.n}</span>
                 <span><b>{c.title[url.lang]}</b><br />{v && <span className="chip" style={{ borderColor: `var(${VERDICT_UI[v].cssVar})` }}>{VERDICT_UI[v].icon} {VERDICT_UI[v].label[url.lang]}</span>}{c.note ? <small> {c.note[url.lang]}</small> : null}</span>

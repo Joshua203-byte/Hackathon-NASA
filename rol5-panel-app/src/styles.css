@@ -208,3 +208,38 @@ dl dd { margin:0; color:#2c3e4c; }
 /* ===== Empatía (16 nov): respuesta directa, qué hacer, lenguaje simple ===== */
 .verdict-answer { font-size:1.2rem; font-weight:600; margin:.3rem 0 .4rem; color:var(--ink); }
 .verdict-next { margin-top:.7rem; background:#ffffffcc; border:1px dashed #9fb2c0; border-radius:8px; padding:.5rem .7rem; font-size:.92rem; }
+
+/* ===== Visualización (16 nov): capas, movimiento con reducción, color de la paleta validada ===== */
+@keyframes rise { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+@keyframes fill { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+@keyframes nudge-down { 0%,100% { transform:translateY(0); } 50% { transform:translateY(3px); } }
+@keyframes nudge-up { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-3px); } }
+
+.topbar { background:linear-gradient(115deg, #0b3d6e 0%, #15568f 60%, #1d6fb8 100%); }
+.intro, .case-links, .workspace { animation: rise .5s ease both; }
+.workspace-map, .verdict, .card, .keystats > div { transition: box-shadow .2s ease, transform .2s ease; }
+.card:hover, .keystats > div:hover { box-shadow:0 6px 18px #0b3d6e1f; }
+.panel > * { animation: rise .45s ease both; }
+.panel > *:nth-child(2) { animation-delay:.04s; } .panel > *:nth-child(3) { animation-delay:.08s; }
+.panel > *:nth-child(4) { animation-delay:.12s; } .panel > *:nth-child(5) { animation-delay:.16s; }
+.panel > *:nth-child(n+6) { animation-delay:.2s; }
+
+.verdict-meter { display:flex; gap:6px; margin:.6rem 0 .2rem; }
+.verdict-meter i { flex:1; height:10px; border-radius:6px; background:#dfe6ec; transform-origin:left center; }
+.verdict-meter i.on { background:var(--c, #7f7f7f); animation: fill .55s cubic-bezier(.2,.7,.2,1) both; }
+
+.arrow { display:inline-block; font-size:.8em; margin-right:.35rem; vertical-align:middle; }
+.arrow.down { color:#8c510a; animation: nudge-down 1.8s ease-in-out infinite; }
+.arrow.up { color:#01665e; animation: nudge-up 1.8s ease-in-out infinite; }
+
+.case-link { border-top:4px solid var(--c, #b9c7d0); }
+.case-link:hover { box-shadow:0 8px 20px #0b3d6e22; }
+.chip { border-color: var(--c, #9fb2c0); }
+
+.footprint rect { transition: opacity .18s ease, stroke-width .18s ease; }
+.recharts-line-curve, .recharts-area-area { transition: opacity .2s; }
+.recharts-tooltip-wrapper .recharts-default-tooltip { border-radius:8px !important; border:1px solid var(--line) !important; box-shadow:0 6px 16px #0b3d6e26; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

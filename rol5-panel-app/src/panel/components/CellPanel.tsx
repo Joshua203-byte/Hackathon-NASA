@@ -98,7 +98,7 @@ export function CellPanel({ cell, gridRow, meta, status, refs, mirror }: Props) 
         <VerdictBadge cell={cell} ind={url.ind} lang={lang} validYears={valid} totalYears={total} />
         {s && (
           <dl className="keystats">
-            <div><dt>{es ? 'Cambio por década' : 'Change per decade'}</dt><dd>{fmtSlope(slope, lang).replace(/ mm\/.*/, '')} <small>mm</small>{pct !== null && d.verdict !== 'consistente' && <span className="keystat-sub">{pct > 0 ? '+' : ''}{fmtNum(pct, 1)} % {es ? 'de la lluvia media' : 'of mean rainfall'}</span>}</dd></div>
+            <div><dt>{es ? 'Cambio por década' : 'Change per decade'}</dt><dd>{typeof slope === 'number' && slope !== 0 && <span className={`arrow ${slope < 0 ? 'down' : 'up'}`} aria-hidden="true">{slope < 0 ? '▼' : '▲'}</span>}{fmtSlope(slope, lang).replace(/ mm\/.*/, '')} <small>mm</small>{pct !== null && d.verdict !== 'consistente' && <span className="keystat-sub">{pct > 0 ? '+' : ''}{fmtNum(pct, 1)} % {es ? 'de la lluvia media' : 'of mean rainfall'}</span>}</dd></div>
             <div><dt>{es ? 'Margen de error (IC 95 %)' : 'Margin of error (95% CI)'}</dt><dd>{fmtNum(lo, 0)} {es ? 'a' : 'to'} {fmtNum(hi, 0)} <small>mm</small>{ciZero !== null && <span className="keystat-sub">{ciZero ? (es ? 'incluye el cero: podría no haber cambio' : 'includes zero: there may be no change') : es ? 'no incluye el cero' : 'excludes zero'}</span>}</dd></div>
             <div><dt>{es ? 'Lluvia media' : 'Mean rainfall'}</dt><dd>{fmtNum(mean, 0)} <small>{u}</small><span className="keystat-sub">{valid}/{total} {es ? 'años con datos' : 'years with data'}</span></dd></div>
           </dl>
