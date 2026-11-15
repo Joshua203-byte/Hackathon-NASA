@@ -93,3 +93,12 @@ def test_enso_json_por_indicador_lo_lee_el_exportador(tmp_path):
     d = json.loads((tmp_path / "o" / "cells" / f"{cells[0]['id']}.json").read_text())
     assert d["indicators"]["may_oct_mm"]["series"][0]["enso"] == "nina"
     assert d["indicators"]["jul_aug_mm"]["series"][0]["enso"] == "neutral"
+
+
+def test_pendiente_cero_no_conserva_el_signo():
+    # 0.0 y -0.0 son la misma pendiente: ninguna tiene signo, así que ninguna "conserva" el de la base
+    for base in (-5.0, 5.0):
+        assert not enso._keeps_sign(0.0, base) and not enso._keeps_sign(-0.0, base)
+    assert enso._keeps_sign(-3.0, -5.0) and enso._keeps_sign(3.0, 5.0)
+    assert not enso._keeps_sign(3.0, -5.0) and not enso._keeps_sign(-3.0, 5.0)
+    assert not enso._keeps_sign(1.0, 0.0)          # base sin signo: nada lo conserva (igual que antes)

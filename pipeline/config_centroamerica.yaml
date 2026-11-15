@@ -104,6 +104,7 @@ calibration:
 # Cambios de umbral hechos DESPUÉS de congelar. Ej.: "2026-11-15 10:20 p_max_sign_rule null->0.20, motivo: ..."
 threshold_changes:
   - "2026-11-15 02:10 mann_kendall: Hamed-Rao solo con autocorrelacion lag-1 POSITIVA significativa (antes tambien con negativa). Motivo: la revision independiente de 9 celdas con scipy encontro p=1.6e-14 donde Mann-Kendall original da 0.04; 273 de 6075 series usaban Hamed-Rao, 250 con r1 negativa, y 8 veredictos consistente dependian de ello. El cambio solo hace el veredicto mas conservador; no se ajusto ningun umbral."
+  - "2026-11-15 11:14 enso.survives: una pendiente exactamente cero ya no conserva el signo (antes dependia de si salia 0.0 o -0.0, segun la version de la libreria). Motivo: la comparacion entre la version de 3 paises y la de Centroamerica encontro 8 celdas de jul_aug_mm cuyo survives difería solo por eso. Ninguno de los 3 conjuntos de umbrales cambia ni cambia ningun veredicto (las 8 celdas son sin_evidencia); solo aparece o desaparece el codigo enso_no_sobrevive. Con la regla nueva el resultado coincide con la version de 3 paises."
 
 # Limitaciones por defecto del pasaporte. Rol 3 (Camila) es la dueña del texto final.
 limitations:
