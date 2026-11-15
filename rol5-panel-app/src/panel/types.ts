@@ -107,6 +107,7 @@ export interface GridCell {
 }
 
 export interface Meta {
+  analysis_scope?: { kind: string; n_cells: number; note: L10n; pending: string[] };
   data_kind?: "mock" | "observed";
   generated_at: string;
   pipeline_commit: string;

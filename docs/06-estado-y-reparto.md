@@ -12,13 +12,13 @@ Entrega: domingo 15 de noviembre 23:59. Meta interna de envío: 21:00. Congelaci
 | Motor estadístico (Rol 2) | `pipeline/` | Listo: 70 pruebas pasan. Umbrales congelados (`frozen: true`), un cambio anotado en `threshold_changes` (Hamed-Rao). Calibración de 1 000 simulaciones |
 | JSON final | fuera del repositorio (zip, ~22 MB; 143 MB sin comprimir) | Generado y comprobado contra el panel. Una segunda corrida desde cero da los mismos veredictos y cifras |
 | Cifras y candidatos a casos | [07-cifras-y-candidatos.md](07-cifras-y-candidatos.md) | Provisionales hasta la revisión de Camila |
-| Panel de celda (Rol 5) | `rol5-panel-app/` | En `main` carga el JSON real, pero solo traduce 3 códigos de razón; el resto sale como código crudo |
-| Mapa MapLibre (Rol 4) | rama `izel/panel-celda` (`8813c50`) | **Hecho pero sin mezclar a `main`.** Pinta `grid.json` con bordes y capas de veredicto, pendiente, estabilidad y ENSO |
-| Lectura de `reasons.json` en el panel | rama `andres/piloto-choluteca` (`53bcbc5`) | **Hecho pero sin mezclar a `main`** |
+| Panel de celda (Rol 5) | `rol5-panel-app/` | Carga el JSON real y traduce los códigos de razón con `reasons.json` |
+| Mapa MapLibre (Rol 4) | `rol5-panel-app/` (mezclado a `main` el 15 nov, 03:30) | Hecho. Pinta `grid.json` con bordes y capas de veredicto, pendiente, estabilidad y ENSO |
+| Lectura de `reasons.json` y piloto de Choluteca | `rol5-panel-app/`, [07-piloto-real-choluteca.md](07-piloto-real-choluteca.md) (mezclado a `main` el 15 nov, 03:30) | Hecho. El piloto se abre con `?dataset=pilot` |
 | Contenido y entrega (Rol 6) | `docs/rol6/` | Formulario en inglés (borrador con datos simulados), fuentes, guion de pruebas, video de ensayo |
 | URL pública | — | No hay |
 
-Mezcla de prueba (15 nov, 02:15): `izel/panel-celda` y `andres/piloto-choluteca` se mezclan sobre `main` sin conflictos; el resultado compila, pasa 38 pruebas y el mapa funciona con el JSON real. Izel lleva esa mezcla.
+Las ramas `izel/panel-celda` y `andres/piloto-choluteca` ya están en `main`: compila, pasan las pruebas y el mapa funciona con el JSON real.
 
 La rama `david-y-elena` (un motor y una web paralelos) no se mezcla; de ella ya se adoptó lo útil.
 
@@ -37,8 +37,8 @@ La rama `david-y-elena` (un motor y una web paralelos) no se mezcla; de ella ya 
 |---|---|---|
 | **Joshua** | Pasar el zip final a Izel y Elena, avisar al grupo y pedir a Camila la revisión | Nada |
 | **Camila** | Revisar: la bandera de 2014 (única causa de que 29 celdas de Guatemala en lluvia de temporada y 30 en anual no sean `consistente`), el salto de 2012 en la franja de Guatemala, el 17,6 % de banderas en canícula y el criterio de `survives`. Elegir los 3 casos | `docs/07` y `data/rol3/` |
-| **Izel** | Mezclar a `main` el mapa y la lectura de `reasons.json`. Cargar el JSON real. Confirmar resultados por ventana (techo `limitada`) | El zip |
-| **Elena** | Desplegar la mezcla con URL pública. Elegir hosting y resolver dónde viven los 2 025 archivos de `cells/` (~72 KB cada uno) | La mezcla de Izel |
+| **Izel** | Cargar el JSON real. Confirmar resultados por ventana (techo `limitada`) | El zip |
+| **Elena** | Desplegar `main` con URL pública. Elegir hosting y resolver dónde viven los 2 025 archivos de `cells/` (~72 KB cada uno) | El zip |
 | **David** | Cuando Camila pase los IDs: `python 04_power.py --cells ID1 ID2 ID3` | Los casos |
 | **Andrés** | Verificar acceso al portal y pestaña Project. Leer completas las guías de envío y de evaluación 2026: campos, límites, idioma, rúbrica. El formato de demo ya está registrado en `docs/rol6/fuentes.md` (30 s de video o 7 láminas; se eligió video) | Nada |
 

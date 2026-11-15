@@ -25,6 +25,7 @@ export function buildPassport(i: PassportInput) {
   const sel = resolveWindow(indexFootprint(d.footprint, d.window_results), i.win, i.meta.period);
   return {
     schema: 'altaris.passport/1',
+    analysis_scope: i.meta.analysis_scope ?? null,
     data_kind: i.meta.data_kind ?? (i.meta.pipeline_commit === 'MOCK' ? 'mock' : 'unspecified'),
     secondary_variables: i.cell.secondary_variables ?? [],
     exported_at: (i.now ?? new Date()).toISOString(),
@@ -117,6 +118,7 @@ export function passportToMarkdown(p: Passport, lang: Lang): string {
     out.push(`## ${t.reasons}`, '', ...p.verdict_reasons.map((r) => `- ${reasonText(r, lang)} (\`${r}\`)`), '');
   }
   if (p.notices.length) out.push(...p.notices.map((n) => `> ${n}`), '');
+  if (p.analysis_scope) out.push(`> ${p.analysis_scope.note[lang]}`, '');
   out.push(
     `## ${t.trend}`,
     '',

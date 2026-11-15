@@ -68,6 +68,7 @@ export function CellPanel({ cell, gridRow, meta, status, refs, mirror }: Props) 
 
   return (
     <aside className="panel">
+      {meta.analysis_scope && <p role="note" className="notice pilot-status">{meta.analysis_scope.note[lang]}</p>}
       <SectionBoundary key={`v/${resetKey}`} name={es ? 'Veredicto' : 'Verdict'}>
         <VerdictBadge cell={cell} ind={url.ind} lang={lang} validYears={valid} totalYears={total} />
         <Narrative data={d} lang={lang} />

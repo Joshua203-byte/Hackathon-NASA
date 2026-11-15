@@ -1,0 +1,92 @@
+{
+ "criterios_cumplidos": {
+  "es": "Cumple todos los criterios: significativa tras la corrección, intervalo que no incluye cero y estable al mover la ventana",
+  "en": "Meets all criteria: significant after correction, interval excludes zero, and stable when the window moves",
+  "kind": "info",
+  "level": "base"
+ },
+ "pocos_anios": {
+  "es": "Faltan años válidos: no se evalúa la tendencia",
+  "en": "Too few valid years: trend not assessed",
+  "kind": "fail",
+  "level": "base"
+ },
+ "fdr_no_significativo": {
+  "es": "No es significativa tras corregir por comparaciones múltiples (FDR)",
+  "en": "Not significant after multiple-comparison correction (FDR)",
+  "kind": "fail",
+  "level": "base"
+ },
+ "ic_incluye_cero": {
+  "es": "El intervalo de confianza de la pendiente incluye cero",
+  "en": "The confidence interval of the slope includes zero",
+  "kind": "fail",
+  "level": "base"
+ },
+ "huella_inestable": {
+  "es": "El signo o la significancia cambian al mover la ventana de años",
+  "en": "Sign or significance changes when the year window moves",
+  "kind": "fail",
+  "level": "base"
+ },
+ "enso_no_sobrevive": {
+  "es": "La tendencia no sobrevive al descontar los años ENSO fuertes",
+  "en": "The trend does not survive removing strong ENSO years",
+  "kind": "fail",
+  "level": "base"
+ },
+ "posible_salto_2014": {
+  "es": "Posible salto en 2014: no se puede descartar un efecto del cambio de satélites",
+  "en": "Possible 2014 break: an instrument-change effect cannot be ruled out",
+  "kind": "fail",
+  "level": "base"
+ },
+ "p_no_significativo": {
+  "es": "La prueba de Mann-Kendall no encuentra una tendencia distinguible del azar",
+  "en": "The Mann-Kendall test finds no trend distinguishable from chance",
+  "kind": "fail",
+  "level": "base"
+ },
+ "fdr_pendiente": {
+  "es": "Corrección por comparaciones múltiples pendiente: se calcula al procesar toda la región",
+  "en": "Multiple-comparison correction pending: computed when the whole region is processed",
+  "kind": "pending",
+  "level": "base"
+ },
+ "enso_pendiente": {
+  "es": "Control ENSO pendiente: el veredicto puede cambiar cuando llegue",
+  "en": "ENSO check pending: the verdict may change when it arrives",
+  "kind": "pending",
+  "level": "base"
+ },
+ "chequeo_2014_pendiente": {
+  "es": "Chequeo del salto de 2014 pendiente: el veredicto puede cambiar cuando llegue",
+  "en": "2014 break check pending: the verdict may change when it arrives",
+  "kind": "pending",
+  "level": "base"
+ },
+ "ventana_pocos_anios": {
+  "es": "La ventana no tiene suficientes años válidos",
+  "en": "The window does not have enough valid years",
+  "kind": "fail",
+  "level": "window"
+ },
+ "ventana_sin_correccion": {
+  "es": "Señal en esta ventana sin corrección por comparaciones múltiples ni controles: es una prueba de sensibilidad, no una confirmación",
+  "en": "Signal in this window without multiple-comparison correction or controls: a sensitivity check, not a confirmation",
+  "kind": "info",
+  "level": "window"
+ },
+ "ventana_signo_opuesto": {
+  "es": "En esta ventana la pendiente tiene signo contrario al del periodo base",
+  "en": "In this window the slope has the opposite sign to the base period",
+  "kind": "info",
+  "level": "window"
+ },
+ "ventana_p_no_significativo": {
+  "es": "En esta ventana no hay tendencia distinguible del azar",
+  "en": "In this window there is no trend distinguishable from chance",
+  "kind": "fail",
+  "level": "window"
+ }
+}
