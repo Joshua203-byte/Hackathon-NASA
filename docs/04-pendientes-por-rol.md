@@ -1,5 +1,7 @@
 # Trabajo pendiente por rol
 
+> **Documento histórico (corte del 14 de noviembre).** El estado vigente y lo que falta están en [06-estado-y-reparto.md](06-estado-y-reparto.md). Desde entonces hay datos reales, mapa y despliegue.
+
 **Estado al 14 de noviembre de 2026.** En el corte revisado, `main` contenía la propuesta v3.1 (`79e3ba1`) y el panel inicial estaba publicado en `izel/panel-celda` (`97833fc`). Esta entrega incorpora en esa rama las ampliaciones del panel, los ejemplos simulados y sus pruebas. El equipo confirmó que aún faltan resultados del pipeline, el mapa definitivo y pruebas con participantes. Los nombres son las asignaciones tentativas de la [propuesta, sección 5](../PROPUESTA_ALTARIS_PLAN_EQUIPO.md#5-roles).
 
 ## Rol 1 · David · Datos e ingesta

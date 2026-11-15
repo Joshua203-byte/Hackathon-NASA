@@ -1,4 +1,4 @@
-# Revisión científica: lo que Camila tiene que decidir (corte domingo 15 de noviembre, 04:00)
+# Revisión científica: lo que Camila tiene que decidir (corte domingo 15 de noviembre, 02:45)
 
 Todas las cifras salen del JSON final (motor `802a9b0`, 2 025 celdas, 2001–2024) y de `data/rol3/`. Las fichas completas de los candidatos están en [casos-candidatos.md](casos-candidatos.md). Nada de esto está decidido: son los datos para decidir.
 

@@ -2,10 +2,19 @@
 
 Proyecto para el reto **"Be An Earth System Trend Detective!"** del NASA Space Apps Challenge 2026.
 
-ALTARIS permite explorar cómo cambia la evidencia de una tendencia de lluvia al elegir otra ventana de años. La versión incluida demuestra el recorrido con datos simulados. La integración prevista utiliza precipitación IMERG y análisis ENSO para Honduras, Guatemala y El Salvador.
+ALTARIS permite explorar cómo cambia la evidencia de una tendencia de lluvia al elegir otra ventana de años. Analiza 24 años (2001–2024) de precipitación NASA GPM IMERG en 2 025 celdas de Honduras, Guatemala y El Salvador, con control de ENSO y del cambio de satélites de 2014.
 
-**Ejecutar el prototipo:** desde `rol5-panel-app/`, ejecutar `npm ci` y `npm run dev`. Seleccionar una celda, cambiar la ventana en la huella y exportar su pasaporte. Para reproducir las verificaciones ejecutar `npm test`, `npm run typecheck` y `npm run build`.
+**Estado y lo que falta:** [docs/06-estado-y-reparto.md](docs/06-estado-y-reparto.md). Es el documento que manda.
 
+**Web pública:** <https://altaris.altaris-panel-rol5.workers.dev>
+
+**Ejecutar en local:** desde `rol5-panel-app/`, `npm ci` y `npm run dev`. Los datos que vienen en `rol5-panel-app/public/data/` son simulados; el JSON real (2 025 celdas, 143 MB) no está en el repositorio y se genera con el motor, como explica la sección 6 del documento de estado. Verificaciones: `npm test`, `npm run typecheck`, `npm run build`; para el motor, `python -m pytest tests -q` desde `pipeline/`.
+
+- [Cifras regionales y revisión independiente](docs/07-cifras-y-candidatos.md)
+- [Decisiones científicas pendientes y candidatos a casos](docs/08-revision-camila.md)
+- [Motor estadístico: uso y formatos](pipeline/README.md)
+- [Datos, procedencia y contraste con NASA POWER](docs/rol1-datos.md)
+- [Formulario de entrega en inglés](docs/rol6/submission-en.md)
 - [Materiales de entrega, demo y estudio de comprensión — Andrés](docs/rol6/README.md)
 - [Contrato del panel, datos y limitaciones](rol5-panel-app/INTEGRACION.md)
 - [Créditos, fuentes externas y registro de IA](docs/rol6/fuentes.md)

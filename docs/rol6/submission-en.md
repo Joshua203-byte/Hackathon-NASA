@@ -1,6 +1,6 @@
 # ALTARIS — Earth Trend Intelligence
 
-Working English copy for the project form. Andrés owns the submission. Updated Sunday 15 November, 04:00, with the observed results (engine `802a9b0`, thresholds frozen). Every number below comes from the exported JSON or from `docs/07-cifras-y-candidatos.md`.
+Working English copy for the project form. Andrés owns the submission. Updated Sunday 15 November, 02:45, with the observed results (engine `802a9b0`, thresholds frozen). Every number below comes from the exported JSON or from `docs/07-cifras-y-candidatos.md`.
 
 **Still open before sending:**
 
@@ -103,5 +103,5 @@ Camila, Joshua, Elena, Izel, David and Andrés worked across science, data, web 
 ## Submission links
 
 - [Code repository](https://github.com/Joshua203-byte/Hackathon-NASA)
-- Public app: `[PENDING: URL]`
+- Public app: <https://altaris.altaris-panel-rol5.workers.dev> `[PENDING: URL]` confirm it serves the final data and opens in a private window
 - Demo video, 30 seconds or less: `[PENDING: URL]`. The current file ([altaris-prototype.webm](altaris-prototype.webm)) is a rehearsal made with simulated data and must not be submitted.

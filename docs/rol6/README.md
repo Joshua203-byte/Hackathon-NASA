@@ -1,5 +1,7 @@
 # Entrega ALTARIS · Andrés, Rol 6
 
+> **Documento histórico (corte del 14 de noviembre).** El estado vigente y lo que falta están en [06-estado-y-reparto.md](../06-estado-y-reparto.md). Desde entonces hay datos reales, mapa y despliegue.
+
 **Corte del 14 de noviembre de 2026, El Salvador.** Andrés coordina producto, contenido, pruebas, demo y envío. El panel permite ensayar con cuatro celdas simuladas. Todavía faltan el conjunto observado, la selección científica de los tres casos y las sesiones con personas.
 
 | Entregable | Disponible ahora | Condición para cerrarlo |
