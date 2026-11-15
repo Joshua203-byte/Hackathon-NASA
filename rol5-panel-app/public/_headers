@@ -6,3 +6,8 @@
   Cache-Control: public, max-age=300
 /geo/*
   Cache-Control: public, max-age=86400
+# Teselas de la Tierra y catálogo de estrellas: no cambian entre entregas de datos.
+/earth/*
+  Cache-Control: public, max-age=604800
+/sky/*
+  Cache-Control: public, max-age=604800

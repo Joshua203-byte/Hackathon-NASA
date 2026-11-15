@@ -278,3 +278,51 @@ dl dd { margin:0; color:var(--ink-2); }
 .controls-fold > summary { padding:.7rem .9rem; cursor:pointer; font-weight:600; color:var(--brand); }
 .controls-fold[open] > summary { border-bottom:1px solid var(--line); }
 @media (max-width: 1023px) { .overlay-left .controls-fold { background:var(--surface-2); border-radius:12px; } .controls-fold .controls { padding:.7rem .9rem .9rem; } }
+
+/* ── Entrada espacial: el planeta con su cielo real, y el vuelo hasta la región ── */
+.region-map-frame { background:radial-gradient(120% 90% at 50% 45%, #0a1a33 0%, #040a16 55%, #02050c 100%); }
+.space-sky { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+.region-map-canvas { position:relative; }
+.region-map-canvas .maplibregl-canvas { outline:none; }
+.country-label { pointer-events:none; color:#fff; font:700 11px/1 var(--font-text); letter-spacing:.2em; text-transform:uppercase; text-shadow:0 0 3px #04101f, 0 0 8px #04101fcc, 0 1px 1px #000; white-space:nowrap; transition:opacity .25s linear; opacity:0; }
+.intro-on .case-marker { opacity:0 !important; pointer-events:none; } /* MapLibre fija opacity en línea para los marcadores tapados por el globo */
+.case-marker { transition:opacity .8s ease .3s; }
+
+.intro-stage { position:absolute; inset:0; z-index:6; cursor:pointer; display:grid; place-items:center; pointer-events:auto; }
+.intro-title { text-align:center; color:#fff; padding:0 1.5rem; transform:translateY(-4%); animation:intro-in 1.6s cubic-bezier(.2,.7,.2,1) both; }
+.intro-stage.flight .intro-title { animation:intro-out 1.8s cubic-bezier(.4,0,.6,1) .2s forwards; }
+.intro-kicker { margin:0 0 .6rem; font:600 .72rem var(--font-text); letter-spacing:.32em; text-transform:uppercase; color:#a9c8f5; }
+.intro-word { margin:0; font:700 clamp(2.4rem, 8vw, 5.2rem)/1 var(--font-display); letter-spacing:.28em; text-indent:.28em; text-shadow:0 4px 40px #000a, 0 0 2px #0006; }
+.intro-sub { margin:1rem auto 0; max-width:30ch; font:500 clamp(.95rem, 1.6vw, 1.2rem)/1.4 var(--font-text); color:#dbe8fb; text-shadow:0 2px 14px #000b; text-wrap:balance; }
+.intro-arrive { position:absolute; left:0; right:0; bottom:calc(14% + 20px); margin:0; text-align:center; color:#fff; font:600 clamp(.85rem, 1.4vw, 1.05rem) var(--font-text); letter-spacing:.22em; text-transform:uppercase; text-shadow:0 2px 14px #000c; opacity:0; }
+.intro-stage.flight .intro-arrive { animation:intro-arrive 2.2s ease 5.6s forwards; }
+.intro-skip { position:absolute; right:18px; bottom:calc(12% - 10px); border:1px solid #ffffff55; background:#06122399; color:#fff; border-radius:999px; padding:.5rem 1.15rem; font:600 .88rem var(--font-text); cursor:pointer; backdrop-filter:blur(8px); opacity:0; animation:intro-in .8s ease .7s forwards; }
+.intro-skip:hover { background:#0d3b66cc; border-color:#fff9; }
+.intro-skip:focus-visible { outline:3px solid var(--accent); outline-offset:3px; }
+.space-tools { position:absolute; z-index:3; top:12px; right:64px; display:flex; gap:6px; }
+.space-tools button { border:1px solid #ffffff40; background:#071a30b3; color:#eaf2ff; border-radius:999px; padding:.38rem .85rem; font:600 .8rem var(--font-text); cursor:pointer; backdrop-filter:blur(8px); transition:background .2s; white-space:nowrap; }
+.space-tools button:hover { background:#0d3b66e6; }
+.space-tools button:focus-visible { outline:3px solid var(--accent); outline-offset:2px; }
+.stage.has-cell .space-tools { right:calc(var(--panel-w) + 64px); }
+@keyframes intro-in { from { opacity:0; transform:translateY(10px) scale(.985); } to { opacity:1; transform:none; } }
+@keyframes intro-out { to { opacity:0; transform:translateY(-6px) scale(1.02); } }
+@keyframes intro-arrive { 0% { opacity:0; transform:translateY(8px); } 100% { opacity:1; transform:none; } }
+
+/* El resto de la interfaz espera: aparece cuando el planeta ha llegado a la región. */
+.shell .overlay-left, .shell .region-map-layers, .shell .map-legend, .shell .maplibregl-ctrl-top-right, .shell .maplibregl-ctrl-bottom-right { transition:opacity .9s ease .15s, transform .9s cubic-bezier(.2,.8,.2,1) .15s; }
+@media (min-width: 1024px) { .shell.intro-playing .overlay-left { opacity:0; transform:translateX(-14px); pointer-events:none; } }
+.shell.intro-playing .region-map-layers, .shell.intro-playing .map-legend { opacity:0; transform:translateY(10px); pointer-events:none; }
+.shell.intro-playing .maplibregl-ctrl-top-right, .shell.intro-playing .maplibregl-ctrl-bottom-right { opacity:0; pointer-events:none; }
+@media (max-width: 1023px) { .intro-skip { bottom:14%; right:50%; transform:translateX(50%); animation:intro-in-c .8s ease .7s forwards; } .space-tools { top:8px; right:56px; } @keyframes intro-in-c { from { opacity:0; } to { opacity:1; } } }
+@media (prefers-reduced-motion: reduce) { .intro-title, .intro-stage.flight .intro-title, .intro-skip, .intro-stage.flight .intro-arrive { animation-duration:.01ms !important; animation-delay:0s !important; } .shell .overlay-left, .shell .region-map-layers, .shell .map-legend { transition:none; } }
+.intro-on .country-label { opacity:0 !important; }
+.intro-stage { place-items:start center; }
+.intro-title { margin-top:clamp(24px, 7vh, 90px); transform:none; }
+.workspace-map, .stage:not(.has-cell) { background:#040a16; }
+.region-map-loading { color:#9fb6d3; }
+
+/* En pantalla angosta la tarjeta tiene su propia animación de entrada, que fija opacity: durante la intro se apaga. */
+@media (max-width: 1023px) {
+  .intro-arrive { bottom:calc(14% + 64px); padding:0 16px; letter-spacing:.14em; font-size:.78rem; line-height:1.6; }
+  .country-label { font-size:9px; letter-spacing:.12em; }
+}

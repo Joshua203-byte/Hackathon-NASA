@@ -4,7 +4,8 @@ import { CASES, caseSearch, findCase, type CaseLink } from './panel/cases';
 import { VERDICT_UI } from './panel/verdict';
 import { IND_OPTION, LENS_LABEL, regionNames } from './panel/labels';
 import { selectIndicator } from './panel/lenses';
-import { useEffect, useSyncExternalStore } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
+import { shouldPlayIntro } from './panel/space/introPlan';
 import { lazy, Suspense } from 'react';
 const RegionMap = lazy(() => import('./panel/components/RegionMap').then(m => ({ default: m.RegionMap })));
 const CellPanel = lazy(() => import('./panel/components/CellPanel').then(m => ({ default: m.CellPanel })));
@@ -23,6 +24,9 @@ function useNarrow() {
 
 export function Shell() {
   const narrow = useNarrow();
+  // La entrada espacial se decide una sola vez; mientras suena, el resto de la interfaz espera.
+  const [playIntro] = useState(shouldPlayIntro);
+  const [introing, setIntroing] = useState(playIntro);
   const { boot, error } = useBoot();
   const [url, setUrl] = usePanelUrl();
   const { cell, status } = useCell(url.cell);
@@ -79,7 +83,7 @@ export function Shell() {
   const closeCell = () => { const q = new URLSearchParams(location.search); for (const k of ['cell', 'win', 'mirror', 'case', 'tour']) q.delete(k); history.pushState(null, '', `?${q}` + location.hash); dispatchEvent(new PopStateEvent('popstate')); };
 
   return (
-    <div className="shell">
+    <div className={introing ? 'shell intro-playing' : 'shell'}>
       <header className="topbar no-print">
         <div className="brand">
           <strong>ALTARIS</strong>
@@ -97,7 +101,7 @@ export function Shell() {
           {/* Rol 4: MapLibre; si no hay WebGL se usa la rejilla SVG sin mapa base. */}
           <Suspense fallback={<p className="region-map-loading">{es ? 'Cargando mapa…' : 'Loading map…'}</p>}>
             <RegionMap cells={boot.grid} meta={boot.meta} ind={url.ind} selected={url.cell} onSelect={selectCell} lang={url.lang}
-              cases={cases.map(c => ({ n: c.n, id: c.cell }))} onCase={n => { const c = CASES.find(k => k.n === n); if (c) openCase(c); }}
+              cases={cases.map(c => ({ n: c.n, id: c.cell }))} intro={playIntro} onIntroStart={() => setIntroing(true)} onIntroEnd={() => setIntroing(false)} onCase={n => { const c = CASES.find(k => k.n === n); if (c) openCase(c); }}
               fallback={<CellMap cells={boot.grid} meta={boot.meta} ind={url.ind} selected={url.cell} onSelect={selectCell} lang={url.lang} />} />
           </Suspense>
         </div>
@@ -175,7 +179,7 @@ export function Shell() {
           {url.cell && <button className="panel-close no-print" onClick={closeCell} aria-label={es ? 'Cerrar y volver al mapa' : 'Close and return to the map'}>×</button>}
           <Suspense fallback={<p>{es ? "Cargando panel…" : "Loading panel…"}</p>}><CellPanel cell={cell} gridRow={gridRow} meta={boot.meta} status={status} refs={boot.refs} mirror={mirror.cell} /></Suspense>
           <footer className="site-footer no-print">
-            <p>{es ? 'Datos' : 'Data'}: NASA GPM IMERG Final V07 (GES DISC) · NOAA CPC ONI · NASA POWER · Natural Earth. {es ? 'Describe el pasado: no es un pronóstico.' : 'It describes the past: it is not a forecast.'}</p>
+            <p>{es ? 'Datos' : 'Data'}: NASA GPM IMERG Final V07 (GES DISC) · NOAA CPC ONI · NASA POWER · Natural Earth · NASA Blue Marble. {es ? 'Describe el pasado: no es un pronóstico.' : 'It describes the past: it is not a forecast.'}</p>
             <p><a href="https://github.com/Joshua203-byte/Hackathon-NASA" target="_blank" rel="noreferrer">{es ? 'Código y método' : 'Code and method'}</a> · <a href="?dataset=pilot&cell=N1335W08715&ind=may_oct_mm&lang=es">Piloto real · Choluteca</a></p>
           </footer>
         </div>
