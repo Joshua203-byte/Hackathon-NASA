@@ -2,8 +2,9 @@ import { VERDICT_UI, reasonText, verdictNotices } from '../verdict';
 import type { CellDetail, IndicatorKey, Lang } from '../types';
 import { NEXT_STEP, VERDICT_PLAIN, answerLine } from '../labels';
 
-/** Cuántos tramos del medidor se llenan por veredicto. Orden de la escala del motor, sin cifras nuevas. */
-const LEVEL: Record<string, number> = { consistente: 4, limitada: 2, sin_evidencia: 1, incompleta: 0 };
+/** Los tres niveles del motor, de menos a más evidencia. Es una escala ordinal, no una probabilidad. */
+const SCALE = ['sin_evidencia', 'limitada', 'consistente'] as const;
+const SCALE_LABEL = { sin_evidencia: { es: 'Sin evidencia', en: 'No evidence' }, limitada: { es: 'Limitada', en: 'Limited' }, consistente: { es: 'Consistente', en: 'Consistent' } } as const;
 
 interface Props {
   cell: CellDetail;
@@ -27,9 +28,11 @@ export function VerdictBadge({ cell, ind, lang, validYears, totalYears }: Props)
         <span aria-hidden="true" style={{ color: `var(${ui.cssVar})` }}>{ui.icon}</span> {ui.label[lang]}
       </h2>
       {ui.caveat && <p className="verdict-caveat"><strong>{ui.caveat[lang]}</strong></p>}
-      <div className="verdict-meter" role="img" aria-label={`${lang === 'es' ? 'Nivel de evidencia' : 'Evidence level'}: ${ui.label[lang]}`} style={{ ['--c' as string]: `var(${ui.cssVar})` }}>
-        {[0, 1, 2, 3].map((i) => <i key={i} className={i < (LEVEL[d.verdict] ?? 0) ? 'on' : ''} style={{ animationDelay: `${0.15 + i * 0.12}s` }} />)}
-      </div>
+      {d.verdict !== 'incompleta' && (
+        <ol className="verdict-scale" aria-label={lang === 'es' ? 'Escala de evidencia' : 'Evidence scale'}>
+          {SCALE.map((v) => <li key={v} className={v === d.verdict ? 'on' : ''} aria-current={v === d.verdict ? 'true' : undefined} style={v === d.verdict ? { ['--c' as string]: `var(${VERDICT_UI[v].cssVar})` } : undefined}>{SCALE_LABEL[v][lang]}</li>)}
+        </ol>
+      )}
       <p className="verdict-answer">{answerLine(d.verdict, d.statistics?.slope_per_decade, lang)}</p>
       <p className="verdict-plain">{VERDICT_PLAIN[d.verdict][lang]}</p>
       <div className="verdict-next"><strong>{lang === 'es' ? 'Qué puedes hacer' : 'What you can do'}:</strong> {NEXT_STEP[d.verdict][lang]}</div>
