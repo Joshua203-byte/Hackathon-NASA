@@ -4,8 +4,7 @@ Working English copy for the project form. Andrés owns the submission. Updated 
 
 **Still open before sending:**
 
-- Done: Camila's scientific sign-off and case choice (`docs/09-casos-y-textos-camila.md`); the public app serves the final data and was checked on a phone.
-- `[PENDING: repo]` **The code repository is private**: both GitHub links return 404 without logging in. The guide asks for links that need no password or permission. Joshua must make the repository public, or the team must link a public copy.
+- Done: Camila's scientific sign-off and case choice (`docs/09-casos-y-textos-camila.md`); the public app serves the final data and was checked on a phone; the code repository is public (checked without logging in).
 - `[PENDING: video]` The demo video does not exist yet.
 - `[PENDING: guide]` \* Items that depend on the official 2026 guide. A summary is in `docs/rol6/guias-2026-resumen.md`; the AI-use wording is on hold until the app is tested.
 - `[PENDING: testing]` No user-testing result exists yet. Do not claim one.
@@ -101,6 +100,6 @@ Camila, Joshua, Elena, Izel, David and Andrés worked across science, data, web 
 
 ## Submission links
 
-- [Code repository](https://github.com/Joshua203-byte/Hackathon-NASA) `[PENDING: repo]` private today; make it public before sending
+- [Code repository](https://github.com/Joshua203-byte/Hackathon-NASA) (public)
 - Public app: <https://altaris.altaris-panel-rol5.workers.dev> (checked: final data, 2,025 cells; opens on a phone). Direct links to the cases: [case 1](https://altaris.altaris-panel-rol5.workers.dev/?case=1), [case 2](https://altaris.altaris-panel-rol5.workers.dev/?case=2), [case 3](https://altaris.altaris-panel-rol5.workers.dev/?case=3). The case links already open on the public app; the guided tour with the real case (merged into `main`) appears once Izel redeploys.
 - Demo video, 30 seconds or less: `[PENDING: video]`. The current file ([altaris-prototype.webm](altaris-prototype.webm)) is a rehearsal made with simulated data and must not be submitted.

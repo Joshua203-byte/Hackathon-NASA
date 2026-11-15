@@ -6,7 +6,7 @@ Cada número de [submission-en.md](submission-en.md) recalculado desde los datos
 
 **No se cotejó** (no sale de nuestros datos): la cifra de la FAO de más de diez millones de personas en el Corredor Seco (el enlace al PDF de la FAO abre).
 
-**Enlaces:** la app pública y el DOI abren sin iniciar sesión. **Los dos enlaces del repositorio de GitHub dan 404 sin iniciar sesión: el repositorio es privado.**
+**Enlaces:** la app pública y el DOI abren sin iniciar sesión. El repositorio de GitHub era privado; a las 06:25 ya es público y abre sin iniciar sesión.
 
 45 de 45 cifras coinciden
 
