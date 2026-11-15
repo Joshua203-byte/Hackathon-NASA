@@ -34,8 +34,10 @@ function writeLayer(layer: MapLayer) {
 
 const fmt = (v: number | null | undefined, digits = 1) => (typeof v === 'number' ? v.toFixed(digits) : '—');
 
-export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback }: {
+export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback, cases = [], onCase }: {
   cells: GridCell[]; meta: Meta; ind: IndicatorKey; selected: string | null; onSelect: (id: string) => void; lang: Lang;
+  /** Casos de estudio: se marcan con su número sobre la celda. */
+  cases?: { n: number; id: string }[]; onCase?: (n: number) => void;
   /** Se muestra si el navegador no puede crear el contexto WebGL. */
   fallback: ReactNode;
 }) {
@@ -44,6 +46,8 @@ export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback
   const mapRef = useRef<MlMap | null>(null);
   const onSelectRef = useRef(onSelect);
   onSelectRef.current = onSelect;
+  const onCaseRef = useRef(onCase);
+  onCaseRef.current = onCase;
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
   const [layer, setLayer] = useState<MapLayer>(readLayer);
@@ -111,6 +115,26 @@ export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback
     return () => { map.remove(); mapRef.current = null; setReady(false); };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- bbox y datos iniciales; los cambios van por los efectos de abajo
   }, []);
+
+  // Marcadores HTML (no hay servidor de fuentes para etiquetas de MapLibre). Son botones: se alcanzan con teclado.
+  const caseKey = cases.map(c => `${c.n}:${c.id}`).join(',');
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!ready || !map) return;
+    const markers = cases.flatMap(({ n, id }) => {
+      const c = byId.get(id);
+      if (!c) return [];
+      const el = document.createElement('button');
+      el.type = 'button';
+      el.className = 'case-marker';
+      el.textContent = String(n);
+      el.setAttribute('aria-label', `${es ? 'Caso' : 'Case'} ${n} · ${id}`);
+      el.addEventListener('click', ev => { ev.stopPropagation(); onCaseRef.current?.(n); });
+      return [new maplibregl.Marker({ element: el, anchor: 'bottom', offset: [0, -4] }).setLngLat([c.lon, c.lat]).addTo(map)];
+    });
+    return () => markers.forEach(m => m.remove());
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- caseKey resume `cases`
+  }, [ready, caseKey, byId, es]);
 
   useEffect(() => {
     if (ready) (mapRef.current?.getSource('cells') as GeoJSONSource | undefined)?.setData(data as never);

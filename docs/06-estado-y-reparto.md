@@ -17,7 +17,7 @@ Repositorio oficial: `Joshua203-byte/Hackathon-NASA`. Todo lo descrito aquí est
 | JSON final | `rol5-panel-app/public/data/` (en `main` desde el PR #3) | Regenerado desde cero con la receta de la sección 6 sobre el motor de `main` (`pipeline_commit` `a7a5b18`; código del motor igual a `802a9b0`). Mismos veredictos y cifras que el zip v2 y que `docs/07`. Incluye el `enso.json` real de `data/rol3/`. Los ejemplos simulados de las pruebas están en `src/panel/__tests__/fixtures/data/` |
 | Revisión independiente | `docs/07`, sección 6 | 9 celdas recalculadas con `scipy`; coinciden |
 | Panel de celda | `rol5-panel-app/` | Carga el JSON real y traduce las razones con `reasons.json`. 38 pruebas, compila |
-| Mapa MapLibre | `rol5-panel-app/` | 2 025 celdas, bordes, capas de veredicto, pendiente, estabilidad y ENSO |
+| Mapa MapLibre | `rol5-panel-app/` | 2 025 celdas, bordes, capas de veredicto, pendiente, estabilidad y ENSO. Los 3 casos de Camila como tarjetas y marcadores; enlaces cortos `?case=1`, `?case=2`, `?case=3` |
 | Despliegue en Cloudflare | `rol5-panel-app/wrangler.jsonc`, `npm run deploy` | <https://altaris.altaris-panel-rol5.workers.dev> sirve el mismo `public/data/` de `main` (comprobado archivo por archivo, salvo saltos de línea) y el panel carga sin errores. Probado en escritorio y en vista móvil emulada |
 | Paquete de revisión para Camila | [08-revision-camila.md](08-revision-camila.md), [casos-candidatos.md](casos-candidatos.md) | Decisiones, evidencia y candidatos a los 3 casos |
 | Formulario en inglés | [rol6/submission-en.md](rol6/submission-en.md) | Con cifras reales. Lo que falta va marcado `[PENDING]` |
