@@ -1,0 +1,82 @@
+{
+  "pendiente_sen": {
+    "term": {
+      "es": "Pendiente de Sen",
+      "en": "Sen slope"
+    },
+    "definition": {
+      "es": "Cambio típico por década, resistente a años extremos.",
+      "en": "Typical change per decade, robust to extreme years."
+    }
+  },
+  "intervalo_confianza": {
+    "term": {
+      "es": "Intervalo de confianza",
+      "en": "Confidence interval"
+    },
+    "definition": {
+      "es": "Rango razonable para la pendiente dado el ruido de los datos.",
+      "en": "Reasonable range for the slope given data noise."
+    }
+  },
+  "huella_estabilidad": {
+    "term": {
+      "es": "Huella de estabilidad",
+      "en": "Stability footprint"
+    },
+    "definition": {
+      "es": "La tendencia calculada en todas las ventanas de años posibles.",
+      "en": "The trend computed over every possible year window."
+    }
+  },
+  "completitud": {
+    "term": {
+      "es": "Completitud",
+      "en": "Completeness"
+    },
+    "definition": {
+      "es": "Años con dato válido sobre el total del periodo.",
+      "en": "Years with valid data out of the period total."
+    }
+  },
+  "mm_temporada": {
+    "term": {
+      "es": "Milímetros por temporada",
+      "en": "Millimetres per season"
+    },
+    "definition": {
+      "es": "Lluvia acumulada durante los meses seleccionados. Un milímetro equivale a un litro por metro cuadrado.",
+      "en": "Total rainfall during the selected months. One millimetre equals one litre per square metre."
+    }
+  },
+  "valor_p": {
+    "term": {
+      "es": "Valor p",
+      "en": "P-value"
+    },
+    "definition": {
+      "es": "Si no hubiera tendencia y se cumplieran los supuestos del método, mide qué tan probable sería un resultado al menos tan extremo como el observado.",
+      "en": "Under a no-trend hypothesis and the assumptions of the test, it measures how likely a result at least this extreme would be."
+    }
+  },
+  "fdr": {
+    "term": {
+      "es": "Tasa de falsos descubrimientos",
+      "en": "False discovery rate"
+    },
+    "definition": {
+      "es": "Al probar muchas celdas aumenta la posibilidad de detectar señales por azar. El ajuste FDR controla la proporción esperada de falsos hallazgos entre los señalados.",
+      "en": "Testing many cells can flag patterns by chance. FDR adjustment controls the expected share of false discoveries among the flagged results."
+    }
+  },
+  "enso_oni": {
+    "term": {
+      "es": "ENSO e índice ONI",
+      "en": "ENSO and the ONI index"
+    },
+    "definition": {
+      "es": "El Niño y La Niña son fases de una oscilación del Pacífico tropical. El ONI resume anomalías de temperatura del mar durante periodos de tres meses.",
+      "en": "El Niño and La Niña are phases of a tropical Pacific oscillation. ONI summarises sea surface temperature anomalies over three-month periods."
+    }
+  }
+}

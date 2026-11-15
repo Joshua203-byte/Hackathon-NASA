@@ -81,7 +81,7 @@ export const MOCK_CELLS = [
 ];
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  const out = process.argv[2] ?? 'public/data';
+  const out = process.argv[2] ?? 'src/panel/__tests__/fixtures/data'; // public/data tiene los datos reales
   mkdirSync(join(out, 'cells'), { recursive: true });
   for (const spec of MOCK_CELLS) writeFileSync(join(out, 'cells', `${spec.id}.json`), JSON.stringify(makeCell(spec)));
   // Celda rota a propósito: Python escribe NaN si no se usa allow_nan=False, y JSON.parse lo rechaza.

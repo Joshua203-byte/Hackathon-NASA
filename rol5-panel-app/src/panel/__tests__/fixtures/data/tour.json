@@ -1,0 +1,55 @@
+{
+  "steps": [
+    {
+      "anchor": "series",
+      "glossary": "pendiente_sen",
+      "title": {
+        "es": "¿Qué es una tendencia?",
+        "en": "What is a trend?"
+      },
+      "body": {
+        "es": "La línea gris resume cuánto sube o baja la lluvia por década en esta celda.",
+        "en": "The grey line summarises how much rainfall rises or falls per decade in this cell."
+      }
+    },
+    {
+      "anchor": "verdict",
+      "glossary": "intervalo_confianza",
+      "title": {
+        "es": "¿Es de fiar?",
+        "en": "Can we trust it?"
+      },
+      "body": {
+        "es": "El intervalo muestra cuánta incertidumbre hay en la pendiente; el valor p indica hasta qué punto los datos son compatibles con una serie sin tendencia. Un veredicto limitado significa que la señal sigue sin confirmarse.",
+        "en": "The interval shows uncertainty in the slope; the p-value tells us how compatible the data are with a series that has no trend. A limited verdict means the signal remains unconfirmed."
+      }
+    },
+    {
+      "anchor": "footprint",
+      "glossary": "huella_estabilidad",
+      "title": {
+        "es": "¿Y si cambio los años?",
+        "en": "What if I change the years?"
+      },
+      "body": {
+        "es": "Cada casilla es una ventana de años: si los colores cambian mucho, la tendencia es frágil. La línea punteada marca 2014.",
+        "en": "Each square is a year window: changing colours mean a fragile trend. The dashed line marks 2014."
+      },
+      "set": {
+        "win": "2001-2016"
+      }
+    },
+    {
+      "anchor": "cards",
+      "glossary": "completitud",
+      "title": {
+        "es": "¿Qué preguntas conviene hacerse?",
+        "en": "Which questions should we ask?"
+      },
+      "body": {
+        "es": "Estas preguntas dependen de datos locales que este análisis no tiene.",
+        "en": "These questions depend on local data this analysis does not have."
+      }
+    }
+  ]
+}
