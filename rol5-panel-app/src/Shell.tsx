@@ -1,5 +1,7 @@
 // Host del panel con el mapa MapLibre de Rol 4 (RegionMap) y la rejilla SVG como respaldo.
 import { CellMap } from './panel/components/CellMap';
+import { CASES, caseSearch, findCase, type CaseLink } from './panel/cases';
+import { VERDICT_UI } from './panel/verdict';
 import { selectIndicator } from './panel/lenses';
 import { useEffect } from 'react';
 import { lazy, Suspense } from 'react';
@@ -15,8 +17,18 @@ export function Shell() {
   const { cell, status } = useCell(url.cell);
   const caseParam = new URLSearchParams(window.location.search).get('case');
   const requestedMirror = new URLSearchParams(window.location.search).get('mirror');
-  const mirrorId = requestedMirror && /^[NS]\d{4}[EW]\d{5}$/.test(requestedMirror) ? requestedMirror : caseParam === '3' ? boot?.grid.find(c => c.id !== url.cell)?.id ?? null : null;
+  const kase = findCase(caseParam);
+  // ?case=3 sin ?mirror: la espejo del caso 3 si existe en estos datos; si no (ejemplos simulados), la primera otra celda.
+  const caseMirror = kase?.mirror && boot?.grid.some(c => c.id === kase.mirror) ? kase.mirror : caseParam === '3' ? boot?.grid.find(c => c.id !== url.cell)?.id ?? null : null;
+  const mirrorId = requestedMirror && /^[NS]\d{4}[EW]\d{5}$/.test(requestedMirror) ? requestedMirror : caseMirror;
   const mirror = useCell(mirrorId !== url.cell ? mirrorId : null);
+
+  // Enlace corto ?case=N (formulario, video): se expande a celda, indicador, ventana y espejo.
+  useEffect(() => {
+    if (!boot || !kase || url.cell || !boot.grid.some(c => c.id === kase.cell)) return;
+    history.replaceState(null, '', caseSearch(location.search, kase) + location.hash);
+    dispatchEvent(new PopStateEvent('popstate'));
+  }, [boot, kase, url.cell]);
 
   useEffect(() => {
     if (status !== 'ready') return;
@@ -34,6 +46,8 @@ export function Shell() {
   const gridRow = boot.grid.find((c) => c.id === url.cell) ?? null;
   const es = url.lang === 'es';
   const selectCell = (id: string) => setUrl({ cell: id, win: null }, 'push');
+  const cases = CASES.filter(c => boot.grid.some(g => g.id === c.cell));
+  const openCase = (c: CaseLink) => { history.pushState(null, '', caseSearch(location.search, c) + location.hash); dispatchEvent(new PopStateEvent('popstate')); };
 
   return (
     <div className="shell">
@@ -61,8 +75,25 @@ export function Shell() {
       </header>
       {(boot.meta.data_kind !== 'observed' || boot.meta.pipeline_commit === 'MOCK') && <p role="note" className="notice">{es ? 'DEMOSTRACIÓN: datos simulados o sin validación de procedencia. No usar para decisiones.' : 'DEMO: simulated data or unverified provenance. Do not use for decisions.'}</p>}
       {/* Rol 4: MapLibre; si no hay WebGL se usa la rejilla SVG sin mapa base. */}
+      {cases.length > 0 && (
+        <nav className="case-links no-print" aria-label={es ? 'Casos de estudio' : 'Case studies'}>
+          <strong>{es ? 'Casos' : 'Cases'}</strong>
+          {cases.map(c => {
+            const v = boot.grid.find(g => g.id === c.cell)?.ind[c.ind]?.verdict;
+            const current = url.cell === c.cell;
+            return (
+              <a key={c.n} href={caseSearch(location.search, c)} aria-current={current ? 'true' : undefined} className={current ? 'case-link active' : 'case-link'}
+                onClick={e => { if (e.button === 0 && !e.metaKey && !e.ctrlKey && !e.shiftKey) { e.preventDefault(); openCase(c); } }}>
+                <span className="case-num" aria-hidden="true">{c.n}</span>
+                <span><b>{c.title[url.lang]}</b><br /><small>{c.cell}{v ? ` · ${VERDICT_UI[v].icon} ${VERDICT_UI[v].label[url.lang]}` : ''}{c.note ? ` · ${c.note[url.lang]}` : ''}</small></span>
+              </a>
+            );
+          })}
+        </nav>
+      )}
       <Suspense fallback={<p className="region-map-loading">{es ? 'Cargando mapa…' : 'Loading map…'}</p>}>
         <RegionMap cells={boot.grid} meta={boot.meta} ind={url.ind} selected={url.cell} onSelect={selectCell} lang={url.lang}
+          cases={cases.map(c => ({ n: c.n, id: c.cell }))} onCase={n => { const c = CASES.find(k => k.n === n); if (c) openCase(c); }}
           fallback={<CellMap cells={boot.grid} meta={boot.meta} ind={url.ind} selected={url.cell} onSelect={selectCell} lang={url.lang} />} />
       </Suspense>
       <label className="mirror-picker no-print">{es ? 'Comparar con otra celda' : 'Compare another cell'} <select aria-label={es ? 'Celda espejo' : 'Mirror cell'} value={mirrorId ?? ''} onChange={e => { const q = new URLSearchParams(location.search); q.delete('case'); if (e.target.value) q.set('mirror', e.target.value); else q.delete('mirror'); history.replaceState(null, '', `?${q}`); dispatchEvent(new PopStateEvent('popstate')); }}><option value="">—</option>{boot.grid.filter(c => c.id !== url.cell).map(c => <option key={c.id}>{c.id}</option>)}</select></label>
