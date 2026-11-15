@@ -5,7 +5,7 @@
 
 :root {
   --verdict-consistente:#1b7837; --verdict-limitada:#e08214; --verdict-sin-evidencia:#7f7f7f; --verdict-incompleta:#b2182b;
-  --ink:#12222e; --ink-2:#44586a; --ink-3:#6b7d8c;
+  --ink:#12222e; --ink-2:#44586a; --ink-3:#5b6e80;
   --line:#dbe3ea; --surface:#ffffff; --surface-2:#f3f6f9; --sea:#dce8ef;
   --brand:#0d3b66; --brand-2:#1f5d94; --accent:#f2b705; --series:#2a78d6;
   --neg:#8c510a; --pos:#01665e;
@@ -273,3 +273,5 @@ dl dd { margin:0; color:var(--ink-2); }
 .control-ind { grid-column:1 / -1; order:0; }
 .control-hint { font-weight:500; color:var(--ink-3); font-size:.78rem; }
 .stage.has-cell .control-ind { grid-column:auto; }
+.enso-legend span { display:inline-flex; align-items:center; gap:.3rem; color:var(--ink-2); }
+.enso-legend i { width:10px; height:10px; border-radius:2px; display:inline-block; }

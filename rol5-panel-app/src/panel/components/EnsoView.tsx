@@ -58,8 +58,8 @@ export const EnsoView = memo(function EnsoView({ data, period, enso, strongOff, 
           </Bar>
         </BarChart>
       </ResponsiveContainer>
-      <p className="legend">
-        <span style={{ color: COLOR.nino }}>■ N = El Niño</span> · <span style={{ color: COLOR.nina }}>■ Ñ = La Niña</span> · <span style={{ color: COLOR.neutral }}>■ · = {es ? 'neutral' : 'neutral'}</span>
+      <p className="legend enso-legend">
+        <span><i style={{ background: COLOR.nino }} /> N = El Niño</span> · <span><i style={{ background: COLOR.nina }} /> Ñ = La Niña</span> · <span><i style={{ background: COLOR.neutral }} /> · = {es ? 'neutral' : 'neutral'}</span>
       </p>
       <label className="toggle">
         <input type="checkbox" checked={strongOff && toggleOk} disabled={!toggleOk} onChange={(ev) => onToggle(ev.target.checked)} />
