@@ -1,65 +1,89 @@
-# Estado y reparto (corte sábado 14 de noviembre, 23:50, El Salvador)
+# Estado y reparto (corte domingo 15 de noviembre, 03:00, El Salvador)
 
-Entrega: domingo 15 de noviembre 23:59. Meta interna de envío: 21:00. Este documento resume qué hay en `main`, qué falta y quién hace qué desde ahora. Reemplaza el reparto por defecto de [05-cronograma-y-relevos.md](05-cronograma-y-relevos.md) solo donde lo contradice; los horarios H1 a H3 de ese documento siguen.
+Entrega: domingo 15 de noviembre 23:59. Meta interna de envío: 21:00. Congelación: 15:00. Este documento resume qué hay en `main`, qué falta y quién hace qué desde ahora. Reemplaza el corte del sábado 23:50. El repositorio oficial es `Joshua203-byte/Hackathon-NASA`.
 
-## 1. Qué hay en `main`
+## 1. Qué hay
 
 | Pieza | Dónde | Estado |
 |---|---|---|
-| Plan v3.1 | `PROPUESTA_ALTARIS_PLAN_EQUIPO.md` | Vigente (Rol 6 = Andrés) |
-| Panel de celda (Rol 5) | `rol5-panel-app/` | Funciona con 4 celdas simuladas; falta cargar JSON real |
-| Motor estadístico (Rol 2) | `pipeline/` | Listo y probado: 63 pruebas pasan (Python 3.10 y 3.13). Sen, Mann-Kendall (Hamed-Rao si hay autocorrelación), huella de estabilidad, FDR, veredicto base y por ventana, razones, calibración, exportador al contrato del panel, resumen por veredicto, receta reproducible |
-| Contenido y entrega (Rol 6) | `docs/rol6/` | Formulario en inglés (borrador), fuentes y uso de IA, guion de pruebas, video de ensayo de 28 s con datos simulados, narrador `pipeline/10_narrate.py` |
-| Datos reales de IMERG | — | **No hay.** Es la ruta crítica |
-| ENSO y chequeo 2014 | — | No hay |
-| Mapa MapLibre y URL pública | — | No hay |
+| Plan v3.1 | `PROPUESTA_ALTARIS_PLAN_EQUIPO.md` | Vigente |
+| Datos reales de IMERG (Rol 1) | `data/rol1/` | Listo: 2 025 celdas, 2001–2024, DOI `10.5067/GPM/IMERG/3B-MONTH/07`. Contraste con NASA POWER en 3 sitios |
+| ENSO y salto 2014 (Rol 3) | `data/rol3/`, `pipeline/06_enso.py` | Calculado sobre las 2 025 celdas. **Falta la revisión de Camila** |
+| Motor estadístico (Rol 2) | `pipeline/` | Listo: 70 pruebas pasan. Umbrales congelados (`frozen: true`), un cambio anotado en `threshold_changes` (Hamed-Rao). Calibración de 1 000 simulaciones |
+| JSON final | fuera del repositorio (zip, ~22 MB; 143 MB sin comprimir) | Generado y comprobado contra el panel. Una segunda corrida desde cero da los mismos veredictos y cifras |
+| Cifras y candidatos a casos | [07-cifras-y-candidatos.md](07-cifras-y-candidatos.md) | Provisionales hasta la revisión de Camila |
+| Panel de celda (Rol 5) | `rol5-panel-app/` | En `main` carga el JSON real, pero solo traduce 3 códigos de razón; el resto sale como código crudo |
+| Mapa MapLibre (Rol 4) | rama `izel/panel-celda` (`8813c50`) | **Hecho pero sin mezclar a `main`.** Pinta `grid.json` con bordes y capas de veredicto, pendiente, estabilidad y ENSO |
+| Lectura de `reasons.json` en el panel | rama `andres/piloto-choluteca` (`53bcbc5`) | **Hecho pero sin mezclar a `main`** |
+| Contenido y entrega (Rol 6) | `docs/rol6/` | Formulario en inglés (borrador con datos simulados), fuentes, guion de pruebas, video de ensayo |
+| URL pública | — | No hay |
 
-Ramas abiertas que no están en `main`: `david-y-elena` (un Rol 2 y una web paralelos, ver sección 4). No se mezcla.
+Mezcla de prueba (15 nov, 02:15): `izel/panel-celda` y `andres/piloto-choluteca` se mezclan sobre `main` sin conflictos; el resultado compila, pasa 38 pruebas y el mapa funciona con el JSON real. Izel lleva esa mezcla.
 
-## 2. Ruta crítica
+La rama `david-y-elena` (un motor y una web paralelos) no se mezcla; de ella ya se adoptó lo útil.
 
-`datos reales (David) → piloto Choluteca → región completa → ENSO + 2014 → JSON final → URL pública → video y envío`.
+## 2. Requisitos del JSON que lee el panel
 
-Hasta que David entregue una serie real, nadie más puede validar números. Todo lo demás se adelanta en paralelo con datos simulados (`python pipeline/run_pilot.py --synthetic --out <carpeta>`).
+- `meta.json` con `data_kind: "observed"` exige DOI real y commit del motor. Con `dataset_doi: "POR CONFIRMAR"` el panel no arranca.
+- `enso.json` debe ser el de `data/rol3/` (años fuertes de may–oct: 2010, 2015, 2023). El de `rol5-panel-app/public/data/` es simulado.
+- `tour.json`, `glossary.json` y `decision_rules.json` salen de `rol5-panel-app/public/data/`.
+- Comando: ver [pipeline/README.md](../pipeline/README.md). Pasar `--commit $(git rev-parse --short HEAD)`.
 
-## 3. Reparto
+## 3. Lo que queda, en orden
 
-| Persona | Rol | Ahora (sábado noche) | Domingo | Entrega a |
-|---|---|---|---|---|
-| **David** | 1 · Datos | Descargar IMERG mensual (V07) 2001–2024 con earthaccess; serie de Choluteca primero. Confirmar DOI y si 2025 está completo | Región completa; segunda extracción de los sitios que elija Camila | `cells.csv`, `series.csv`, `monthly.csv` a Joshua y Camila |
-| **Elena** | 4 · Mapa y despliegue | Con David: partir la descarga por años para ir el doble de rápido. Mapa MapLibre sobre el panel de Izel (4 celdas simuladas) | Despliegue y **URL pública** (P0 a las 12:00). Globo solo si P0 y P1 ya están | URL a Andrés |
-| **Joshua** | 2 · Motor | Fijar umbrales (sección 5) y poner `frozen: true` en un commit **antes** de correr la región | Piloto Choluteca (H1 00:00 si llega la serie), región completa (H2 06:00), calibración de 1000, cifras para el formulario | JSON a Izel y Elena; cifras a Andrés y Camila |
-| **Camila** | 3 · ENSO y QA | ONI de NOAA CPC; `enso.json`. Prueba de salto 2014 (Pettitt) en serie simulada para tener el script listo | `enso_results.csv` y `break2014.csv` con los mismos IDs; elegir 3 casos; revisar 10 celdas y los textos | CSV a Joshua; casos a Andrés |
-| **Izel** | 5 · Panel | Conectar `rol5-panel-app/public/data/` al exportador de Joshua (hay JSON sintético de 40 celdas); confirmar la regla de ventanas y los códigos de razón (sección 5) | Cargar JSON real; recorrido y pasaporte con el caso real | URL final a Andrés junto con Elena |
-| **Andrés** | 6 · Producto | Verificar acceso de envío al portal y que el equipo ve su pestaña Project; leer la guía íntegra vigente | 5 sesiones con personas (12:00–15:00); video final sobre versión congelada; formulario con cifras reales; **envío 21:00** | Confirmación de envío |
+### 02:00 a 06:00
 
-Regla de relevo (de [05](05-cronograma-y-relevos.md)): cada entrega indica archivo o enlace, versión, comprobación superada, limitación pendiente y quién continúa.
+| Quién | Qué | Depende de |
+|---|---|---|
+| **Joshua** | Pasar el zip final a Izel y Elena, avisar al grupo y pedir a Camila la revisión | Nada |
+| **Camila** | Revisar: la bandera de 2014 (única causa de que 29 celdas de Guatemala en lluvia de temporada y 30 en anual no sean `consistente`), el salto de 2012 en la franja de Guatemala, el 17,6 % de banderas en canícula y el criterio de `survives`. Elegir los 3 casos | `docs/07` y `data/rol3/` |
+| **Izel** | Mezclar a `main` el mapa y la lectura de `reasons.json`. Cargar el JSON real. Confirmar resultados por ventana (techo `limitada`) | El zip |
+| **Elena** | Desplegar la mezcla con URL pública. Elegir hosting y resolver dónde viven los 2 025 archivos de `cells/` (~72 KB cada uno) | La mezcla de Izel |
+| **David** | Cuando Camila pase los IDs: `python 04_power.py --cells ID1 ID2 ID3` | Los casos |
+| **Andrés** | Verificar acceso al portal y pestaña Project. Leer completas las guías de envío y de evaluación 2026: campos, límites, idioma, rúbrica. El formato de demo ya está registrado en `docs/rol6/fuentes.md` (30 s de video o 7 láminas; se eligió video) | Nada |
 
-## 4. Un solo motor, una sola web
+### 06:00 a 12:00
 
-Elena y Joshua escribieron un Rol 2 cada uno. Se queda el de `pipeline/` de `main`, porque cumple el contrato del panel (incluye resultados por ventana) y tiene 60 pruebas. De la rama `david-y-elena` ya se adoptó: narrativa de plantilla, tabla resumen por veredicto para Rol 6, receta reproducible en `meta.json`, opción `p_max_sign_rule` y la calibración con varios coeficientes de variación. Sus notas de decisión están en la rama (`docs/rol2-motor-estadistico.md`).
+- **Joshua:** `case_figures.py` con los IDs de Camila y pasar `casos.md` a Andrés. Revisar 10 celdas con Camila (9 ya recalculadas con `scipy`). Regenerar el JSON solo si Camila cambia la regla de 2014 o de ENSO.
+- **Camila:** textos de los 3 casos y de las limitaciones.
+- **Izel:** recorrido y pasaporte con el caso real; adaptar la ventana del paso 3 del recorrido.
+- **Elena:** primera versión desplegada, P0 a las 12:00. Globo solo si P0 está completo.
+- **Andrés:** `10_narrate.py` sobre el JSON final; revisar una celda por categoría con Camila. Lista de recursos y registro de uso de IA.
 
-La rama también trae su propia `web/`. Para no duplicar, la web oficial es `rol5-panel-app/`, a menos que el grupo decida lo contrario (decisión 4 abajo).
+### 12:00 a 15:00
 
-Narrador: el de Andrés (`10_narrate.py`) corre **después** de exportar y valida que no haya cifras ni frases predictivas inventadas. La plantilla de `pipeline/altaris/narrative.py` queda de respaldo.
+- **Andrés:** 5 sesiones con personas sobre la URL pública. Problemas de mapa a Elena, de interpretación a Izel.
+- **Joshua y Camila:** dudas científicas. No tocar umbrales; cualquier cambio va a `threshold_changes`.
 
-## 5. Decisiones abiertas (resolver antes de ver el mapa real)
+### 15:00, congelación
 
-| # | Decisión | Opciones | Recomendación |
-|---|---|---|---|
-| 1 | Nivel FDR | 0,05 (plan) o 0,10 (propuesta de Elena, cita sin verificar) | 0,05 hasta que Camila verifique la referencia |
-| 2 | `p_max_sign_rule` | `null` (regla del plan) o 0,20 | Decidir con la calibración de 1000. Sin tope, entre ~20 % y ~32 % de las series sin tendencia salen `limitada`; con 0,20 baja a ~17 % a costa de potencia |
-| 3 | Veredicto por ventana | Techo `limitada` (propuesto) | Izel confirma que el panel lo muestra así |
-| 4 | Qué web se queda | `rol5-panel-app/` o `web/` | `rol5-panel-app/` |
-| 5 | Códigos de razón | Los del motor (`pipeline/altaris/reasons.py`, exporta `reasons.json`) | Izel los toma de ahí |
-| 6 | Periodo | 2001–2024 o 2001–2025 | 2024, salvo que David confirme 2025 completo |
+1. Todas las ramas útiles ya mezcladas en `main`.
+2. **Joshua:** `git tag congelada-1500` y `git push origin congelada-1500`.
+3. **Elena:** despliegue final sobre esa etiqueta.
+4. **Camila:** revisión científica final del formulario y del video.
 
-Cualquier cambio de umbral **después** de ver el mapa se anota en `threshold_changes` de `pipeline/config.yaml`.
+### 15:00 a 21:00
 
-## 6. Contratos de entrada del motor
+- **Andrés:** video definitivo con ID y veredicto reales, mostrando el producto NASA y su procedencia. Formulario en inglés con enlaces probados.
+- **Joshua:** cifras finales al formulario.
+- **18:00, revisión del equipo:** todo número del formulario sale del JSON; ninguna cifra es simulada.
+- **21:00, envío por Andrés.** Guardar confirmación, URL y hora.
 
-Formatos exactos en [pipeline/README.md](../pipeline/README.md): `cells.csv`, `series.csv` (largo: `cell_id,indicator,year,value`), `monthly.csv`, `enso_results.csv`, `break2014.csv`, `enso.json`. Si falta ENSO o 2014, el veredicto lo marca como pendiente y no bloquea. Sin FDR no hay `consistente`.
+## 4. Decisiones abiertas
 
-## 7. Qué no se puede afirmar todavía
+| # | Decisión | Estado |
+|---|---|---|
+| 1 | Dónde vive `cells/` | Elena lo prueba temprano. Si el hosting lo rechaza, servir solo las celdas necesarias o adelgazar campos |
+| 2 | Criterio de `survives` (dos variantes o una) | Decide Camila. **No cambia ningún veredicto:** ninguna celda deja de ser `consistente` solo por ENSO. Solo cambia el texto de las razones y el conteo |
+| 3 | Bandera de 2014 y salto de 2012 | Decide Camila. Esta sí mueve veredictos en Guatemala |
+| 4 | Texto de `enso_no_sobrevive` en celdas `sin_evidencia` | Hoy se muestra "la tendencia no sobrevive" en celdas donde no había tendencia. Camila decide si se oculta o se reescribe |
 
-Nada con datos reales. El video, el formulario y el panel usan hoy cifras **simuladas**; deben decirlo mientras sea así. No hay resultado de pruebas con personas. La calibración publicada en el pasaporte debe ser la de 1000 simulaciones con la configuración congelada, no las cifras de ensayo de este documento.
+Resueltas: FDR 0,05; `p_max_sign_rule: null`; techo `limitada` por ventana; periodo 2001–2024; web oficial `rol5-panel-app/`.
+
+## 5. Qué se puede afirmar y qué no
+
+- **Sí:** con 24 años de IMERG no se puede sostener una tendencia de lluvia en Honduras ni en El Salvador. El signo es casi siempre negativo, pero los intervalos incluyen el cero.
+- **Con salvedad:** la franja `consistente` de Guatemala. Es una caída muy grande, con un cambio hacia 2012 que la regla de la bandera no cubre, en una zona donde IMERG y POWER discrepan.
+- **No:** "la lluvia baja" en Honduras; un efecto espejo de ENSO (no aparece); "ENSO explica la señal" (casi todas las celdas que no sobreviven al control no tenían tendencia que explicar); cualquier resultado de pruebas con personas, que aún no se hicieron.
+- IMERG y NASA POWER discrepan en el signo en 7 de 9 comparaciones: va como limitación.
+- El formulario (`docs/rol6/submission-en.md`) y el video de ensayo todavía describen datos simulados; hay que reescribirlos con las cifras reales.
