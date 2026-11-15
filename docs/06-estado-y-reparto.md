@@ -30,12 +30,12 @@ En orden de riesgo. Lo de arriba bloquea a lo de abajo.
 | # | Qué | Quién | Depende de | Hora meta |
 |---|---|---|---|---|
 | 1 | Confirmar que la URL pública sirve el zip v2 (no el primero, que el panel rechaza) y probarla en incógnito y en teléfono | Izel, Elena | Zip v2 | 06:00 |
-| 2 | Revisión científica: regla de 2014, salto de 2012 en Guatemala, texto de `enso_no_sobrevive`, elección de los 3 casos | Camila | `docs/08` | 06:00 |
+| 2 | ~~Revisión científica~~ **Hecha (04:15)**. Ver `docs/08`, sección Resolución | Camila | — | — |
 | 3 | Leer completas las guías 2026 de envío y evaluación: campos, límites, idioma, rúbrica, redacción de la declaración de IA. Confirmar que IMERG figura en los recursos del reto | Andrés | Nada | 06:00 |
 | 4 | Verificar acceso al portal y que los seis ven la pestaña Project | Andrés | Nada | 06:00 |
-| 5 | Segunda variable (temperatura y radiación) en los 3 casos: `python 04_power.py --cells ID1 ID2 ID3` | David | Los IDs de Camila | 09:00 |
-| 6 | Cifras finales de los casos: `python pipeline/case_figures.py --data <carpeta> --cells ID1 ID2 ID3` | Joshua | Los IDs de Camila | 09:00 |
-| 7 | Regenerar el JSON **solo si** Camila cambia la regla de 2014 (unos 15 minutos) y volver a publicar | Joshua, Izel | Decisión de Camila | 09:00 |
+| 5 | Segunda variable (temperatura y radiación) en los 3 casos: `python 04_power.py --cells N1335W08715 N1475W08765 N1495W09125` | David | Listo para correr | 09:00 |
+| 6 | Cifras finales de los casos: `python pipeline/case_figures.py --data rol5-panel-app/public/data --cells N1335W08715 N1475W08765 N1495W09125` | Joshua | Listo para correr | 09:00 |
+| 7 | ~~Regenerar el JSON por la regla de 2014~~ **No hace falta** (opción A). Volver a publicar solo por los `reasons.json` nuevos | Izel | — | 09:00 |
 | 8 | Textos de los 3 casos y de las limitaciones | Camila | Los casos | 12:00 |
 | 9 | Recorrido guiado y pasaporte con el caso real; adaptar la ventana del paso 3 | Izel | Los casos | 12:00 |
 | 10 | `10_narrate.py` sobre el JSON final; revisar una celda por categoría | Andrés, Camila | JSON definitivo | 12:00 |
@@ -49,14 +49,14 @@ En orden de riesgo. Lo de arriba bloquea a lo de abajo.
 
 Pendiente menor de Joshua: copiar este documento al Project de Claude, que sigue en la versión 2 del plan.
 
-## 3. Decisiones abiertas
+## 3. Decisiones de la revisión científica (resueltas el domingo 15 a las 04:15, ver [08](08-revision-camila.md#resolución-domingo-15-0415-camila-con-claude))
 
-| # | Decisión | Quién | Efecto |
-|---|---|---|---|
-| 1 | Regla de la bandera de 2014 (dejarla o ampliarla a 2012–2015) | Camila | La única que cambia veredictos: hasta 36 celdas `consistente` de temporada y 29 anuales pasarían a `limitada` |
-| 2 | Criterio de `survives` (dos variantes o una) | Camila | Ningún veredicto cambia. Solo el texto y el conteo |
-| 3 | Texto de `enso_no_sobrevive` en celdas `sin_evidencia` | Camila | Solo texto |
-| 4 | Los 3 casos | Camila | Bloquea las tareas 5, 6, 8 y 9 |
+| # | Decisión | Resultado |
+|---|---|---|
+| 1 | Regla de la bandera de 2014 | **A**: se queda igual (2013–2015). El cambio de 2012 va como salvedad de la franja. Sin regenerar |
+| 2 | Criterio de `survives` | Se mantienen las dos variantes |
+| 3 | Texto de `enso_no_sobrevive` | Reescrito: "Al descontar ENSO, la pendiente cambia de signo o sale de su intervalo de confianza" |
+| 4 | Los 3 casos | `N1335W08715`, `N1475W08765`, `N1495W09125` frente a `N1335W08715` |
 
 Resueltas: FDR 0,05; `p_max_sign_rule: null`; techo `limitada` por ventana; periodo 2001–2024; web oficial `rol5-panel-app/`; hosting en Cloudflare; demo en video de 30 s. La rama `david-y-elena` no se mezcla.
 
@@ -71,7 +71,6 @@ Resueltas: FDR 0,05; `p_max_sign_rule: null`; techo `limitada` por ventana; peri
 
 - **Nadie ha leído las guías 2026 completas.** Solo está confirmada, por una respuesta en el foro oficial, la regla de la demo (30 s o 7 láminas), la declaración de IA y el requisito de una fuente NASA de los recursos del reto.
 - **El JSON no está en el repositorio.** Vive en el zip y en la copia local de quien despliega. Si se regenera, hay que volver a publicar.
-- **La revisión de Camila no ha empezado** y bloquea cuatro tareas.
 
 ## 6. Cómo regenerar el JSON
 

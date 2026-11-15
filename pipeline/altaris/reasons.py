@@ -40,13 +40,13 @@ REASONS: dict[str, dict] = {
     },
     "enso_no_sobrevive": {
         "kind": "fail", "level": "base",
-        "es": "La tendencia no sobrevive al descontar los años ENSO fuertes",
-        "en": "The trend does not survive removing strong ENSO years",
+        "es": "Al descontar ENSO, la pendiente cambia de signo o sale de su intervalo de confianza",
+        "en": "When ENSO is removed, the slope changes sign or leaves its confidence interval",
     },
     "posible_salto_2014": {
         "kind": "fail", "level": "base",
-        "es": "Posible salto en 2014: no se puede descartar un efecto del cambio de satélites",
-        "en": "Possible 2014 break: an instrument-change effect cannot be ruled out",
+        "es": "Posible salto entre 2013 y 2015: no se puede descartar un efecto del cambio de satélites",
+        "en": "Possible break between 2013 and 2015: an instrument-change effect cannot be ruled out",
     },
     "p_no_significativo": {
         "kind": "fail", "level": "base",
