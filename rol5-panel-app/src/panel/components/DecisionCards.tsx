@@ -2,6 +2,7 @@ import { deriveScenario, lookupCard, type Scenario } from '../decision';
 import { fmtSlope } from '../format';
 import type { RefData } from '../refs';
 import type { CellIndicator, Lang, Lens } from '../types';
+import { VERDICT_UI } from '../verdict';
 
 const SCEN: Record<Scenario, { es: string; en: string }> = {
   baja: { es: 'Pendiente estimada negativa', en: 'Negative estimated rainfall slope' },
@@ -22,7 +23,7 @@ export function DecisionCards({ data, lens, rules, lang }: { data: CellIndicator
       {look.kind === 'card' && scenario && (
         <>
           <h4>{es ? 'Qué observamos' : 'What we observe'}</h4>
-          <p>{SCEN[scenario][lang]} · {fmtSlope(data.statistics?.slope_per_decade, lang)} · <code>{data.verdict}</code></p>
+          <p>{SCEN[scenario][lang]} · {fmtSlope(data.statistics?.slope_per_decade, lang)} · {VERDICT_UI[data.verdict]?.label[lang] ?? data.verdict}</p>
           <h4>{es ? 'Preguntas para decidir' : 'Questions to ask'}</h4>
           <ul>{look.card.questions[lang].map((q) => <li key={q}>{q}</li>)}</ul>
           <h4>{es ? 'Datos locales que faltan' : 'Missing local data'}</h4>

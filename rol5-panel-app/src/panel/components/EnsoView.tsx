@@ -3,6 +3,7 @@ import { Bar, BarChart, Cell, CartesianGrid, ReferenceLine, ResponsiveContainer,
 import { fmtP, fmtSlope } from '../format';
 import type { RefData } from '../refs';
 import type { CellIndicator, EnsoPhase, Lang, Period } from '../types';
+import { unitLabel } from '../labels';
 
 const COLOR: Record<EnsoPhase, string> = { nino: '#d95f02', nina: '#1f6fb2', neutral: '#9a9a9a' };
 // Letra bajo cada barra: la fase no depende solo del color.
@@ -39,7 +40,8 @@ export const EnsoView = memo(function EnsoView({ data, period, enso, strongOff, 
 
   return (
     <section data-tour="enso">
-      <h3>ENSO</h3>
+      <h3>{es ? 'El Niño y La Niña (ENSO)' : 'El Niño and La Niña (ENSO)'}</h3>
+      <p className="card-hint">{es ? 'Cada barra es un año: cuánto llovió por encima o por debajo de lo normal. El color indica si fue año de El Niño o de La Niña.' : 'Each bar is one year: how far rainfall was above or below normal. Colour shows whether it was an El Niño or La Niña year.'}</p>
       <ResponsiveContainer width="100%" height={170}>
         <BarChart data={rows} margin={{ top: 4, right: 8, bottom: 14, left: 4 }}>
           <CartesianGrid strokeOpacity={0.2} vertical={false} />
@@ -48,7 +50,7 @@ export const EnsoView = memo(function EnsoView({ data, period, enso, strongOff, 
               const r = rows.find((q) => q.year === payload.value);
               return <g transform={`translate(${x},${y})`}><text dy={12} fontSize={9} textAnchor="middle">{String(payload.value).slice(2)}</text><text dy={24} fontSize={10} textAnchor="middle">{r?.phase ? LETTER[r.phase] : ''}</text></g>;
             }} />
-          <YAxis width={48} label={{ value: data.units, angle: -90, position: 'insideLeft', fontSize: 10 }} />
+          <YAxis width={48} label={{ value: unitLabel(data.units, lang), angle: -90, position: 'insideLeft', fontSize: 10 }} />
           <ReferenceLine y={0} stroke="#666" />
           <Tooltip isAnimationActive={false} formatter={(v) => [typeof v === 'number' ? v.toFixed(1) : '—', es ? 'Anomalía' : 'Anomaly']} labelFormatter={(y) => { const r = rows.find((q) => q.year === y); return `${y} · ${r?.phase ?? '—'}${r?.strong ? (es ? ' (fuerte)' : ' (strong)') : ''}`; }} />
           <Bar dataKey="anomaly" isAnimationActive={false}>

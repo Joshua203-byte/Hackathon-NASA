@@ -162,8 +162,8 @@ export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback
     <section className="region-map no-print" aria-labelledby="region-map-title">
       <h2 id="region-map-title">{es ? 'Mapa de evidencia por celda' : 'Evidence map by cell'}</h2>
       <p className="region-map-help">
-        {es ? `${cells.length} celdas de 0,1° en Guatemala, El Salvador y Honduras. Haz clic en una celda para ver su evidencia. Con teclado, usa el selector «Celda» de la barra superior.`
-          : `${cells.length} cells of 0.1° across Guatemala, El Salvador and Honduras. Click a cell to inspect its evidence. With a keyboard, use the “Cell” selector in the top bar.`}
+        {es ? `${cells.length} celdas de 0,1° en Guatemala, El Salvador y Honduras. Haz clic en una celda para ver su evidencia. También puedes ir a una celda por su código.`
+          : `${cells.length} cells of 0.1° across Guatemala, El Salvador and Honduras. Click a cell to inspect its evidence. You can also go to a cell by its code.`}
       </p>
       <fieldset className="region-map-layers">
         <legend>{es ? 'Capa' : 'Layer'}</legend>

@@ -4,6 +4,7 @@ import { fmtNum } from '../format';
 import { GPM_FIRST_YEAR, type FpWindow } from '../footprint';
 import { buildChartRows, senGeometry } from '../sen';
 import type { CellIndicator, Lang, Period } from '../types';
+import { unitLabel } from '../labels';
 
 interface Props {
   data: Omit<CellIndicator, 'verdict'>;
@@ -33,7 +34,7 @@ export const SeriesChart = memo(function SeriesChart({ data, period, selected, l
         <ComposedChart data={rows} margin={{ top: 8, right: 12, bottom: 4, left: 4 }}>
           <CartesianGrid strokeOpacity={0.2} />
           <XAxis dataKey="year" type="number" domain={[period[0], period[1]]} tickCount={7} allowDecimals={false} />
-          <YAxis width={56} domain={yDomain ?? ['auto', 'auto']} label={{ value: data.units, angle: -90, position: 'insideLeft' }} />
+          <YAxis width={56} domain={yDomain ?? ['auto', 'auto']} label={{ value: unitLabel(data.units, lang), angle: -90, position: 'insideLeft' }} />
           <Tooltip
             isAnimationActive={false}
             formatter={(v, name) => [Array.isArray(v) ? v.map((x) => fmtNum(Number(x))).join(' – ') : fmtNum(typeof v === 'number' ? v : null), name]}
@@ -45,7 +46,7 @@ export const SeriesChart = memo(function SeriesChart({ data, period, selected, l
           <Line dataKey="sen" name={es ? 'Recta de Sen (periodo base)' : 'Sen line (base period)'} stroke="#555" dot={false} strokeWidth={1.5} isAnimationActive={false} />
           <Line dataKey="winSen" name={es ? 'Recta de Sen (ventana)' : 'Sen line (window)'} stroke="#111" dot={false} strokeWidth={2.5} isAnimationActive={false} connectNulls={false} />
           {/* connectNulls={false}: un año sin dato corta la línea; nunca se dibuja como 0 */}
-          <Line dataKey="value" name={data.units} stroke="#1f6fb2" strokeWidth={1.5} dot={{ r: 3 }} isAnimationActive={false} connectNulls={false} />
+          <Line dataKey="value" name={unitLabel(data.units, lang)} stroke="#1f6fb2" strokeWidth={1.5} dot={{ r: 3 }} isAnimationActive={false} connectNulls={false} />
         </ComposedChart>
       </ResponsiveContainer>
       <figcaption>

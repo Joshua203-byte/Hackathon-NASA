@@ -2,6 +2,7 @@ import { memo } from 'react';
 import { Bar, BarChart, Cell, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { fmtNum } from '../format';
 import type { IndicatorKey, Lang, Num } from '../types';
+import { unitLabel } from '../labels';
 
 const MONTHS = {
   es: ['E', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
@@ -20,8 +21,8 @@ export const MonthlyCycle = memo(function MonthlyCycle({ values, ind, lang }: { 
         <BarChart data={rows} margin={{ top: 4, right: 8, bottom: 0, left: 4 }}>
           <CartesianGrid strokeOpacity={0.2} vertical={false} />
           <XAxis dataKey="m" interval={0} />
-          <YAxis width={44} label={{ value: 'mm/mes', angle: -90, position: 'insideLeft', fontSize: 10 }} />
-          <Tooltip isAnimationActive={false} formatter={(v) => [fmtNum(typeof v === 'number' ? v : null), 'mm/mes']} />
+          <YAxis width={44} label={{ value: unitLabel('mm/mes', lang), angle: -90, position: 'insideLeft', fontSize: 10 }} />
+          <Tooltip isAnimationActive={false} formatter={(v) => [fmtNum(typeof v === 'number' ? v : null), unitLabel('mm/mes', lang)]} />
           <Bar dataKey="v" isAnimationActive={false}>
             {rows.map((r) => <Cell key={r.i} fill={hl.includes(r.i) ? '#1f6fb2' : '#9db7cf'} />)}
           </Bar>

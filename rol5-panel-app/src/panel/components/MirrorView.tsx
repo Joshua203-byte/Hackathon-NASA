@@ -1,5 +1,6 @@
 import type { CellDetail, IndicatorKey, Lang, Period } from '../types';
 import { SeriesChart } from './SeriesChart';
+import { VERDICT_UI } from '../verdict';
 
 const domain = (cells: CellDetail[], ind: IndicatorKey): [number, number] | undefined => {
   const v = cells.flatMap((c) => c.indicators[ind]?.series ?? []).map((p) => p.value).filter((x): x is number => typeof x === 'number');
@@ -12,13 +13,13 @@ export function MirrorView({ a, b, ind, period, lang }: { a: CellDetail; b: Cell
   const yDomain = domain([a, b], ind);
   return (
     <section data-tour="mirror">
-      <h3>{es ? 'Vista espejo' : 'Mirror view'}</h3>
+      <h3>{es ? 'Dos lugares, lado a lado' : 'Two places, side by side'}</h3>
       <div className="mirror">
         {[a, b].map((c) => {
           const d = c.indicators[ind];
           return (
             <div key={c.id}>
-              <h4>{c.id}{d ? ` · ${d.verdict}` : ''}</h4>
+              <h4>{c.id}{d ? ` · ${VERDICT_UI[d.verdict]?.label[lang] ?? d.verdict}` : ''}</h4>
               {d ? <SeriesChart data={d} period={period} selected={null} lang={lang} yDomain={yDomain} /> : <p className="notice">{es ? 'Sin este indicador.' : 'No such indicator.'}</p>}
             </div>
           );
