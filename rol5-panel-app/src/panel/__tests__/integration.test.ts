@@ -9,7 +9,7 @@ import { pairedSeries } from '../components/SecondaryVariables';
 import { saveValidation, validationResult } from '../validation';
 import type { CellDetail, Meta } from '../types';
 
-const read = (file: string) => JSON.parse(readFileSync(`public/data/${file}`, 'utf8'));
+const read = (file: string) => JSON.parse(readFileSync(`src/panel/__tests__/fixtures/data/${file}`, 'utf8'));
 const cell: CellDetail = read('cells/N1345W08815.json');
 const meta: Meta = read('meta.json');
 const d = cell.indicators.jul_aug_mm!;

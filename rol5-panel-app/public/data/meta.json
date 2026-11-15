@@ -1,43 +1,156 @@
 {
-  "generated_at": "2026-11-15T05:40:00-06:00",
-  "pipeline_commit": "MOCK",
-  "dataset": "GPM IMERG Final Run, mensual, 0.1Â°, V07 (DATOS DE PRUEBA)",
-  "dataset_doi": "POR CONFIRMAR",
-  "period": [
-    2001,
-    2024
+ "data_kind": "observed",
+ "generated_at": "2026-11-15T02:44:37-06:00",
+ "pipeline_commit": "a7a5b18",
+ "dataset": "GPM IMERG Final Run, mensual, 0.1°, V07",
+ "dataset_doi": "10.5067/GPM/IMERG/3B-MONTH/07",
+ "period": [
+  2001,
+  2024
+ ],
+ "bbox": {
+  "lat": [
+   12.5,
+   18.5
   ],
-  "bbox": {
+  "lon": [
+   -92.5,
+   -83.0
+  ]
+ },
+ "n_cells": 2025,
+ "indicators": [
+  "may_oct_mm",
+  "jul_aug_mm",
+  "annual_mm"
+ ],
+ "threshold_changes": [
+  "2026-11-15 02:10 mann_kendall: Hamed-Rao solo con autocorrelacion lag-1 POSITIVA significativa (antes tambien con negativa). Motivo: la revision independiente de 9 celdas con scipy encontro p=1.6e-14 donde Mann-Kendall original da 0.04; 273 de 6075 series usaban Hamed-Rao, 250 con r1 negativa, y 8 veredictos consistente dependian de ello. El cambio solo hace el veredicto mas conservador; no se ajusto ningun umbral."
+ ],
+ "recipe": {
+  "data_search": {
+   "short_name": "GPM_3IMERGM",
+   "version": "07",
+   "temporal": "2001-01 a 2024-12",
+   "bbox": {
     "lat": [
-      12.5,
-      18.5
+     12.5,
+     18.5
     ],
     "lon": [
-      -92.5,
-      -83.0
+     -92.5,
+     -83.0
     ]
+   },
+   "tool": "earthaccess (NASA Earthdata)"
   },
-  "n_cells": 4,
-  "indicators": [
-    "may_oct_mm",
-    "jul_aug_mm",
-    "annual_mm"
-  ],
-  "thresholds": {},
-  "calibration": null,
-  "aux_data": [
-    "NOAA CPC ONI",
-    "Natural Earth"
-  ],
-  "lenses": {
-    "agri": [
-      "may_oct_mm",
-      "jul_aug_mm"
-    ],
-    "com": [
-      "annual_mm"
-    ],
-    "ene": []
+  "conversion": "mm/mes = tasa (mm/h) × 24 × días reales del mes (con bisiestos)",
+  "indicators": {
+   "may_oct_mm": "mm/temporada",
+   "jul_aug_mm": "mm/2 meses",
+   "annual_mm": "mm/año"
   },
-  "data_kind": "mock"
+  "trend": "scipy.stats.theilslopes; pendiente × 10 = por década",
+  "significance": "Mann-Kendall (pymannkendall); Hamed-Rao si la autocorrelación lag-1 de los residuos es positiva y significativa",
+  "multiple_testing": "Benjamini-Hochberg por indicador sobre las celdas (nivel 0.05)",
+  "footprint": "Sen + Mann-Kendall en toda ventana de ≥10 años; resumen con ventanas de ≥15 años; p sin corregir",
+  "verdict_rules": {
+   "incompleta": "faltan más de 2 años válidos",
+   "consistente": "p_FDR < 0.05, IC 95 % sin 0, sign_agreement ≥ 0.9, sig_fraction ≥ 0.5, sobrevive ENSO, sin salto 2014",
+   "limitada": "p < 0.1 o (sign_agreement ≥ 0.8 y |pendiente| ≥ 5 % de la media por década)",
+   "sin_evidencia": "todo lo demás"
+  },
+  "command": "python pipeline/run_pilot.py (ver pipeline/README.md)"
+ },
+ "thresholds": {
+  "version": "v1-2026-11-15-frozen",
+  "frozen": true,
+  "stats": {
+   "confidence": 0.95,
+   "alpha_mk": 0.05,
+   "lag1_z": 1.96,
+   "fdr": {
+    "method": "fdr_bh",
+    "level": 0.05
+   },
+   "footprint": {
+    "min_len": 10,
+    "summary_min_len": 15,
+    "min_valid_fraction": 0.9
+   }
+  },
+  "verdict": {
+   "max_missing_years": 2,
+   "consistente": {
+    "sign_agreement_min": 0.9,
+    "sig_fraction_min": 0.5,
+    "require_ci_excludes_zero": true,
+    "require_enso_survives": true,
+    "forbid_break_2014": true
+   },
+   "limitada": {
+    "p_unadjusted_max": 0.1,
+    "sign_agreement_min": 0.8,
+    "min_slope_pct_of_mean_per_decade": 5,
+    "p_max_sign_rule": null
+   },
+   "alta_variabilidad": {
+    "percentile": 75
+   }
+  },
+  "window_verdict": {
+   "max_label": "limitada",
+   "p_max": 0.05,
+   "require_ci_excludes_zero": true
+  }
+ },
+ "calibration": {
+  "n_sim": 1000,
+  "seed": 20261114,
+  "cv_mix": [
+   0.12,
+   0.2,
+   0.35
+  ],
+  "false_positive_rate": {
+   "consistente": 0.0,
+   "limitada": 0.331
+  },
+  "power": {
+   "injected_trend_pct_per_decade": -10.0,
+   "detected_consistente": 0.152,
+   "detected_limitada_o_mas": 0.723
+  },
+  "power_all": [
+   {
+    "injected_trend_pct_per_decade": -10.0,
+    "detected_consistente": 0.152,
+    "detected_limitada_o_mas": 0.723
+   },
+   {
+    "injected_trend_pct_per_decade": -5.0,
+    "detected_consistente": 0.007,
+    "detected_limitada_o_mas": 0.476
+   },
+   {
+    "injected_trend_pct_per_decade": -20.0,
+    "detected_consistente": 0.544,
+    "detected_limitada_o_mas": 0.916
+   }
+  ]
+ },
+ "aux_data": [
+  "NOAA CPC ONI",
+  "Natural Earth"
+ ],
+ "lenses": {
+  "agri": [
+   "may_oct_mm",
+   "jul_aug_mm"
+  ],
+  "com": [
+   "annual_mm"
+  ],
+  "ene": []
+ }
 }

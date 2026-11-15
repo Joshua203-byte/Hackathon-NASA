@@ -184,7 +184,7 @@ describe('pasaporte', () => {
 
 import { readFileSync } from 'node:fs';
 describe('archivos de referencia mock', () => {
-  const rd = (f: string) => JSON.parse(readFileSync(`public/data/${f}`, 'utf8'));
+  const rd = (f: string) => JSON.parse(readFileSync(`src/panel/__tests__/fixtures/data/${f}`, 'utf8'));
   it('decision_rules.json pasa el lint', () => expect(lintRules(rd('decision_rules.json'))).toEqual([]));
   it('tour.json tiene 4 pasos con anclas conocidas', () => {
     const t = rd('tour.json');
