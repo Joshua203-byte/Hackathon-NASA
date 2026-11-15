@@ -1,7 +1,7 @@
 {
  "data_kind": "observed",
- "generated_at": "2026-11-15T02:44:37-06:00",
- "pipeline_commit": "a7a5b18",
+ "generated_at": "2026-11-15T17:33:46+00:00",
+ "pipeline_commit": "7e93e46",
  "dataset": "GPM IMERG Final Run, mensual, 0.1°, V07",
  "dataset_doi": "10.5067/GPM/IMERG/3B-MONTH/07",
  "period": [
@@ -10,22 +10,23 @@
  ],
  "bbox": {
   "lat": [
-   12.5,
+   7.0,
    18.5
   ],
   "lon": [
    -92.5,
-   -83.0
+   -77.0
   ]
  },
- "n_cells": 2025,
+ "n_cells": 4332,
  "indicators": [
   "may_oct_mm",
   "jul_aug_mm",
   "annual_mm"
  ],
  "threshold_changes": [
-  "2026-11-15 02:10 mann_kendall: Hamed-Rao solo con autocorrelacion lag-1 POSITIVA significativa (antes tambien con negativa). Motivo: la revision independiente de 9 celdas con scipy encontro p=1.6e-14 donde Mann-Kendall original da 0.04; 273 de 6075 series usaban Hamed-Rao, 250 con r1 negativa, y 8 veredictos consistente dependian de ello. El cambio solo hace el veredicto mas conservador; no se ajusto ningun umbral."
+  "2026-11-15 02:10 mann_kendall: Hamed-Rao solo con autocorrelacion lag-1 POSITIVA significativa (antes tambien con negativa). Motivo: la revision independiente de 9 celdas con scipy encontro p=1.6e-14 donde Mann-Kendall original da 0.04; 273 de 6075 series usaban Hamed-Rao, 250 con r1 negativa, y 8 veredictos consistente dependian de ello. El cambio solo hace el veredicto mas conservador; no se ajusto ningun umbral.",
+  "2026-11-15 11:24 enso.survives: el resultado ya no depende del signo del cero (0.0 contra -0.0, segun la version de la libreria): se normaliza -0.0 a 0.0 antes de comparar el signo. Motivo: la comparacion entre la version de 3 paises y la de Centroamerica encontro 8 celdas de jul_aug_mm cuyo survives difería solo por eso. No cambia ninguna regla ni ningun resultado ya publicado (el cero sigue contando como positivo, como antes). Ningun veredicto cambia: las 9 celdas implicadas son sin_evidencia; solo aparece o desaparece el codigo enso_no_sobrevive. Primer intento (11:14, commit a4c2c40): tratar el cero como sin signo; se sustituyo porque cambiaba N1465W09115, que ya estaba publicada con survives=true. No se ajusta ningun umbral."
  ],
  "recipe": {
   "data_search": {
@@ -34,12 +35,12 @@
    "temporal": "2001-01 a 2024-12",
    "bbox": {
     "lat": [
-     12.5,
+     7.0,
      18.5
     ],
     "lon": [
      -92.5,
-     -83.0
+     -77.0
     ]
    },
    "tool": "earthaccess (NASA Earthdata)"
