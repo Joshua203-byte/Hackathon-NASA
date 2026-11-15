@@ -11,7 +11,8 @@ ALTARIS permite explorar cómo cambia la evidencia de una tendencia de lluvia al
 **Ejecutar en local:** desde `rol5-panel-app/`, `npm ci` y `npm run dev`. Los datos que vienen en `rol5-panel-app/public/data/` son simulados; el JSON real (2 025 celdas, 143 MB) no está en el repositorio y se genera con el motor, como explica la sección 6 del documento de estado. Verificaciones: `npm test`, `npm run typecheck`, `npm run build`; para el motor, `python -m pytest tests -q` desde `pipeline/`.
 
 - [Cifras regionales y revisión independiente](docs/07-cifras-y-candidatos.md)
-- [Decisiones científicas pendientes y candidatos a casos](docs/08-revision-camila.md)
+- [Decisiones científicas (resueltas) y candidatos a casos](docs/08-revision-camila.md)
+- [Casos, textos, auditoría del formulario y preguntas del jurado](docs/09-casos-y-textos-camila.md)
 - [Motor estadístico: uso y formatos](pipeline/README.md)
 - [Datos, procedencia y contraste con NASA POWER](docs/rol1-datos.md)
 - [Formulario de entrega en inglés](docs/rol6/submission-en.md)

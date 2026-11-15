@@ -33,12 +33,12 @@ En orden de riesgo. Lo de arriba bloquea a lo de abajo.
 | 2 | ~~Revisión científica~~ **Hecha (04:15)**. Ver `docs/08`, sección Resolución | Camila | — | — |
 | 3 | Leer completas las guías 2026 de envío y evaluación: campos, límites, idioma, rúbrica, redacción de la declaración de IA. Confirmar que IMERG figura en los recursos del reto | Andrés | Nada | 06:00 |
 | 4 | Verificar acceso al portal y que los seis ven la pestaña Project | Andrés | Nada | 06:00 |
-| 5 | Segunda variable (temperatura y radiación) en los 3 casos: `python 04_power.py --cells N1335W08715 N1475W08765 N1495W09125` | David | Listo para correr | 09:00 |
+| 5 | Segunda variable (temperatura y radiación) en los 3 casos: `python 04_power.py --cells N1335W08715 N1475W08765 N1495W09125`. Camila ya tiene una corrida de revisión en `data/rol3/casos_power/`; David confirma la oficial | David | Listo para correr | 09:00 |
 | 6 | Cifras finales de los casos: `python pipeline/case_figures.py --data rol5-panel-app/public/data --cells N1335W08715 N1475W08765 N1495W09125` | Joshua | Listo para correr | 09:00 |
 | 7 | ~~Regenerar el JSON por la regla de 2014~~ **No hace falta** (opción A). Volver a publicar solo por los `reasons.json` nuevos | Izel | — | 09:00 |
-| 8 | Textos de los 3 casos y de las limitaciones | Camila | Los casos | 12:00 |
+| 8 | ~~Textos de los 3 casos y de las limitaciones~~ **Hecho (05:00)** en `docs/09`, y pasado al formulario | Camila | — | — |
 | 9 | Recorrido guiado y pasaporte con el caso real; adaptar la ventana del paso 3 | Izel | Los casos | 12:00 |
-| 10 | `10_narrate.py` sobre el JSON final; revisar una celda por categoría | Andrés, Camila | JSON definitivo | 12:00 |
+| 10 | ~~`10_narrate.py` sobre el JSON final~~ **Revisado (05:00):** no se corre, se queda la plantilla del motor (`docs/09` §3). Andrés confirma | Andrés, Camila | — | — |
 | 11 | 5 sesiones con personas sobre la URL pública | Andrés | URL y un caso revisado | 12:00–15:00 |
 | 12 | Corregir lo que salga de las pruebas | Izel, Elena | Las sesiones | 15:00 |
 | 13 | Congelación: `git tag congelada-1500` y `git push origin congelada-1500`; despliegue final sobre la etiqueta | Joshua, Izel | Todo lo anterior | 15:00 |
