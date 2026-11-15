@@ -1,1 +1,43 @@
-{"generated_at":"2026-11-15T05:40:00-06:00","pipeline_commit":"MOCK","dataset":"GPM IMERG Final Run, mensual, 0.1°, V07 (DATOS DE PRUEBA)","dataset_doi":"POR CONFIRMAR","period":[2001,2024],"bbox":{"lat":[12.5,18.5],"lon":[-92.5,-83.0]},"n_cells":4,"indicators":["may_oct_mm","jul_aug_mm","annual_mm"],"thresholds":{},"calibration":{"n_sim":1000,"false_positive_rate":{"consistente":0.01,"limitada":0.12},"power":{"injected_trend_pct_per_decade":-10,"detected_consistente":0.18,"detected_limitada_o_mas":0.46}},"aux_data":["NOAA CPC ONI","Natural Earth"],"lenses":{"agri":["may_oct_mm","jul_aug_mm"],"com":["annual_mm"],"ene":[]}}
+{
+  "generated_at": "2026-11-15T05:40:00-06:00",
+  "pipeline_commit": "MOCK",
+  "dataset": "GPM IMERG Final Run, mensual, 0.1Â°, V07 (DATOS DE PRUEBA)",
+  "dataset_doi": "POR CONFIRMAR",
+  "period": [
+    2001,
+    2024
+  ],
+  "bbox": {
+    "lat": [
+      12.5,
+      18.5
+    ],
+    "lon": [
+      -92.5,
+      -83.0
+    ]
+  },
+  "n_cells": 4,
+  "indicators": [
+    "may_oct_mm",
+    "jul_aug_mm",
+    "annual_mm"
+  ],
+  "thresholds": {},
+  "calibration": null,
+  "aux_data": [
+    "NOAA CPC ONI",
+    "Natural Earth"
+  ],
+  "lenses": {
+    "agri": [
+      "may_oct_mm",
+      "jul_aug_mm"
+    ],
+    "com": [
+      "annual_mm"
+    ],
+    "ene": []
+  },
+  "data_kind": "mock"
+}

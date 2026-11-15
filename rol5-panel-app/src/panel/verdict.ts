@@ -39,6 +39,7 @@ export const VERDICT_UI: Record<Verdict, VerdictUi> = {
 
 /** Claves conocidas hoy. Rol 2 publica la lista completa; una clave desconocida se muestra tal cual. */
 const REASONS: Record<string, L10n> = {
+  mock_window_result: { es: 'Resultado simulado para probar el comparador; no es evidencia científica', en: 'Simulated comparator result; not scientific evidence' },
   fdr_no_significativo: {
     es: 'No es significativa tras corregir por comparaciones múltiples (FDR)',
     en: 'Not significant after multiple-comparison correction (FDR)',

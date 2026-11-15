@@ -1,10 +1,11 @@
+import { validateCell, validateMeta } from './contract';
 import { useEffect, useState } from 'react';
 import type { CellDetail, GridCell, Meta } from './types';
 import type { RefData } from './refs';
 import type { CellStatus } from './components/CellPanel';
 
 /** BASE_URL: en GitHub Pages la app vive bajo /Hackathon-NASA/ y una ruta absoluta /data/ daría 404. */
-const url = (path: string) => `${import.meta.env.BASE_URL}data/${path}`;
+const url = (path: string) => `${(import.meta.env.VITE_DATA_BASE_URL || `${import.meta.env.BASE_URL}data`).replace(/\/$/, "")}/${path}`;
 
 /** Se lee como texto y se parsea aparte: un NaN en el JSON lanza aquí y se traduce en status 'error'. */
 export async function fetchJson<T>(path: string, signal?: AbortSignal): Promise<T> {
@@ -34,6 +35,8 @@ export function useBoot() {
           optional<RefData['tour']>('tour.json'),
           optional<RefData['glossary']>('glossary.json'),
         ]);
+        validateMeta(meta);
+        if (!Array.isArray(grid.cells)) throw new Error("Invalid grid.json");
         setState({ boot: { meta, grid: grid.cells, refs: { enso, rules, tour, glossary } }, error: null });
       } catch (e) {
         setState({ boot: null, error: String(e) });
@@ -53,6 +56,7 @@ export function useCell(id: string | null): { cell: CellDetail | null; status: C
     performance.mark('cell-fetch');
     fetchJson<CellDetail>(`cells/${id}.json`, ac.signal)
       .then((cell) => {
+        validateCell(cell, id);
         performance.mark('cell-json');
         setS({ id, cell, status: 'ready' });
       })

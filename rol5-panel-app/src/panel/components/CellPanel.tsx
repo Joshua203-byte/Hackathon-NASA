@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { fmtNum, fmtP, fmtSlope } from '../format';
 import { indexFootprint, resolveWindow } from '../footprint';
 import { parseWin, usePanelUrl } from '../urlState';
@@ -15,6 +15,10 @@ import { PassportView } from './PassportView';
 import { TourOverlay } from './TourOverlay';
 import { SectionBoundary } from './SectionBoundary';
 import { SeriesChart } from './SeriesChart';
+import { selectIndicator } from '../lenses';
+import { SecondaryVariables } from './SecondaryVariables';
+import { Glossary } from './Glossary';
+import { VERDICT_UI, reasonText } from '../verdict';
 import { VerdictBadge } from './VerdictBadge';
 
 export type CellStatus = 'idle' | 'loading' | 'ready' | 'error';
@@ -36,8 +40,13 @@ export function CellPanel({ cell, gridRow, meta, status, refs, mirror }: Props) 
   const es = lang === 'es';
   const d = cell?.indicators[url.ind] ?? null;
   const period = meta.period;
+  useEffect(() => {
+    if (!cell) return;
+    const ind = selectIndicator(url.lens, url.ind, meta, cell);
+    if (ind !== url.ind) setUrl({ ind, win: null });
+  }, [cell, meta, url.lens, url.ind, setUrl]);
 
-  const index = useMemo(() => indexFootprint(d?.footprint), [d]);
+  const index = useMemo(() => indexFootprint(d?.footprint, d?.window_results), [d]);
   const sel = useMemo(() => resolveWindow(index, url.win, period), [index, url.win, period]);
   const onSelect = useCallback((win: Win | null) => setUrl({ win }), [setUrl]);
 
@@ -94,7 +103,7 @@ export function CellPanel({ cell, gridRow, meta, status, refs, mirror }: Props) 
             <tr>
               <th>{es ? 'IC 95 % de la pendiente' : '95% CI of the slope'}</th>
               <td>[{fmtNum(s?.ci_95?.[0])}, {fmtNum(s?.ci_95?.[1])}]</td>
-              <td>{selWin && selWin.ciLo !== null ? `[${fmtNum(selWin.ciLo)}, ${fmtNum(selWin.ciHi)}]` : '—'}</td>
+              <td>{selWin && selWin.ciLo !== null && selWin.ciHi !== null ? `[${fmtNum(selWin.ciLo)}, ${fmtNum(selWin.ciHi)}]` : '—'}</td>
             </tr>
             <tr>
               <th>p</th>
@@ -109,7 +118,7 @@ export function CellPanel({ cell, gridRow, meta, status, refs, mirror }: Props) 
             <tr>
               <th>{es ? 'Veredicto' : 'Verdict'}</th>
               <td>{d.verdict}</td>
-              <td>{es ? 'Solo se calcula para el periodo completo' : 'Only computed for the full period'}</td>
+              <td>{selWin?.result ? <>{VERDICT_UI[selWin.result.verdict].label[lang]}{VERDICT_UI[selWin.result.verdict].caveat && <p>{VERDICT_UI[selWin.result.verdict].caveat?.[lang]}</p>}<ul>{selWin.result.verdict_reasons.map(r => <li key={r}>{reasonText(r, lang)}</li>)}</ul></> : es ? 'Veredicto de ventana no proporcionado por el pipeline' : 'Window verdict not supplied by the pipeline'}</td>
             </tr>
           </tbody>
         </table>
@@ -133,6 +142,8 @@ export function CellPanel({ cell, gridRow, meta, status, refs, mirror }: Props) 
         <DecisionCards data={d} lens={url.lens} rules={refs.rules} lang={lang} />
       </SectionBoundary>
 
+      <SecondaryVariables cell={cell} rain={d} period={period} lang={lang} />
+      <Glossary glossary={refs.glossary} lang={lang} />
       <SectionBoundary key={`p/${resetKey}`} name={es ? 'Pasaporte' : 'Passport'}>
         <PassportView cell={cell} gridRow={gridRow} meta={meta} ind={url.ind} win={sel.isBase ? null : url.win} lang={lang} />
       </SectionBoundary>

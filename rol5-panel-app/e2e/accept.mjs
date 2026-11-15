@@ -1,8 +1,11 @@
 import { chromium } from 'playwright-core';
-const B = 'http://127.0.0.1:4173/';
+import { existsSync, mkdirSync } from 'node:fs';
+const artifactDir = 'node_modules/.cache/acceptance';
+mkdirSync(artifactDir, {recursive:true});
+const B = process.env.BASE_URL || 'http://127.0.0.1:4173/';
 const out = [];
 const ok = (name, cond, extra = '') => { out.push(`${cond ? 'PASS' : 'FAIL'}  ${name} ${extra}`); };
-const browser = await chromium.launch({ executablePath: '/usr/bin/google-chrome', args: ['--no-sandbox'] });
+const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH || ['C:/Program Files/Google/Chrome/Application/chrome.exe', '/usr/bin/google-chrome', '/usr/bin/chromium'].find(existsSync), args: ['--no-sandbox'] });
 const ctx = await browser.newContext({ viewport: { width: 1000, height: 1400 } });
 const errors = [];
 const page = await ctx.newPage();
@@ -19,7 +22,7 @@ ok('1d recorrido paso 1', (await page.textContent('.tour')).includes('1/4'));
 ok('1e 120 casillas', await page.locator('.footprint rect').count() === 120);
 const ms = await page.evaluate(() => window.__panelPaintMs);
 ok('1f panel pintado < 300 ms tras JSON', typeof ms === 'number' && ms < 300, `(${ms?.toFixed(1)} ms)`);
-await page.screenshot({ path: '/tmp/1-deeplink.png', fullPage: true });
+await page.screenshot({ path: artifactDir + '/1-deeplink.png', fullPage: true });
 
 // 2. Clic en huella escribe win, conserva otros parámetros, Esc cierra recorrido
 await page.keyboard.press('Escape');
@@ -107,15 +110,32 @@ ok('10b Markdown con aviso y sin NaN/undefined/null', md.includes('Señal débil
 ok('10c exportar hace 0 peticiones', reqs === 0, `(${reqs})`);
 ok('10d nombres de archivo', dj.suggestedFilename() === 'altaris_N1345W08815_jul_aug_mm.json' && dm.suggestedFilename().endsWith('.md'));
 await p2.emulateMedia({ media: 'print' });
-ok('10e impresión oculta barra y botones', !(await p2.locator('.topbar').isVisible()) && !(await p2.locator('.passport').isVisible()));
-await p2.pdf({ path: '/tmp/print.pdf', format: 'A4' });
+ok('10e impresión oculta barra y botones', !(await p2.locator('.topbar').isVisible()) && !(await p2.locator('.passport .buttons').isVisible()));
+await p2.pdf({ path: artifactDir + '/print.pdf', format: 'A4' });
 
 // 11. Móvil
 const mob = await browser.newContext({ viewport: { width: 390, height: 800 } });
 const p3 = await mob.newPage(); await p3.goto(B + '?cell=N1345W08815&ind=jul_aug_mm'); await p3.waitForSelector('.verdict');
 ok('11 móvil sin desbordamiento horizontal', await p3.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1), `(${await p3.evaluate(() => document.documentElement.scrollWidth)} px)`);
-await p3.screenshot({ path: '/tmp/11-mobile.png', fullPage: true });
+await p3.screenshot({ path: artifactDir + '/11-mobile.png', fullPage: true });
+
+// Regression: lenses, complete window evidence, secondary observations and comprehension.
+await p2.emulateMedia({ media: 'screen' });
+await p2.selectOption('select >> nth=2', 'com');
+await p2.waitForFunction(() => location.search.includes('ind=annual_mm'));
+ok('13 lens switches indicator', p2.url().includes('ind=annual_mm'));
+await p2.locator('rect[data-k="2001-2016"]').dispatchEvent('pointerup');
+ok('14 pipeline window verdict displayed', (await p2.textContent('.compare')).includes('Resultado simulado'));
+ok('15 secondary variable and territorial matrix', (await p2.textContent('[data-tour="secondary"]')).includes('Matriz territorial'));
+await p2.locator('input[name="q0"][value="uncertain"]').check();
+await p2.locator('input[name="q1"][value="sensitivity"]').check();
+await p2.getByRole('button', {name:'Comprobar', exact:true}).click();
+ok('16 comprehension score and persistence', (await p2.textContent('.micro-validation')).includes('2/2') && await p2.evaluate(() => JSON.parse(localStorage.getItem('altaris.comprehension.v1')).length === 1));
+ok('17 geographic map selection', await p2.locator('.cell-map [role="button"]').count() === 4);
+await p2.emulateMedia({ media: 'print' });
+ok('18 printed passport includes provenance', await p2.locator('.print-only').isVisible() && (await p2.textContent('.print-only')).includes('Procedencia'));
 
 ok('12 sin errores no capturados en consola', errors.filter((e) => !/Failed to load resource|NaN|N9999|N0000/.test(e)).length === 0, errors.length ? '\n   ' + errors.join('\n   ') : '');
 console.log(out.join('\n'));
 await browser.close();
+if (out.some(line => line.startsWith('FAIL'))) process.exitCode = 1;

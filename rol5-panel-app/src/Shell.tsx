@@ -1,6 +1,9 @@
-// CARCASA TEMPORAL: hace el papel del mapa y de la barra superior de Rol 4. Se descarta al integrar.
+// Host independiente del panel; Rol 4 puede sustituirlo al integrar su mapa MapLibre.
+import { CellMap } from './panel/components/CellMap';
+import { selectIndicator } from './panel/lenses';
 import { useEffect } from 'react';
-import { CellPanel } from './panel/components/CellPanel';
+import { lazy, Suspense } from 'react';
+const CellPanel = lazy(() => import('./panel/components/CellPanel').then(m => ({ default: m.CellPanel })));
 import { useBoot, useCell } from './panel/data';
 import { INDICATORS } from './panel/types';
 import { usePanelUrl } from './panel/urlState';
@@ -10,7 +13,8 @@ export function Shell() {
   const [url, setUrl] = usePanelUrl();
   const { cell, status } = useCell(url.cell);
   const caseParam = new URLSearchParams(window.location.search).get('case');
-  const mirrorId = caseParam === '3' ? 'N1335W08725' : null;
+  const requestedMirror = new URLSearchParams(window.location.search).get('mirror');
+  const mirrorId = requestedMirror && /^[NS]\d{4}[EW]\d{5}$/.test(requestedMirror) ? requestedMirror : caseParam === '3' ? boot?.grid.find(c => c.id !== url.cell)?.id ?? null : null;
   const mirror = useCell(mirrorId !== url.cell ? mirrorId : null);
 
   useEffect(() => {
@@ -37,8 +41,6 @@ export function Shell() {
           <select value={url.cell ?? ''} onChange={(e) => setUrl({ cell: e.target.value || null, win: null }, 'push')}>
             <option value="">—</option>
             {boot.grid.map((c) => <option key={c.id} value={c.id}>{c.id} · {c.country}</option>)}
-            <option value="N0000W00000">N0000W00000 (JSON roto)</option>
-            <option value="N9999W09999">N9999W09999 (no existe)</option>
           </select>
         </label>
         <label>{es ? 'Indicador' : 'Indicator'}{' '}
@@ -47,14 +49,17 @@ export function Shell() {
           </select>
         </label>
         <label>{es ? 'Lente' : 'Lens'}{' '}
-          <select value={url.lens} onChange={(e) => setUrl({ lens: e.target.value as typeof url.lens })}>
+          <select value={url.lens} onChange={(e) => { const lens = e.target.value as typeof url.lens; setUrl({ lens, ind: cell ? selectIndicator(lens, url.ind, boot.meta, cell) : lens === "com" ? "annual_mm" : "may_oct_mm", win: null }); }}>
             <option value="agri">agri</option><option value="com">com</option><option value="ene">ene</option>
           </select>
         </label>
         <button onClick={() => setUrl({ lang: es ? 'en' : 'es' })}>{es ? 'EN' : 'ES'}</button>
         <button onClick={() => setUrl({ tour: 1 })}>{es ? 'Recorrido' : 'Tour'}</button>
       </header>
-      <CellPanel cell={cell} gridRow={gridRow} meta={boot.meta} status={status} refs={boot.refs} mirror={mirror.cell} />
+      {(boot.meta.data_kind !== 'observed' || boot.meta.pipeline_commit === 'MOCK') && <p role="note" className="notice">{es ? 'DEMOSTRACIÓN: datos simulados o sin validación de procedencia. No usar para decisiones.' : 'DEMO: simulated data or unverified provenance. Do not use for decisions.'}</p>}
+      <CellMap cells={boot.grid} meta={boot.meta} ind={url.ind} selected={url.cell} onSelect={id => setUrl({ cell: id, win: null }, 'push')} lang={url.lang} />
+      <label className="mirror-picker no-print">{es ? 'Comparar con otra celda' : 'Compare another cell'} <select aria-label={es ? 'Celda espejo' : 'Mirror cell'} value={mirrorId ?? ''} onChange={e => { const q = new URLSearchParams(location.search); q.delete('case'); if (e.target.value) q.set('mirror', e.target.value); else q.delete('mirror'); history.replaceState(null, '', `?${q}`); dispatchEvent(new PopStateEvent('popstate')); }}><option value="">—</option>{boot.grid.filter(c => c.id !== url.cell).map(c => <option key={c.id}>{c.id}</option>)}</select></label>
+      <Suspense fallback={<p>{es ? "Cargando panel…" : "Loading panel…"}</p>}><CellPanel cell={cell} gridRow={gridRow} meta={boot.meta} status={status} refs={boot.refs} mirror={mirror.cell} /></Suspense>
     </div>
   );
 }

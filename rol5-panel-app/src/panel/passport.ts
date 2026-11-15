@@ -22,9 +22,11 @@ export function buildPassport(i: PassportInput) {
   const g = i.gridRow?.ind[i.ind] ?? null;
   const total = i.meta.period[1] - i.meta.period[0] + 1;
   const valid = g?.valid_years ?? d.series.filter((p) => typeof p.value === 'number').length;
-  const sel = resolveWindow(indexFootprint(d.footprint), i.win, i.meta.period);
+  const sel = resolveWindow(indexFootprint(d.footprint, d.window_results), i.win, i.meta.period);
   return {
     schema: 'altaris.passport/1',
+    data_kind: i.meta.data_kind ?? (i.meta.pipeline_commit === 'MOCK' ? 'mock' : 'unspecified'),
+    secondary_variables: i.cell.secondary_variables ?? [],
     exported_at: (i.now ?? new Date()).toISOString(),
     deep_link: i.deepLink,
     provenance: {
@@ -68,7 +70,7 @@ export function buildPassport(i: PassportInput) {
 export type Passport = NonNullable<ReturnType<typeof buildPassport>>;
 
 const windowRecord = (w: FpWindow | null) =>
-  w && { start: w.start, end: w.end, slope_per_decade: w.slope, p_uncorrected: w.p, ci_95: [w.ciLo, w.ciHi] };
+  w && { start: w.start, end: w.end, slope_per_decade: w.slope, p_uncorrected: w.p, ci_95: [w.ciLo, w.ciHi], verdict: w.result?.verdict ?? null, verdict_reasons: w.result?.verdict_reasons ?? [] };
 
 const L = {
   es: {
@@ -104,6 +106,7 @@ export function passportToMarkdown(p: Passport, lang: Lang): string {
   const out: string[] = [
     `# ${t.title}`,
     '',
+    `> ${p.data_kind === "mock" ? (lang === "es" ? "DATOS SIMULADOS: no usar para decisiones." : "SIMULATED DATA: do not use for decisions.") : p.provenance.dataset}`,
     `- **${t.cell}:** ${p.cell.id}${p.cell.name ? ` (${p.cell.name})` : ''}${p.cell.lat !== null ? ` · ${p.cell.lat}, ${p.cell.lon} · ${p.cell.country}` : ''}`,
     `- **${t.ind}:** ${p.indicator} (${p.units})`,
     `- **${t.verdict}:** ${ui.label[lang]}${ui.caveat ? ` — **${ui.caveat[lang]}**` : ''} (\`${p.verdict}\`)`,
@@ -131,6 +134,11 @@ export function passportToMarkdown(p: Passport, lang: Lang): string {
     const w = p.selected_window;
     out.push(`## ${t.win}: ${w.start}–${w.end}`, '', `- ${t.slope}: ${fmtSlope(w.slope_per_decade, lang)} · ${t.punc}: ${fmtP(w.p_uncorrected)}`, '');
   }
+  if (p.selected_window) {
+    const w = p.selected_window;
+    out.push(`- ${t.ci}: [${fmtNum(w.ci_95[0])}, ${fmtNum(w.ci_95[1])}]`, `- ${t.verdict}: ${w.verdict ? VERDICT_UI[w.verdict].label[lang] : t.na}`, ...w.verdict_reasons.map(r => `- ${reasonText(r, lang)}`), '');
+  }
+  for (const v of p.secondary_variables) out.push(`## ${v.label[lang]}`, '', `${v.source} · DOI: ${v.doi} · ${v.period.join('–')}`, `${t.slope}: ${fmtNum(v.data.statistics?.slope_per_decade)} ${v.data.units}/dec`, '');
   const e = p.enso_test;
   out.push(
     `## ${t.enso}`,

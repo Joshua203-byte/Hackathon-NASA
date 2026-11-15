@@ -1,4 +1,4 @@
-import type { FootprintTuple, Num, Period, Win } from './types';
+import type { CellIndicator, FootprintTuple, Num, Period, Win } from './types';
 
 export const MIN_LEN_DRAW = 10; // ventanas que trae el JSON (4.4)
 export const MIN_LEN_VERDICT = 15; // ventanas que cuentan para el veredicto (4.4)
@@ -16,6 +16,7 @@ export interface FpWindow {
   p: Num;
   ciLo: Num;
   ciHi: Num;
+  result?: NonNullable<CellIndicator["window_results"]>[string];
   sign: -1 | 0 | 1 | null;
   /** p < 0.05 sin corregir: las ventanas se solapan, no es una prueba formal. */
   significant: boolean;
@@ -54,11 +55,13 @@ export function toWindow(t: FootprintTuple): FpWindow {
 }
 
 /** Se construye una vez por celda e indicador (useMemo). Tuplas mal formadas se descartan. */
-export function indexFootprint(fp: readonly FootprintTuple[] | null | undefined): Map<string, FpWindow> {
+export function indexFootprint(fp: readonly FootprintTuple[] | null | undefined, results?: CellIndicator["window_results"]): Map<string, FpWindow> {
   const map = new Map<string, FpWindow>();
   for (const t of fp ?? []) {
     if (!Array.isArray(t) || !Number.isInteger(t[0]) || !Number.isInteger(t[1]) || t[1] <= t[0]) continue;
     const w = toWindow(t);
+    const result = results?.[w.key];
+    if (result) { w.ciLo = num(result.ci_95[0]); w.ciHi = num(result.ci_95[1]); w.result = result; }
     map.set(w.key, w);
   }
   return map;

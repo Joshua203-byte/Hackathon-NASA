@@ -1,3 +1,4 @@
+import { MicroValidation } from './MicroValidation';
 import { useState } from 'react';
 import { buildPassport, copyLink, downloadText, passportToMarkdown, type PassportInput } from '../passport';
 
@@ -11,15 +12,17 @@ export function PassportView(props: Omit<PassportInput, 'deepLink' | 'now'>) {
   const base = `altaris_${props.cell.id}_${props.ind}`;
 
   return (
-    <section data-tour="passport" className="passport no-print">
+    <section data-tour="passport" className="passport">
       <h3>{es ? 'Pasaporte de evidencia' : 'Evidence Passport'}</h3>
-      <div className="buttons">
+      <div className="buttons no-print">
         <button onClick={() => { const p = make(); if (p) downloadText(`${base}.json`, JSON.stringify(p, null, 2), 'application/json'); }}>{es ? 'Descargar JSON' : 'Download JSON'}</button>
         <button onClick={() => { const p = make(); if (p) downloadText(`${base}.md`, passportToMarkdown(p, props.lang), 'text/markdown'); }}>{es ? 'Descargar Markdown' : 'Download Markdown'}</button>
         <button onClick={() => window.print()}>{es ? 'Imprimir' : 'Print'}</button>
         <button onClick={async () => { const ok = await copyLink(link()); setCopied(ok); setFallback(ok ? null : link()); }}>{copied ? (es ? 'Enlace copiado' : 'Link copied') : es ? 'Copiar enlace' : 'Copy link'}</button>
       </div>
+      <MicroValidation key={`${props.cell.id}/${props.ind}`} cell={props.cell.id} ind={props.ind} lang={props.lang} />
       {fallback && <input readOnly value={fallback} onFocus={(e) => e.currentTarget.select()} aria-label="link" style={{ width: '100%' }} />}
+      <div className="print-only"><pre style={{ whiteSpace: 'pre-wrap' }}>{(() => { const p = make(); return p ? passportToMarkdown(p, props.lang) : ''; })()}</pre></div>
     </section>
   );
 }

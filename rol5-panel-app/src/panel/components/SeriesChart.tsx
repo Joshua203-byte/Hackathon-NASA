@@ -13,14 +13,15 @@ interface Props {
   lang: Lang;
   /** Dominio Y compartido (vista espejo). */
   yDomain?: [number, number];
+  satelliteEra?: boolean;
 }
 
-export const SeriesChart = memo(function SeriesChart({ data, period, selected, lang, yDomain }: Props) {
+export const SeriesChart = memo(function SeriesChart({ data, period, selected, lang, yDomain, satelliteEra = true }: Props) {
   const es = lang === 'es';
   const rows = useMemo(() => {
     const s = data.statistics;
     const base = senGeometry(data.series, s?.slope_per_decade ?? null, s?.ci_95 ?? null, period);
-    const sel = selected ? senGeometry(data.series, selected.slope, null, [selected.start, selected.end]) : null;
+    const sel = selected ? senGeometry(data.series, selected.slope, [selected.ciLo, selected.ciHi], [selected.start, selected.end]) : null;
     return buildChartRows(data.series, period, base, sel);
   }, [data, period, selected]);
 
@@ -36,7 +37,7 @@ export const SeriesChart = memo(function SeriesChart({ data, period, selected, l
             formatter={(v, name) => [Array.isArray(v) ? v.map((x) => fmtNum(Number(x))).join(' – ') : fmtNum(typeof v === 'number' ? v : null), name]}
           />
           {selected && <ReferenceArea x1={selected.start} x2={selected.end} fillOpacity={0.08} />}
-          <ReferenceLine x={GPM_FIRST_YEAR} strokeDasharray="4 3" label={{ value: 'TRMM → GPM', position: 'insideTopRight', fontSize: 10 }} />
+          {satelliteEra && <ReferenceLine x={GPM_FIRST_YEAR} strokeDasharray="4 3" label={{ value: 'TRMM → GPM', position: 'insideTopRight', fontSize: 10 }} />}
           {/* IC 95 % de la pendiente (abanico), no de los valores */}
           <Area dataKey="band" name={es ? 'IC 95 % de la pendiente' : '95% CI of the slope'} stroke="none" fill="#555" fillOpacity={0.15} isAnimationActive={false} connectNulls={false} />
           <Line dataKey="sen" name={es ? 'Recta de Sen (periodo base)' : 'Sen line (base period)'} stroke="#555" dot={false} strokeWidth={1.5} isAnimationActive={false} />
@@ -46,7 +47,7 @@ export const SeriesChart = memo(function SeriesChart({ data, period, selected, l
         </ComposedChart>
       </ResponsiveContainer>
       <figcaption>
-        {es
+        {!data.statistics?.ci_95 ? (es ? 'Sin intervalo de confianza proporcionado por el pipeline. Los años sin dato quedan en blanco.' : 'No confidence interval supplied by the pipeline. Missing years are left blank.') : es
           ? 'La banda es el IC 95 % de la pendiente, no un rango de valores esperados. Los años sin dato quedan en blanco.'
           : 'The band is the 95% CI of the slope, not a range of expected values. Years without data are left blank.'}
       </figcaption>

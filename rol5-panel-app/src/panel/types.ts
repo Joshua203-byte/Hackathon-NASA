@@ -70,6 +70,7 @@ export interface CellIndicator {
   verdict_reasons: string[];
   narrative: Narrative | null;
   limitations: string[];
+  window_results?: Record<string, { ci_95: [Num, Num]; verdict: Verdict; verdict_reasons: string[] }>;
   tags?: string[]; // PROPUESTO: p. ej. ["alta_variabilidad"]
 }
 
@@ -77,6 +78,7 @@ export interface CellDetail {
   id: string;
   name: string | null;
   monthly_climatology_mm: Num[];
+  secondary_variables?: { key: string; label: L10n; source: string; doi: string; period: [number, number]; data: CellIndicator }[];
   has_canicula?: boolean; // PROPUESTO (Rol 1)
   indicators: Partial<Record<IndicatorKey, CellIndicator>>;
 }
@@ -105,6 +107,7 @@ export interface GridCell {
 }
 
 export interface Meta {
+  data_kind?: "mock" | "observed";
   generated_at: string;
   pipeline_commit: string;
   dataset: string;

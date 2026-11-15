@@ -1,10 +1,227 @@
-{"agri":{
- "baja":{"default":{"questions":{"es":["¿Cuánta humedad retiene el suelo de la parcela?","¿Hay acceso a riego auxiliar o a captación de agua lluvia?","¿Qué dice la asistencia técnica local sobre el calendario de siembra?"],"en":["How much moisture does the plot soil retain?","Is auxiliary irrigation or rainwater harvesting available?","What does local technical assistance say about the planting calendar?"]},"missing_local_data":{"es":["Textura del suelo","Pendiente","Disponibilidad de riego"],"en":["Soil texture","Slope","Irrigation availability"]}},
-  "limitada":{"questions":{"es":["¿Hay registros locales de lluvia o de humedad que confirmen lo que se percibe?","¿Qué decisiones costosas se toman hoy solo por percepción de sequía?"],"en":["Are there local rain or moisture records that confirm what is perceived?","Which costly decisions are made today only on a perception of drought?"]},"missing_local_data":{"es":["Registros locales de lluvia"],"en":["Local rainfall records"]}}},
- "alza":{"default":{"questions":{"es":["¿Cómo drena la parcela?","¿Hay laderas expuestas a erosión?"],"en":["How does the plot drain?","Are there slopes exposed to erosion?"]},"missing_local_data":{"es":["Topografía","Historial de anegamiento"],"en":["Topography","Waterlogging history"]}}},
- "alta_variabilidad":{"default":{"questions":{"es":["¿Qué capacidad hay de absorber un año malo?","¿Hay acceso a pronósticos de corto plazo?"],"en":["What capacity is there to absorb a bad year?","Is short-term forecast information available?"]},"missing_local_data":{"es":["Capacidad financiera","Información agrometeorológica semanal"],"en":["Financial capacity","Weekly agrometeorological information"]}}}},
-"com":{
- "baja":{"default":{"questions":{"es":["¿De qué fuentes depende el agua de consumo?","¿Qué pasó en los años más secos del registro?"],"en":["Which sources does drinking water depend on?","What happened in the driest years of the record?"]},"missing_local_data":{"es":["Fuentes de agua","Registros de escasez"],"en":["Water sources","Scarcity records"]}}},
- "alza":{"default":{"questions":{"es":["¿Qué zonas se han inundado o deslizado antes?","¿Quién vive ahí?"],"en":["Which areas have flooded or slid before?","Who lives there?"]},"missing_local_data":{"es":["Mapas de amenaza local"],"en":["Local hazard maps"]}}},
- "alta_variabilidad":{"default":{"questions":{"es":["¿Qué planes existen para un año extremo en cualquier sentido?"],"en":["What plans exist for an extreme year in either direction?"]},"missing_local_data":{"es":["Planes de contingencia"],"en":["Contingency plans"]}}}},
-"ene":{"pending":true}}
+{
+  "agri": {
+    "baja": {
+      "default": {
+        "questions": {
+          "es": [
+            "¿Cuánta humedad retiene el suelo de la parcela?",
+            "¿Hay acceso a riego auxiliar o a captación de agua lluvia?",
+            "¿Qué dice la asistencia técnica local sobre el calendario de siembra?"
+          ],
+          "en": [
+            "How much moisture does the plot soil retain?",
+            "Is auxiliary irrigation or rainwater harvesting available?",
+            "What does local technical assistance say about the planting calendar?"
+          ]
+        },
+        "missing_local_data": {
+          "es": [
+            "Textura del suelo",
+            "Pendiente",
+            "Disponibilidad de riego"
+          ],
+          "en": [
+            "Soil texture",
+            "Slope",
+            "Irrigation availability"
+          ]
+        }
+      },
+      "limitada": {
+        "questions": {
+          "es": [
+            "¿Hay registros locales de lluvia o de humedad que confirmen lo que se percibe?",
+            "¿Qué decisiones costosas se toman hoy solo por percepción de sequía?"
+          ],
+          "en": [
+            "Are there local rain or moisture records that confirm what is perceived?",
+            "Which costly decisions are made today only on a perception of drought?"
+          ]
+        },
+        "missing_local_data": {
+          "es": [
+            "Registros locales de lluvia"
+          ],
+          "en": [
+            "Local rainfall records"
+          ]
+        }
+      },
+      "sin_evidencia": {
+        "questions": {
+          "es": [
+            "¿Hay registros locales de lluvia o de humedad que confirmen lo que se percibe?",
+            "¿Qué decisiones costosas se toman hoy solo por percepción de sequía?"
+          ],
+          "en": [
+            "Are there local rain or moisture records that confirm what is perceived?",
+            "Which costly decisions are made today only on a perception of drought?"
+          ]
+        },
+        "missing_local_data": {
+          "es": [
+            "Registros locales de lluvia"
+          ],
+          "en": [
+            "Local rainfall records"
+          ]
+        }
+      }
+    },
+    "alza": {
+      "default": {
+        "questions": {
+          "es": [
+            "¿Cómo drena la parcela?",
+            "¿Hay laderas expuestas a erosión?"
+          ],
+          "en": [
+            "How does the plot drain?",
+            "Are there slopes exposed to erosion?"
+          ]
+        },
+        "missing_local_data": {
+          "es": [
+            "Topografía",
+            "Historial de anegamiento"
+          ],
+          "en": [
+            "Topography",
+            "Waterlogging history"
+          ]
+        }
+      },
+      "limitada": {
+        "questions": {
+          "es": [
+            "?Qu? muestran los registros de eventos extremos diarios, que este an?lisis mensual no ve?"
+          ],
+          "en": [
+            "What do daily extreme-event records show, beyond this monthly analysis?"
+          ]
+        },
+        "missing_local_data": {
+          "es": [
+            "Registros diarios de lluvia y eventos extremos"
+          ],
+          "en": [
+            "Daily rainfall and extreme-event records"
+          ]
+        }
+      },
+      "sin_evidencia": {
+        "questions": {
+          "es": [
+            "?Qu? muestran los registros de eventos extremos diarios, que este an?lisis mensual no ve?"
+          ],
+          "en": [
+            "What do daily extreme-event records show, beyond this monthly analysis?"
+          ]
+        },
+        "missing_local_data": {
+          "es": [
+            "Registros diarios de lluvia y eventos extremos"
+          ],
+          "en": [
+            "Daily rainfall and extreme-event records"
+          ]
+        }
+      }
+    },
+    "alta_variabilidad": {
+      "default": {
+        "questions": {
+          "es": [
+            "¿Qué capacidad hay de absorber un año malo?",
+            "¿Hay acceso a pronósticos de corto plazo?"
+          ],
+          "en": [
+            "What capacity is there to absorb a bad year?",
+            "Is short-term forecast information available?"
+          ]
+        },
+        "missing_local_data": {
+          "es": [
+            "Capacidad financiera",
+            "Información agrometeorológica semanal"
+          ],
+          "en": [
+            "Financial capacity",
+            "Weekly agrometeorological information"
+          ]
+        }
+      }
+    }
+  },
+  "com": {
+    "baja": {
+      "default": {
+        "questions": {
+          "es": [
+            "¿De qué fuentes depende el agua de consumo?",
+            "¿Qué pasó en los años más secos del registro?"
+          ],
+          "en": [
+            "Which sources does drinking water depend on?",
+            "What happened in the driest years of the record?"
+          ]
+        },
+        "missing_local_data": {
+          "es": [
+            "Fuentes de agua",
+            "Registros de escasez"
+          ],
+          "en": [
+            "Water sources",
+            "Scarcity records"
+          ]
+        }
+      }
+    },
+    "alza": {
+      "default": {
+        "questions": {
+          "es": [
+            "¿Qué zonas se han inundado o deslizado antes?",
+            "¿Quién vive ahí?"
+          ],
+          "en": [
+            "Which areas have flooded or slid before?",
+            "Who lives there?"
+          ]
+        },
+        "missing_local_data": {
+          "es": [
+            "Mapas de amenaza local"
+          ],
+          "en": [
+            "Local hazard maps"
+          ]
+        }
+      }
+    },
+    "alta_variabilidad": {
+      "default": {
+        "questions": {
+          "es": [
+            "¿Qué planes existen para un año extremo en cualquier sentido?"
+          ],
+          "en": [
+            "What plans exist for an extreme year in either direction?"
+          ]
+        },
+        "missing_local_data": {
+          "es": [
+            "Planes de contingencia"
+          ],
+          "en": [
+            "Contingency plans"
+          ]
+        }
+      }
+    }
+  },
+  "ene": {
+    "pending": true
+  }
+}

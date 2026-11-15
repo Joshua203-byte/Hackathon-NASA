@@ -59,6 +59,7 @@ export function makeCell({ id, seed, mean, slopeDec, noise, missing = [], period
     units: 'mm/2 meses',
     series,
     statistics: base && { method: 'Theil-Sen + Mann-Kendall', mk_variant: 'original', lag1_autocorr: 0.08, slope_per_decade: r(base.slope, 2), intercept: null, ci_95: [r(base.lo, 2), r(base.hi, 2)], p_value: r(base.p), adjusted_p_fdr: r(Math.min(1, base.p * 5)) },
+    window_results: Object.fromEntries(footprint.map(t => [`${t[0]}-${t[1]}`, { ci_95: [t[4] ?? null, t[5] ?? null], verdict: 'limitada', verdict_reasons: ['mock_window_result'] }])),
     footprint,
     enso_test: base && { slope_without_strong_enso: r(base.slope * 0.8, 2), p_without_strong_enso: r(Math.min(1, base.p * 2)), slope_oni_removed: r(base.slope * 0.9, 2), p_oni_removed: r(Math.min(1, base.p * 1.5)), survives: true },
     break_2014: { pettitt_year: breakFlag ? 2014 : 2009, p: breakFlag ? 0.03 : 0.41, flag: breakFlag },
@@ -68,7 +69,8 @@ export function makeCell({ id, seed, mean, slopeDec, noise, missing = [], period
     limitations: ['Celda de unos 11 km: no ve microclimas de ladera.'],
     tags,
   };
-  return { id, name: null, monthly_climatology_mm: [8, 5, 12, 45, 190, 290, 205, 215, 330, 250, 60, 15], has_canicula: true, indicators: { jul_aug_mm: indicator, may_oct_mm: indicator, annual_mm: indicator } };
+  const secondary_variables = id === 'N1345W08815' ? [{ key: 'T2M', label: { es: 'Temperatura (simulada)', en: 'Temperature (simulated)' }, source: 'NASA POWER — estructura de ejemplo, NO observaciones', doi: 'MOCK', period, data: { ...indicator, units: '°C', window_results: {}, footprint: [], series: series.map(p => ({ ...p, value: p.value === null ? null : r(25 + (p.value - mean) / 100, 2), anomaly: null })), statistics: null, verdict: 'sin_evidencia', verdict_reasons: [], narrative: null } }] : [];
+  return { secondary_variables, id, name: null, monthly_climatology_mm: [8, 5, 12, 45, 190, 290, 205, 215, 330, 250, 60, 15], has_canicula: true, indicators: { jul_aug_mm: indicator, may_oct_mm: indicator, annual_mm: indicator } };
 }
 
 export const MOCK_CELLS = [
