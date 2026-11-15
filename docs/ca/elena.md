@@ -21,7 +21,41 @@ git checkout ca/elena-mapa-despliegue
 - [x] Medir la carga de `grid.json` y la fluidez con ~4 300 celdas. Meta: menos de 3 s. **Medida con 4 784 celdas: cumple en conexión normal (1,3 s), no en 4G lenta (6,3 s).**
 - [x] Crear `wrangler.ca.jsonc` (Worker `altaris-ca`, no producción) y `npm run deploy:ca`; probar con 4 400 archivos. **Hecho: 4 814 archivos aceptados.**
 - [x] Con el JSON real: compilar y probar la vista previa. **Hecho con el `.zip` oficial de Joshua (C2): compila y pasa la prueba de humo en local (ver «JSON oficial»).**
-- [ ] Publicar en `altaris-ca`, medir la carga en la URL, probar en teléfono real y pasar la URL a Andrés y Camila (C4). **Pasa a Izel:** solo su cuenta tiene acceso a Cloudflare. Pasos en «Para Izel: publicar la vista previa».
+- [x] Publicar en `altaris-ca`. **Hecho por Izel** (versión `b15837db`, ver `docs/ca/izel.md`). Tras el GO, producción ya sirve los 7 países.
+- [x] Medir en la URL de producción cuánto tarda hasta poder tocar una celda, sin contar la intro. **Hecho (ver «Carga hasta poder tocar una celda»): cumple <3 s en escritorio y celular con red normal; en 4G queda en 3,2 s.**
+- [ ] Prueba en **celular real** (con Izel) y en otro dispositivo si hay. Pasos en «Prueba en celular real»: **falta anotar el resultado**.
+
+## Carga hasta poder tocar una celda (producción, 15 nov, tarde)
+
+URL: <https://altaris.altaris-panel-rol5.workers.dev> (7 países, 4 332 celdas, `observed`, con la entrada espacial). Chrome sin caché, **3 corridas por perfil, mediana**, con `?intro=0` para que la animación de entrada no cuente. El cronómetro arranca al pedir la página. El script toca una celda de Nicaragua cada 100 ms hasta que el mapa acepta el toque, y luego espera a que el panel muestre el veredicto.
+
+| Perfil | Mapa visible | **Toque aceptado** | Panel con veredicto | ¿<3 s? |
+|---|---:|---:|---:|---|
+| Escritorio 1440×900, red normal | 1,5 s | **2,1 s** | 2,3 s | Sí |
+| Celular (Pixel 7 emulado), red normal | 1,4 s | **2,3 s** | 2,5 s | Sí |
+| Celular, 4G (9 Mbps, 85 ms) | 2,2 s | **3,2 s** | 3,4 s | No, por 0,2 s |
+| Celular, 4G lenta (1,6 Mbps, 150 ms) y CPU ×4 | 9,7 s | **11,8 s** | 15,0 s | No |
+
+- **Casi 1 s entre «mapa visible» y «toque aceptado» en todos los perfiles.** Es el encuadre animado que hace la cámara al quedar lista: `fitBounds(..., { duration: 900 })` en `RegionMap.tsx` (efecto de `selected`, cuando no hay celda elegida). Mientras se mueve, el mismo punto cae sobre celdas distintas. Si se quiere ganar ese segundo (y cumplir en 4G), basta con que el primer encuadre sea `duration: 0`. Las animaciones al elegir una celda o al pulsar «Centrar región» se quedan igual. **No lo cambié:** después del GO el código lo integra Joshua, y la decisión sobre la intro es suya.
+- La 4G lenta con CPU ×4 simula un teléfono modesto en mala señal. Ahí pesa la descarga (el globo, las teselas de la Tierra y `grid.json`, de 474 KB comprimido). La versión de 3 países tampoco cumplía en 4G lenta (5,2 s según Izel).
+- `scripts/smoke-ca.mjs` contra producción: 28/28 celdas, casos 1–3 en escritorio y teléfono, 0 errores, código 0. **Corregí el filtro del favicon** que señaló Izel: ahora mira la dirección del recurso, no solo el texto del mensaje.
+- Simulado no es real: la GPU de un teléfono real puede ir más lenta o más rápida con el globo. Por eso falta la prueba de abajo.
+
+## Prueba en celular real (Elena con Izel)
+
+En cada dispositivo, con datos móviles (no wifi) si se puede:
+
+1. Abre una pestaña **de incógnito** (así no hay caché y la intro sale como la verá un visitante nuevo).
+2. Entra a <https://altaris.altaris-panel-rol5.workers.dev/?intro=0> y cronometra desde que pulsas «Ir» hasta que tocar una celda abre su panel. Repite 3 veces, cerrando la pestaña de incógnito entre corridas.
+3. Abre la URL **sin** `?intro=0`. Comprueba que el vuelo se ve fluido, que «Saltar» funciona y que al terminar se puede tocar una celda sin esperar.
+4. Revisa los casos 1, 2 y 3 desde la lista «O empieza con un ejemplo», el botón EN y que el texto se lea sin acercar la pantalla.
+5. Anota aquí el modelo del teléfono, el navegador, la red y los 3 tiempos.
+
+| Dispositivo | Navegador | Red | Tiempos hasta tocar (s) | Intro fluida | Casos y EN | Notas |
+|---|---|---|---|---|---|---|
+| _(celular de Izel)_ | | | | | | |
+| _(celular de Elena)_ | | | | | | |
+| _(otro: tableta o computadora)_ | | | | | | |
 
 ## Para Izel: publicar la vista previa
 
