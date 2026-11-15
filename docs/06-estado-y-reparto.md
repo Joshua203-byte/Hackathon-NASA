@@ -3,6 +3,8 @@
 Entrega: domingo 15 de noviembre 23:59. Meta interna de envío: 21:00. Congelación: 15:00.
 Repositorio oficial: `Joshua203-byte/Hackathon-NASA`. Todo lo descrito aquí está en `main`.
 
+**Ampliación a Centroamérica (7 países), en paralelo y sin tocar `main` hasta un GO a las 12:45:** el reparto por persona, las ramas, el horario y los criterios están en [10-centroamerica.md](10-centroamerica.md).
+
 **Avance estimado: 80 %.** Datos, motor, revisión científica, casos, panel, mapa, despliegue y cotejo de cifras están hechos. Falta lo que depende de personas y de la entrega: pruebas con usuarios, video, guía oficial, congelación y envío. Es una estimación por bloques, no una medida.
 
 **Revisión de las 07:30 sobre `main`:** pasan las 70 pruebas del motor y las 44 del panel, compila, y las 45 cifras del formulario coinciden con el JSON. El JSON del repositorio tiene las mismas cifras que la corrida verificada de las 02:30. Los 3 casos abren con su segunda variable.
