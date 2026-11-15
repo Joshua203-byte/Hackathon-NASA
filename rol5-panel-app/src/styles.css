@@ -204,3 +204,7 @@ dl dd { margin:0; color:#2c3e4c; }
 .case-story { background:#fffbea; border:1px solid #f0d890; border-left:6px solid #f2b705; border-radius:var(--radius); padding:.8rem 1rem; }
 .case-story p { margin:.3rem 0 0; }
 .case-story-kicker { margin:0 !important; font-size:.75rem; text-transform:uppercase; letter-spacing:.06em; font-weight:700; color:#7a5a00; }
+
+/* ===== Empatía (16 nov): respuesta directa, qué hacer, lenguaje simple ===== */
+.verdict-answer { font-size:1.2rem; font-weight:600; margin:.3rem 0 .4rem; color:var(--ink); }
+.verdict-next { margin-top:.7rem; background:#ffffffcc; border:1px dashed #9fb2c0; border-radius:8px; padding:.5rem .7rem; font-size:.92rem; }

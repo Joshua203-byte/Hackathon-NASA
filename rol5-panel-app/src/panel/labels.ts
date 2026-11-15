@@ -41,3 +41,42 @@ export const VERDICT_PLAIN: Record<Verdict, L10n> = {
 
 const UNIT_EN: Record<string, string> = { 'mm/temporada': 'mm/season', 'mm/2 meses': 'mm/2 months', 'mm/año': 'mm/year', 'mm/mes': 'mm/month' };
 export const unitLabel = (units: string, lang: Lang): string => (lang === 'en' ? UNIT_EN[units] ?? units : units);
+
+/** Respuesta directa a la pregunta de la persona, antes del método. Solo usa el signo de la pendiente ya calculada. */
+export function answerLine(verdict: Verdict, slope: number | null | undefined, lang: Lang): string {
+  const es = lang === 'es';
+  const down = typeof slope === 'number' && slope < 0;
+  const dirEs = down ? 'bajando' : 'subiendo';
+  const dirEn = down ? 'falling' : 'rising';
+  const hasDir = typeof slope === 'number' && slope !== 0;
+  if (verdict === 'incompleta' || !hasDir) {
+    return es ? 'No hay suficientes años con datos para evaluar este lugar.' : 'There are too few years with data to assess this place.';
+  }
+  if (verdict === 'consistente') {
+    return es ? `La evidencia respalda que la lluvia está ${dirEs}, con las limitaciones que se indican abajo.` : `The evidence supports rainfall ${dirEn}, with the limitations noted below.`;
+  }
+  if (verdict === 'limitada') {
+    return es ? `Hay señal de que la lluvia podría estar ${dirEs}, pero no alcanza para afirmarlo.` : `There is a sign that rainfall may be ${dirEn}, but not enough to claim it.`;
+  }
+  return es ? 'Aquí no podemos afirmar que la lluvia esté cambiando.' : 'Here we cannot say that rainfall is changing.';
+}
+
+/** Qué puede hacer la persona con este resultado. Recomendación de uso, no de decisión. */
+export const NEXT_STEP: Record<Verdict, L10n> = {
+  consistente: {
+    es: 'Lee las limitaciones y compara con un pluviómetro cercano antes de usar este dato para decidir.',
+    en: 'Read the limitations and compare with a nearby rain gauge before using this to decide.',
+  },
+  limitada: {
+    es: 'Cambia los años en el gráfico de abajo. Si la historia cambia mucho, tómala con cautela.',
+    en: 'Change the years in the chart below. If the story changes a lot, treat it with caution.',
+  },
+  sin_evidencia: {
+    es: 'Si necesitas planificar, revisa también la lluvia que mide tu municipalidad o un pluviómetro cercano.',
+    en: 'If you need to plan, also check the rainfall your municipality or a nearby rain gauge measures.',
+  },
+  incompleta: {
+    es: 'Prueba con otra celda del mapa.',
+    en: 'Try another cell on the map.',
+  },
+};

@@ -60,10 +60,10 @@ export function CellPanel({ cell, gridRow, meta, status, refs, mirror }: Props) 
   if (status === 'idle' || !url.cell) return <aside className="panel panel-empty"><p className="empty-hint">{es ? '👆 Toca una celda del mapa o abre uno de los tres ejemplos para ver su evidencia.' : '👆 Tap a cell on the map or open one of the three examples to see its evidence.'}</p></aside>;
   if (status === 'loading') return <aside className="panel" aria-busy="true">{es ? 'Cargando celda…' : 'Loading cell…'}</aside>;
   if (status === 'error' || !cell) {
-    return <aside className="panel"><div role="alert" className="panel-warning">{es ? `No se pudieron leer los datos de la celda ${url.cell}.` : `Could not read data for cell ${url.cell}.`}</div></aside>;
+    return <aside className="panel"><div role="alert" className="panel-warning">{es ? `No se pudieron leer los datos de la celda ${url.cell}. Prueba con otra del mapa o recarga la página.` : `Could not read data for cell ${url.cell}. Try another cell on the map or reload the page.`}</div></aside>;
   }
   if (!d) {
-    return <aside className="panel"><div role="alert" className="panel-warning">{es ? `Esta celda no tiene el indicador ${url.ind}.` : `This cell has no ${url.ind} indicator.`}</div></aside>;
+    return <aside className="panel"><div role="alert" className="panel-warning">{es ? 'Esta celda no tiene datos para esta lluvia. Elige otra lluvia en la parte de arriba.' : 'This cell has no data for this rainfall. Choose another rainfall above.'}</div></aside>;
   }
 
   const resetKey = `${cell.id}/${url.ind}`;
@@ -135,17 +135,17 @@ export function CellPanel({ cell, gridRow, meta, status, refs, mirror }: Props) 
           </thead>
           <tbody>
             <tr>
-              <th>{es ? 'Cambio por década' : 'Change per decade'} <small>({es ? 'pendiente de Sen' : 'Sen slope'})</small></th>
+              <th>{es ? 'Cambio por década' : 'Change per decade'}</th>
               <td>{fmtSlope(s?.slope_per_decade, lang)}</td>
               <td>{selWin ? fmtSlope(selWin.slope, lang) : '—'}</td>
             </tr>
             <tr>
-              <th>{es ? 'Margen de error' : 'Margin of error'} <small>({es ? 'IC 95 %' : '95% CI'})</small></th>
+              <th>{es ? 'Margen de error' : 'Margin of error'}</th>
               <td>[{fmtNum(s?.ci_95?.[0])}, {fmtNum(s?.ci_95?.[1])}]</td>
               <td>{selWin && selWin.ciLo !== null && selWin.ciHi !== null ? `[${fmtNum(selWin.ciLo)}, ${fmtNum(selWin.ciHi)}]` : '—'}</td>
             </tr>
             <tr>
-              <th>{es ? 'Valor p' : 'p-value'} <small>({es ? 'bajo = difícil de explicar por azar' : 'low = hard to explain by chance'})</small></th>
+              <th>{es ? '¿Puede ser solo azar?' : 'Could it be just chance?'} <small>({es ? 'valor p: más bajo = menos probable' : 'p-value: lower = less likely'})</small></th>
               <td>{fmtP(s?.p_value)} · FDR {fmtP(s?.adjusted_p_fdr)}</td>
               <td>{selWin ? `${fmtP(selWin.p)} (${es ? 'sin corregir' : 'uncorrected'})` : '—'}</td>
             </tr>
@@ -157,7 +157,7 @@ export function CellPanel({ cell, gridRow, meta, status, refs, mirror }: Props) 
             <tr>
               <th>{es ? 'Veredicto' : 'Verdict'}</th>
               <td>{VERDICT_UI[d.verdict]?.label[lang] ?? d.verdict}</td>
-              <td>{selWin?.result ? <>{VERDICT_UI[selWin.result.verdict].label[lang]}{VERDICT_UI[selWin.result.verdict].caveat && <p>{VERDICT_UI[selWin.result.verdict].caveat?.[lang]}</p>}<ul>{selWin.result.verdict_reasons.map(r => <li key={r}>{reasonText(r, lang)}</li>)}</ul></> : es ? 'Veredicto de ventana no proporcionado por el pipeline' : 'Window verdict not supplied by the pipeline'}</td>
+              <td>{selWin?.result ? <>{VERDICT_UI[selWin.result.verdict].label[lang]}{VERDICT_UI[selWin.result.verdict].caveat && <p>{VERDICT_UI[selWin.result.verdict].caveat?.[lang]}</p>}<ul>{selWin.result.verdict_reasons.map(r => <li key={r}>{reasonText(r, lang)}</li>)}</ul></> : es ? 'Este periodo no tiene veredicto calculado' : 'This period has no calculated verdict'}</td>
             </tr>
           </tbody>
         </table></div>

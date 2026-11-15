@@ -1,6 +1,6 @@
 import { VERDICT_UI, reasonText, verdictNotices } from '../verdict';
 import type { CellDetail, IndicatorKey, Lang } from '../types';
-import { VERDICT_PLAIN } from '../labels';
+import { NEXT_STEP, VERDICT_PLAIN, answerLine } from '../labels';
 
 interface Props {
   cell: CellDetail;
@@ -24,7 +24,9 @@ export function VerdictBadge({ cell, ind, lang, validYears, totalYears }: Props)
         <span aria-hidden="true" style={{ color: `var(${ui.cssVar})` }}>{ui.icon}</span> {ui.label[lang]}
       </h2>
       {ui.caveat && <p className="verdict-caveat"><strong>{ui.caveat[lang]}</strong></p>}
+      <p className="verdict-answer">{answerLine(d.verdict, d.statistics?.slope_per_decade, lang)}</p>
       <p className="verdict-plain">{VERDICT_PLAIN[d.verdict][lang]}</p>
+      <div className="verdict-next"><strong>{lang === 'es' ? 'Qué puedes hacer' : 'What you can do'}:</strong> {NEXT_STEP[d.verdict][lang]}</div>
       <p className="verdict-completeness">
         {validYears}/{totalYears} {lang === 'es' ? 'años válidos' : 'valid years'}
       </p>
