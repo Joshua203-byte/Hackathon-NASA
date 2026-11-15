@@ -4,20 +4,27 @@ import { extname, resolve } from 'node:path';
 import { chromium } from 'playwright-core';
 
 // Cotejo de datos observados sin modificar las cifras ni recalcular veredictos.
+// Por defecto compara los 3 países de producción. Para Centroamérica (7 países) se apuntan las carpetas por entorno:
+//   DATA_DIR=<carpeta con meta.json, grid.json, cells/>  ROL1_DIR=<series.csv y cells.csv>  ROL3_DIR=<enso_results.csv y break2014.csv>
+//   (los CSV de CA están en data/ca/rol1 y data/ca/rol3 de la rama ca/integracion). Con DATA_DIR se sirve /data desde esa carpeta.
 const read = path => JSON.parse(readFileSync(path, 'utf8'));
 const csv = path => {
   const [head, ...lines] = readFileSync(path, 'utf8').trim().split(/\r?\n/).map(l => l.split(','));
   return lines.map(values => Object.fromEntries(head.map((k, i) => [k, values[i]])));
 };
 const ids = ['N1335W08715', 'N1475W08765', 'N1495W09125'];
-const series = csv('../data/rol1/series.csv');
-const coords = csv('../data/rol1/cells.csv');
-const enso = csv('../data/rol3/enso_results.csv');
-const breaks = csv('../data/rol3/break2014.csv');
-const meta = read('public/data/meta.json');
-const grid = read('public/data/grid.json').cells;
-const tour = read('public/data/tour.json');
-const output = 'node_modules/.cache/real-cases';
+const DATA_DIR = process.env.DATA_DIR ? resolve(process.env.DATA_DIR) : null;
+const dataDir = DATA_DIR ?? 'public/data';
+const rol1 = process.env.ROL1_DIR ?? '../data/rol1';
+const rol3 = process.env.ROL3_DIR ?? '../data/rol3';
+const series = csv(`${rol1}/series.csv`);
+const coords = csv(`${rol1}/cells.csv`);
+const enso = csv(`${rol3}/enso_results.csv`);
+const breaks = csv(`${rol3}/break2014.csv`);
+const meta = read(`${dataDir}/meta.json`);
+const grid = read(`${dataDir}/grid.json`).cells;
+const tour = read(`${dataDir}/tour.json`);
+const output = DATA_DIR ? 'node_modules/.cache/real-cases-ca' : 'node_modules/.cache/real-cases';
 mkdirSync(output, { recursive: true });
 const report = { generated_at: new Date().toISOString(), pipeline_commit: meta.pipeline_commit, dataset_doi: meta.dataset_doi, selected_window: [2001, 2010], checks: [] };
 const fmt = n => n.toFixed(1).replace('-', '−');
@@ -32,8 +39,10 @@ try {
   page.on('pageerror', e => errors.push(e.message));
   if (!process.env.BASE_URL) await page.route('http://cases.local/**', async route => {
     const pathname = new URL(route.request().url()).pathname;
-    const file = resolve(root, '.' + (pathname === '/' ? '/index.html' : pathname));
-    assert.ok(file.startsWith(root + '/') || file.startsWith(root + '\\'));
+    const fromData = DATA_DIR && pathname.startsWith('/data/');
+    const top = fromData ? DATA_DIR : root;
+    const file = resolve(top, '.' + (fromData ? pathname.slice(5) : pathname === '/' ? '/index.html' : pathname));
+    assert.ok(file.startsWith(top + '/') || file.startsWith(top + '\\'));
     try {
       await route.fulfill({ body: readFileSync(file), contentType: ({ '.js': 'text/javascript', '.css': 'text/css', '.html': 'text/html', '.json': 'application/json', '.geojson': 'application/json' })[extname(file)] || 'application/octet-stream' });
     } catch { await route.fulfill({ status: 404, body: '' }); }
@@ -45,7 +54,7 @@ try {
     return text;
   };
   for (const id of ids) {
-    const cell = read(`public/data/cells/${id}.json`);
+    const cell = read(`${dataDir}/cells/${id}.json`);
     const row = grid.find(c => c.id === id);
     const coordinate = coords.find(c => c.cell_id === id);
     for (const ind of meta.indicators) {
