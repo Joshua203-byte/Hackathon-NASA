@@ -275,3 +275,6 @@ dl dd { margin:0; color:var(--ink-2); }
 .stage.has-cell .control-ind { grid-column:auto; }
 .enso-legend span { display:inline-flex; align-items:center; gap:.3rem; color:var(--ink-2); }
 .enso-legend i { width:10px; height:10px; border-radius:2px; display:inline-block; }
+.controls-fold > summary { padding:.7rem .9rem; cursor:pointer; font-weight:600; color:var(--brand); }
+.controls-fold[open] > summary { border-bottom:1px solid var(--line); }
+@media (max-width: 1023px) { .overlay-left .controls-fold { background:var(--surface-2); border-radius:12px; } .controls-fold .controls { padding:.7rem .9rem .9rem; } }

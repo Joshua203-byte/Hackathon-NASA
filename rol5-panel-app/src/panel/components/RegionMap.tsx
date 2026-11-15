@@ -151,7 +151,7 @@ export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback
     const c = selected ? byId.get(selected) : null;
     // El panel tapa parte del mapa en pantallas anchas: el margen deja la celda en la zona visible.
     const wide = window.innerWidth >= 980;
-    const padding = { top: 0, bottom: wide ? 70 : 0, left: wide ? (c ? 262 : 420) : 0, right: wide && c ? Math.min(640, window.innerWidth * 0.46) : 0 };
+    const padding = { top: 0, bottom: wide ? 70 : 56, left: wide ? (c ? 262 : 420) : 0, right: wide && c ? Math.min(640, window.innerWidth * 0.46) : 0 };
     if (c) map.flyTo({ center: [c.lon, c.lat], zoom: Math.max(map.getZoom(), wide ? 6.9 : 6.4), padding, duration: 1400 });
     else { const [s, n] = meta.bbox.lat; const [w, e] = meta.bbox.lon; map.fitBounds([[w, s], [e, n]], { padding: { top: 16, bottom: padding.bottom + 16, left: padding.left + 16, right: 16 }, duration: 900 }); }
   }, [ready, selected, byId]);

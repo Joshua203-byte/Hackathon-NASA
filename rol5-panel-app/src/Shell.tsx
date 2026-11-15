@@ -4,7 +4,7 @@ import { CASES, caseSearch, findCase, type CaseLink } from './panel/cases';
 import { VERDICT_UI } from './panel/verdict';
 import { IND_OPTION, LENS_LABEL } from './panel/labels';
 import { selectIndicator } from './panel/lenses';
-import { useEffect } from 'react';
+import { useEffect, useSyncExternalStore } from 'react';
 import { lazy, Suspense } from 'react';
 const RegionMap = lazy(() => import('./panel/components/RegionMap').then(m => ({ default: m.RegionMap })));
 const CellPanel = lazy(() => import('./panel/components/CellPanel').then(m => ({ default: m.CellPanel })));
@@ -12,7 +12,17 @@ import { useBoot, useCell } from './panel/data';
 import { INDICATORS } from './panel/types';
 import { parseWin, patchSearch, usePanelUrl } from './panel/urlState';
 
+const NARROW = '(max-width: 1023px)';
+/** Pantalla angosta: el mapa va arriba y el panel debajo, no lado a lado. */
+function useNarrow() {
+  return useSyncExternalStore(
+    (cb) => { const m = window.matchMedia(NARROW); m.addEventListener('change', cb); return () => m.removeEventListener('change', cb); },
+    () => window.matchMedia(NARROW).matches,
+  );
+}
+
 export function Shell() {
+  const narrow = useNarrow();
   const { boot, error } = useBoot();
   const [url, setUrl] = usePanelUrl();
   const { cell, status } = useCell(url.cell);
@@ -118,7 +128,8 @@ export function Shell() {
               })}
             </nav>
           )}
-          <div className="controls">
+          {narrow && url.cell
+            ? <details className="controls-fold"><summary>{es ? 'Cambiar lluvia, lugar o comparar' : 'Change rainfall, place or compare'}</summary>          <div className="controls">
             <label className="control control-cell">{es ? 'Ir a una celda por su código' : 'Go to a cell by its code'}
               <select value={url.cell ?? ''} onChange={(e) => setUrl({ cell: e.target.value || null, win: null }, 'push')}>
                 <option value="">—</option>
@@ -137,7 +148,27 @@ export function Shell() {
               </select>
             </label>
             <label className="control mirror-picker">{es ? 'Comparar con otra celda' : 'Compare another cell'} <select aria-label={es ? 'Celda espejo' : 'Mirror cell'} value={mirrorId ?? ''} onChange={e => { const q = new URLSearchParams(location.search); q.delete('case'); if (e.target.value) q.set('mirror', e.target.value); else q.delete('mirror'); history.replaceState(null, '', `?${q}`); dispatchEvent(new PopStateEvent('popstate')); }}><option value="">—</option>{boot.grid.filter(c => c.id !== url.cell).map(c => <option key={c.id}>{c.id}</option>)}</select></label>
-          </div>
+          </div></details>
+            :           <div className="controls">
+            <label className="control control-cell">{es ? 'Ir a una celda por su código' : 'Go to a cell by its code'}
+              <select value={url.cell ?? ''} onChange={(e) => setUrl({ cell: e.target.value || null, win: null }, 'push')}>
+                <option value="">—</option>
+                {boot.grid.map((c) => <option key={c.id} value={c.id}>{c.id} · {c.country}</option>)}
+              </select>
+            </label>
+            <label className="control control-ind">{es ? '¿Qué lluvia quieres ver?' : 'Which rainfall?'}
+              <select value={url.ind} onChange={(e) => setUrl({ ind: e.target.value as typeof url.ind, win: null })}>
+                {INDICATORS.map((i) => <option key={i} value={i}>{IND_OPTION[i][url.lang]}</option>)}
+              </select>
+              <small className="control-hint">{es ? `Se suma la lluvia de esos meses en cada año: un total por año, de ${boot.meta.period[0]} a ${boot.meta.period[1]} (${yearsN} años).` : `The rain of those months is added up in each year: one total per year, from ${boot.meta.period[0]} to ${boot.meta.period[1]} (${yearsN} years).`}</small>
+            </label>
+            <label className="control">{es ? '¿Para qué la necesitas?' : 'What do you need it for?'}
+              <select value={url.lens} onChange={(e) => { const lens = e.target.value as typeof url.lens; setUrl({ lens, ind: cell ? selectIndicator(lens, url.ind, boot.meta, cell) : lens === "com" ? "annual_mm" : "may_oct_mm", win: null }); }}>
+                {(['agri', 'com', 'ene'] as const).map(l => <option key={l} value={l}>{LENS_LABEL[l][url.lang]}</option>)}
+              </select>
+            </label>
+            <label className="control mirror-picker">{es ? 'Comparar con otra celda' : 'Compare another cell'} <select aria-label={es ? 'Celda espejo' : 'Mirror cell'} value={mirrorId ?? ''} onChange={e => { const q = new URLSearchParams(location.search); q.delete('case'); if (e.target.value) q.set('mirror', e.target.value); else q.delete('mirror'); history.replaceState(null, '', `?${q}`); dispatchEvent(new PopStateEvent('popstate')); }}><option value="">—</option>{boot.grid.filter(c => c.id !== url.cell).map(c => <option key={c.id}>{c.id}</option>)}</select></label>
+          </div>}
         </div>
 
         <div className="workspace-panel" key={url.cell ?? 'none'}>
