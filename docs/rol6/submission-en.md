@@ -28,7 +28,7 @@ Camila, Joshua, Elena, Izel, David and Andrés developed the project across scie
 
 ## Submission links and final evidence
 
-- [Code repository](https://github.com/ElenaColorado/Hackathon-NASA) · [Prototype video, 28 seconds](altaris-prototype.webm)
+- [Code repository](https://github.com/Joshua203-byte/Hackathon-NASA) · [Prototype video, 28 seconds](altaris-prototype.webm)
 - Andrés replaces the relative video link with the externally accessible final demo URL and adds Elena’s tested public app URL.
 - David supplies the exact dataset citation and access details. Joshua supplies release ID, period, valid-cell count, magnitude, units, interval and verdict for the featured case. Camila approves its wording and any comparison with ENSO.
 - After the five planned sessions, add actual sample size, task completion and comprehension results. Leave missing evidence explicitly pending if the team submits a prototype.

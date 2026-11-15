@@ -7,7 +7,7 @@ Sin ML, sin predicción: Theil-Sen + Mann-Kendall (Hamed-Rao si hay autocorrelac
 ## Uso
 ```bash
 pip install -r requirements.txt
-python -m pytest tests -q                                   # 57 pruebas
+python -m pytest tests -q                                   # 70 pruebas
 python run_pilot.py --synthetic --out /tmp/demo             # sin datos reales: JSON de prueba (data_kind "mock")
 python 09_calibration.py --n-sim 1000 --out calibration.json  # falsos positivos y potencia
 python run_pilot.py --cells cells.csv --series series.csv \

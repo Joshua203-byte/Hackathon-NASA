@@ -88,13 +88,21 @@ def test_enso_y_2014_entran_al_veredicto(tmp_path):
 def test_narrativa_resumen_y_receta(tmp_path):
     cells, _, _, _ = gen(tmp_path, 10)
     meta = json.loads((tmp_path / "meta.json").read_text())
-    assert "recipe" in meta and meta["recipe"]["verdict_rules"]["consistente"] and meta["threshold_changes"] == []
+    assert "recipe" in meta and meta["recipe"]["verdict_rules"]["consistente"] and meta["threshold_changes"] == CFG.get("threshold_changes", [])
     d = json.loads((tmp_path / "cells" / f"{cells[0]['id']}.json").read_text())
     nar = next(iter(d["indicators"].values()))["narrative"]
     assert nar["generated_by"] == "template" and nar["es"] and nar["en"]
     rows = (tmp_path / "verdict_summary.csv").read_text().strip().splitlines()
     assert rows[0].startswith("indicator,country,consistente") and len(rows) > 1
     assert sum(int(r.split(",")[-1]) for r in rows[1:]) == 10 * 3
+
+
+def test_narrativa_pendiente_cero_sin_signo():
+    from altaris import narrative
+    for v in (-0.0, 0.04, -0.04):
+        n = narrative.template("jul_aug_mm", "mm/2 meses", (2001, 2024), 24, 24,
+                               {"slope_per_decade": v, "ci_95": [-1.0, 1.0]}, "sin_evidencia")
+        assert "de 0.0 mm" in n["es"] and "of 0.0 mm" in n["en"]
 
 
 def test_narrativa_de_rol6_tiene_prioridad(tmp_path):
