@@ -26,7 +26,7 @@ def _clean_json(o):
 
 
 def run(cells, series, cfg, out_dir, *, monthly=None, enso_results=None, breaks=None, enso_phase=None,
-        calibration=None, narratives=None, commit="LOCAL", data_kind="observed", generated_at=None) -> dict:
+        calibration=None, narratives=None, n_jobs=1, commit="LOCAL", data_kind="observed", generated_at=None) -> dict:
     """Corre todo y escribe los JSON. Devuelve un resumen (conteo de veredictos)."""
     out = Path(out_dir)
     (out / "cells").mkdir(parents=True, exist_ok=True)
@@ -35,12 +35,14 @@ def run(cells, series, cfg, out_dir, *, monthly=None, enso_results=None, breaks=
     ids = [c["id"] for c in cells]
 
     # 1) análisis numérico de cada celda e indicador
-    ana = {}
-    for c in ids:
-        for k in keys:
-            if k in series.get(c, {}):
-                ys, vs = series[c][k]
-                ana[(c, k)] = analyze.analyze_indicator(k, ys, vs, cfg)
+    todo = [(c, k) for c in ids for k in keys if k in series.get(c, {})]
+    if n_jobs != 1 and len(todo) > 50:
+        from joblib import Parallel, delayed  # el orden se conserva: el resultado es idéntico al serial
+        res = Parallel(n_jobs=n_jobs, batch_size="auto")(
+            delayed(analyze.analyze_indicator)(k, *series[c][k], cfg) for c, k in todo)
+    else:
+        res = [analyze.analyze_indicator(k, *series[c][k], cfg) for c, k in todo]
+    ana = dict(zip(todo, res))
 
     # 2) FDR por indicador, a través de las celdas
     p_fdr = {}

@@ -104,3 +104,12 @@ def test_narrativa_de_rol6_tiene_prioridad(tmp_path):
     d = json.loads((tmp_path / "cells" / f"{cells[0]['id']}.json").read_text())
     assert d["indicators"]["may_oct_mm"]["narrative"]["generated_by"] == "AI"
     assert d["indicators"]["jul_aug_mm"]["narrative"]["generated_by"] == "template"
+
+
+def test_paralelo_es_identico_al_serial(tmp_path):
+    cells, series, _ = synth.make_region(20, tuple(CFG["period"]))
+    a, b = tmp_path / "s", tmp_path / "p"
+    export.run(cells, series, CFG, a, n_jobs=1, generated_at="x")
+    export.run(cells, series, CFG, b, n_jobs=2, generated_at="x")
+    for f in sorted(a.rglob("*.json")):
+        assert f.read_bytes() == (b / f.relative_to(a)).read_bytes(), f
