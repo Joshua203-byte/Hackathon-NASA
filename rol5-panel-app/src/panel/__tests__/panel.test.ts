@@ -1,4 +1,4 @@
-import { regionNames } from '../labels';
+import { countryName, regionNames } from '../labels';
 import { describe, expect, it } from 'vitest';
 import { deriveScenario, lintRules, lookupCard, type DecisionRules } from '../decision';
 import { eraCounts, expectedWindowCount, footprintLayout, indexFootprint, resolveWindow, summarize } from '../footprint';
@@ -207,5 +207,15 @@ describe('regionNames', () => {
     expect(regionNames([...mk('XXX', 2), ...mk('HND', 3)], 'en')).toBe('Honduras and XXX');
     expect(regionNames(mk('HND', 1), 'es')).toBe('Honduras');
     expect(regionNames([], 'es')).toBe('');
+  });
+});
+
+describe('countryName', () => {
+  it('da el nombre de los 7 países en español e inglés (el panel de celda no debe mostrar el código ISO)', () => {
+    const es = { BLZ: 'Belice', GTM: 'Guatemala', SLV: 'El Salvador', HND: 'Honduras', NIC: 'Nicaragua', CRI: 'Costa Rica', PAN: 'Panamá' };
+    for (const [code, name] of Object.entries(es)) expect(countryName(code, 'es')).toBe(name);
+    expect(countryName('BLZ', 'en')).toBe('Belize');
+    expect(countryName('PAN', 'en')).toBe('Panama');
+    expect(countryName('XXX', 'es')).toBe('XXX');
   });
 });

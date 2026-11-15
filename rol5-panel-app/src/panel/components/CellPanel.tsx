@@ -20,7 +20,7 @@ import { SecondaryVariables } from './SecondaryVariables';
 import { Glossary } from './Glossary';
 import { VERDICT_UI, reasonText } from '../verdict';
 import { VerdictBadge } from './VerdictBadge';
-import { COUNTRY, IND_LABEL, unitLabel } from '../labels';
+import { IND_LABEL, countryName, unitLabel } from '../labels';
 import { CASES } from '../cases';
 import { YearSlider } from './YearSlider';
 
@@ -85,7 +85,7 @@ export function CellPanel({ cell, gridRow, meta, status, refs, mirror }: Props) 
     <aside className="panel">
       {meta.analysis_scope && <p role="note" className="notice pilot-status">{meta.analysis_scope.note[lang]}</p>}
       <header className="cell-head">
-        <p className="cell-kicker">{gridRow ? `${COUNTRY[gridRow.country]?.[lang] ?? gridRow.country} · ${Math.abs(gridRow.lat).toFixed(2)}°${gridRow.lat >= 0 ? 'N' : 'S'}, ${Math.abs(gridRow.lon).toFixed(2)}°${gridRow.lon >= 0 ? 'E' : 'W'} · ` : ''}{es ? 'celda' : 'cell'} {cell.id}</p>
+        <p className="cell-kicker">{gridRow ? `${countryName(gridRow.country, lang)} · ${Math.abs(gridRow.lat).toFixed(2)}°${gridRow.lat >= 0 ? 'N' : 'S'}, ${Math.abs(gridRow.lon).toFixed(2)}°${gridRow.lon >= 0 ? 'E' : 'W'} · ` : ''}{es ? 'celda' : 'cell'} {cell.id}</p>
         <h2 className="cell-title">{cell.name ?? IND_LABEL[url.ind][lang]}</h2>
         <p className="cell-sub">{cell.name ? `${IND_LABEL[url.ind][lang]} · ` : ''}{period[0]}–{period[1]} · {es ? 'área de unos 11 × 11 km' : 'area of about 11 × 11 km'}</p>
       </header>
