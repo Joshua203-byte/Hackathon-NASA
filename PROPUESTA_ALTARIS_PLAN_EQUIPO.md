@@ -1,11 +1,26 @@
 # ALTARIS — Propuesta final y plan de trabajo por integrante
 
 **Reto:** NASA Space Apps Challenge 2026 — *Be An Earth System Trend Detective!*
-**Equipo:** Camila, Elena, Joshua, David, Marro, Arlie
-**Documento generado:** sábado 14 nov 2026, 19:15 (hora de El Salvador)
+**Equipo:** Camila, Joshua, Elena, Izel, David y un sexto integrante por confirmar
+**Versión 2:** sábado 14 nov 2026, 19:50 (hora de El Salvador). Incorpora la revisión del grupo.
 **Cierre de entrega:** domingo 15 nov 2026, 23:59 hora local. **Meta interna de entrega: domingo 21:00.**
 
-> Este documento describe el **alcance máximo**. Cada pieza lleva una prioridad (P0, P1, P2) para poder recortar sin rediseñar. Complementa al `contexto_maestro_y_especificaci_n_t_cnica_altaris.md`; donde se contradigan, manda este.
+> Este documento describe el **alcance máximo**. Cada pieza lleva una prioridad (P0, P1, P2) para poder recortar sin rediseñar. Es **autosuficiente**: reemplaza al contexto maestro anterior y no depende de ningún otro archivo del repo.
+
+### Cambios de la versión 2
+
+| Cambio | Antes | Ahora |
+|---|---|---|
+| País foco | Triángulo Norte sin foco | Honduras como foco de los casos; la región de cálculo sigue siendo el Triángulo completo |
+| Entrada de la app | Mapa 2D | Globo 3D con acercamiento a la región (P1), solo como presentación |
+| Periodo | 2001–2024 fijo | Parámetro: hasta 2025 si IMERG Final lo tiene |
+| Lluvia anual y ciclo mensual por celda | P2 | P0 |
+| Chequeo del salto TRMM→GPM (2014) | P2 | P1, y limita el veredicto |
+| Calibración | Solo falsos positivos | Falsos positivos y potencia |
+| Segunda variable NASA | P2 | P1, solo en los sitios de los 3 casos |
+| Tarjetas de decisión | Acciones sugeridas | Preguntas que conviene hacerse |
+| Demo | Solo video | Video de 30 s o 7 láminas, según la guía 2026 |
+| Formulario | Se redacta a las 15:00 | Se redacta desde la mañana |
 
 ---
 
@@ -21,6 +36,11 @@
 | Parámetros de la API de NASA POWER | Confirmar en la documentación de la API | Rol 1 |
 | Referencia Wilks (2016) sobre FDR en campos espaciales | Confirmar antes de citarla | Rol 3 |
 | Que el "efecto espejo" de ENSO aparezca en IMERG para esta región | Es una **hipótesis a comprobar con los datos**, no un resultado garantizado | Rol 3 |
+| Que IMERG Final mensual de 2025 esté completo | Probable por la latencia de unos 3.5 meses, sin confirmar | Rol 1, al hacer la búsqueda |
+| Ciclo de lluvias de la vertiente Caribe de Honduras | Se cree que su máximo cae hacia fin de año y que la canícula no aplica; comprobar con el ciclo mensual calculado | Rol 3 |
+| Qué es exactamente `PRECTOTCORR` de NASA POWER y qué tan independiente es de IMERG | Sin confirmar | Rol 1 |
+| Que la versión de MapLibre elegida traiga proyección de globo | Sin confirmar | Rol 4, en el kickoff |
+| Reglas de entrega citadas en la revisión del grupo (30 s o 7 láminas, marca de agua en contenido generado con IA, sin datos de menores, todo en inglés, enlace público) | Vienen de las guías 2025 | Rol 6 |
 
 **Los criterios de evaluación no están en el repo.** Hay que añadirlos a `docs/` cuando Rol 6 los tenga.
 
@@ -31,6 +51,10 @@
 ### 1.1 En una línea
 **ALTARIS es el detective que duda de su propia pista:** toma 24 años de lluvia medida por la NASA sobre el Triángulo Norte y muestra dónde hay una tendencia real, dónde no la hay y dónde nadie debería afirmar nada todavía.
 
+**País foco: Honduras.** El cálculo cubre Guatemala, El Salvador y Honduras, pero los casos guiados y la historia se cuentan desde Honduras. Tiene costa Pacífica (el sur, dentro del Corredor Seco) y costa Caribe, así que el efecto espejo se puede buscar dentro de un solo país.
+
+**De lo global a lo local.** La app abre con un globo 3D, se acerca a Centroamérica y entrega al usuario el mapa por celdas. El globo no lleva datos globales: es la puerta de entrada. No se puede elegir cualquier región del mundo; eso se declara como trabajo futuro.
+
 ### 1.2 Qué pide el reto y cómo se responde
 
 | Pregunta del reto | Respuesta de ALTARIS |
@@ -40,6 +64,8 @@
 | ¿Cuánto? | Pendiente de Sen en mm por década, con intervalo de confianza del 95 % |
 | ¿Es significativo? | Mann-Kendall con corrección por autocorrelación y por comparaciones múltiples, **más** la prueba de estabilidad por ventanas y la prueba ENSO |
 | Pista del enunciado: una variable puede subir en una región y bajar en otra por el mismo proceso | Módulo "Efecto espejo": respuesta de Pacífico y Caribe a El Niño |
+| Sistemas interconectados | Segunda variable NASA (radiación solar o temperatura de NASA POWER) junto a la lluvia en los sitios de los 3 casos |
+| ¿Por qué cambia? | Solo como **asociación** (ENSO, estacionalidad). Nunca se afirma causa |
 
 ### 1.3 Los tres diferenciadores
 
@@ -47,7 +73,9 @@
 2. **Huella de estabilidad.** Para cada celda se calcula la tendencia en todas las ventanas de años posibles y se dibuja como un triángulo de colores. Un triángulo uniforme es evidencia firme; uno manchado, evidencia frágil.
 3. **Efecto espejo y prueba ENSO.** Se muestra cómo responde cada vertiente a El Niño y se comprueba si la tendencia sobrevive al descontar ENSO.
 
-**Plus de validez:** se mide la tasa de falsos positivos del propio veredicto con series barajadas, y se publica en el pasaporte.
+**Plus de validez:** se mide con series barajadas cuántas veces el veredicto se equivoca (falsos positivos) y cuántas veces detecta una tendencia que se sabe que está (potencia). Ambos números se publican en el pasaporte.
+
+**Cómo contarlo:** el análisis de sensibilidad a la ventana de años ya existe en la literatura climática. Se presenta como una aplicación original y accesible, no como un método inventado. Las tres piezas que se cuentan son la huella, el veredicto honesto y el espejo.
 
 ### 1.4 Regla de oro (no cambia)
 ALTARIS analiza el pasado. No predice, no da recetas agronómicas y no afirma causas. La IA generativa solo redacta a partir de cifras ya calculadas.
@@ -69,27 +97,30 @@ ALTARIS analiza el pasado. No predice, no da recetas agronómicas y no afirma ca
 | Prioridad | Pieza | Si se recorta |
 |---|---|---|
 | **P0** | Cubo IMERG mensual 2001–2024 recortado a la región | Plan B: NASA POWER por puntos |
-| **P0** | Indicadores may–oct y jul–ago por celda y año | — |
+| **P0** | Indicadores may–oct, jul–ago y anual por celda y año, más el ciclo mensual medio por celda | — |
 | **P0** | Sen + Mann-Kendall + FDR por celda | — |
 | **P0** | Huella de estabilidad (todas las ventanas) | Reducir a 3 ventanas fijas |
 | **P0** | Veredicto determinista | — |
 | **P0** | Mapa de veredictos + panel de celda con serie y huella | Lista de 20–30 sitios en vez de mapa |
 | **P0** | Enlace profundo (URL con estado) | — |
-| **P0** | Video de 30 s + formulario en inglés | — |
+| **P0** | Demo (video de 30 s o 7 láminas) + formulario en inglés | — |
+| **P1** | Chequeo del salto TRMM→GPM (2014) y marca de 2014 en la huella | Se declara como limitación |
+| **P1** | Segunda variable NASA POWER en los sitios de los 3 casos | La lente de Energía muestra "Análisis cuantitativo pendiente" |
+| **P1** | Globo 3D de entrada con acercamiento a la región | La app abre directo en el mapa |
 | **P1** | ENSO: clasificación de años, mapa de correlación, vista espejo, prueba ENSO | Queda solo el Caso 3 con dos sitios |
-| **P1** | Tarjetas Decision Readiness (Agricultura, Comunidades) | Una sola tarjeta genérica |
+| **P1** | Tarjetas de preguntas para decidir (Agricultura, Comunidades) | Una sola tarjeta genérica |
 | **P1** | Evidence Passport (JSON + Markdown + imprimir) | Solo descarga JSON |
 | **P1** | 3 casos guiados | 1 caso |
 | **P1** | Narrador con IA generativa, pregenerado | Plantillas de texto sin IA |
 | **P1** | Glosario con tooltips, interfaz ES/EN | Solo inglés |
 | **P1** | Prueba con 5 usuarios + micro-validación | Solo la pregunta en la app |
-| **P1** | Calibración de falsos positivos del veredicto | Se omite del pasaporte |
-| **P2** | Indicador de lluvia anual | — |
+| **P1** | Calibración del veredicto: falsos positivos y potencia | Se omite del pasaporte |
 | **P2** | Agrupamiento de celdas (ML no supervisado) | — |
-| **P2** | Radiación solar NASA POWER + lente de Energía + Matriz territorial | La lente de Energía muestra "Análisis cuantitativo pendiente" |
-| **P2** | Chequeo de homogeneidad TRMM→GPM (antes y después de 2014) | Se declara como limitación |
+| **P2** | Matriz territorial y lente de Energía completa | — |
 
-**Orden de recorte si hay retraso:** P2 completo → narrador con IA → interfaz en español → casos 2 y 3 → mapa completo (pasar a puntos).
+**Fuera del alcance (trabajo futuro en el formulario):** capa global de tendencias, elegir cualquier región del mundo, índice de vulnerabilidad social.
+
+**Orden de recorte si hay retraso:** P2 completo → globo 3D → narrador con IA → segunda variable → interfaz en español → casos 2 y 3 → mapa completo (pasar a puntos).
 
 ---
 
@@ -145,7 +176,11 @@ Hackathon-NASA/
   "n_cells": 0,
   "indicators": ["may_oct_mm", "jul_aug_mm", "annual_mm"],
   "thresholds": { "ver config.yaml": true },
-  "false_positive_rate": {"consistente": null, "limitada": null, "n_sim": 1000},
+  "calibration": {
+    "n_sim": 1000,
+    "false_positive_rate": {"consistente": null, "limitada": null},
+    "power": {"injected_trend_pct_per_decade": -10, "detected_consistente": null, "detected_limitada_o_mas": null}
+  },
   "aux_data": ["NOAA CPC ONI"]
 }
 ```
@@ -178,6 +213,7 @@ Hackathon-NASA/
 {
   "id": "N1345W08815",
   "name": null,
+  "monthly_climatology_mm": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   "indicators": {
     "jul_aug_mm": {
       "units": "mm/2 meses",
@@ -195,6 +231,7 @@ Hackathon-NASA/
         "slope_oni_removed": -16.2, "p_oni_removed": 0.06,
         "survives": true
       },
+      "break_2014": {"pettitt_year": 2014, "p": 0.21, "flag": false},
       "verdict": "limitada",
       "verdict_reasons": ["fdr_no_significativo", "huella_inestable"],
       "narrative": {"es": "...", "en": "..."},
@@ -224,12 +261,14 @@ Hackathon-NASA/
 | Dato | Fuente | Uso |
 |---|---|---|
 | Lluvia mensual | GPM IMERG Final Run mensual, 0.1°. Colección `GPM_3IMERGM` versión 07 en GES DISC. Requiere cuenta Earthdata | Principal |
-| Índice ENSO | ONI de NOAA CPC | Auxiliar, declarado como no-NASA |
+| Índice ENSO | ONI de NOAA CPC | Auxiliar, declarado como no-NASA. NOAA y KNMI Climate Explorer figuran entre los recursos oficiales del reto (`docs/03-recursos-y-links.md`), así que su uso está previsto |
 | Límites de países | Natural Earth (admin 0) | Máscara de celdas |
-| Radiación solar (P2) | NASA POWER, `ALLSKY_SFC_SW_DWN` | Lente de Energía |
+| Segunda variable NASA (P1) | NASA POWER: `ALLSKY_SFC_SW_DWN` (radiación solar) o `T2M` (temperatura), solo en los sitios de los 3 casos | Mostrar un segundo sistema junto a la lluvia; lente de Energía |
 | Lluvia de contraste | NASA POWER `PRECTOTCORR` o serie de Giovanni | Verificación cruzada y Plan B |
 
 **Sobre la versión:** la colección se llama V07 y los archivos mensuales llevan `V07B` en el nombre. En el pasaporte se cita lo que diga la página del dataset.
+
+**Periodo:** es un parámetro de `config.yaml`. Se descarga de 2001-01 hasta el último diciembre completo. Si 2025 está completo, el periodo base es 2001–2025; si no, 2001–2024. Los ejemplos de este documento usan 2001–2024.
 
 **Región:** latitud 12.5 a 18.5 N, longitud 92.5 a 83.0 O. Son unas 60 × 95 celdas; tras la máscara de países quedan aproximadamente 2 000 celdas de tierra.
 
@@ -242,9 +281,13 @@ Hackathon-NASA/
 |---|---|---|
 | `may_oct_mm` | Suma de mayo a octubre | Los 6 meses existen |
 | `jul_aug_mm` | Suma de julio y agosto | Los 2 meses existen |
-| `annual_mm` (P2) | Suma de enero a diciembre | Los 12 meses existen |
+| `annual_mm` | Suma de enero a diciembre | Los 12 meses existen |
 
-Nunca se rellena con ceros. La anomalía es el valor menos la media 2001–2024 de la celda.
+Nunca se rellena con ceros. La anomalía es el valor menos la media del periodo base de la celda.
+
+**Ciclo mensual por celda:** media de cada mes del año sobre todo el periodo (12 valores). Sirve para dos cosas:
+- Mostrar en el panel cuándo llueve en esa celda.
+- Marcar dónde el indicador `jul_aug_mm` tiene sentido. La canícula es un rasgo del lado Pacífico. Regla: la celda tiene canícula si la lluvia media de julio y agosto es menor que la de junio y la de septiembre. Donde no se cumple, la interfaz avisa "en esta zona el indicador de canícula no aplica" y usa el anual por defecto.
 
 ### 4.3 Tendencia y significancia
 
@@ -257,8 +300,9 @@ Nunca se rellena con ceros. La anomalía es el valor menos la media 2001–2024 
 
 ### 4.4 Huella de estabilidad
 
-- Ventanas: todo par (inicio, fin) dentro de 2001–2024 con longitud mínima de 10 años. Son **120 ventanas** por serie.
-- Para el veredicto solo cuentan las de 15 años o más: **55 ventanas**.
+- Ventanas: todo par (inicio, fin) dentro del periodo base con longitud mínima de 10 años. Son **120 ventanas** por serie con 2001–2024, o **136** con 2001–2025.
+- Para el veredicto solo cuentan las de 15 años o más: **55 ventanas** con 2001–2024, o **66** con 2001–2025.
+- El año 2014 se marca en la huella con una línea, porque ahí cambia la era de satélites (sección 4.10).
 - Por ventana: pendiente de Sen y p de Mann-Kendall.
 - Métricas resumen:
   - `sign_agreement`: fracción de ventanas (≥15 años) con el mismo signo que el periodo base.
@@ -276,7 +320,10 @@ Nunca se rellena con ceros. La anomalía es el valor menos la media 2001–2024 
    - `survives = true` si la pendiente conserva el signo y queda dentro del IC 95 % del periodo base.
 5. **Efecto espejo:** elegir con los datos un par de celdas (o dos grupos) con correlación ONI de signo opuesto.
 
-**Cautelas:** hay pocos años El Niño en 24 años, así que la potencia es baja. Si el espejo no aparece con claridad, se reporta tal cual; el hallazgo sería "en este registro no se distingue".
+**Cautelas:**
+- Hay pocos años El Niño en el registro, así que la potencia es baja. Si el espejo no aparece con claridad, se reporta tal cual; el hallazgo sería "en este registro no se distingue".
+- El espejo puede no verse en may–oct si la vertiente Caribe tiene su temporada en otros meses. Por eso la correlación con ONI se calcula también con el indicador anual y, si hay tiempo, con la temporada lluviosa propia de cada celda según su ciclo mensual.
+- Primero se busca el par dentro de Honduras (sur contra costa norte). Si no aparece ahí, se busca en toda la región.
 
 ### 4.6 Veredicto (reglas deterministas, en `config.yaml`)
 
@@ -284,11 +331,13 @@ Se evalúan en este orden:
 
 | Veredicto | Regla |
 |---|---|
-| `incompleta` | Menos de 22 años válidos de 24 |
-| `consistente` | p FDR < nivel elegido **y** el IC 95 % no incluye 0 **y** `sign_agreement` ≥ 0.90 **y** `sig_fraction` ≥ 0.50 **y** la prueba ENSO sobrevive |
+| `incompleta` | Faltan más de 2 años válidos (menos de 22 de 24, o de 23 de 25) |
+| `consistente` | p FDR < nivel elegido **y** el IC 95 % no incluye 0 **y** `sign_agreement` ≥ 0.90 **y** `sig_fraction` ≥ 0.50 **y** la prueba ENSO sobrevive **y** no hay bandera de salto en 2014 |
 | `limitada` | No es consistente, y además: p sin ajustar < 0.10, **o** `sign_agreement` ≥ 0.80 con pendiente de al menos 5 % de la media por década |
 | `sin_evidencia` | Todo lo demás |
 
+- **Texto de `limitada` en la interfaz: "señal débil, no confirmada".** Con p sin ajustar < 0.10 en unas 2 000 celdas correlacionadas, parte de esas celdas será ruido. La interfaz lo dice junto al veredicto.
+- Una celda con bandera de salto en 2014 no puede pasar de `limitada`, y lleva la razón `posible_salto_2014`.
 - Etiqueta aparte `alta_variabilidad`: coeficiente de variación de la serie por encima del umbral de `config.yaml`. Activa el tercer escenario de la matriz de planificación.
 - **Los umbrales se fijan en el kickoff y no se tocan después de ver el mapa.** Si se cambian, se anota en el pasaporte.
 - Prohibido traducir p < 0.05 como "95 % de probabilidad de que el cambio sea real".
@@ -296,7 +345,10 @@ Se evalúan en este orden:
 ### 4.7 Calibración del veredicto
 
 - Tomar 1 000 series reales al azar, barajar el orden de los años (eso destruye cualquier tendencia) y pasarlas por el motor completo.
-- Reportar qué porcentaje sale `consistente` y `limitada`. Ese número va en `meta.json` y en el pasaporte.
+- **Falsos positivos:** reportar qué porcentaje sale `consistente` y `limitada`.
+- **Potencia:** a esas mismas series barajadas se les suma una tendencia conocida (−10 % de la media por década; repetir con −5 % y −20 % si hay tiempo) y se reporta qué porcentaje se detecta.
+- Los dos números van en `meta.json` y en el pasaporte.
+- Por qué importa: con pocos años y lluvia muy variable, `consistente` se activará pocas veces. Sin medir la potencia no se distingue "no hay tendencia" de "no podríamos verla aunque estuviera". Si la potencia sale baja, la interfaz lo dice en la explicación de `sin_evidencia`.
 - Nota: barajar también destruye la autocorrelación; se declara.
 
 ### 4.8 Agrupamiento de celdas (P2)
@@ -316,6 +368,45 @@ Se evalúan en este orden:
 
 ---
 
+### 4.10 Chequeo del salto TRMM→GPM (P1)
+
+El registro une dos eras de satélites alrededor de 2014. Un cambio de instrumento puede parecer una tendencia.
+
+1. Prueba de punto de cambio de Pettitt por celda e indicador (por ejemplo con la librería `pyhomogeneity`).
+2. Bandera `break_2014.flag = true` si el punto de cambio cae entre 2013 y 2015 con p < 0.05.
+3. Reportar qué porcentaje de celdas lleva la bandera. Si es alto, se dice en la primera pantalla.
+4. En la huella se marca 2014, para que se vea si la señal depende de cruzar ese año.
+
+Límite: un salto real del clima en esos años se vería igual. La bandera significa "no se puede descartar un efecto instrumental", no "es un error".
+
+### 4.11 Preguntas para decidir (reemplaza a las recomendaciones de acción)
+
+ALTARIS no dice qué hacer. Según el escenario y el veredicto, muestra las preguntas que conviene responder con datos locales antes de decidir.
+
+**Lente Agricultura**
+
+| Escenario observado | Con veredicto `consistente` | Con `limitada` o `sin_evidencia` | Datos locales que faltan |
+|---|---|---|---|
+| Baja en lluvia de temporada o de canícula | ¿Cuánta humedad retiene el suelo de la parcela? ¿Hay acceso a riego auxiliar o a captación de agua lluvia? ¿Qué dice la asistencia técnica local sobre el calendario de siembra? | ¿Hay registros locales de lluvia o de humedad que confirmen lo que se percibe? ¿Qué decisiones costosas se están tomando hoy solo por percepción de sequía? | Textura del suelo, pendiente, variedad de semilla, disponibilidad de riego |
+| Alza en lluvia acumulada | ¿Cómo drena la parcela? ¿Hay laderas expuestas a erosión? ¿Hay historial de enfermedades por exceso de humedad? | ¿Qué muestran los registros de eventos extremos diarios, que este análisis mensual no ve? | Topografía, historial de anegamiento, capacidad de drenaje |
+| Alta variabilidad sin tendencia | ¿Qué capacidad hay de absorber un año malo? ¿Hay acceso a pronósticos de corto plazo? | Las mismas | Capacidad financiera, acceso a información agrometeorológica semanal |
+
+**Lente Comunidades**
+
+| Escenario observado | Preguntas | Datos locales que faltan |
+|---|---|---|
+| Baja en lluvia | ¿De qué fuentes depende el agua de consumo? ¿Qué pasó en los años más secos del registro? | Fuentes de agua, población que depende de ellas, registros de escasez |
+| Alza en lluvia | ¿Qué zonas se han inundado o deslizado antes? ¿Quién vive ahí? | Mapas de amenaza local, registros de eventos |
+| Alta variabilidad | ¿Qué planes existen para un año extremo en cualquier sentido? | Planes de contingencia, sistemas de alerta |
+
+**Lente Energía:** solo en los sitios de los casos y solo si la segunda variable está lista. Si no, muestra "Análisis cuantitativo pendiente".
+
+**Vulnerabilidad:** no se calcula ningún índice. Se muestra como lista de datos socioeconómicos que harían falta.
+
+**Siguiente paso operativo:** enlaces a SERVIR y a NASA Harvest para monitoreo actual de sequía y cultivos. Rol 6 verifica que los enlaces abran.
+
+---
+
 ## 5. Roles
 
 La asignación de nombres es **tentativa**: no conozco las fortalezas de cada persona. Reasignen en el kickoff; lo que importa es que los seis roles queden cubiertos.
@@ -325,9 +416,11 @@ La asignación de nombres es **tentativa**: no conozco las fortalezas de cada pe
 | 1 | Datos e ingesta | David | Rol 2 |
 | 2 | Motor estadístico y veredicto | Joshua | Rol 3 |
 | 3 | ENSO, agrupamiento y control de calidad científico | Camila | Rol 1 |
-| 4 | Web: arquitectura, mapa, despliegue | Elena | Rol 5 |
-| 5 | Web: panel de celda, huella, pasaporte | Marro | Rol 4 |
-| 6 | Producto, contenido, usuarios, video y entrega | Arlie | Rol 5 |
+| 4 | Web: arquitectura, mapa, globo, despliegue | Elena | Rol 5 |
+| 5 | Web: panel de celda, huella, pasaporte | Izel | Rol 4 |
+| 6 | Producto, contenido, usuarios, demo y entrega | Sexto integrante (por confirmar) | Rol 5 |
+
+Si al final son cinco personas: Rol 3 absorbe la auditoría de textos y el formulario, y Roles 4 y 5 se reparten los textos de la interfaz, las pruebas con usuarios y la demo.
 
 ### 5.1 Calendario común
 
@@ -338,7 +431,7 @@ La asignación de nombres es **tentativa**: no conozco las fortalezas de cada pe
 | B2 | Dom 00:00–06:00 | **H2 (06:00):** todas las celdas calculadas; JSON v1 en la web |
 | B3 | Dom 06:00–12:00 | **H3 (12:00):** P0 completo y desplegado; ENSO integrado |
 | B4 | Dom 12:00–15:00 | Pruebas con usuarios; **H4 (15:00): congelación de funciones** |
-| B5 | Dom 15:00–18:00 | Solo arreglos; **H5 (18:00):** video grabado, formulario redactado |
+| B5 | Dom 15:00–18:00 | Solo arreglos; **H5 (18:00):** demo lista (video o láminas), formulario completo |
 | B6 | Dom 18:00–21:00 | Revisión final; **H6 (21:00): ENTREGA** |
 | B7 | Dom 21:00–23:59 | Colchón. No se añaden funciones |
 
@@ -363,25 +456,27 @@ La asignación de nombres es **tentativa**: no conozco las fortalezas de cada pe
 - [ ] Abrirlo y anotar: nombre del grupo, nombres de variables, orden de dimensiones, valor de relleno, unidades.
 
 **B1 (20:15–00:00)**
-- [ ] `01_download_imerg.py`: búsqueda `short_name="GPM_3IMERGM"`, versión 07, de 2001-01 a 2024-12; descarga en paralelo; reintentos; lista de faltantes.
+- [ ] `01_download_imerg.py`: búsqueda `short_name="GPM_3IMERGM"`, versión 07, de 2001-01 al último mes disponible; descarga en paralelo; reintentos; lista de faltantes. Avisar al equipo si 2025 está completo.
 - [ ] Si la descarga completa es lenta, usar el recorte espacial de GES DISC u OPeNDAP para bajar solo la región.
 - [ ] `02_build_cube.py`: recortar a la región, concatenar en el tiempo, convertir a mm por mes, guardar NetCDF. Verificar que la latitud quede ordenada y las dimensiones como `(time, lat, lon)`.
-- [ ] **A las 22:00:** entregar a Rol 2 la serie de una celda (la del sitio SV-01, 13.48 N, 88.18 O) aunque el cubo no esté completo.
+- [ ] **A las 22:00:** entregar a Rol 2 la serie de una celda de Honduras (zona de Choluteca, cerca de 13.3 N, 87.2 O) aunque el cubo no esté completo.
 - [ ] Máscara de países con Natural Earth: celda incluida si su centro cae dentro de GTM, SLV o HND. Guardar `cells.csv` con id, lat, lon, país.
 
 **B2 (00:00–02:00, luego sueño)**
-- [ ] `03_indicators.py`: indicadores por celda y año, con bandera de año válido.
+- [ ] `03_indicators.py`: los tres indicadores por celda y año, con bandera de año válido; ciclo mensual medio por celda y bandera de canícula (sección 4.2).
 - [ ] Comprobaciones: sin valores negativos; totales de may–oct en un rango creíble para la región; febrero de 2004 con 29 días.
 - [ ] Entregar `indicators.nc` a Rol 2 y Rol 3. **Este es el camino crítico del equipo.**
 
 **B3 (07:00–12:00)**
-- [ ] Verificación cruzada: comparar 3 celdas con una segunda fuente (serie de Giovanni o NASA POWER). Documentar la diferencia.
+- [ ] Verificación cruzada: comparar 3 celdas con una segunda fuente (serie de Giovanni o NASA POWER). Comparar el **signo de la tendencia**, no solo los valores. Anotar qué tan independiente es esa fuente de IMERG.
+- [ ] P1: chequeo TRMM→GPM (sección 4.10) sobre todas las celdas; entregar `break_2014` a Rol 2 antes de las 10:30.
+- [ ] P1: segunda variable de NASA POWER en los sitios de los 3 casos (cuando Rol 3 los elija), pasada por el mismo motor de tendencias.
 - [ ] Redactar el bloque de procedencia: dataset, versión, DOI, fecha de descarga, parámetros de búsqueda.
 - [ ] `11_export_json.py` junto con Rol 2: generar `grid.json`, `cells/*.json`, `meta.json`.
 
 **B4–B5 (12:00–18:00)**
-- [ ] P2 si se aprueba: radiación solar de NASA POWER para los sitios de los 3 casos, con el mismo motor de tendencias.
-- [ ] P2: chequeo TRMM→GPM (comparar media y varianza antes y después de 2014 en una muestra de celdas).
+- [ ] Terminar lo que quede de la segunda variable y del chequeo de 2014.
+- [ ] Lista de recursos externos del pipeline (datos y librerías) para el formulario.
 - [ ] Apoyo a Rol 2 en regeneración de JSON.
 
 **Listo cuando:** el cubo tiene 288 meses, la conversión está probada, y otra persona puede regenerar todo con un comando.
@@ -416,8 +511,8 @@ La asignación de nombres es **tentativa**: no conozco las fortalezas de cada pe
 - [ ] Exportar JSON v1 y avisar a Rol 4 y Rol 5. Es el H2.
 
 **B3 (09:00–12:00)**
-- [ ] Integrar la prueba ENSO de Rol 3 en el veredicto y regenerar.
-- [ ] `09_calibration.py`: 1 000 series barajadas; escribir la tasa en `meta.json`.
+- [ ] Integrar en el veredicto la prueba ENSO de Rol 3 y la bandera de 2014 de Rol 1, y regenerar.
+- [ ] `09_calibration.py`: 1 000 series barajadas; falsos positivos y potencia con tendencia inyectada (sección 4.7); escribir ambos en `meta.json`.
 - [ ] Tabla resumen: cuántas celdas por veredicto, por país y por indicador. Pasarla a Rol 6.
 
 **B4–B5**
@@ -448,11 +543,13 @@ La asignación de nombres es **tentativa**: no conozco las fortalezas de cada pe
 
 **B3 (07:00–12:00)**
 - [ ] Entregar a Rol 2 los campos `enso_r`, `enso_p_fdr` y `enso_test`.
+- [ ] Revisar el ciclo mensual de la costa norte de Honduras: ¿cuándo llueve más?, ¿hay canícula? Decidir con qué indicador se busca el espejo.
 - [ ] **Decidir si el efecto espejo existe en los datos.** Mirar el mapa de correlación: ¿hay zonas de signo opuesto que pasen FDR?
   - Si sí: elegir el par de celdas o grupos.
   - Si no: redactar el hallazgo como "no distinguible en este registro" y proponer el mejor contraste disponible.
 - [ ] Elegir los 3 casos **desde los resultados**:
-  - Caso 1: celda del Corredor Seco con su veredicto real, sea cual sea.
+  - Los tres casos se eligen en Honduras siempre que los datos lo permitan.
+  - Caso 1: celda del Corredor Seco hondureño con su veredicto real, sea cual sea.
   - Caso 2: celda donde el periodo base es significativo y la huella es inestable.
   - Caso 3: el par del efecto espejo.
 - [ ] Escribir `cases.json` con los enlaces profundos.
@@ -473,7 +570,7 @@ La asignación de nombres es **tentativa**: no conozco las fortalezas de cada pe
 
 **B0**
 - [ ] Crear `web/` con Vite + React + TypeScript. Definir los tipos TypeScript a partir del contrato de la sección 3.2.
-- [ ] Decidir librerías con Rol 5 y no cambiarlas: mapa (MapLibre GL o Leaflet), gráficas (Recharts o Plotly).
+- [ ] Librería de mapa: **MapLibre GL**, porque la misma librería sirve para el mapa por celdas y para el globo. Confirmar en su documentación que la versión instalada trae proyección de globo. Gráficas: Recharts o Plotly, a decidir con Rol 5 y no cambiar.
 - [ ] Reglas de ramas: una rama por rol, `main` siempre desplegable.
 
 **B1 (20:15–00:00)**
@@ -491,6 +588,12 @@ La asignación de nombres es **tentativa**: no conozco las fortalezas de cada pe
 - [ ] Leyenda por capa. Paleta distinguible para daltonismo; el veredicto no depende solo del color (añadir textura o icono).
 - [ ] Bordes de países y nombres de referencia.
 - [ ] Pantalla de entrada "Claim Investigator": tres preguntas que abren los 3 casos.
+- [ ] **Globo 3D (P1), solo cuando el mapa por celdas ya funcione con datos reales:**
+  - Vista inicial en proyección de globo, con textura estática de la Tierra y sin llamadas en vivo.
+  - La región del Triángulo resaltada; Honduras marcada como foco.
+  - Animación de acercamiento hasta la región; al llegar, se pasa a la vista por celdas.
+  - Botón "saltar" para ir directo al mapa, y los enlaces profundos abren sin pasar por el globo.
+  - Tope de 3 a 4 horas. Si a las 12:00 no está, se recorta.
 
 **B4–B5 (12:00–18:00)**
 - [ ] Interfaz ES/EN.
@@ -513,6 +616,8 @@ La asignación de nombres es **tentativa**: no conozco las fortalezas de cada pe
 - [ ] Gráfica de la serie: valores por año, recta de Sen, banda del IC 95 %, unidades en el eje.
 - [ ] **Huella de estabilidad:** matriz triangular, eje X año de inicio, eje Y año de fin. Color por signo de la pendiente; intensidad o borde por significancia. Tooltip con ventana, pendiente y p.
 - [ ] Clic en una casilla de la huella fija esa ventana y actualiza la URL.
+- [ ] Línea que marca 2014 en la huella y en la serie, con tooltip "cambio de era de satélites".
+- [ ] Mini gráfica del ciclo mensual de la celda (12 barras).
 
 **B2 (00:00–01:00, luego sueño)**
 - [ ] Comparador lado a lado: periodo base contra ventana elegida (pendiente, IC, p, veredicto de la ventana).
@@ -525,7 +630,9 @@ La asignación de nombres es **tentativa**: no conozco las fortalezas de cada pe
 - [ ] Aviso visible: "las ventanas se solapan; esto es una prueba de sensibilidad".
 
 **B4–B5 (12:00–18:00)**
-- [ ] Tarjetas Decision Readiness leyendo `decision_rules.json`: Qué observamos / Líneas de planificación / Qué falta saber.
+- [ ] Tarjetas leyendo `decision_rules.json`: Qué observamos / Preguntas para decidir / Datos locales que faltan. Ninguna tarjeta recomienda una acción.
+- [ ] Junto al veredicto `limitada`, el texto "señal débil, no confirmada". Aviso de "indicador de canícula no aplica" donde corresponda.
+- [ ] Bloque de la segunda variable en los sitios de los casos.
 - [ ] Evidence Passport: descarga JSON, descarga Markdown, hoja de estilo para imprimir, botón de copiar enlace.
 - [ ] Tooltips de glosario desde `glossary.json`.
 - [ ] Micro-validación al final del pasaporte: 2 preguntas, resultado guardado donde indique Rol 6.
@@ -546,9 +653,10 @@ La asignación de nombres es **tentativa**: no conozco las fortalezas de cada pe
 
 **B1 (20:15–00:00)**
 - [ ] `glossary.json` (ES/EN): mm por temporada, pendiente de Sen, p-valor, intervalo de confianza, FDR, ENSO/ONI, huella de estabilidad, completitud.
-- [ ] `decision_rules.json`: la matriz de la sección 4 del contexto maestro, con clave `escenario × veredicto × lente`. Lentes: Agricultura y Comunidades. Energía con "Análisis cuantitativo pendiente" salvo que se apruebe P2.
-- [ ] Enlaces de siguiente paso: SERVIR (índice de estrés evaporativo) y NASA Harvest. Verificar que los enlaces abran.
-- [ ] Primer borrador del guion del video (sección 8).
+- [ ] `decision_rules.json`: las tablas de la sección 4.11, con clave `escenario × veredicto × lente`, en ES y EN. Todo redactado como pregunta.
+- [ ] Enlaces de siguiente paso: SERVIR y NASA Harvest. Verificar que los enlaces abran.
+- [ ] **Decidir el formato de la demo** según la guía 2026: video de 30 s o 7 láminas (sección 8). Pasarse del límite puede dejar el proyecto fuera del juicio global.
+- [ ] Abrir el documento del formulario y dejar la estructura lista.
 
 **B3 (05:30–12:00)**
 - [ ] Narrador (`10_narrate.py`):
@@ -558,8 +666,11 @@ La asignación de nombres es **tentativa**: no conozco las fortalezas de cada pe
   - Con unas 2 000 celdas, generar con IA solo los 3 casos y las celdas de sitios con nombre; el resto usa plantilla.
   - Plan B: plantillas de texto para todo.
 - [ ] Textos de los 3 casos a partir de lo que elija Rol 3.
+- [ ] **Formulario en inglés, desde las 06:00 y en paralelo con todo lo demás.** Según la revisión del grupo, los jueces evalúan sobre todo el texto de la entrega. Se redacta por secciones y se completan las cifras cuando Rol 2 las tenga.
+- [ ] **Registro de uso de IA**, desde ya: qué herramienta, para qué y en qué archivos (narrador, código asistido, textos, voz sintética si la hay). Si la guía 2026 lo pide, marca de agua visible en imágenes o video generados con IA.
+- [ ] **Lista de recursos externos:** datos, librerías del pipeline y de la web, textura del globo, límites de países.
 - [ ] Protocolo de prueba con usuarios: 3 tareas ("encontrá tu zona", "¿la lluvia está bajando ahí?", "¿qué harías con esto?") y 2 preguntas de comprensión.
-- [ ] Reclutar 5 personas (ideal: alguien de agricultura, un técnico municipal, un estudiante, dos ajenos al tema).
+- [ ] Reclutar 5 personas adultas (ideal: alguien de agricultura, un técnico municipal, un estudiante universitario, dos ajenos al tema). **Sin menores de 18, sin nombres, sin fotos ni grabación de rostros.** Los resultados se guardan anónimos.
 
 **B4 (12:00–15:00)**
 - [ ] Hacer las 5 pruebas. Anotar: tiempo por tarea, respuestas de comprensión, frases textuales.
@@ -567,8 +678,8 @@ La asignación de nombres es **tentativa**: no conozco las fortalezas de cada pe
 - [ ] Resumen de resultados en `docs/` con números reales. No se inventan ni se redondean hacia arriba.
 
 **B5 (15:00–18:00)**
-- [ ] Grabar el video sobre la app congelada. Dos tomas de respaldo.
-- [ ] Redactar el formulario en inglés: resumen, cómo responde al reto, datos NASA usados, datos auxiliares, uso de IA, enlaces al repo y a la demo.
+- [ ] Producir la demo sobre la app congelada: video con dos tomas de respaldo, o las 7 láminas. Si el video lleva voz en español, subtítulos en inglés.
+- [ ] Cerrar el formulario: completar cifras finales, datos NASA usados, datos auxiliares, uso de IA, recursos externos, trabajo futuro, enlaces al repo y a la demo.
 - [ ] README del repo: qué es, cómo reproducir, estructura, créditos, limitaciones.
 
 **B6 (18:00–21:00)**
@@ -611,7 +722,23 @@ App congelada (15:00)          ──► Rol 6: video (17:00) ──► entrega 
 
 ---
 
-## 8. Video de 30 segundos (borrador)
+## 8. Demo: 7 láminas o video de 30 segundos
+
+Rol 6 confirma en la guía 2026 qué formatos se aceptan. Si se aceptan los dos, se recomiendan las láminas, porque permiten explicar la huella y las limitaciones.
+
+### Opción A — 7 láminas (borrador)
+
+| # | Contenido |
+|---|---|
+| 1 | La afirmación que todos repiten sobre la lluvia, y la pregunta: ¿se sostiene? |
+| 2 | Qué hace ALTARIS, en una frase, y los datos NASA que usa |
+| 3 | Del globo a Honduras: el mapa de veredictos |
+| 4 | La huella de estabilidad con un caso real: la tendencia que aparece y desaparece |
+| 5 | El efecto espejo: un mismo fenómeno, dos señales (o lo que muestren los datos) |
+| 6 | Qué tan fiable es el propio veredicto: falsos positivos, potencia, límites |
+| 7 | Para quién sirve: preguntas para decidir, resultados con 5 usuarios, enlace a la demo |
+
+### Opción B — Video de 30 segundos (borrador)
 
 | Tiempo | Imagen | Voz (en inglés en la entrega) |
 |---|---|---|
@@ -631,8 +758,11 @@ Las frases de los segundos 12–26 se ajustan a lo que muestren los datos reales
 - [ ] Reto correcto seleccionado
 - [ ] Repo público con README, licencia y pasos para reproducir
 - [ ] Demo pública, probada en incógnito y en móvil
-- [ ] Video subido y reproducible
-- [ ] Formulario en inglés
+- [ ] Demo dentro del límite (30 s o 7 láminas), en inglés o con subtítulos en inglés
+- [ ] Formulario en inglés, y todo material enlazado también
+- [ ] Enlace del proyecto público: sin contraseña, sin permiso, sin registro
+- [ ] Todos los recursos externos listados, incluidas las librerías de código abierto
+- [ ] Sin datos personales ni imágenes de menores
 - [ ] Datos NASA listados con versión y enlace; ONI y Natural Earth declarados como auxiliares
 - [ ] Uso de IA declarado (narrador, y cualquier asistencia de código o texto)
 - [ ] Limitaciones visibles en la app y en el pasaporte
@@ -643,6 +773,7 @@ Las frases de los segundos 12–26 se ajustan a lo que muestren los datos reales
 
 ## 10. Preguntas abiertas para el equipo
 
+0. ¿Quién es el sexto integrante, o son cinco?
 1. ¿Quién tiene ya cuenta de Earthdata?
 2. ¿Compiten en una sede local o en el evento virtual? ¿Hay premios locales con criterios propios?
 3. ¿Quién tiene acceso a una API de IA generativa para el narrador, y con qué límite?
