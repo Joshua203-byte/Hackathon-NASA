@@ -222,3 +222,6 @@ __marimo__/
 # Rol 1: datos crudos e intermedios de IMERG (se regeneran con pipeline/01-03). data/rol1/ sí se versiona.
 data/raw/
 data/interim/
+# Centroamerica (docs/10): lo crudo y lo intermedio no se versiona; data/ca/rol1/ y data/ca/rol3/ si.
+data/ca/raw/
+data/ca/interim/
