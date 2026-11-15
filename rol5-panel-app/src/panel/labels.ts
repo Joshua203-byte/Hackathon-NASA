@@ -87,3 +87,21 @@ export const NEXT_STEP: Record<Verdict, L10n> = {
     en: 'Try another cell on the map.',
   },
 };
+
+export const COUNTRY_MORE: Record<string, L10n> = {
+  BLZ: { es: 'Belice', en: 'Belize' },
+  NIC: { es: 'Nicaragua', en: 'Nicaragua' },
+  CRI: { es: 'Costa Rica', en: 'Costa Rica' },
+  PAN: { es: 'Panamá', en: 'Panama' },
+};
+/** Nombre de un país por su código ISO3. Un código desconocido se muestra tal cual. */
+export const countryName = (code: string, lang: Lang): string => (COUNTRY[code] ?? COUNTRY_MORE[code])?.[lang] ?? code;
+
+/** "Honduras, Guatemala y El Salvador": los países que realmente trae grid.json, del más al menos numeroso. */
+export function regionNames(cells: ReadonlyArray<{ country: string }>, lang: Lang): string {
+  const n = new Map<string, number>();
+  for (const c of cells) n.set(c.country, (n.get(c.country) ?? 0) + 1);
+  const names = [...n.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([code]) => countryName(code, lang));
+  if (names.length <= 1) return names[0] ?? '';
+  return `${names.slice(0, -1).join(', ')} ${lang === 'es' ? 'y' : 'and'} ${names[names.length - 1]}`;
+}

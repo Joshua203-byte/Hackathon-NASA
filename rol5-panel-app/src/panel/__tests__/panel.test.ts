@@ -1,3 +1,4 @@
+import { regionNames } from '../labels';
 import { describe, expect, it } from 'vitest';
 import { deriveScenario, lintRules, lookupCard, type DecisionRules } from '../decision';
 import { eraCounts, expectedWindowCount, footprintLayout, indexFootprint, resolveWindow, summarize } from '../footprint';
@@ -190,5 +191,21 @@ describe('archivos de referencia mock', () => {
     const t = rd('tour.json');
     expect(t.steps).toHaveLength(4);
     expect(t.steps.map((s: { anchor: string }) => s.anchor)).toEqual(['series', 'verdict', 'footprint', 'cards']);
+  });
+});
+
+
+describe('regionNames', () => {
+  const mk = (code: string, n: number) => Array.from({ length: n }, () => ({ country: code }));
+  it('lista los países del grid, del más al menos numeroso', () => {
+    const grid = [...mk('SLV', 169), ...mk('HND', 939), ...mk('GTM', 917)];
+    expect(regionNames(grid, 'es')).toBe('Honduras, Guatemala y El Salvador');
+    expect(regionNames(grid, 'en')).toBe('Honduras, Guatemala and El Salvador');
+  });
+  it('conoce los cuatro países de Centroamérica que se suman y no rompe con un código ajeno', () => {
+    expect(regionNames([...mk('NIC', 5), ...mk('PAN', 4), ...mk('CRI', 3), ...mk('BLZ', 2)], 'es')).toBe('Nicaragua, Panamá, Costa Rica y Belice');
+    expect(regionNames([...mk('XXX', 2), ...mk('HND', 3)], 'en')).toBe('Honduras and XXX');
+    expect(regionNames(mk('HND', 1), 'es')).toBe('Honduras');
+    expect(regionNames([], 'es')).toBe('');
   });
 });

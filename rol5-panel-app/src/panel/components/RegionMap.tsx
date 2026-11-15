@@ -7,6 +7,7 @@ import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { ENSO_RAMP, MAP_LAYERS, NO_DATA, SLOPE_RAMP, STABILITY_RAMP, fillColor, gridToGeoJSON, hasEnso, parseLayer, slopeLimit, verdictCounts, type MapLayer } from '../mapLayers';
 import { VERDICTS, type GridCell, type IndicatorKey, type Lang, type Meta, type Verdict } from '../types';
 import { VERDICT_UI } from '../verdict';
+import { regionNames } from '../labels';
 
 const FALLBACK_COLORS: Record<Verdict, string> = { consistente: '#1b7837', limitada: '#e08214', sin_evidencia: '#7f7f7f', incompleta: '#b2182b' };
 
@@ -166,8 +167,8 @@ export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback
     <section className="region-map no-print" aria-labelledby="region-map-title">
       <h2 id="region-map-title">{es ? 'Mapa de evidencia por celda' : 'Evidence map by cell'}</h2>
       <p className="region-map-help">
-        {es ? `${cells.length} celdas de 0,1° en Guatemala, El Salvador y Honduras. Haz clic en una celda para ver su evidencia. También puedes ir a una celda por su código.`
-          : `${cells.length} cells of 0.1° across Guatemala, El Salvador and Honduras. Click a cell to inspect its evidence. You can also go to a cell by its code.`}
+        {es ? `${cells.length} celdas de 0,1° en ${regionNames(cells, 'es')}. Haz clic en una celda para ver su evidencia. También puedes ir a una celda por su código.`
+          : `${cells.length} cells of 0.1° across ${regionNames(cells, 'en')}. Click a cell to inspect its evidence. You can also go to a cell by its code.`}
       </p>
       <fieldset className="region-map-layers">
         <legend>{es ? 'Capa' : 'Layer'}</legend>

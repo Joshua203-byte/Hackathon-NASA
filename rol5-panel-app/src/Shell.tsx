@@ -2,7 +2,7 @@
 import { CellMap } from './panel/components/CellMap';
 import { CASES, caseSearch, findCase, type CaseLink } from './panel/cases';
 import { VERDICT_UI } from './panel/verdict';
-import { IND_OPTION, LENS_LABEL } from './panel/labels';
+import { IND_OPTION, LENS_LABEL, regionNames } from './panel/labels';
 import { selectIndicator } from './panel/lenses';
 import { useEffect, useSyncExternalStore } from 'react';
 import { lazy, Suspense } from 'react';
@@ -107,8 +107,8 @@ export function Shell() {
             <section className="intro">
               <h1>{es ? 'Una línea que baja no siempre es una tendencia' : 'A falling line is not always a trend'}</h1>
               <p>{es
-                ? `${yearsN} años de lluvia medida por satélites de la NASA en Honduras, Guatemala y El Salvador. Toca cualquier lugar del mapa y mira cuánta evidencia hay de que la lluvia esté cambiando.`
-                : `${yearsN} years of rainfall measured by NASA satellites over Honduras, Guatemala and El Salvador. Tap any place on the map and see how much evidence there is that rainfall is changing.`}</p>
+                ? `${yearsN} años de lluvia medida por satélites de la NASA en ${regionNames(boot.grid, 'es')}. Toca cualquier lugar del mapa y mira cuánta evidencia hay de que la lluvia esté cambiando.`
+                : `${yearsN} years of rainfall measured by NASA satellites over ${regionNames(boot.grid, 'en')}. Tap any place on the map and see how much evidence there is that rainfall is changing.`}</p>
               <p className="intro-links"><a href="https://github.com/Joshua203-byte/Hackathon-NASA" target="_blank" rel="noreferrer">{es ? 'Código y método' : 'Code and method'}</a> · <a href="?dataset=pilot&cell=N1335W08715&ind=may_oct_mm&lang=es">Piloto real · Choluteca</a></p>
             </section>
           )}
