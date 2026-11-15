@@ -1,5 +1,7 @@
 # Cronograma de trabajo y relevos
 
+**Responsable de producto, usuarios y entrega (Rol 6): Andrés.** [Materiales y estado](rol6/README.md).
+
 **14–15 de noviembre de 2026, hora de El Salvador.** Las horas son objetivos internos de la [propuesta v3.1](../PROPUESTA_ALTARIS_PLAN_EQUIPO.md#51-calendario-común). Cada receptor empieza al llegar el insumo indicado, aunque las demás tareas del bloque sigan abiertas. El [inventario por rol](04-pendientes-por-rol.md) detalla el alcance de cada entrega.
 
 | Orden y objetivo | Insumo que activa el trabajo | Quién entrega y quién continúa | Trabajo independiente de quien entrega |

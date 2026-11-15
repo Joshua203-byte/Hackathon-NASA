@@ -18,12 +18,14 @@
           "es": [
             "Textura del suelo",
             "Pendiente",
-            "Disponibilidad de riego"
+            "Disponibilidad de riego",
+            "Variedad de semilla"
           ],
           "en": [
             "Soil texture",
             "Slope",
-            "Irrigation availability"
+            "Irrigation availability",
+            "Seed variety"
           ]
         }
       },
@@ -73,28 +75,32 @@
         "questions": {
           "es": [
             "¿Cómo drena la parcela?",
-            "¿Hay laderas expuestas a erosión?"
+            "¿Hay laderas expuestas a erosión?",
+            "¿Hay antecedentes de enfermedades del cultivo tras periodos muy húmedos?"
           ],
           "en": [
             "How does the plot drain?",
-            "Are there slopes exposed to erosion?"
+            "Are there slopes exposed to erosion?",
+            "Have crop diseases followed unusually wet periods at this site?"
           ]
         },
         "missing_local_data": {
           "es": [
             "Topografía",
-            "Historial de anegamiento"
+            "Historial de anegamiento",
+            "Capacidad de drenaje"
           ],
           "en": [
             "Topography",
-            "Waterlogging history"
+            "Waterlogging history",
+            "Drainage capacity"
           ]
         }
       },
       "limitada": {
         "questions": {
           "es": [
-            "?Qu? muestran los registros de eventos extremos diarios, que este an?lisis mensual no ve?"
+            "¿Qué muestran los registros diarios de eventos extremos que quedan fuera de este análisis mensual?"
           ],
           "en": [
             "What do daily extreme-event records show, beyond this monthly analysis?"
@@ -112,7 +118,7 @@
       "sin_evidencia": {
         "questions": {
           "es": [
-            "?Qu? muestran los registros de eventos extremos diarios, que este an?lisis mensual no ve?"
+            "¿Qué muestran los registros diarios de eventos extremos que quedan fuera de este análisis mensual?"
           ],
           "en": [
             "What do daily extreme-event records show, beyond this monthly analysis?"

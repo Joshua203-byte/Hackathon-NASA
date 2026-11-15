@@ -37,13 +37,15 @@
 3. Integrar el panel con el mapa de Elena, verificar que el caso espejo use los sitios seleccionados por Camila y que la segunda variable se muestre donde la suministre David. Para la matriz de lluvia y radiación del plan hace falta una serie real de radiación. El ejemplo incluido utiliza temperatura simulada.
 4. Acordar con Rol 6 cómo recopilar los resultados anónimos guardados en cada navegador. Entregar un enlace reproducible, comprobar comprensión en un minuto y corregir los problemas observados. Véase la [guía técnica de integración y pruebas](../rol5-panel-app/INTEGRACION.md).
 
-## Rol 6 · Responsable por confirmar · Producto, usuarios y entrega
+## Rol 6 · Andrés · Producto, usuarios y entrega
 
-1. Confirmar responsable y registro del equipo. Leer el reto y las guías de evaluación y entrega de 2026, registrar fuentes y confirmar formato, idioma, límites y declaración de IA. Preparar formulario en inglés y guion provisional.
+1. Andrés confirmó el rol. Comprobar el registro del equipo en la plataforma. Leer el reto y las guías de evaluación y entrega de 2026, registrar fuentes y confirmar formato, idioma, límites y declaración de IA. Preparar formulario en inglés y guion provisional.
 2. Revisar en ES/EN glosario, preguntas por sector y recorrido existentes. Verificar SERVIR y NASA Harvest. Preparar narración por plantillas con validación de cifras y campo `generated_by`. Documentar recursos, licencias y uso de IA. Reclutar cinco adultos y preparar tres tareas y dos preguntas de comprensión.
 3. Con los casos y cifras revisados, terminar textos y narración. Con la web pública, medir tiempos y respuestas, guardar resultados anónimos y pasar los tres problemas más graves a Elena e Izel. La meta es que cuatro de cinco completen las tareas y respondan ambas preguntas correctamente. Reportar el resultado observado.
 4. Sobre la versión congelada, producir y ensayar la demo en el formato confirmado. Cerrar README y formulario, verificar enlaces desde incógnito, enviar y guardar la confirmación.
 
-**Si el equipo tiene cinco integrantes**, Joshua redacta el formulario, Camila audita los textos, David lleva fuentes y registro de IA, y Elena e Izel se reparten interfaz, pruebas y demo. Se propone que Izel coordine participantes y Elena realice el envío. Confirmar desde el inicio quién tiene acceso a la plataforma.
+[Avance y materiales de Andrés](rol6/README.md).
+
+**Contingencia si el equipo vuelve a cinco integrantes**, Joshua redacta el formulario, Camila audita los textos, David lleva fuentes y registro de IA, y Elena e Izel se reparten interfaz, pruebas y demo. Se propone que Izel coordine participantes y Elena realice el envío. Confirmar desde el inicio quién tiene acceso a la plataforma.
 
 El [cronograma de relevos](05-cronograma-y-relevos.md) indica qué insumo habilita cada tarea y qué puede continuar en paralelo.
