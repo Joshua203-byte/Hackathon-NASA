@@ -1,4 +1,4 @@
-# Estado del proyecto (corte domingo 15 de noviembre, 08:45, El Salvador)
+# Estado del proyecto (corte domingo 15 de noviembre, 09:05, El Salvador)
 
 Entrega: domingo 15 de noviembre 23:59. Meta interna de envío: 21:00. Congelación: 15:00.
 Repositorio oficial: `Joshua203-byte/Hackathon-NASA`. Todo lo descrito aquí está en `main`.
@@ -54,8 +54,9 @@ En orden de riesgo. Lo de arriba bloquea a lo de abajo.
 | # | Qué | Quién |
 |---|---|---|
 | 18 | **Volver a publicar** (`npm run deploy`) y comprobar la URL. Las 6 075 narrativas en inglés decían "mm/temporada"; el motor ya lo traducía, pero el JSON no se había regenerado. Ya está corregido en `public/data/` de `main` (solo cambia el texto en inglés; ninguna cifra) | Izel |
-| 19 | Vista en inglés del panel (eje "mm/temporada", veredicto como código, fuente de POWER): **resuelto en la rama `claude/sleepy-carson-nhvqxs`**, junto con el rediseño de usabilidad. Falta que Joshua lo apruebe y se mezcle a `main` | Joshua, Izel |
-| 21 | **Rediseño de usabilidad** en la rama `claude/sleepy-carson-nhvqxs` (commit `f29c529`): intro de 3 pasos, selectores con nombres legibles, mapa y panel lado a lado, veredicto en lenguaje simple, tarjetas por sección y textos de los casos de `docs/09`. Pasan las 44 pruebas, `e2e/real-cases.mjs` y `e2e/pilot.mjs`. **Decidir antes de las 12:00** si entra, para que las pruebas con personas usen la versión final | Joshua |
+| 19 | ~~Vista en inglés del panel~~ **Hecho y en `main`** (`a7a3ec9`): unidades, veredictos y fuente de POWER traducidos | — |
+| 21 | **Rediseño de usabilidad y visual, ya en `main` (`a7a3ec9`).** Mapa a pantalla completa con panel lateral, control de años con resultado en vivo, escala de evidencia rotulada, respuesta directa y "Qué puedes hacer", tipografías empaquetadas. Pasan 44 pruebas, `e2e/real-cases.mjs` y `e2e/pilot.mjs`. **No se corrió `e2e/accept.mjs`.** Hay que **volver a publicar** para que la URL lo muestre (tarea 18) y que las sesiones con personas usen esta versión | Izel |
+| 22 | Pendientes de la interfaz: las razones del veredicto siguen con jerga (viven en `pipeline/altaris/reasons.py` y exigen regenerar `reasons.json`); no hay modo oscuro; preguntar primero para qué se necesita el dato; resaltar con un pulso la celda elegida | Joshua, Camila |
 | 20 | ~~Borrar `public/data/cells/N0000W00000.json`~~ **Hecho** en `main`; entra en la próxima publicación | — |
 
 **Resuelto (06:25):** el repositorio de GitHub ya es público. Se comprobó sin iniciar sesión y se revisó que no haya credenciales en los archivos ni en el historial.
