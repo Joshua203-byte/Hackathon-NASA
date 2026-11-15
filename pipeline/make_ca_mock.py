@@ -4,6 +4,8 @@ SIN esperar a los datos reales. Mismo contrato de archivos que el motor produce 
   python make_ca_mock.py --out /tmp/ca-mock                # ~1 100 celdas, unos 7 min con 4 núcleos
   python make_ca_mock.py --out /tmp/ca-mock --stride 12    # ~360 celdas, 2-3 min (lo bastante para ver la interfaz)
   python make_ca_mock.py --out /tmp/ca-mock --stride 1     # todas (~4 300), unos 30 min: solo para pruebas de carga
+  python make_ca_mock.py --out /tmp/ca-mock --stride 4 --csv-out /tmp/ca-mock/csv --skip-json
+      # solo los CSV de entrada (cells, series, monthly) con el formato que entrega Rol 1: para ensayar 06_enso.py y run_pilot.py
 
 Luego, para verlo en el panel:   cd rol5-panel-app && VITE_DATA_BASE_URL=http://127.0.0.1:8765/data npm run dev
 (sirviendo la carpeta <out> con CORS; o copiando <out>/data/ sobre rol5-panel-app/public/data/ EN SU COPIA LOCAL, sin commitear).
@@ -59,11 +61,37 @@ def build_cells():
     return sorted(cells, key=lambda c: c["id"])
 
 
+# Forma estacional ficticia (mayo-octubre húmedo con bajón en julio-agosto) para el monthly.csv de prueba
+PROFILE = np.array([0.2, 0.2, 0.3, 0.8, 1.6, 1.7, 1.3, 1.4, 1.9, 1.9, 0.8, 0.3])
+
+
+def write_csvs(d, cells, series, years, rng):
+    """Mismo formato que data/rol1/*.csv. Los mensuales son independientes de las series anuales: solo sirven para ensayar."""
+    d.mkdir(parents=True, exist_ok=True)
+    with open(d / "cells.csv", "w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f); w.writerow(["cell_id", "lat", "lon", "country"])
+        for c in cells:
+            w.writerow([c["id"], f"{c['lat']:.2f}", f"{c['lon']:.2f}", c["country"]])
+    with open(d / "series.csv", "w", newline="", encoding="utf-8") as fs, open(d / "monthly.csv", "w", newline="", encoding="utf-8") as fm:
+        ws, wm = csv.writer(fs), csv.writer(fm)
+        ws.writerow(["cell_id", "indicator", "year", "value"]); wm.writerow(["cell_id", "year", "month", "mm"])
+        for c in cells:
+            for k, (ys, vs) in series[c["id"]].items():
+                for y, v in zip(ys, vs):
+                    ws.writerow([c["id"], k, y, f"{v:.2f}"])
+            for i, y in enumerate(years):
+                a = series[c["id"]]["annual_mm"][1][i]
+                for m in range(12):
+                    wm.writerow([c["id"], y, m + 1, f"{PROFILE[m] * a / PROFILE.sum() * float(rng.lognormal(0, 0.25)):.2f}"])
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--out", required=True)
     ap.add_argument("--stride", type=int, default=4, help="una de cada N celdas (1 = todas)")
     ap.add_argument("--jobs", type=int, default=-1)
+    ap.add_argument("--csv-out", help="además escribe cells.csv, series.csv y monthly.csv (formato de entrada del motor, SIMULADOS)")
+    ap.add_argument("--skip-json", action="store_true", help="no corre el motor (solo útil con --csv-out)")
     ap.add_argument("--config", default=str(Path(__file__).with_name("config_centroamerica.yaml")))
     a = ap.parse_args()
     cfg = load_config(a.config)
@@ -79,6 +107,12 @@ def main():
             "jul_aug_mm": (years, synth.make_series(rng, years, mean * 0.24, 0.20, 0.0, 0.1)),
             "annual_mm": (years, synth.make_series(rng, years, mean, 0.12, -0.08 if has else 0.0, 0.1)),
         }
+    if a.csv_out:
+        write_csvs(Path(a.csv_out), cells, series, years, rng)
+    if a.skip_json:
+        print(json.dumps({"celdas": len(cells), "csv": a.csv_out}, ensure_ascii=False))
+        print("SIMULADO: no usar para nada que no sea probar la interfaz y los scripts.")
+        return
     out = Path(a.out) / "data"
     res = export.run(cells, series, cfg, out, data_kind="mock", commit="MOCK", n_jobs=a.jobs)
     # archivos de referencia que el panel espera junto al JSON (los simulados que ya trae el repo)
