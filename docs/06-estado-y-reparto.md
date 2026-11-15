@@ -1,9 +1,11 @@
-# Estado del proyecto (corte domingo 15 de noviembre, 03:00, El Salvador)
+# Estado del proyecto (corte domingo 15 de noviembre, 07:30, El Salvador)
 
 Entrega: domingo 15 de noviembre 23:59. Meta interna de envío: 21:00. Congelación: 15:00.
 Repositorio oficial: `Joshua203-byte/Hackathon-NASA`. Todo lo descrito aquí está en `main`.
 
-**Avance estimado: 65 %.** La parte técnica (datos, motor, panel, mapa, despliegue) está casi cerrada. Lo que falta es revisión científica, pruebas con personas, video y envío. Es una estimación por bloques, no una medida.
+**Avance estimado: 80 %.** Datos, motor, revisión científica, casos, panel, mapa, despliegue y cotejo de cifras están hechos. Falta lo que depende de personas y de la entrega: pruebas con usuarios, video, guía oficial, congelación y envío. Es una estimación por bloques, no una medida.
+
+**Revisión de las 07:30 sobre `main`:** pasan las 70 pruebas del motor y las 44 del panel, compila, y las 45 cifras del formulario coinciden con el JSON. El JSON del repositorio tiene las mismas cifras que la corrida verificada de las 02:30. Los 3 casos abren con su segunda variable.
 
 ## 1. Hecho
 
@@ -46,6 +48,14 @@ En orden de riesgo. Lo de arriba bloquea a lo de abajo.
 | 15 | `[PENDING]` del formulario: **avanzada.** Completado lo que ya tenía respuesta (casos, URL, POWER). Quedan: `video`, `testing` y `guide` \* | Andrés, Joshua | Video, pruebas, guía | 18:00 |
 | 16 | ~~Revisión: todo número del formulario sale del JSON~~ **Hecha.** 45 de 45 cifras coinciden ([rol6/cotejo-formulario.md](rol6/cotejo-formulario.md)); se corrigió la frase de los años húmedos del caso 2. Repetible con `python pipeline/check_form_numbers.py .` | Todos | — | — |
 | 17 | Envío desde la cuenta del equipo; guardar confirmación, URL y hora | Andrés | Todo | 21:00 |
+
+**Pendientes nuevos de la revisión de las 07:30:**
+
+| # | Qué | Quién |
+|---|---|---|
+| 18 | **Volver a publicar** (`npm run deploy`) y comprobar la URL. Las 6 075 narrativas en inglés decían "mm/temporada"; el motor ya lo traducía, pero el JSON no se había regenerado. Ya está corregido en `public/data/` de `main` (solo cambia el texto en inglés; ninguna cifra) | Izel |
+| 19 | Vista en inglés del panel: el eje de las gráficas dice "mm/temporada", el veredicto del periodo base en la tabla comparativa sale como código (`sin_evidencia`, `consistente`) y la fuente de POWER dice "punto … consulta" | Izel |
+| 20 | Borrar `public/data/cells/N0000W00000.json`: es una celda de prueba con `NaN` que se publica junto a los datos reales. Las pruebas ya usan su copia en `fixtures/` | Izel |
 
 **Resuelto (06:25):** el repositorio de GitHub ya es público. Se comprobó sin iniciar sesión y se revisó que no haya credenciales en los archivos ni en el historial.
 
