@@ -6,7 +6,7 @@ import { buildChartRows, senGeometry } from '../sen';
 import type { CellIndicator, Lang, Period } from '../types';
 
 interface Props {
-  data: CellIndicator;
+  data: Omit<CellIndicator, 'verdict'>;
   period: Period;
   /** Ventana elegida en la huella; null = periodo base. */
   selected: FpWindow | null;
@@ -14,9 +14,11 @@ interface Props {
   /** Dominio Y compartido (vista espejo). */
   yDomain?: [number, number];
   satelliteEra?: boolean;
+  /** Ancla del recorrido; null en gráficos secundarios para que el recorrido y las pruebas apunten a la lluvia. */
+  tourAnchor?: string | null;
 }
 
-export const SeriesChart = memo(function SeriesChart({ data, period, selected, lang, yDomain, satelliteEra = true }: Props) {
+export const SeriesChart = memo(function SeriesChart({ data, period, selected, lang, yDomain, satelliteEra = true, tourAnchor = 'series' }: Props) {
   const es = lang === 'es';
   const rows = useMemo(() => {
     const s = data.statistics;
@@ -26,7 +28,7 @@ export const SeriesChart = memo(function SeriesChart({ data, period, selected, l
   }, [data, period, selected]);
 
   return (
-    <figure data-tour="series" style={{ margin: 0 }}>
+    <figure data-tour={tourAnchor ?? undefined} style={{ margin: 0 }}>
       <ResponsiveContainer width="100%" height={240}>
         <ComposedChart data={rows} margin={{ top: 8, right: 12, bottom: 4, left: 4 }}>
           <CartesianGrid strokeOpacity={0.2} />

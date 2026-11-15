@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { CASES, caseSearch, findCase } from '../cases';
+import { validateCell } from '../contract';
 import type { GridCell } from '../types';
 
 describe('enlaces de casos (Rol 4)', () => {
@@ -52,5 +53,22 @@ describe('enlaces de casos (Rol 4)', () => {
     expect(byId.get('N1335W08715')!.ind.may_oct_mm?.verdict).toBe('sin_evidencia');
     expect(byId.get('N1475W08765')!.ind.may_oct_mm?.verdict).toBe('sin_evidencia');
     expect(byId.get('N1495W09125')!.ind.may_oct_mm?.verdict).toBe('consistente');
+  });
+
+  // Segunda variable de David (data/rol1/power_casos), escrita por pipeline/add_secondary.py.
+  it.skipIf(!real || real.length < 2000)('las 3 celdas de los casos traen temperatura y radiación de POWER, sin veredicto y con contrato válido', () => {
+    for (const c of CASES) {
+      const cell = JSON.parse(readFileSync(fileURLToPath(new URL(`../../../public/data/cells/${c.cell}.json`, import.meta.url)), 'utf8'));
+      expect(() => validateCell(cell, c.cell)).not.toThrow();
+      const keys = cell.secondary_variables.map((v: { key: string }) => v.key);
+      expect(keys).toEqual(['T2M_MAY_OCT', 'ALLSKY_MAY_OCT']);
+      for (const v of cell.secondary_variables) {
+        expect(v.data.verdict).toBeNull();
+        expect(v.data.series).toHaveLength(24);
+        expect(v.source).toMatch(/NASA POWER/);
+      }
+    }
+    const gt = JSON.parse(readFileSync(fileURLToPath(new URL('../../../public/data/cells/N1495W09125.json', import.meta.url)), 'utf8'));
+    expect(gt.secondary_variables[0].data.statistics.slope_per_decade).toBeCloseTo(0.27, 2); // docs/rol1-datos.md, sección 8
   });
 });

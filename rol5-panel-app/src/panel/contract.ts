@@ -28,7 +28,10 @@ export function validateCell(v: unknown, expectedId: string): asserts v is CellD
     if (!Array.isArray(v.secondary_variables)) throw new Error('Invalid secondary variables');
     for (const secondary of v.secondary_variables) {
       if (!object(secondary) || typeof secondary.key !== 'string' || !object(secondary.label) || typeof secondary.label.es !== 'string' || typeof secondary.label.en !== 'string' || typeof secondary.source !== 'string' || typeof secondary.doi !== 'string' || !pair(secondary.period)) throw new Error('Invalid secondary variable metadata');
-      validateCell({ id: expectedId, monthly_climatology_mm: v.monthly_climatology_mm, indicators: { annual_mm: secondary.data } }, expectedId);
+      const data = secondary.data;
+      if (!object(data) || !(data.verdict === null || VERDICTS.includes(data.verdict as never))) throw new Error('Invalid secondary variable verdict');
+      // verdict null = sin veredicto del motor; el resto del indicador se valida igual que la lluvia.
+      validateCell({ id: expectedId, monthly_climatology_mm: v.monthly_climatology_mm, indicators: { annual_mm: { ...data, verdict: data.verdict ?? 'sin_evidencia' } } }, expectedId);
     }
   }
 }

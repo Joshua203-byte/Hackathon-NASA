@@ -161,7 +161,7 @@ Calentamiento significativo solo en la celda de Guatemala. Se puede mostrar junt
 
 ## 9. Pendiente y quién continúa
 
-- **Segunda variable en los sitios definitivos:** hecha (sección 8, `data/rol1/power_casos/`). Coincide con la de Camila. Falta que Izel la muestre en el panel si se integra.
+- **Segunda variable en los sitios definitivos:** hecha (sección 8, `data/rol1/power_casos/`). Coincide con la de Camila. Ya se muestra en el panel: `pipeline/add_secondary.py` escribe temperatura y radiación de mayo a octubre en `cells/{id}.json` de los 3 casos, sin veredicto.
 - **Chequeo de 2014:** según el doc 06, lo hace Camila con Pettitt.
 - **Joshua:** piloto H1 con `piloto_choluteca/`; después congelar umbrales y correr la región.
 - **Camila:** usar la misma versión de `series.csv` y `monthly.csv`, y revisar el hallazgo de la sección 4.

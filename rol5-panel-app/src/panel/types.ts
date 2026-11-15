@@ -74,11 +74,14 @@ export interface CellIndicator {
   tags?: string[]; // PROPUESTO: p. ej. ["alta_variabilidad"]
 }
 
+/** Segunda variable: mismo formato que la lluvia, pero sin veredicto del motor (verdict null) cuando no se aplicaron FDR, huella ni ENSO. */
+export type SecondaryData = Omit<CellIndicator, 'verdict'> & { verdict: Verdict | null };
+
 export interface CellDetail {
   id: string;
   name: string | null;
   monthly_climatology_mm: Num[];
-  secondary_variables?: { key: string; label: L10n; source: string; doi: string; period: [number, number]; data: CellIndicator }[];
+  secondary_variables?: { key: string; label: L10n; source: string; doi: string; period: [number, number]; data: SecondaryData }[];
   has_canicula?: boolean; // PROPUESTO (Rol 1)
   indicators: Partial<Record<IndicatorKey, CellIndicator>>;
 }

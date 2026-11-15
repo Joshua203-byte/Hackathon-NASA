@@ -140,7 +140,7 @@ export function passportToMarkdown(p: Passport, lang: Lang): string {
     const w = p.selected_window;
     out.push(`- ${t.ci}: [${fmtNum(w.ci_95[0])}, ${fmtNum(w.ci_95[1])}]`, `- ${t.verdict}: ${w.verdict ? VERDICT_UI[w.verdict].label[lang] : t.na}`, ...w.verdict_reasons.map(r => `- ${reasonText(r, lang)}`), '');
   }
-  for (const v of p.secondary_variables) out.push(`## ${v.label[lang]}`, '', `${v.source} · DOI: ${v.doi} · ${v.period.join('–')}`, `${t.slope}: ${fmtNum(v.data.statistics?.slope_per_decade)} ${v.data.units}/dec`, '');
+  for (const v of p.secondary_variables) out.push(`## ${v.label[lang]}`, '', `${v.source}${v.doi ? ` · DOI: ${v.doi}` : ''} · ${v.period.join('–')}`, `${t.slope}: ${fmtNum(v.data.statistics?.slope_per_decade, 2)} ${v.data.units}/dec · p ${fmtP(v.data.statistics?.p_value)}`, '');
   const e = p.enso_test;
   out.push(
     `## ${t.enso}`,

@@ -33,7 +33,7 @@ En orden de riesgo. Lo de arriba bloquea a lo de abajo.
 | 2 | ~~Revisión científica~~ **Hecha (04:15)**. Ver `docs/08`, sección Resolución | Camila | — | — |
 | 3 | Guías 2026: **avanzada, no terminada.** Resumen en [rol6/guias-2026-resumen.md](rol6/guias-2026-resumen.md) (David, desde buscadores). Falta que Andrés compruebe en su navegador los puntos ⚠️, sobre todo IMERG en los recursos del reto. \* Documentación del uso de IA: pendiente, se retoma cuando la app esté probada | Andrés | Nada | 06:00 |
 | 4 | Verificar acceso al portal y que los seis ven la pestaña Project | Andrés | Nada | 06:00 |
-| 5 | ~~Segunda variable en los 3 casos~~ **Hecha.** `data/rol1/power_casos/`; coincide fila por fila con la corrida de Camila. Ver `docs/rol1-datos.md`, sección 8 | David | — | — |
+| 5 | ~~Segunda variable en los 3 casos~~ **Hecha.** `data/rol1/power_casos/`; coincide fila por fila con la corrida de Camila. Ver `docs/rol1-datos.md`, sección 8. **En el panel** desde el 15 a las 06:10: temperatura y radiación de mayo a octubre en las 3 celdas, sin veredicto (`pipeline/add_secondary.py`) | David | — | — |
 | 6 | ~~Cifras finales de los casos~~ **Hecha.** [casos-finales.md](casos-finales.md); mismas cifras que `casos-candidatos.md`, solo cambian los textos de razones de Camila | Joshua | — | — |
 | 7 | ~~Regenerar el JSON por la regla de 2014~~ **No hace falta** (opción A). Volver a publicar solo por los `reasons.json` nuevos | Izel | — | 09:00 |
 | 8 | ~~Textos de los 3 casos y de las limitaciones~~ **Hecho (05:00)** en [09-casos-y-textos-camila.md](09-casos-y-textos-camila.md), y pasado al formulario | Camila | — | — |
@@ -86,6 +86,8 @@ Después, copiar a `<carpeta>/data/`:
 
 - `data/rol3/enso.json` (el real);
 - `tour.json`, `glossary.json` y `decision_rules.json` desde `rol5-panel-app/public/data/`.
+
+Y volver a poner la segunda variable de los 3 casos (si no, se pierde): `python pipeline/add_secondary.py --data <carpeta>/data`.
 
 Para publicar: `<carpeta>/data/` sobre `rol5-panel-app/public/data/`, commit y, desde `rol5-panel-app/`, `npm run deploy` (requiere `npx wrangler login` y la variable `CLOUDFLARE_ACCOUNT_ID`).
 

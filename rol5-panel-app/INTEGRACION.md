@@ -51,6 +51,8 @@ En `cells/{id}.json`, `secondary_variables` es una lista opcional:
 
 `data` usa el mismo tipo que los indicadores de lluvia: unidades, serie anual, estadísticas, veredicto, etc. El ejemplo anterior es un esquema explicativo. La matriz cruza por año solo observaciones válidas de ambas series. No estima causalidad ni rellena ausencias. El fixture de temperatura está marcado como simulado; no es una descarga de POWER.
 
+**Datos reales (3 casos).** `pipeline/add_secondary.py --data public/data` añade a las 3 celdas de los casos la temperatura a 2 m (`T2M_MAY_OCT`) y la radiación en superficie (`ALLSKY_MAY_OCT`) de mayo a octubre, desde `data/rol1/power_casos/` (salida de `04_power.py`). La pendiente y la p se recalculan con `altaris.stats` y se cotejan con `power_trends.csv` antes de escribir. `verdict` va en `null`: es una prueba en un solo punto, sin FDR, huella ni ENSO, y el panel muestra pendiente, IC y p con esa aclaración, sin veredicto. `doi` vacío: POWER no tiene un DOI único; la procedencia va en `source`. Hay que volver a correrlo después de cada regeneración del JSON.
+
 ## Integración con Rol 4
 
 Importar `CellPanel` y pasar `cell`, `gridRow`, `meta`, `status`, `refs` y opcionalmente `mirror`.
