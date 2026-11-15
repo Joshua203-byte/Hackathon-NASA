@@ -1,0 +1,68 @@
+{
+ "service": "NASA POWER Monthly and Annual API",
+ "endpoint": "https://power.larc.nasa.gov/api/temporal/monthly/point",
+ "community": "AG",
+ "parameters": {
+  "ALLSKY_SFC_SW_DWN": {
+   "units": "MJ/m^2/day",
+   "longname": "All Sky Surface Shortwave Downward Irradiance"
+  },
+  "PRECTOTCORR": {
+   "units": "mm/day",
+   "longname": "Precipitation Corrected"
+  },
+  "T2M": {
+   "units": "C",
+   "longname": "Temperature at 2 Meters"
+  }
+ },
+ "requests": [
+  {
+   "cell_id": "N1335W08715",
+   "url": "https://power.larc.nasa.gov/api/temporal/monthly/point?parameters=PRECTOTCORR,T2M,ALLSKY_SFC_SW_DWN&community=AG&longitude=-87.15&latitude=13.35&start=2001&end=2024&format=JSON",
+   "power_grid_point": [
+    -87.15,
+    13.35,
+    646.49
+   ],
+   "sources": [
+    "SYN1DEG",
+    "MERRA2"
+   ],
+   "api_version": "v2.10.0"
+  },
+  {
+   "cell_id": "N1475W08765",
+   "url": "https://power.larc.nasa.gov/api/temporal/monthly/point?parameters=PRECTOTCORR,T2M,ALLSKY_SFC_SW_DWN&community=AG&longitude=-87.65&latitude=14.75&start=2001&end=2024&format=JSON",
+   "power_grid_point": [
+    -87.65,
+    14.75,
+    776.31
+   ],
+   "sources": [
+    "SYN1DEG",
+    "MERRA2"
+   ],
+   "api_version": "v2.10.0"
+  },
+  {
+   "cell_id": "N1495W09125",
+   "url": "https://power.larc.nasa.gov/api/temporal/monthly/point?parameters=PRECTOTCORR,T2M,ALLSKY_SFC_SW_DWN&community=AG&longitude=-91.25&latitude=14.95&start=2001&end=2024&format=JSON",
+   "power_grid_point": [
+    -91.25,
+    14.95,
+    2100.55
+   ],
+   "sources": [
+    "SYN1DEG",
+    "MERRA2"
+   ],
+   "api_version": "v2.10.0"
+  }
+ ],
+ "accessed": "2026-11-15T04:21:02-06:00",
+ "reference": "The data was obtained from National Aeronautics and Space Administration (NASA) Langley Research Center's Prediction Of Worldwide Energy Resources (POWER) project funded through the NASA Earth Science Division.",
+ "data_reference": "The data was obtained from the POWER Project's Monthly v2.10.0 version on 2026/11/15.",
+ "independence_note": "PRECTOTCORR es reanálisis MERRA-2 con corrección de sesgo, no el algoritmo satelital de IMERG. No se verificó con qué observaciones se corrige el sesgo; como ambos productos pueden usar pluviómetros, se trata como contraste parcialmente independiente. Resolución nativa de MERRA-2 (~0.5° × 0.625°), mucho más gruesa que IMERG (0.1°).",
+ "conversion": "PRECTOTCORR: mm/día × días reales del mes = mm/mes; T2M y radiación: medias mensuales"
+}

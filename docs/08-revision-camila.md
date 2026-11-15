@@ -28,7 +28,7 @@ Corrí un chequeo nuevo, [`pipeline/check_step_vs_ramp.py`](../pipeline/check_st
 - Donde el escalón sí gana, el corte cae casi siempre en **2009**, cinco años antes del cambio a GPM. La opción B no tocaría esas celdas y castigaría justo a las que parecen rampa. Ataca el problema equivocado y además cambia umbrales después de ver el mapa.
 - C queda descartada: sube veredictos después de ver el mapa.
 
-**Salvedad obligatoria de la franja** (caso 3, formulario y panel): "La caída de la franja de las tierras altas de Guatemala es grande, de −13 % a −31 % por década. En la mayoría de sus celdas la prueba de Pettitt ubica un cambio en 2012 o en 2009, y con 24 años no se distingue un escalón de una tendencia gradual. Es una zona con pocos pluviómetros, y NASA POWER no reproduce el signo de IMERG. Puede ser una señal real o un artefacto del producto: no se puede separar con este registro."
+**Salvedad obligatoria de la franja** (caso 3, formulario y panel): "La caída de la franja de las tierras altas de Guatemala es grande, de −13 % a −31 % por década. En la mayoría de sus celdas la prueba de Pettitt ubica un cambio en 2012 o en 2009, y con 24 años no se distingue un escalón de una tendencia gradual. Es una zona con pocos pluviómetros, y en la celda más fuerte (`N1495W09125`) NASA POWER no ve ninguna caída (+40 mm por década frente a −452; ver [09](09-casos-y-textos-camila.md)). Puede ser una señal real o un artefacto del producto: no se puede separar con este registro."
 
 ### 2. Texto de `enso_no_sobrevive`
 

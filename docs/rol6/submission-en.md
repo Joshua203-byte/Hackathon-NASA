@@ -4,7 +4,7 @@ Working English copy for the project form. Andrés owns the submission. Updated 
 
 **Still open before sending:**
 
-- `[PENDING: Camila]` marks text that needs her scientific sign-off or her choice of cases.
+- Camila's scientific sign-off and case choice are done (see `docs/09-casos-y-textos-camila.md`).
 - `[PENDING: URL]` marks links that Izel and Elena supply after deployment.
 - `[PENDING: guide]` marks items that depend on the official 2026 submission guide, which nobody on the team has read in full. Match headings and length limits to the live form.
 - No user-testing result exists yet. Do not claim one.
@@ -41,7 +41,7 @@ Three indicators: rainy-season rainfall (May–October), midsummer rainfall (Jul
 3. Benjamini–Hochberg false-discovery-rate adjustment across all cells, per indicator.
 4. Stability footprint: the same test on every window of at least 10 years.
 5. ENSO check: the slope recomputed without strong ENSO years and on residuals after removing the ONI relationship.
-6. Pettitt change-point test around 2014, when the record moves from the TRMM to the GPM satellite era.
+6. Pettitt change-point test, flagging a break in 2013–2015, when the record moves from the TRMM to the GPM satellite era.
 
 **Verdict.** A deterministic rule assigns one of four labels. *Consistent* requires FDR-adjusted p < 0.05, an interval that excludes zero, the same sign in at least 90 % of windows of 15 years or more, survival of the ENSO check and no break flag around 2014. *Limited* means a weak, unconfirmed signal. *No evidence* and *incomplete* cover the rest. A single window can never be rated above *limited*.
 
@@ -64,7 +64,7 @@ No machine learning and no prediction. Generative AI does not compute any figure
 Neighbouring cells are strongly correlated, so these are not thousands of independent findings.
 
 - **Honduras: no confirmed trend.** Rainy-season slopes are negative in 924 of 939 cells (median −4.5 % per decade), but the intervals include zero. With 24 years, a trend cannot be affirmed.
-- **Guatemala: one band stands out, with a caveat.** All *consistent* cells lie in a strip of the western highlands. The decline there is very large (median −19 % per decade), a change-point test places a shift around 2012 in most of those cells, and rain gauges that anchor IMERG are sparse in highlands. We report it as an open question, not as a confirmed climate signal. `[PENDING: Camila]`
+- **Guatemala: one band stands out, with a caveat.** All *consistent* cells lie in a strip of the western highlands. The decline there is very large (median −19 % per decade), a change-point test places a shift in 2012 or 2009 in most of those cells, and 24 years cannot tell a step from a gradual trend. Rain gauges that anchor IMERG are sparse in the highlands, and at the strongest cell NASA POWER shows no decline (+40 mm per decade against −452). We report it as an open question, not as a confirmed climate signal.
 - **ENSO.** Rainfall is lower in El Niño years across the whole region: the correlation with ONI is negative in every cell for rainy-season and midsummer rainfall. We looked for a Pacific–Caribbean contrast and did not find one in this record.
 - **Two sources, two answers.** At three sites, IMERG and NASA POWER disagree on the sign of the trend in 7 of 9 comparisons, while agreeing on which years were wet or dry. The trend can depend on the data source.
 
@@ -72,11 +72,9 @@ Neighbouring cells are strongly correlated, so these are not thousands of indepe
 
 ## Three cases
 
-`[PENDING: Camila]` Camila chooses the cells; the figures below are for the current candidates.
-
-1. **Dry Corridor, Honduras** (Choluteca, cell `N1335W08715`). Rainy-season rainfall: −48 mm per decade, 95 % interval from −257 to +171, adjusted p 0.88. Verdict: no evidence. Not finding a trend is a finding too.
-2. **Sensitivity to the period** (candidate `N1475W08765`, Honduras). Full period: −48 mm per decade, no evidence. Starting in 2008: −345 mm per decade, a weak signal. Using only 2001–2016, the slope turns positive. Same place, three stories, depending on the years chosen.
-3. **Contrast between sites** (candidate `N1495W09125`, Guatemala, against Choluteca). One *consistent* verdict next to one *no evidence*, under the same ENSO phases, with the caveat above.
+1. **Dry Corridor, Honduras** (Choluteca, cell `N1335W08715`). Rainy-season rainfall: −48 mm per decade, 95 % interval from −257 to +171, adjusted p 0.88. Verdict: no evidence. Not finding a trend is a finding too. El Niño years are drier here (correlation with ONI −0.64).
+2. **Same place, three stories** (cell `N1475W08765`, Honduras). Full period 2001–2024: −48 mm per decade, no evidence. 2008–2023: −345 mm per decade, a weak, unconfirmed signal. 2001–2010, a short 10-year window: +382 mm per decade, also a weak signal, with the opposite sign. The wettest years (2008, 2010, 2011) fall at the start or at the end depending on the window. Windows overlap and are not corrected, so none goes beyond *limited*.
+3. **Two sites, two verdicts** (cell `N1495W09125`, Guatemala's western highlands, against Choluteca). Rainy-season rainfall −452 mm per decade on a mean of 1,478 mm, adjusted p 0.032: *consistent*, next to *no evidence* in Choluteca, with the same product, years and ENSO phases. It stays an open question: the drop concentrates around 2009, gauges are sparse, and NASA POWER sees no decline at this cell (r 0.18 between the two sources year to year).
 
 ## Impact and limitations
 
@@ -87,7 +85,7 @@ Limitations, also shown in every passport:
 - A satellite cell of about 11 km does not capture hillside microclimates.
 - Monthly totals do not measure dry spells or daily extremes.
 - A 24-year record cannot separate a trend from decadal variability.
-- The record joins the TRMM and GPM eras around 2014; an instrument effect cannot be ruled out. A possible break is flagged in 5.6 % of cells for rainy-season rainfall and 17.6 % for midsummer rainfall, mostly in Guatemala.
+- The record joins the TRMM and GPM eras around 2014; an instrument effect cannot be ruled out. A possible 2013–2015 break is flagged mostly in Guatemala: 12.1 % of its cells for rainy-season rainfall and 34.9 % for midsummer rainfall, against 0.1 % and 2.2 % in Honduras and 0.6 % and 8.9 % in El Salvador.
 - IMERG Final is adjusted with rain gauges; where gauges are few, the adjustment is weaker.
 - Footprint windows overlap and their p-values are not corrected.
 - The project describes the past. It makes no forecast and no causal claim.
