@@ -79,12 +79,19 @@ def spearman(years, values, oni_by_year) -> tuple[float, float]:
 
 
 def _keeps_sign(slope: float, base_slope: float) -> bool:
-    """¿La variante conserva el signo de la pendiente base? Una pendiente exactamente cero no tiene signo.
+    """¿La variante conserva el signo de la pendiente base?
 
-    Antes se usaba math.copysign, que distingue 0.0 de -0.0: según la versión de la librería, la misma serie
-    daba un resultado u otro (la comparación de 3 contra 7 países encontró 8 celdas de jul_aug_mm así).
+    Se usa math.copysign, que distingue 0.0 de -0.0. Una variante con pendiente exactamente cero (serie plana al
+    quitar los años ENSO fuertes) daba 0.0 en una versión de numpy/scipy y -0.0 en otra, y `survives` cambiaba con
+    la misma serie (la comparación de 3 contra 7 países encontró 8 celdas de jul_aug_mm así). `slope + 0.0` convierte
+    -0.0 en 0.0: el resultado ya no depende del entorno.
+
+    Comportamiento heredado, que se conserva a propósito para no cambiar ningún resultado publicado: un cero cuenta
+    como positivo (conserva el signo de una base positiva y no el de una negativa). Solo afecta a celdas con pendiente
+    exactamente cero, que tienen p = 1 y no pueden ser `consistente`.
     """
-    return slope != 0 and base_slope != 0 and (slope > 0) == (base_slope > 0)
+    sg = math.copysign(1, base_slope) if base_slope != 0 else 0
+    return math.copysign(1, slope + 0.0) == sg
 
 
 def _within(slope: float, ci: tuple[float, float]) -> bool:
