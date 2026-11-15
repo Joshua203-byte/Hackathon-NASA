@@ -1,0 +1,148 @@
+{
+ "dataset": "GPM IMERG Final Precipitation L3 1 month 0.1° V07 (GPM_3IMERGM)",
+ "version": "V07 (archivos V07B)",
+ "doi": "10.5067/GPM/IMERG/3B-MONTH/07",
+ "citation": "Huffman, G.J., E.F. Stocker, D.T. Bolvin, E.J. Nelkin, J. Tan (2023), GPM IMERG Final Precipitation L3 1 month 0.1 degree x 0.1 degree V07, Greenbelt, MD, Goddard Earth Sciences Data and Information Services Center (GES DISC), https://doi.org/10.5067/GPM/IMERG/3B-MONTH/07",
+ "concept_id": "C2723754851-GES_DISC",
+ "period": [
+  2001,
+  2024
+ ],
+ "bbox": {
+  "lat": [
+   7.0,
+   18.5
+  ],
+  "lon": [
+   -92.5,
+   -77.0
+  ]
+ },
+ "period_note": "2025 no está completo en IMERG Final mensual (CMR: hasta 2025-09) → periodo 2001–2024",
+ "download": {
+  "method": "opendap",
+  "search": {
+   "short_name": "GPM_3IMERGM",
+   "version": "07",
+   "temporal": [
+    "2001-01",
+    "2024-12"
+   ],
+   "n_granules": 288
+  },
+  "downloaded_at": "2026-11-15T10:57:17-06:00",
+  "opendap": {
+   "variable": "/Grid/precipitation",
+   "dims": [
+    "time",
+    "lon",
+    "lat"
+   ],
+   "lat_index": [
+    970,
+    1084
+   ],
+   "lon_index": [
+    875,
+    1029
+   ]
+  },
+  "variables_observed": {
+   "precipitation": {
+    "dims": [
+     "time",
+     "lon",
+     "lat"
+    ],
+    "shape": [
+     1,
+     155,
+     115
+    ],
+    "units": "mm/hr",
+    "fill_value": -9999.900390625,
+    "dtype": "float32"
+   }
+  },
+  "missing_months": [],
+  "failed": []
+ },
+ "conversion": "mm/mes = tasa (mm/h) × 24 × días reales del mes (bisiestos incluidos)",
+ "indicators": {
+  "may_oct_mm": [
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ],
+  "jul_aug_mm": [
+   7,
+   8
+  ],
+  "annual_mm": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ },
+ "validity_rule": "un indicador de un año es válido solo si existen todos sus meses; nunca se rellena con 0",
+ "mask": {
+  "source": "Natural Earth 10m admin 0 (auxiliar, no NASA)",
+  "url": "https://naciscdn.org/naturalearth/10m/cultural/ne_10m_admin_0_countries.zip",
+  "rule": "centro de la celda dentro del país",
+  "countries": {
+   "GTM": "Guatemala",
+   "SLV": "El Salvador",
+   "HND": "Honduras",
+   "BLZ": "Belice",
+   "NIC": "Nicaragua",
+   "CRI": "Costa Rica",
+   "PAN": "Panamá"
+  },
+  "cells": {
+   "GTM": 917,
+   "SLV": 169,
+   "HND": 939,
+   "BLZ": 192,
+   "NIC": 1076,
+   "CRI": 425,
+   "PAN": 614
+  }
+ },
+ "pilot": {
+  "cell_id": "N1335W08715",
+  "lat": 13.35,
+  "lon": -87.15,
+  "name": "Choluteca"
+ },
+ "quality": {
+  "n_cells": 4332,
+  "negative_values": 0,
+  "may_oct_mm_percentiles": {
+   "p1": 640.9,
+   "p50": 1550.6,
+   "p99": 2927.4
+  },
+  "annual_valid_years": {
+   "min": 24,
+   "max": 24,
+   "of": 24
+  },
+  "cells_with_canicula": 2831,
+  "cells_without_canicula": 1501,
+  "cells_canicula_unknown": 0,
+  "feb_2004_days": 29
+ },
+ "generated_at": "2026-11-15T10:57:24-06:00"
+}
