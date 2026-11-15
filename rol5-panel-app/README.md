@@ -16,7 +16,13 @@ Implementa panel, huella, comparación por ventana, ENSO, comparación de celdas
 
 Ver [INTEGRACION.md](INTEGRACION.md) para el contrato de ventanas y segunda variable, conexión al pipeline, almacenamiento de respuestas y protocolo con cinco usuarios.
 
-Para regenerar únicamente los fixtures: `node src/panel/mock/make-mock.mjs public/data`.
+Para regenerar los fixtures y sus narraciones desde esta carpeta:
+
+```powershell
+node src/panel/mock/make-mock.mjs public/data
+python ../pipeline/10_narrate.py public/data
+python ../pipeline/10_narrate.py public/data --check
+```
 
 Para las pruebas en navegador, iniciar Vite en el puerto 4173 y ejecutar `npm run test:e2e`. Las pruebas usan Chrome; se puede definir `CHROME_PATH`. Capturas y PDF se guardan en `node_modules/.cache/acceptance`.
 

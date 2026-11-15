@@ -1,7 +1,7 @@
 # ALTARIS — Propuesta final y plan de trabajo por integrante
 
 **Reto:** NASA Space Apps Challenge 2026 — *Be An Earth System Trend Detective!*
-**Equipo:** Camila, Joshua, Elena, Izel, David y un sexto integrante por confirmar
+**Equipo:** Camila, Joshua, Elena, Izel, David y Andrés
 **Versión 3.1:** sábado 14 nov 2026, 21:15 (hora de El Salvador). Incorpora la revisión del grupo y las evidencias verificables por criterio de evaluación. La 3.1 corrige tres puntos sobre la v3 (ver abajo).
 **Cierre de entrega:** domingo 15 nov 2026, 23:59 hora local. **Meta interna de entrega: domingo 21:00.**
 
@@ -495,9 +495,9 @@ La asignación de nombres es **tentativa**: no conozco las fortalezas de cada pe
 | 3 | ENSO, agrupamiento y control de calidad científico | Camila | Rol 1 |
 | 4 | Web: arquitectura, mapa, globo, despliegue | Elena | Rol 5 |
 | 5 | Web: panel de celda, huella, pasaporte | Izel | Rol 4 |
-| 6 | Producto, contenido, usuarios, demo y entrega | Sexto integrante (por confirmar) | Rol 5 |
+| 6 | Producto, contenido, usuarios, demo y entrega | Andrés (confirmado) | Rol 5 |
 
-Rol 6 debe tener dueño nombrado en el kickoff, antes de repartir cualquier otra tarea. Si al final son cinco personas: Rol 3 mantiene la auditoría de textos; **Rol 2 redacta el formulario en B4–B5**, cuando tiene menos carga; Roles 4 y 5 se reparten los textos de la interfaz, las pruebas con usuarios y la demo; y Rol 1 se encarga de la lista de recursos externos y del registro de uso de IA.
+Andrés asume el Rol 6. El registro en la plataforma se comprueba por separado. Si al final son cinco personas: Rol 3 mantiene la auditoría de textos; **Rol 2 redacta el formulario en B4–B5**, cuando tiene menos carga; Roles 4 y 5 se reparten los textos de la interfaz, las pruebas con usuarios y la demo; y Rol 1 se encarga de la lista de recursos externos y del registro de uso de IA.
 
 ### 5.1 Calendario común
 
@@ -729,7 +729,9 @@ Rol 6 debe tener dueño nombrado en el kickoff, antes de repartir cualquier otra
 
 ---
 
-### 5.7 Rol 6 — Producto, contenido, usuarios, video y entrega
+### 5.7 Rol 6 — Andrés: producto, contenido, usuarios, video y entrega
+
+Avance del 14 de noviembre: [materiales, fuentes y pendientes de entrega](docs/rol6/README.md). La tabla inicial de verificaciones recoge el estado previo a esta revisión.
 
 **Entrega:** textos de la app, resultados de usuarios, video, formulario enviado.
 
@@ -739,27 +741,27 @@ Rol 6 debe tener dueño nombrado en el kickoff, antes de repartir cualquier otra
 - [ ] Confirmar que los 6 están registrados y en el mismo equipo en la plataforma.
 
 **B1 (20:15–00:00)**
-- [ ] `glossary.json` (ES/EN): mm por temporada, pendiente de Sen, p-valor, intervalo de confianza, FDR, ENSO/ONI, huella de estabilidad, completitud.
-- [ ] `decision_rules.json`: las tablas de la sección 4.11, con clave `escenario × veredicto × lente`, en ES y EN. Todo redactado como pregunta.
-- [ ] Enlaces de siguiente paso: SERVIR y NASA Harvest. Verificar que los enlaces abran.
-- [ ] **Decidir el formato de la demo** según la guía 2026: video de 30 s o 7 láminas (sección 8). Pasarse del límite puede dejar el proyecto fuera del juicio global.
-- [ ] Abrir el documento del formulario y dejar la estructura lista.
-- [ ] Anotar la fuente leída de al menos un dato que muestre por qué el Corredor Seco importa (para el formulario). Solo datos que alguien abrió y leyó.
+- [x] `glossary.json` (ES/EN): mm por temporada, pendiente de Sen, p-valor, intervalo de confianza, FDR, ENSO/ONI, huella de estabilidad, completitud.
+- [x] `decision_rules.json`: las tablas de la sección 4.11, con clave `escenario × veredicto × lente`, en ES y EN. Todo redactado como pregunta.
+- [x] Enlaces de siguiente paso: SERVIR y NASA Harvest. Verificar que los enlaces abran.
+- [x] Formato elegido: video en inglés. El ensayo dura 28 s. Ver fuentes y restricciones aún por confirmar en el registro del Rol 6.
+- [x] Abrir el documento del formulario y dejar la estructura lista.
+- [x] Anotar la fuente leída de al menos un dato que muestre por qué el Corredor Seco importa (para el formulario). Solo datos que alguien abrió y leyó.
 
 **B3 (05:30–12:00)**
-- [ ] Narrador (`10_narrate.py`):
+- [x] Narrador (`10_narrate.py`):
   - Entrada: el JSON de la celda. Salida: 2 o 3 frases en ES y EN.
   - Se genera **antes** y se guarda en el JSON. No hay llamadas a IA durante la demo.
   - Validador: todo número del texto debe existir en el JSON; lista de frases prohibidas ("va a llover", "predice", "95 % de probabilidad", "causa").
   - Con unas 2 000 celdas, generar con IA solo los 3 casos y las celdas de sitios con nombre; el resto usa plantilla.
   - Plan B: plantillas de texto para todo.
 - [ ] Textos de los 3 casos a partir de lo que elija Rol 3.
-- [ ] `tour.json`: los 4 pasos del recorrido guiado, en ES y EN, en lenguaje simple (sección 4.13).
+- [x] `tour.json`: los 4 pasos del recorrido guiado, en ES y EN, en lenguaje simple (sección 4.13).
 - [ ] **Formulario en inglés, desde las 06:00 y en paralelo con todo lo demás.** Según la revisión del grupo, los jueces evalúan sobre todo el texto de la entrega. Se redacta por secciones y se completan las cifras cuando Rol 2 las tenga.
-- [ ] **Registro de uso de IA**, desde ya: qué herramienta, para qué y en qué archivos (narrador, código asistido, textos, voz sintética si la hay). Si la guía 2026 lo pide, marca de agua visible en imágenes o video generados con IA.
+- [x] **Registro de uso de IA**, desde ya: qué herramienta, para qué y en qué archivos (narrador, código asistido, textos, voz sintética si la hay). Si la guía 2026 lo pide, marca de agua visible en imágenes o video generados con IA.
   - El narrador escribe `generated_by` en cada texto de `narrative`; el código asistido lleva un comentario de cabecera; si hay voz sintética o imágenes generadas, se anotan y se marcan como pida la guía.
 - [ ] **Lista de recursos externos:** datos, librerías del pipeline y de la web, textura del globo, límites de países.
-- [ ] Protocolo de prueba con usuarios: 3 tareas ("encontrá tu zona", "¿la lluvia está bajando ahí?", "¿qué harías con esto?") y 2 preguntas de comprensión. Meta: 4 de 5 completan las 3 tareas y responden bien las 2 preguntas. Es una meta; se reportan los resultados reales, sean los que sean.
+- [x] Protocolo de prueba con usuarios: 3 tareas ("encontrá tu zona", "¿la lluvia está bajando ahí?", "¿qué harías con esto?") y 2 preguntas de comprensión. Meta: 4 de 5 completan las 3 tareas y responden bien las 2 preguntas. Es una meta; se reportan los resultados reales, sean los que sean.
 - [ ] Reclutar 5 personas adultas (ideal: alguien de agricultura, un técnico municipal, un estudiante universitario, dos ajenos al tema). **Sin menores de 18, sin nombres, sin fotos ni grabación de rostros.** Los resultados se guardan anónimos.
 
 **B4 (12:00–15:00)**
@@ -811,7 +813,7 @@ App congelada (15:00)          ──► Rol 6: video (17:00) ──► entrega 
 | Falla el despliegue | Dom 12:00 sin URL pública | Segundo proveedor ya preparado; última opción: demo grabada |
 | El reto exige algo no previsto | Lectura de Rol 6 en B0 | Reunión de 10 minutos y ajuste del alcance |
 | Cansancio y errores de última hora | — | Congelación a las 15:00 y entrega a las 21:00 |
-| Rol 6 sin dueño a las 20:30 | Nadie ha leído las guías 2026 | Se nombra dueño en el kickoff; si son cinco, Rol 2 asume el formulario (sección 5) |
+| Acceso al formulario pendiente | El equipo no ve su pestaña Project | Andrés comprueba evento, equipo, registro y acceso antes de cerrar la entrega |
 | La textura del globo no tiene licencia clara | Rol 6 no la confirma | Textura sencilla propia o quitar el globo |
 | Una afirmación sobre otra herramienta de NASA no se puede comprobar | Rol 3 no la verifica | Se quita o se escribe "hasta donde pudimos comprobar" |
 
@@ -876,7 +878,7 @@ Las frases de los segundos 12–26 se ajustan a lo que muestren los datos reales
 
 ## 10. Preguntas abiertas para el equipo
 
-0. ¿Quién es el sexto integrante, o son cinco?
+0. Resuelto: Andrés es el sexto integrante y responsable del Rol 6.
 1. ¿Quién tiene ya cuenta de Earthdata?
 2. ¿Compiten en una sede local o en el evento virtual? ¿Hay premios locales con criterios propios?
 3. ¿Quién tiene acceso a una API de IA generativa para el narrador, y con qué límite?

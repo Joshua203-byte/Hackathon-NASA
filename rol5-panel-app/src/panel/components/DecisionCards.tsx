@@ -4,9 +4,9 @@ import type { RefData } from '../refs';
 import type { CellIndicator, Lang, Lens } from '../types';
 
 const SCEN: Record<Scenario, { es: string; en: string }> = {
-  baja: { es: 'Baja de lluvia en el periodo', en: 'Rainfall decrease over the period' },
-  alza: { es: 'Alza de lluvia en el periodo', en: 'Rainfall increase over the period' },
-  alta_variabilidad: { es: 'Alta variabilidad sin tendencia', en: 'High variability, no trend' },
+  baja: { es: 'Pendiente estimada negativa', en: 'Negative estimated rainfall slope' },
+  alza: { es: 'Pendiente estimada positiva', en: 'Positive estimated rainfall slope' },
+  alta_variabilidad: { es: 'Alta variabilidad sin tendencia confirmada', en: 'High variability without a confirmed trend' },
 };
 
 /** Muestra preguntas y datos locales que faltan. No existe campo para recomendaciones. */
@@ -29,7 +29,7 @@ export function DecisionCards({ data, lens, rules, lang }: { data: CellIndicator
           <ul>{look.card.missing_local_data[lang].map((q) => <li key={q}>{q}</li>)}</ul>
         </>
       )}
-      <p className="next-step">{es ? 'Monitoreo operativo: ' : 'Operational monitoring: '}<a href="https://www.servirglobal.net" target="_blank" rel="noreferrer">SERVIR</a> · <a href="https://nasaharvest.org" target="_blank" rel="noreferrer">NASA Harvest</a> <small>({es ? 'enlaces por verificar con Rol 6' : 'links to be verified by Role 6'})</small></p>
+      <p className="next-step">{es ? 'Monitoreo operativo: ' : 'Operational monitoring: '}<a href="https://www.servirglobal.net" target="_blank" rel="noreferrer">SERVIR</a> · <a href="https://www.nasaharvest.org/" target="_blank" rel="noreferrer">NASA Harvest</a></p>
     </section>
   );
 }

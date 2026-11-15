@@ -2,7 +2,13 @@
 
 Proyecto para el reto **"Be An Earth System Trend Detective!"** del NASA Space Apps Challenge 2026.
 
-ALTARIS analiza datos reales de observación terrestre de la NASA para detectar, validar estadísticamente y comunicar tendencias del sistema terrestre (con foco en precipitación, variabilidad ENSO y su impacto en comunidades y sectores clave).
+ALTARIS permite explorar cómo cambia la evidencia de una tendencia de lluvia al elegir otra ventana de años. La versión incluida demuestra el recorrido con datos simulados. La integración prevista utiliza precipitación IMERG y análisis ENSO para Honduras, Guatemala y El Salvador.
+
+**Ejecutar el prototipo:** desde `rol5-panel-app/`, ejecutar `npm ci` y `npm run dev`. Seleccionar una celda, cambiar la ventana en la huella y exportar su pasaporte. Para reproducir las verificaciones ejecutar `npm test`, `npm run typecheck` y `npm run build`.
+
+- [Materiales de entrega, demo y estudio de comprensión — Andrés](docs/rol6/README.md)
+- [Contrato del panel, datos y limitaciones](rol5-panel-app/INTEGRACION.md)
+- [Créditos, fuentes externas y registro de IA](docs/rol6/fuentes.md)
 
 ---
 

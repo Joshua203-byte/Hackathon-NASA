@@ -20,8 +20,8 @@
         "en": "Can we trust it?"
       },
       "body": {
-        "es": "El veredicto dice qué tan sólida es la evidencia. 'Limitada' significa señal débil, no confirmada.",
-        "en": "The verdict says how solid the evidence is. 'Limited' means a weak, unconfirmed signal."
+        "es": "El intervalo muestra cuánta incertidumbre hay en la pendiente; el valor p indica hasta qué punto los datos son compatibles con una serie sin tendencia. Un veredicto limitado significa que la señal sigue sin confirmarse.",
+        "en": "The interval shows uncertainty in the slope; the p-value tells us how compatible the data are with a series that has no trend. A limited verdict means the signal remains unconfirmed."
       }
     },
     {
