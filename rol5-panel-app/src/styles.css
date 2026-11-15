@@ -1,0 +1,34 @@
+:root { --verdict-consistente:#1b7837; --verdict-limitada:#e08214; --verdict-sin-evidencia:#7f7f7f; --verdict-incompleta:#b2182b; }
+body { font: 14px/1.45 system-ui, sans-serif; margin: 0; color: #1a1a1a; }
+.topbar { display:flex; gap:.75rem; align-items:center; padding:.5rem 1rem; background:#0b3d6e; color:#fff; flex-wrap:wrap; }
+.topbar select, .topbar button { font: inherit; }
+.panel { max-width: 760px; margin: 0 auto; padding: 1rem; }
+.panel h3 { margin: 1.4rem 0 .3rem; }
+.verdict { border-left: 8px solid; padding: .5rem 1rem; background:#f7f7f7; }
+.verdict h2 { margin:.2rem 0; }
+.verdict-caveat { color:#a04a00; margin:.2rem 0; }
+.verdict-completeness { margin:.2rem 0; color:#444; }
+.notice { background:#fff7e0; border:1px solid #f0d890; padding:.35rem .6rem; margin:.4rem 0; font-size:13px; }
+.panel-warning { background:#fde8e8; border:1px solid #e0a0a0; padding:.6rem .8rem; margin:.5rem 0; }
+.narrative { font-style: italic; }
+.compare { border-collapse: collapse; width:100%; }
+.compare th, .compare td { border:1px solid #ddd; padding:.25rem .5rem; text-align:left; }
+.footprint svg { max-width:100%; height:auto; }
+.footprint-tip { background:#fff; border:1px solid #888; padding:.3rem .5rem; font-size:12px; max-width:240px; box-shadow:0 1px 4px #0003; }
+.mirror { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+.buttons { display:flex; gap:.5rem; flex-wrap:wrap; }
+.cards ul { margin:.2rem 0 .6rem 1.2rem; }
+.legend { font-size:12px; margin:.2rem 0; }
+.tour { position:fixed; left:50%; transform:translateX(-50%); bottom:1rem; width:min(560px,92vw); background:#fff; border:2px solid #0b3d6e; padding:.7rem 1rem; box-shadow:0 4px 18px #0005; z-index:10; }
+.tour-head { display:flex; justify-content:space-between; }
+.tour-nav { display:flex; gap:.5rem; justify-content:flex-end; }
+.tour-focus { outline: 3px solid #0b3d6e; outline-offset: 4px; }
+figcaption { font-size:12px; color:#555; }
+@media (max-width: 640px) { .mirror { grid-template-columns:1fr; } }
+@media print {
+  .map, .topbar, .tour, .no-print { display: none !important; }
+  .panel { max-width: none; width: 100%; }
+  .panel figure, .panel table, .verdict, .cards { break-inside: avoid; }
+  .panel figure { width: 680px; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
