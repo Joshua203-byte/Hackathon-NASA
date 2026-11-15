@@ -1,0 +1,14 @@
+ENSO y salto 2014 — resumen
+
+may_oct_mm: sobrevive ENSO 3440 | no sobrevive 892 | pendiente 0 (de 4332); bandera 2014 en 190 de 4332 (4.4 %)
+jul_aug_mm: sobrevive ENSO 3539 | no sobrevive 793 | pendiente 0 (de 4332); bandera 2014 en 515 de 4332 (11.9 %)
+annual_mm: sobrevive ENSO 3826 | no sobrevive 506 | pendiente 0 (de 4332); bandera 2014 en 147 de 4332 (3.4 %)
+
+Fases may_oct_mm (* = fuerte):
+2001:neutral, 2002:nino, 2003:neutral, 2004:neutral, 2005:neutral, 2006:neutral, 2007:nina, 2008:neutral, 2009:nino, 2010:nina*, 2011:neutral, 2012:neutral, 2013:neutral, 2014:neutral, 2015:nino*, 2016:neutral, 2017:neutral, 2018:neutral, 2019:neutral, 2020:neutral, 2021:neutral, 2022:nina, 2023:nino*, 2024:neutral
+
+Fases jul_aug_mm (* = fuerte):
+2001:neutral, 2002:nino, 2003:neutral, 2004:neutral, 2005:neutral, 2006:neutral, 2007:neutral, 2008:neutral, 2009:nino, 2010:nina, 2011:neutral, 2012:neutral, 2013:neutral, 2014:neutral, 2015:nino*, 2016:neutral, 2017:neutral, 2018:neutral, 2019:neutral, 2020:neutral, 2021:neutral, 2022:nina, 2023:nino*, 2024:neutral
+
+Fases annual_mm (* = fuerte):
+2001:neutral, 2002:nino, 2003:neutral, 2004:neutral, 2005:neutral, 2006:neutral, 2007:nina, 2008:nina, 2009:neutral, 2010:neutral, 2011:nina, 2012:neutral, 2013:neutral, 2014:neutral, 2015:nino*, 2016:neutral, 2017:neutral, 2018:neutral, 2019:nino, 2020:neutral, 2021:nina, 2022:nina, 2023:nino, 2024:neutral
