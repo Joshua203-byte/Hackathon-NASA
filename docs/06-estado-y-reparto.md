@@ -33,7 +33,7 @@ En orden de riesgo. Lo de arriba bloquea a lo de abajo.
 | 2 | ~~Revisión científica~~ **Hecha (04:15)**. Ver `docs/08`, sección Resolución | Camila | — | — |
 | 3 | Leer completas las guías 2026 de envío y evaluación: campos, límites, idioma, rúbrica, redacción de la declaración de IA. Confirmar que IMERG figura en los recursos del reto | Andrés | Nada | 06:00 |
 | 4 | Verificar acceso al portal y que los seis ven la pestaña Project | Andrés | Nada | 06:00 |
-| 5 | Segunda variable (temperatura y radiación) en los 3 casos: `python 04_power.py --cells N1335W08715 N1475W08765 N1495W09125` | David | Listo para correr | 09:00 |
+| 5 | ~~Segunda variable en los 3 casos~~ **Hecha.** `data/rol1/power_casos/`; coincide fila por fila con la corrida de Camila. Ver `docs/rol1-datos.md`, sección 8 | David | — | — |
 | 6 | Cifras finales de los casos: `python pipeline/case_figures.py --data rol5-panel-app/public/data --cells N1335W08715 N1475W08765 N1495W09125` | Joshua | Listo para correr | 09:00 |
 | 7 | ~~Regenerar el JSON por la regla de 2014~~ **No hace falta** (opción A). Volver a publicar solo por los `reasons.json` nuevos | Izel | — | 09:00 |
 | 8 | Textos de los 3 casos y de las limitaciones | Camila | Los casos | 12:00 |

@@ -2,6 +2,7 @@
 
   python 04_power.py                                  # 3 sitios de contraste (Choluteca, La Ceiba, Cd. de Guatemala)
   python 04_power.py --cells N1335W08715 N1575W08685  # los sitios de los casos que elija Camila
+  python 04_power.py --cells ... --out ../data/rol1/power_casos        # sin tocar el contraste entregado
 
 Código escrito con asistencia de IA (Claude); revisado y probado por el equipo (ver docs/rol1-datos.md).
 
@@ -92,11 +93,12 @@ def trend(years, values, cfg):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--cells", nargs="*", help="cell_id de los sitios (por defecto, los 3 de contraste)")
+    ap.add_argument("--out", default=None, help="carpeta de salida (por defecto, data/rol1/power)")
     a = ap.parse_args()
     cfg = load_config()
     y0, y1 = cfg["period"]
     years = list(range(y0, y1 + 1))
-    out = REPO / "data" / "rol1" / "power"
+    out = Path(a.out).resolve() if a.out else REPO / "data" / "rol1" / "power"
     out.mkdir(parents=True, exist_ok=True)
 
     cells = {r["cell_id"]: r for r in csv.DictReader(open(REPO / "data/rol1/cells.csv", encoding="utf-8"))}
@@ -177,7 +179,7 @@ def main():
     for x in rows_x:
         print(f"  {x[0]} {x[1]:<38} {x[2]:<11} IMERG {x[3]:>8}  POWER {x[4]:>8}  mismo signo: {x[5]:<2}  r={x[6]}  "
               f"media IMERG {x[7]} / POWER {x[8]}")
-    print(f"Escrito en {out.relative_to(REPO)}: power_monthly.csv, power_series.csv, power_trends.csv, crosscheck.csv, provenance.json")
+    print(f"Escrito en {out}: power_monthly.csv, power_series.csv, power_trends.csv, crosscheck.csv, provenance.json")
 
 
 if __name__ == "__main__":

@@ -127,9 +127,41 @@ python 04_power.py                    # contraste con POWER (no necesita cuenta)
 
 Hace falta una cuenta de NASA Earthdata con la aplicación "NASA GESDISC DATA ARCHIVE" autorizada, y las credenciales en `~/.netrc` (en Windows, `%USERPROFILE%\_netrc`): `machine urs.earthdata.nasa.gov login … password …`. También sirven las variables `EARTHDATA_USERNAME` y `EARTHDATA_PASSWORD`. Plan B si falla OPeNDAP: `--method download` (archivos completos, ~5 GB).
 
-## 8. Pendiente y quién continúa
+## 8. Segunda variable en los 3 casos (tarea 5, `04_power.py` → `data/rol1/power_casos/`)
 
-- **Segunda variable en los sitios definitivos:** cuando Camila pase los IDs de los 3 casos, correr `04_power.py --cells ...`.
+Casos elegidos por Camila ([08-revision-camila.md](08-revision-camila.md), Resolución, 04:13). Se corrió:
+
+```bash
+cd pipeline
+python 04_power.py --cells N1335W08715 N1475W08765 N1495W09125 --out ../data/rol1/power_casos
+```
+
+POWER API v2.10.0, consultada el 15 nov 2026. `data/rol1/power/` (los 3 sitios de contraste de la sección 4) no se tocó. Las 22 filas de `power_trends.csv` coinciden exactamente con la corrida de revisión de Camila (`data/rol3/casos_power/`), así que sus cifras de los casos quedan confirmadas sin cambios.
+
+**Lluvia, IMERG frente a POWER (pendiente de Sen, mm por década, temporada may–oct):**
+
+| Celda | Caso | IMERG | POWER (p) | Mismo signo | r interanual |
+|---|---|---|---|---|---|
+| `N1335W08715` | 1, Choluteca | −48 | +171 (0,14) | no | 0,80 |
+| `N1475W08765` | 2, sensibilidad al periodo | −48 | +124 (0,050) | no | 0,73 |
+| `N1495W09125` | 3, Guatemala `consistente` | **−452** | +40 (0,60) | no | **0,18** |
+
+- En `N1495W09125` POWER no ve la caída (p ≥ 0,60 en los tres indicadores) y la correlación año a año es 0,18 en temporada y 0,08 en lluvia anual. Respalda la lectura de "pregunta abierta" del caso 3.
+- En Honduras, IMERG sin tendencia y POWER con alza en lluvia anual (significativa en `N1475W08765`, p 0,003), pero las dos fuentes coinciden en los años secos y húmedos (r 0,57–0,85).
+
+**Segunda variable (media anual; entre paréntesis, p):**
+
+| Celda | T2M, °C por década | Radiación, MJ/m²/día por década |
+|---|---|---|
+| `N1335W08715` | −0,05 (0,82) | −0,15 (0,41) |
+| `N1475W08765` | +0,03 (0,84) | +0,02 (0,82) |
+| `N1495W09125` | **+0,35 (0,0005)**; may–oct +0,27 (0,004) | −0,18 (0,24) |
+
+Calentamiento significativo solo en la celda de Guatemala. Se puede mostrar junto a la lluvia, sin relación causal: es otra fuente y de resolución mucho más gruesa (~0,5°).
+
+## 9. Pendiente y quién continúa
+
+- **Segunda variable en los sitios definitivos:** hecha (sección 8, `data/rol1/power_casos/`). Coincide con la de Camila. Falta que Izel la muestre en el panel si se integra.
 - **Chequeo de 2014:** según el doc 06, lo hace Camila con Pettitt.
 - **Joshua:** piloto H1 con `piloto_choluteca/`; después congelar umbrales y correr la región.
 - **Camila:** usar la misma versión de `series.csv` y `monthly.csv`, y revisar el hallazgo de la sección 4.
