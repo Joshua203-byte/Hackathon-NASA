@@ -167,3 +167,14 @@ Calentamiento significativo solo en la celda de Guatemala. Se puede mostrar junt
 - **Camila:** usar la misma versión de `series.csv` y `monthly.csv`, y revisar el hallazgo de la sección 4.
 - **Elena:** `borders.geojson`.
 - **Andrés:** fuentes y uso de IA de la sección 6.
+
+## 10. Centroamérica (7 países, rama `ca/david-datos`, entrega C1)
+
+Misma descarga y mismo procesamiento; solo cambia el recuadro y la lista de países (`pipeline/config_centroamerica.yaml`).
+
+- **Comando:** `python run_rol1.py --config config_centroamerica.yaml --data-dir ../data/ca` (desde `pipeline/`). 288/288 meses en 58 s; corrida completa 1 min 7 s.
+- **Salida:** `data/ca/rol1/` con `cells.csv`, `series.csv`, `monthly.csv`, `borders.geojson`, `provenance.json`.
+- **Celdas:** 4 332 (NIC 1 076, HND 939, GTM 917, PAN 614, CRI 425, BLZ 192, SLV 169).
+- **Igualdad con la versión de 3 países:** las 2 025 celdas de GTM, SLV y HND coinciden con `data/rol1/` fila por fila (series y mensual, 0 diferencias). Por eso cualquier cambio de veredicto en esas celdas solo puede venir del FDR, que ahora se calcula entre más celdas. Comprobación: `python docs/ca/david_check_ca_rol1.py .`
+- **Calidad:** 24/24 años válidos en todas las celdas e indicadores; 0 valores negativos; 2 831 celdas con canícula y 1 501 sin ella.
+
