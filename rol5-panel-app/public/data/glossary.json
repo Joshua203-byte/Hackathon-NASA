@@ -1,0 +1,4 @@
+{"pendiente_sen":{"term":{"es":"Pendiente de Sen","en":"Sen slope"},"definition":{"es":"Cambio típico por década, resistente a años extremos.","en":"Typical change per decade, robust to extreme years."}},
+"intervalo_confianza":{"term":{"es":"Intervalo de confianza","en":"Confidence interval"},"definition":{"es":"Rango razonable para la pendiente dado el ruido de los datos.","en":"Reasonable range for the slope given data noise."}},
+"huella_estabilidad":{"term":{"es":"Huella de estabilidad","en":"Stability footprint"},"definition":{"es":"La tendencia calculada en todas las ventanas de años posibles.","en":"The trend computed over every possible year window."}},
+"completitud":{"term":{"es":"Completitud","en":"Completeness"},"definition":{"es":"Años con dato válido sobre el total del periodo.","en":"Years with valid data out of the period total."}}}
