@@ -78,6 +78,15 @@ def spearman(years, values, oni_by_year) -> tuple[float, float]:
     return float(r), float(p)
 
 
+def _keeps_sign(slope: float, base_slope: float) -> bool:
+    """¿La variante conserva el signo de la pendiente base? Una pendiente exactamente cero no tiene signo.
+
+    Antes se usaba math.copysign, que distingue 0.0 de -0.0: según la versión de la librería, la misma serie
+    daba un resultado u otro (la comparación de 3 contra 7 países encontró 8 celdas de jul_aug_mm así).
+    """
+    return slope != 0 and base_slope != 0 and (slope > 0) == (base_slope > 0)
+
+
 def _within(slope: float, ci: tuple[float, float]) -> bool:
     return ci[0] <= slope <= ci[1]
 
@@ -106,8 +115,7 @@ def enso_test(years, values, oni_by_year, base: stats.SenResult, cfg: dict) -> d
     a1, a2 = out["slope_without_strong_enso"], out["slope_oni_removed"]
     if math.isfinite(a1) and math.isfinite(a2):
         ci = (base.ci_low_dec, base.ci_high_dec)
-        sg = math.copysign(1, base.slope_dec) if base.slope_dec != 0 else 0
-        ok = all(math.copysign(1, a) == sg and _within(a, ci) for a in (a1, a2))
+        ok = all(_keeps_sign(a, base.slope_dec) and _within(a, ci) for a in (a1, a2))
         out["survives"] = bool(ok)
     return out
 
