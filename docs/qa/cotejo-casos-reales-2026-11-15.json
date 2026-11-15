@@ -1,0 +1,131 @@
+{
+  "generated_at": "2026-11-15T10:59:01.370Z",
+  "pipeline_commit": "a7a5b18",
+  "dataset_doi": "10.5067/GPM/IMERG/3B-MONTH/07",
+  "checks": [
+    {
+      "cell": "N1335W08715",
+      "indicator": "may_oct_mm",
+      "csv_years": 24,
+      "verdict": "sin_evidencia",
+      "slope": -48.113,
+      "csv_sen": -48.1134210526316,
+      "window": "sin_evidencia",
+      "languages": [
+        "es",
+        "en"
+      ]
+    },
+    {
+      "cell": "N1335W08715",
+      "indicator": "jul_aug_mm",
+      "csv_years": 24,
+      "verdict": "sin_evidencia",
+      "slope": -4.26,
+      "csv_sen": -4.25977272727272,
+      "window": "limitada",
+      "languages": [
+        "es",
+        "en"
+      ]
+    },
+    {
+      "cell": "N1335W08715",
+      "indicator": "annual_mm",
+      "csv_years": 24,
+      "verdict": "sin_evidencia",
+      "slope": 10.727,
+      "csv_sen": 10.726785714285729,
+      "window": "limitada",
+      "languages": [
+        "es",
+        "en"
+      ]
+    },
+    {
+      "cell": "N1475W08765",
+      "indicator": "may_oct_mm",
+      "csv_years": 24,
+      "verdict": "sin_evidencia",
+      "slope": -48.29,
+      "csv_sen": -48.29041666666669,
+      "window": "limitada",
+      "languages": [
+        "es",
+        "en"
+      ]
+    },
+    {
+      "cell": "N1475W08765",
+      "indicator": "jul_aug_mm",
+      "csv_years": 24,
+      "verdict": "sin_evidencia",
+      "slope": -1.715,
+      "csv_sen": -1.7153846153846293,
+      "window": "limitada",
+      "languages": [
+        "es",
+        "en"
+      ]
+    },
+    {
+      "cell": "N1475W08765",
+      "indicator": "annual_mm",
+      "csv_years": 24,
+      "verdict": "sin_evidencia",
+      "slope": 16.402,
+      "csv_sen": 16.40176767676769,
+      "window": "limitada",
+      "languages": [
+        "es",
+        "en"
+      ]
+    },
+    {
+      "cell": "N1495W09125",
+      "indicator": "may_oct_mm",
+      "csv_years": 24,
+      "verdict": "consistente",
+      "slope": -452.382,
+      "csv_sen": -452.3823684210526,
+      "window": "sin_evidencia",
+      "languages": [
+        "es",
+        "en"
+      ]
+    },
+    {
+      "cell": "N1495W09125",
+      "indicator": "jul_aug_mm",
+      "csv_years": 24,
+      "verdict": "limitada",
+      "slope": -171.333,
+      "csv_sen": -171.33333333333331,
+      "window": "sin_evidencia",
+      "languages": [
+        "es",
+        "en"
+      ]
+    },
+    {
+      "cell": "N1495W09125",
+      "indicator": "annual_mm",
+      "csv_years": 24,
+      "verdict": "consistente",
+      "slope": -469.171,
+      "csv_sen": -469.1709134615385,
+      "window": "sin_evidencia",
+      "languages": [
+        "es",
+        "en"
+      ]
+    }
+  ],
+  "base_url": "http://cases.local/",
+  "case_links": "3 enlaces cortos, tarjetas, ventana y espejo; mÃ³vil 390 Ã— 844 sin desbordamiento y pasaporte descargado",
+  "tour": "4 pasos ES/EN, inicio desde otro indicador, recarga del paso 3 y foco en pasaporte",
+  "selected_window": [
+    2001,
+    2010
+  ]
+}

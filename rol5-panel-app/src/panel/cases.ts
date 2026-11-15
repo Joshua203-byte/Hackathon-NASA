@@ -35,11 +35,12 @@ export function findCase(raw: string | null): CaseLink | undefined {
   return CASES.find(c => String(c.n) === raw);
 }
 
-/** Query del caso sobre el actual: conserva idioma, lente y capa; quita `case` porque ya queda explícito. */
+/** Conserva idioma y capa; fija la lente de lluvia estacional para reproducir el caso. */
 export function caseSearch(search: string, c: CaseLink): string {
   const q = new URLSearchParams(search);
   q.set('cell', c.cell);
   q.set('ind', c.ind);
+  q.set('lens', 'agri');
   if (c.win) q.set('win', c.win); else q.delete('win');
   if (c.mirror) q.set('mirror', c.mirror); else q.delete('mirror');
   q.delete('case');

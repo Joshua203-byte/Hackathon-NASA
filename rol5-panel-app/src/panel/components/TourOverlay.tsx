@@ -23,7 +23,7 @@ export function TourOverlay({ step, tour, glossary, lang, onStep, onSetWin }: Pr
     const el = document.querySelector<HTMLElement>(`[data-tour="${s.anchor}"]`);
     el?.classList.add('tour-focus');
     el?.scrollIntoView?.({ block: 'nearest', behavior: 'smooth' });
-    if (s.set?.win) onSetWin(s.set.win);
+    if (typeof s.set?.win === 'string') onSetWin(s.set.win);
     return () => el?.classList.remove('tour-focus');
     // onSetWin es estable (setUrl); el efecto depende solo del paso
     // eslint-disable-next-line react-hooks/exhaustive-deps

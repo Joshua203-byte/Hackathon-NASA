@@ -5,16 +5,26 @@ import { CASES, caseSearch, findCase } from '../cases';
 import type { GridCell } from '../types';
 
 describe('enlaces de casos (Rol 4)', () => {
+  it('el paso 3 y el pasaporte del recorrido conservan la ventana del caso 2', () => {
+    const tourPath = fileURLToPath(new URL('../../../public/data/tour.json', import.meta.url));
+    const tour = JSON.parse(readFileSync(tourPath, 'utf8'));
+    const kase = findCase('2')!;
+    for (const step of tour.steps.slice(2)) {
+      expect(step.set.cell).toBe(kase.cell);
+      expect(step.set.ind).toBe(kase.ind);
+      expect(step.set.win.join('-')).toBe(kase.win);
+    }
+  });
   it('?case=N encuentra el caso; otro valor no', () => {
     expect(findCase('3')?.cell).toBe('N1495W09125');
     expect(findCase('9')).toBeUndefined();
     expect(findCase(null)).toBeUndefined();
   });
 
-  it('conserva idioma, lente y capa; fija celda, indicador, ventana y espejo; quita case y tour', () => {
+  it('conserva idioma y capa; fija la lente compatible, celda, indicador, ventana y espejo; quita case y tour', () => {
     const q = new URLSearchParams(caseSearch('?lang=en&lens=com&layer=slope&case=3&tour=2&win=2004-2024', findCase('2')!));
     expect(q.get('lang')).toBe('en');
-    expect(q.get('lens')).toBe('com');
+    expect(q.get('lens')).toBe('agri');
     expect(q.get('layer')).toBe('slope');
     expect(q.get('cell')).toBe('N1475W08765');
     expect(q.get('ind')).toBe('may_oct_mm');

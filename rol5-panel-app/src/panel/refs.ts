@@ -1,13 +1,14 @@
 import type { DecisionRules } from './decision';
 import type { L10n } from './types';
+import type { PanelUrlState } from './urlState';
 
 export interface TourStep {
   anchor: string;
   glossary?: string;
   title: L10n;
   body: L10n;
-  /** Ventana que el paso escribe en la URL al entrar (p. ej. "2001-2016"). */
-  set?: { win?: string };
+  /** Selección reproducible del paso; acepta ventanas antiguas en texto. */
+  set?: Omit<Partial<PanelUrlState>, 'tour' | 'lang' | 'win'> & { win?: string | PanelUrlState['win'] };
 }
 export interface EnsoYear {
   phase?: string;
@@ -18,6 +19,6 @@ export interface EnsoYear {
 export interface RefData {
   enso: { years: Record<string, EnsoYear> } | null;
   rules: DecisionRules | null;
-  tour: { steps: TourStep[] } | null;
+  tour: { context?: Partial<PanelUrlState>; steps: TourStep[] } | null;
   glossary: Record<string, { term: L10n; definition: L10n }> | null;
 }

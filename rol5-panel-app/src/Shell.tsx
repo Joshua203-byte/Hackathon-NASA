@@ -9,7 +9,7 @@ const RegionMap = lazy(() => import('./panel/components/RegionMap').then(m => ({
 const CellPanel = lazy(() => import('./panel/components/CellPanel').then(m => ({ default: m.CellPanel })));
 import { useBoot, useCell } from './panel/data';
 import { INDICATORS } from './panel/types';
-import { usePanelUrl } from './panel/urlState';
+import { parseWin, patchSearch, usePanelUrl } from './panel/urlState';
 
 export function Shell() {
   const { boot, error } = useBoot();
@@ -29,6 +29,14 @@ export function Shell() {
     history.replaceState(null, '', caseSearch(location.search, kase) + location.hash);
     dispatchEvent(new PopStateEvent('popstate'));
   }, [boot, kase, url.cell]);
+
+  useEffect(() => {
+    const step = url.tour > 0 ? boot?.refs.tour?.steps[url.tour - 1] : null;
+    const patch = step?.set;
+    if (!patch || (patch.cell && !boot?.grid.some(c => c.id === patch.cell))) return;
+    const { win, ...rest } = patch;
+    setUrl({ ...rest, ...('win' in patch ? { win: typeof win === 'string' ? parseWin(win) : win } : {}) });
+  }, [boot, url.tour, setUrl]);
 
   useEffect(() => {
     if (status !== 'ready') return;
@@ -71,7 +79,12 @@ export function Shell() {
           </select>
         </label>
         <button onClick={() => setUrl({ lang: es ? 'en' : 'es' })}>{es ? 'EN' : 'ES'}</button>
-        <button onClick={() => setUrl({ tour: 1 })}>{es ? 'Recorrido' : 'Tour'}</button>
+        <button onClick={() => {
+          if (!boot.refs.tour?.context) return setUrl({ tour: 1 });
+          const q = new URLSearchParams(window.location.search);
+          for (const key of ['dataset', 'case', 'mirror']) q.delete(key);
+          window.location.assign(patchSearch(`?${q}`, { ...boot.refs.tour.context, tour: 1, lang: url.lang }));
+        }}>{es ? 'Recorrido' : 'Tour'}</button>
       </header>
       {(boot.meta.data_kind !== 'observed' || boot.meta.pipeline_commit === 'MOCK') && <p role="note" className="notice">{es ? 'DEMOSTRACIÓN: datos simulados o sin validación de procedencia. No usar para decisiones.' : 'DEMO: simulated data or unverified provenance. Do not use for decisions.'}</p>}
       {/* Rol 4: MapLibre; si no hay WebGL se usa la rejilla SVG sin mapa base. */}
