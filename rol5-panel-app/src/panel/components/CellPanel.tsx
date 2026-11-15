@@ -22,6 +22,7 @@ import { VERDICT_UI, reasonText } from '../verdict';
 import { VerdictBadge } from './VerdictBadge';
 import { COUNTRY, IND_LABEL, unitLabel } from '../labels';
 import { CASES } from '../cases';
+import { YearSlider } from './YearSlider';
 
 /** Tarjeta de sección: título en lenguaje simple y una línea de cómo leerla. */
 function Card({ title, hint, children }: { title: string; hint?: string; children: React.ReactNode }) {
@@ -107,24 +108,14 @@ export function CellPanel({ cell, gridRow, meta, status, refs, mirror }: Props) 
       </SectionBoundary>
 
       <SectionBoundary key={`s/${resetKey}`} name={es ? 'Serie' : 'Series'}>
-        <Card title={es ? 'La lluvia, año por año' : 'Rainfall, year by year'} hint={es ? 'Cada punto azul es un año. La recta gris es la tendencia estimada y la banda, su margen de error.' : 'Each blue dot is one year. The grey line is the estimated trend and the band is its margin of error.'}>
+        <Card title={es ? 'La lluvia, año por año' : 'Rainfall, year by year'} hint={es ? 'Cada punto es un año. La recta es la tendencia estimada y la banda, su margen de error. Mueve los años y mira si la historia se sostiene.' : 'Each dot is one year. The line is the estimated trend and the band is its margin of error. Move the years and see whether the story holds.'}>
           <SeriesChart data={d} period={period} selected={selWin} lang={lang} />
-        </Card>
-      </SectionBoundary>
-
-      <SectionBoundary key={`h/${resetKey}`} name={es ? 'Huella de estabilidad' : 'Stability footprint'}>
-        <Card title={es ? '¿Cambia la historia si eliges otros años?' : 'Does the story change with other years?'} hint={es ? 'Cada casilla es un periodo distinto (año de inicio abajo, año de fin a la izquierda). Toca una para compararla con el periodo completo.' : 'Each square is a different period (start year below, end year on the left). Tap one to compare it with the full period.'}>
-        {sel.requestedMissing && (
-          <p role="note" className="notice">{es ? 'La ventana del enlace no existe para esta celda; se muestra el periodo base.' : 'The linked window does not exist for this cell; showing the base period.'}</p>
-        )}
-        <Footprint footprint={d.footprint} period={period} selected={sel.isBase ? null : url.win} onSelect={onSelect} lang={lang} />
-        <p className="legend fp-legend"><span><i style={{ background: '#8c510a' }} /> {es ? 'baja, señal clara' : 'down, clear signal'}</span><span><i style={{ background: '#dfc27d' }} /> {es ? 'baja, señal débil' : 'down, weak signal'}</span><span><i style={{ background: '#80cdc1' }} /> {es ? 'sube, señal débil' : 'up, weak signal'}</span><span><i style={{ background: '#01665e' }} /> {es ? 'sube, señal clara' : 'up, clear signal'}</span></p>
-        {overlap && <p role="note" className="notice">{overlap.text}</p>}
+          <YearSlider period={period} value={sel.isBase ? null : url.win} index={index} onChange={onSelect} lang={lang} />
         </Card>
       </SectionBoundary>
 
       <SectionBoundary key={`c/${resetKey}`} name={es ? 'Comparador' : 'Comparison'}>
-        <Card title={es ? 'Periodo completo frente al periodo elegido' : 'Full period versus the chosen period'} hint={selWin ? undefined : es ? 'Toca una casilla de arriba para llenar la segunda columna.' : 'Tap a square above to fill the second column.'}>
+        <Card title={es ? 'Periodo completo frente al periodo elegido' : 'Full period versus the chosen period'} hint={selWin ? undefined : es ? 'Mueve los años de arriba para llenar la segunda columna.' : 'Move the years above to fill the second column.'}>
         <div className="table-scroll"><table className="compare" data-tour="compare">
           <thead>
             <tr>
@@ -161,6 +152,17 @@ export function CellPanel({ cell, gridRow, meta, status, refs, mirror }: Props) 
             </tr>
           </tbody>
         </table></div>
+        </Card>
+      </SectionBoundary>
+
+      <SectionBoundary key={`h/${resetKey}`} name={es ? 'Huella de estabilidad' : 'Stability footprint'}>
+        <Card title={es ? 'Todos los periodos de un vistazo' : 'Every period at a glance'} hint={es ? 'Cada casilla es un periodo distinto (año de inicio abajo, año de fin a la izquierda). Si casi todas tienen el mismo color, la historia no depende de los años elegidos.' : 'Each square is a different period (start year below, end year on the left). If nearly all share one colour, the story does not depend on the years chosen.'}>
+        {sel.requestedMissing && (
+          <p role="note" className="notice">{es ? 'La ventana del enlace no existe para esta celda; se muestra el periodo base.' : 'The linked window does not exist for this cell; showing the base period.'}</p>
+        )}
+        <Footprint footprint={d.footprint} period={period} selected={sel.isBase ? null : url.win} onSelect={onSelect} lang={lang} />
+        <p className="legend fp-legend"><span><i style={{ background: '#8c510a' }} /> {es ? 'baja, señal clara' : 'down, clear signal'}</span><span><i style={{ background: '#dfc27d' }} /> {es ? 'baja, señal débil' : 'down, weak signal'}</span><span><i style={{ background: '#80cdc1' }} /> {es ? 'sube, señal débil' : 'up, weak signal'}</span><span><i style={{ background: '#01665e' }} /> {es ? 'sube, señal clara' : 'up, clear signal'}</span></p>
+        {overlap && <p role="note" className="notice">{overlap.text}</p>}
         </Card>
       </SectionBoundary>
 
