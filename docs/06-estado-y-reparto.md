@@ -5,6 +5,9 @@ Repositorio oficial: `Joshua203-byte/Hackathon-NASA`. Todo lo descrito aquí est
 
 **Ampliación a Centroamérica (7 países), en paralelo y sin tocar `main` hasta un GO a las 12:45:** el reparto por persona, las ramas, el horario y los criterios están en [10-centroamerica.md](10-centroamerica.md).
 
+**GO a Centroamérica (domingo 15, tarde): aprobado por Joshua.** El JSON de `main` pasa a ser el de 7 países: 4 332 celdas reales, 196 `consistente` en lluvia de temporada (antes 44), los 3 casos conservan su veredicto. Las condiciones 1 y 2 del GO se cumplen (`docs/ca/COMPARACION.md`). Las cifras y la tabla de arriba que dicen 2 025 celdas o 3 países describen la versión anterior. Para cifras actuales: `docs/ca/TABLAS.md`.
+**Falta (no depende del motor):** firma y revisión de las 18:00 de Camila (`docs/ca/camila.md`; en `docs/09` queda una frase suya, «el único tipo de lugar», que ya no es cierta); Izel publica producción (`npm run deploy` desde `rol5-panel-app/`) y la prueba en incógnito y celular; Andrés rellena marcas `[PENDING]` del formulario, decide el README alternativo, video de 30 s, sesiones con personas y envío a las 21:00; Joshua: `git tag congelada-1500` a las 15:00.
+
 **Avance estimado: 80 %.** Datos, motor, revisión científica, casos, panel, mapa, despliegue y cotejo de cifras están hechos. Falta lo que depende de personas y de la entrega: pruebas con usuarios, video, guía oficial, congelación y envío. Es una estimación por bloques, no una medida.
 
 **Revisión de las 07:30 sobre `main`:** pasan las 70 pruebas del motor y las 44 del panel, compila, y las 45 cifras del formulario coinciden con el JSON. El JSON del repositorio tiene las mismas cifras que la corrida verificada de las 02:30. Los 3 casos abren con su segunda variable.
