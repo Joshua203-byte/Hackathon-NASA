@@ -39,7 +39,7 @@ export function useBoot() {
           fetchJson<{ cells: GridCell[] }>('grid.json'),
           optional<RefData['enso']>('enso.json'),
           reference<RefData['rules']>('decision_rules.json'),
-          reference<RefData['tour']>('tour.json'),
+          reference<RefData['tour']>(pilot ? 'pilot/tour.json' : 'tour.json'),
           reference<RefData['glossary']>('glossary.json'),
           optional<Record<string, { es: string; en: string }>>('reasons.json'),
         ]);

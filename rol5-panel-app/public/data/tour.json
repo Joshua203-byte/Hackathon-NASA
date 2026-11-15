@@ -1,54 +1,92 @@
 {
+  "context": {
+    "cell": "N1475W08765",
+    "ind": "may_oct_mm",
+    "lens": "agri",
+    "enso": false,
+    "win": null
+  },
   "steps": [
     {
       "anchor": "series",
       "glossary": "pendiente_sen",
       "title": {
-        "es": "¿Qué es una tendencia?",
-        "en": "What is a trend?"
+        "es": "Un caso real de Honduras",
+        "en": "A real case in Honduras"
       },
       "body": {
-        "es": "La línea gris resume cuánto sube o baja la lluvia por década en esta celda.",
-        "en": "The grey line summarises how much rainfall rises or falls per decade in this cell."
+        "es": "N1475W08765: lluvia de mayo a octubre, IMERG 2001–2024. La pendiente es −48,3 mm por década; el IC 95 % va de −163,7 a +108,0. La línea gris resume el periodo completo.",
+        "en": "N1475W08765: May–October rainfall, IMERG 2001–2024. The slope is −48.3 mm per decade; its 95% CI spans −163.7 to +108.0. The grey line summarises the full period."
+      },
+      "set": {
+        "cell": "N1475W08765",
+        "ind": "may_oct_mm",
+        "lens": "agri",
+        "enso": false,
+        "win": null
       }
     },
     {
       "anchor": "verdict",
       "glossary": "intervalo_confianza",
       "title": {
-        "es": "¿Es de fiar?",
-        "en": "Can we trust it?"
+        "es": "Sin evidencia de tendencia",
+        "en": "No evidence of a trend"
       },
       "body": {
-        "es": "El intervalo muestra cuánta incertidumbre hay en la pendiente; el valor p indica hasta qué punto los datos son compatibles con una serie sin tendencia. Un veredicto limitado significa que la señal sigue sin confirmarse.",
-        "en": "The interval shows uncertainty in the slope; the p-value tells us how compatible the data are with a series that has no trend. A limited verdict means the signal remains unconfirmed."
+        "es": "Los 24 años están completos, pero el intervalo incluye cero y el veredicto es sin evidencia. Una pendiente negativa no basta para afirmar que la lluvia disminuye.",
+        "en": "All 24 years are complete, but the interval includes zero and the verdict is no evidence. A negative slope alone does not establish declining rainfall."
+      },
+      "set": {
+        "cell": "N1475W08765",
+        "ind": "may_oct_mm",
+        "lens": "agri",
+        "enso": false,
+        "win": null
       }
     },
     {
       "anchor": "footprint",
       "glossary": "huella_estabilidad",
       "title": {
-        "es": "¿Y si cambio los años?",
-        "en": "What if I change the years?"
+        "es": "Cambiar los años cambia la lectura",
+        "en": "Changing the years changes the reading"
       },
       "body": {
-        "es": "Cada casilla es una ventana de años: si los colores cambian mucho, la tendencia es frágil. La línea punteada marca 2014.",
-        "en": "Each square is a year window: changing colours mean a fragile trend. The dashed line marks 2014."
+        "es": "Ahora comparamos 2008–2023 con 2001–2024 en la misma celda. La pendiente pasa a −344,5 mm por década y el veredicto de ventana es limitado. Las ventanas se solapan y sus pruebas no se corrigen por comparaciones múltiples: no confirman una tendencia regional.",
+        "en": "Now compare 2008–2023 with 2001–2024 in the same cell. The slope becomes −344.5 mm per decade and the window verdict is limited. Windows overlap and their tests are not corrected for multiple comparisons: they do not confirm a regional trend."
       },
       "set": {
-        "win": "2001-2016"
+        "cell": "N1475W08765",
+        "ind": "may_oct_mm",
+        "lens": "agri",
+        "enso": false,
+        "win": [
+          2008,
+          2023
+        ]
       }
     },
     {
-      "anchor": "cards",
+      "anchor": "passport",
       "glossary": "completitud",
       "title": {
-        "es": "¿Qué preguntas conviene hacerse?",
-        "en": "Which questions should we ask?"
+        "es": "Llévate la evidencia",
+        "en": "Take the evidence with you"
       },
       "body": {
-        "es": "Estas preguntas dependen de datos locales que este análisis no tiene.",
-        "en": "These questions depend on local data this analysis does not have."
+        "es": "Descarga el pasaporte JSON o Markdown. Conserva los datos del periodo base y de la ventana 2008–2023, la completitud, los controles ENSO y de 2014 y la procedencia NASA. Copia el enlace para reproducir esta selección.",
+        "en": "Download the JSON or Markdown passport. It preserves the base-period and 2008–2023 window results, completeness, ENSO and 2014 checks, and NASA provenance. Copy the link to reproduce this selection."
+      },
+      "set": {
+        "cell": "N1475W08765",
+        "ind": "may_oct_mm",
+        "lens": "agri",
+        "enso": false,
+        "win": [
+          2008,
+          2023
+        ]
       }
     }
   ]

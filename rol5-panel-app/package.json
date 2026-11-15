@@ -10,6 +10,7 @@
     "test": "vitest run",
     "typecheck": "tsc -p .",
     "test:e2e": "node e2e/accept.mjs",
+    "test:e2e:real": "node e2e/real-cases.mjs",
     "deploy": "npm run build && wrangler deploy"
   },
   "keywords": [],

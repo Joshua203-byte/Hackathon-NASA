@@ -37,7 +37,7 @@ En orden de riesgo. Lo de arriba bloquea a lo de abajo.
 | 6 | Cifras finales de los casos: `python pipeline/case_figures.py --data rol5-panel-app/public/data --cells N1335W08715 N1475W08765 N1495W09125` | Joshua | Listo para correr | 09:00 |
 | 7 | ~~Regenerar el JSON por la regla de 2014~~ **No hace falta** (opción A). Volver a publicar solo por los `reasons.json` nuevos | Izel | — | 09:00 |
 | 8 | Textos de los 3 casos y de las limitaciones | Camila | Los casos | 12:00 |
-| 9 | Recorrido guiado y pasaporte con el caso real; adaptar la ventana del paso 3 | Izel | Los casos | 12:00 |
+| 9 | Recorrido real y pasaportes cotejados localmente: caso 2, paso 3 en 2008–2023, CSV/JSON/pantalla y 36 descargas ES/EN. [Evidencia y publicación pendiente](09-cotejo-panel-pasaporte.md) | Izel | Integrar enlaces nuevos de Elena y publicar | 12:00 |
 | 10 | `10_narrate.py` sobre el JSON final; revisar una celda por categoría | Andrés, Camila | JSON definitivo | 12:00 |
 | 11 | 5 sesiones con personas sobre la URL pública | Andrés | URL y un caso revisado | 12:00–15:00 |
 | 12 | Corregir lo que salga de las pruebas | Izel, Elena | Las sesiones | 15:00 |
