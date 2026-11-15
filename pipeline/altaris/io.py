@@ -75,4 +75,6 @@ def read_break2014(path) -> dict[tuple[str, str], dict]:
 def read_enso_json(path) -> dict[int, str]:
     """enso.json de Rol 3: {"years": {"2001": {"phase": ..., "strong": ...}}} -> {año: fase}"""
     d = json.loads(Path(path).read_text(encoding="utf-8"))
+    if "by_indicator" in d:   # {indicador: {año: fase}}
+        return {k: {int(y): v["phase"] for y, v in yy.items()} for k, yy in d["by_indicator"].items()}
     return {int(y): v["phase"] for y, v in d["years"].items()}

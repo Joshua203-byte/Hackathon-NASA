@@ -73,7 +73,8 @@ def run(cells, series, cfg, out_dir, *, monthly=None, enso_results=None, breaks=
             er = enso_results.get((c, k))
             tags = ["alta_variabilidad"] if math.isfinite(a.cv) and a.cv >= cv_thr[k] else []
             built = analyze.build_indicator(
-                a, cfg, cfg["indicators"][k]["units"], p_fdr=p_fdr[(c, k)], enso_phase=enso_phase,
+                a, cfg, cfg["indicators"][k]["units"], p_fdr=p_fdr[(c, k)],
+                enso_phase=(enso_phase.get(k) if enso_phase and k in enso_phase else enso_phase),
                 enso_test=er, break_2014=breaks.get((c, k)), tags=tags)
             nar = (narratives or {}).get(f"{c}|{k}")
             built["narrative"] = nar if nar else narrative.template(
