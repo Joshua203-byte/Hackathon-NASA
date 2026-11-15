@@ -1,0 +1,9 @@
+# Versiones con las que se probó el motor (Python 3.10 y 3.13). Fijar al congelar.
+numpy>=2.0
+scipy>=1.14
+pandas>=2.2
+statsmodels>=0.14
+pymannkendall>=1.4.3
+joblib>=1.4
+pyyaml>=6.0
+pytest>=8.0
