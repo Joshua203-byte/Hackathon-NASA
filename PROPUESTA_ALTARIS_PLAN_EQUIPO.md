@@ -2,12 +2,27 @@
 
 **Reto:** NASA Space Apps Challenge 2026 — *Be An Earth System Trend Detective!*
 **Equipo:** Camila, Joshua, Elena, Izel, David y un sexto integrante por confirmar
-**Versión 2:** sábado 14 nov 2026, 19:50 (hora de El Salvador). Incorpora la revisión del grupo.
+**Versión 3:** sábado 14 nov 2026, 20:10 (hora de El Salvador). Incorpora la revisión del grupo y las evidencias verificables por criterio de evaluación.
 **Cierre de entrega:** domingo 15 nov 2026, 23:59 hora local. **Meta interna de entrega: domingo 21:00.**
 
 > Este documento describe el **alcance máximo**. Cada pieza lleva una prioridad (P0, P1, P2) para poder recortar sin rediseñar. Es **autosuficiente**: reemplaza al contexto maestro anterior y no depende de ningún otro archivo del repo.
 
-### Cambios de la versión 2
+### Cambios de la versión 3 (sobre la v2)
+
+| Cambio | Antes (v2) | Ahora (v3) |
+|---|---|---|
+| Criterios de evaluación | Una tabla de cobertura | Evidencias y pruebas de aceptación por criterio, con dueño y compuerta a las 18:00 (sección 1.5) |
+| Idea del grupo: clasificación por sector | Solo tarjetas de preguntas | Selector de lente que recolorea el mapa con los veredictos ya calculados (P1, sección 4.12) |
+| Idea del grupo: aprender | Glosario y narrador | Recorrido guiado de 4 pasos para no expertos (P1, sección 4.13) |
+| Globo 3D | Textura estática | Textura satelital de NASA con licencia confirmada; se puede empezar antes del mediodía |
+| Impact | No se declaraba replicabilidad | Replicable cambiando `config.yaml`, con prueba y README (P1) |
+| Creativity | Sin posicionamiento | Sección 1.6, comparada con otras herramientas de NASA y por verificar |
+| Demo en láminas | Sin lámina de equipo | La lámina 1 lleva equipo, integrantes y reto |
+| Uso de IA | Registro de uso | Campo `generated_by` en los textos del narrador y comentario en el código asistido |
+| Formulario con cinco personas | Lo absorbe Rol 3 | Lo redacta Rol 2 |
+| Canícula | Regla ambigua | Promedio de jul–ago contra promedio de jun–sep |
+
+### Cambios de la versión 2 (histórico)
 
 | Cambio | Antes | Ahora |
 |---|---|---|
@@ -29,7 +44,7 @@
 | Tema | Estado | Quién lo cierra |
 |---|---|---|
 | Texto oficial completo del reto | Solo se leyó el resumen publicado por sedes locales; el sitio oficial bloquea lectura automática | Rol 6, antes de las 20:30 |
-| Guía de evaluación 2026 | No leída. Se asumen los 5 criterios de 2025: Impact, Creativity, Validity, Relevance, Presentation | Rol 6 |
+| Guía de evaluación 2026 | Se leyó la guía de jueces de 2025 (los 5 criterios y sus preguntas guía, sección 1.5). La de 2026 no | Rol 6 |
 | Requisitos del formulario de entrega y del video (30 s) | No leídos para 2026. Confirmar duración, formato, idioma y si hay que declarar uso de IA | Rol 6 |
 | Nombres exactos de variables dentro de los archivos IMERG | Indicados de memoria; confirmar con `ds.data_vars` al abrir el primer archivo | Rol 1 |
 | DOI y cita exacta de IMERG y NASA POWER | Confirmar en la página del dataset | Rol 1 |
@@ -41,8 +56,12 @@
 | Qué es exactamente `PRECTOTCORR` de NASA POWER y qué tan independiente es de IMERG | Sin confirmar | Rol 1 |
 | Que la versión de MapLibre elegida traiga proyección de globo | Sin confirmar | Rol 4, en el kickoff |
 | Reglas de entrega citadas en la revisión del grupo (30 s o 7 láminas, marca de agua en contenido generado con IA, sin datos de menores, todo en inglés, enlace público) | Vienen de las guías 2025 | Rol 6 |
+| Campos obligatorios de las láminas (equipo, integrantes, reto, imagen, experiencia de usuario, uso de datos) | De la guía de entrega 2025 | Rol 6 |
+| Licencia y cita de la textura satelital de NASA para el globo | Sin confirmar | Rol 6 |
+| Cobertura de IMERG fuera del Triángulo, para sostener la afirmación de replicabilidad | Sin confirmar | Rol 1 |
+| Afirmaciones sobre Climate Engine, DAVe y AppEEARS (sección 1.6) | Vienen del contexto maestro anterior, sin verificar | Rol 3 |
 
-**Los criterios de evaluación no están en el repo.** Hay que añadirlos a `docs/` cuando Rol 6 los tenga.
+**Los criterios de evaluación no están en el repo.** Hay que añadirlos a `docs/` cuando Rol 6 los tenga. El resumen que usa este plan está en la sección 1.5.
 
 ---
 
@@ -53,7 +72,9 @@
 
 **País foco: Honduras.** El cálculo cubre Guatemala, El Salvador y Honduras, pero los casos guiados y la historia se cuentan desde Honduras. Tiene costa Pacífica (el sur, dentro del Corredor Seco) y costa Caribe, así que el efecto espejo se puede buscar dentro de un solo país.
 
-**De lo global a lo local.** La app abre con un globo 3D, se acerca a Centroamérica y entrega al usuario el mapa por celdas. El globo no lleva datos globales: es la puerta de entrada. No se puede elegir cualquier región del mundo; eso se declara como trabajo futuro.
+**De lo global a lo local.** La app abre con un globo 3D, se acerca a Centroamérica y entrega al usuario el mapa por celdas. El globo usa una textura satelital de NASA y no lleva datos globales: es la puerta de entrada.
+
+**Replicable.** Cambiando el recuadro y el periodo en `config.yaml`, el pipeline regenera todo para otra región dentro de la cobertura de IMERG (se demuestra con un recorte, sección 5.2). En esta entrega solo se publica el Triángulo Norte. Elegir cualquier región desde el globo se declara como trabajo futuro.
 
 ### 1.2 Qué pide el reto y cómo se responde
 
@@ -66,6 +87,7 @@
 | Pista del enunciado: una variable puede subir en una región y bajar en otra por el mismo proceso | Módulo "Efecto espejo": respuesta de Pacífico y Caribe a El Niño |
 | Sistemas interconectados | Segunda variable NASA (radiación solar o temperatura de NASA POWER) junto a la lluvia en los sitios de los 3 casos |
 | ¿Por qué cambia? | Solo como **asociación** (ENSO, estacionalidad). Nunca se afirma causa |
+| ¿Qué significa para mi sector? | Selector de lente (Agricultura, Comunidades, Energía) que muestra qué tan sólida es la evidencia del indicador relevante para cada sector. Nunca un índice de riesgo |
 
 ### 1.3 Los tres diferenciadores
 
@@ -78,17 +100,31 @@
 **Cómo contarlo:** el análisis de sensibilidad a la ventana de años ya existe en la literatura climática. Se presenta como una aplicación original y accesible, no como un método inventado. Las tres piezas que se cuentan son la huella, el veredicto honesto y el espejo.
 
 ### 1.4 Regla de oro (no cambia)
-ALTARIS analiza el pasado. No predice, no da recetas agronómicas y no afirma causas. La IA generativa solo redacta a partir de cifras ya calculadas.
+ALTARIS analiza el pasado. No predice, no da recetas agronómicas y no afirma causas. La IA generativa solo redacta a partir de cifras ya calculadas. Los lentes por sector muestran qué tan sólida es la evidencia del indicador relevante; no miden riesgo ni vulnerabilidad.
 
-### 1.5 Cómo se cubre cada criterio
+### 1.5 Cómo se llega a 10 en cada criterio
 
-| Criterio | Evidencia concreta en la entrega |
-|---|---|
-| Relevance | Las cuatro preguntas del reto respondidas en la primera pantalla; módulo espejo ligado a la pista del enunciado |
-| Validity | Métodos estándar; umbrales fijados antes de ver resultados; pruebas unitarias; tasa de falsos positivos medida; contraste contra una segunda fuente; límites declarados |
-| Creativity | Huella de estabilidad; mapa de solidez; "sin evidencia" tratado como hallazgo |
-| Impact | Corredor Seco; tarjetas de planificación condicionadas al veredicto; prueba con 5 usuarios reales y sus resultados |
-| Presentation | Una sola historia en 30 s; enlace que abre la vista exacta; interfaz bilingüe |
+**Aviso honesto:** 10 es la meta, no una garantía. El jurado puntúa lo que se entrega, y los resultados del análisis no se conocen hasta correrlo. Lo que este plan hace es convertir cada criterio en evidencias que se pueden comprobar antes de las 21:00. Las preguntas de cada criterio vienen de la guía de jueces de 2025 (confirmar con la de 2026).
+
+| Criterio | Qué pregunta la guía | Evidencia que debe existir al entregar | Prueba de aceptación | Dueño en la compuerta |
+|---|---|---|---|---|
+| **Impact** | ¿Cuánta influencia puede tener, en calidad y en cantidad? ¿Ayuda a muchos o a pocos? | Problema real con un dato verificable sobre el Corredor Seco (fuente leída). Tres países y unas 2 000 celdas. Tres lentes de sector. Replicable a otra región cambiando `config.yaml`, con repo abierto y README. Recorrido guiado para no expertos. Prueba con 5 usuarios y resultados reales | La regeneración con otro recuadro funciona (Rol 1, 15:00). Resultados de usuarios en `docs/` con números reales. El formulario dice en tres frases quién lo usa y para qué | Rol 6 |
+| **Creativity** | ¿Es novedoso o una mejora modesta de algo existente? | Huella de estabilidad; mapa por solidez de la evidencia; "sin evidencia" como hallazgo; efecto espejo; del globo a las celdas; posicionamiento comprobado (1.6) | El formulario nombra en una frase lo que, hasta donde pudimos comprobar, no hace otra herramienta. Una persona ajena identifica en 10 segundos qué es distinto en el mapa | Rol 3 |
+| **Validity** | ¿Es científicamente válida? ¿Logrará su meta? ¿Funciona en condiciones reales? | Métodos estándar; umbrales congelados a las 20:15; pruebas unitarias; falsos positivos y potencia; chequeo de 2014; contraste de signo con una segunda fuente; límites visibles; referencias leídas; revisión manual de 10 celdas | Pruebas en verde; todo se regenera con un comando; cada cifra de la entrega existe en los JSON (auditoría de Rol 3); el validador del narrador sin fallos | Rol 2 |
+| **Relevance** | ¿Responde al reto? ¿Está completo, es factible y es fácil de usar? | La tabla 1.2 respondida en la primera pantalla; efecto espejo o su resultado honesto; cada caso muestra la cadena lluvia ↔ ENSO ↔ segunda variable; P0 completo y desplegado; la URL abre en menos de 3 s; vista móvil | Lista P0 marcada a las 12:00; prueba de humo del enlace público cada 3 horas; un usuario completa las 3 tareas sin ayuda | Rol 4 |
+| **Presentation** | ¿Contaron la historia con claridad: reto, solución y por qué importa? | Una frase central; demo en formato válido con los campos obligatorios; formulario redactado desde la mañana; subtítulos en inglés; enlaces públicos; glosario e interfaz ES/EN | Dos ensayos con cronómetro; una persona ajena entiende la idea en 30 segundos; checklist de la sección 9; enlaces probados en incógnito | Rol 5 |
+
+**Compuerta de las 18:00.** Cada dueño revisa la columna de evidencia de su criterio. Lo que falte se corrige; si no hay tiempo, se declara como limitación en la entrega y no se oculta.
+
+### 1.6 Posicionamiento frente a otras herramientas de NASA
+
+Estas comparaciones vienen del contexto maestro anterior y **no están verificadas**. Rol 3 las comprueba abriendo la documentación de cada herramienta antes de usarlas en el formulario. Lo que no se pueda comprobar se quita o se escribe como "hasta donde pudimos comprobar".
+
+| Herramienta | Para qué sirve | Lo que ALTARIS añade |
+|---|---|---|
+| NASA POWER DAVe y AppEEARS | Entregan datos y series para usuarios con experiencia | Evalúa si una tendencia se sostiene al cambiar la ventana de años y guía a quien no es técnico. De AppEEARS se adopta la etiqueta de completitud del dato |
+| Climate Engine | Calcula tendencias sobre datos satelitales | Pruebas de sensibilidad interactivas, veredicto de solidez y preguntas para decidir |
+| NASA SERVIR (índice de estrés evaporativo) y NASA Harvest | Monitoreo operativo de sequía y cultivos | ALTARIS es la puerta de entrada educativa y enlaza a ellas como siguiente paso; no las sustituye |
 
 ---
 
@@ -96,7 +132,7 @@ ALTARIS analiza el pasado. No predice, no da recetas agronómicas y no afirma ca
 
 | Prioridad | Pieza | Si se recorta |
 |---|---|---|
-| **P0** | Cubo IMERG mensual 2001–2024 recortado a la región | Plan B: NASA POWER por puntos |
+| **P0** | Cubo IMERG mensual 2001–2024 (o hasta 2025 si está completo) recortado a la región | Plan B: NASA POWER por puntos |
 | **P0** | Indicadores may–oct, jul–ago y anual por celda y año, más el ciclo mensual medio por celda | — |
 | **P0** | Sen + Mann-Kendall + FDR por celda | — |
 | **P0** | Huella de estabilidad (todas las ventanas) | Reducir a 3 ventanas fijas |
@@ -106,7 +142,10 @@ ALTARIS analiza el pasado. No predice, no da recetas agronómicas y no afirma ca
 | **P0** | Demo (video de 30 s o 7 láminas) + formulario en inglés | — |
 | **P1** | Chequeo del salto TRMM→GPM (2014) y marca de 2014 en la huella | Se declara como limitación |
 | **P1** | Segunda variable NASA POWER en los sitios de los 3 casos | La lente de Energía muestra "Análisis cuantitativo pendiente" |
-| **P1** | Globo 3D de entrada con acercamiento a la región | La app abre directo en el mapa |
+| **P1** | Globo 3D de entrada con textura satelital de NASA y acercamiento a la región | La app abre directo en el mapa |
+| **P1** | Selector de lente por sector (Agricultura, Comunidades, Energía) que recolorea el mapa con los veredictos ya calculados | Se queda solo la lente de Agricultura |
+| **P1** | Recorrido guiado de 4 pasos dentro del Caso 1, para aprender qué es una tendencia y por qué importa la ventana | Se deja el glosario con tooltips |
+| **P1** | Prueba de replicabilidad: regenerar con otro recuadro (solo El Salvador) y README para otra región | Se quita la frase de replicabilidad del formulario |
 | **P1** | ENSO: clasificación de años, mapa de correlación, vista espejo, prueba ENSO | Queda solo el Caso 3 con dos sitios |
 | **P1** | Tarjetas de preguntas para decidir (Agricultura, Comunidades) | Una sola tarjeta genérica |
 | **P1** | Evidence Passport (JSON + Markdown + imprimir) | Solo descarga JSON |
@@ -120,7 +159,7 @@ ALTARIS analiza el pasado. No predice, no da recetas agronómicas y no afirma ca
 
 **Fuera del alcance (trabajo futuro en el formulario):** capa global de tendencias, elegir cualquier región del mundo, índice de vulnerabilidad social.
 
-**Orden de recorte si hay retraso:** P2 completo → globo 3D → narrador con IA → segunda variable → interfaz en español → casos 2 y 3 → mapa completo (pasar a puntos).
+**Orden de recorte si hay retraso:** P2 completo → globo 3D → narrador con IA → segunda variable → interfaz en español → casos 2 y 3 → recorrido guiado → selector de lente → mapa completo (pasar a puntos).
 
 ---
 
@@ -181,7 +220,8 @@ Hackathon-NASA/
     "false_positive_rate": {"consistente": null, "limitada": null},
     "power": {"injected_trend_pct_per_decade": -10, "detected_consistente": null, "detected_limitada_o_mas": null}
   },
-  "aux_data": ["NOAA CPC ONI"]
+  "aux_data": ["NOAA CPC ONI", "Textura satelital de la Tierra (NASA)"],
+  "lenses": {"agri": ["may_oct_mm", "jul_aug_mm"], "com": ["annual_mm"], "ene": []}
 }
 ```
 
@@ -234,7 +274,7 @@ Hackathon-NASA/
       "break_2014": {"pettitt_year": 2014, "p": 0.21, "flag": false},
       "verdict": "limitada",
       "verdict_reasons": ["fdr_no_significativo", "huella_inestable"],
-      "narrative": {"es": "...", "en": "..."},
+      "narrative": {"es": "...", "en": "...", "generated_by": "AI | template"},
       "limitations": ["..."]
     }
   }
@@ -242,7 +282,7 @@ Hackathon-NASA/
 ```
 `footprint` es una lista de `[año_inicio, año_fin, pendiente_por_década, p]`.
 
-**Otros archivos:** `enso.json` (ONI por año y fase), `cases.json` (3 casos con su enlace profundo), `glossary.json`, `decision_rules.json`, `borders.geojson`.
+**Otros archivos:** `enso.json` (ONI por año y fase), `cases.json` (3 casos con su enlace profundo), `glossary.json`, `decision_rules.json`, `tour.json` (textos del recorrido guiado, ES/EN), `borders.geojson`.
 
 **Identificador de celda:** centro de la celda, 2 decimales sin punto: `N1345W08815` = 13.45° N, 88.15° O.
 
@@ -250,7 +290,9 @@ Hackathon-NASA/
 
 ### 3.3 Parámetros de URL
 
-`?cell=N1345W08815&ind=jul_aug_mm&win=2004-2024&layer=verdict&enso=off&lang=es&case=2`
+`?cell=N1345W08815&ind=jul_aug_mm&win=2004-2024&layer=verdict&enso=off&lang=es&case=2&lens=agri&tour=0`
+
+`lens` toma `agri`, `com` o `ene`. `tour=1` abre el recorrido guiado.
 
 ---
 
@@ -287,7 +329,7 @@ Nunca se rellena con ceros. La anomalía es el valor menos la media del periodo 
 
 **Ciclo mensual por celda:** media de cada mes del año sobre todo el periodo (12 valores). Sirve para dos cosas:
 - Mostrar en el panel cuándo llueve en esa celda.
-- Marcar dónde el indicador `jul_aug_mm` tiene sentido. La canícula es un rasgo del lado Pacífico. Regla: la celda tiene canícula si la lluvia media de julio y agosto es menor que la de junio y la de septiembre. Donde no se cumple, la interfaz avisa "en esta zona el indicador de canícula no aplica" y usa el anual por defecto.
+- Marcar dónde el indicador `jul_aug_mm` tiene sentido. La canícula es un rasgo del lado Pacífico. Regla: la celda tiene canícula si el promedio de la lluvia media de julio y agosto es menor que el promedio de la de junio y septiembre. El umbral se confirma en el kickoff y queda en `config.yaml`. Donde no se cumple, la interfaz avisa "en esta zona el indicador de canícula no aplica" y usa el anual por defecto.
 
 ### 4.3 Tendencia y significancia
 
@@ -405,6 +447,31 @@ ALTARIS no dice qué hacer. Según el escenario y el veredicto, muestra las preg
 
 **Siguiente paso operativo:** enlaces a SERVIR y a NASA Harvest para monitoreo actual de sequía y cultivos. Rol 6 verifica que los enlaces abran.
 
+### 4.12 Selector de lente por sector (P1)
+
+El selector cambia el indicador que pinta el mapa y las tarjetas del panel. No calcula nada nuevo: usa los veredictos que ya existen.
+
+| Lente | Indicadores | Qué muestra el mapa | Límite |
+|---|---|---|---|
+| Agricultura | `may_oct_mm` y `jul_aug_mm` (este último solo donde aplica la canícula) | Veredicto de lluvia de temporada y de canícula | No mide humedad del suelo ni rendimiento de cultivos |
+| Comunidades | `annual_mm` y la etiqueta `alta_variabilidad` | Veredicto de lluvia anual y celdas de alta variabilidad | No es un índice de vulnerabilidad: no incluye población ni infraestructura |
+| Energía | Segunda variable de NASA POWER (P1) | Solo los sitios de los casos | Sin segunda variable: "Análisis cuantitativo pendiente" |
+
+- La asignación de indicadores a lentes vive en `lenses` de `config.yaml` y se copia a `meta.json`.
+- El texto de la interfaz dice "evidencia para este sector", nunca "riesgo".
+- Donde no hay canícula, la lente de Agricultura usa `may_oct_mm`.
+
+### 4.13 Recorrido guiado de 4 pasos (P1)
+
+Es para quien no es experto. Va dentro del Caso 1, con botón "saltar". Cada paso tiene como máximo dos frases en lenguaje simple y un tooltip del glosario.
+
+1. **¿Qué es una tendencia?** Se muestra la serie y la recta de Sen, con la lluvia en mm por década.
+2. **¿Es de fiar?** Se explica el intervalo de confianza y el p-valor sin jerga, y qué quiere decir `limitada`.
+3. **¿Y si cambio los años?** Se mueve la ventana en la huella y se señala 2014.
+4. **¿Qué preguntas conviene hacerse?** Se abre la tarjeta del sector, con lo que falta saber.
+
+Los textos están en `tour.json` (ES/EN), los escribe Rol 6 y usan solo cifras de la celda del caso. Meta de comprensión: 4 de 5 usuarios responden bien las 2 preguntas de comprensión. Se reportan los resultados reales, sean los que sean.
+
 ---
 
 ## 5. Roles
@@ -420,7 +487,7 @@ La asignación de nombres es **tentativa**: no conozco las fortalezas de cada pe
 | 5 | Web: panel de celda, huella, pasaporte | Izel | Rol 4 |
 | 6 | Producto, contenido, usuarios, demo y entrega | Sexto integrante (por confirmar) | Rol 5 |
 
-Si al final son cinco personas: Rol 3 absorbe la auditoría de textos y el formulario, y Roles 4 y 5 se reparten los textos de la interfaz, las pruebas con usuarios y la demo.
+Rol 6 debe tener dueño nombrado antes de las 20:30. Si al final son cinco personas: Rol 3 mantiene la auditoría de textos; **Rol 2 redacta el formulario en B4–B5**, cuando tiene menos carga; Roles 4 y 5 se reparten los textos de la interfaz, las pruebas con usuarios y la demo; y Rol 1 se encarga de la lista de recursos externos y del registro de uso de IA.
 
 ### 5.1 Calendario común
 
@@ -432,13 +499,14 @@ Si al final son cinco personas: Rol 3 absorbe la auditoría de textos y el formu
 | B3 | Dom 06:00–12:00 | **H3 (12:00):** P0 completo y desplegado; ENSO integrado |
 | B4 | Dom 12:00–15:00 | Pruebas con usuarios; **H4 (15:00): congelación de funciones** |
 | B5 | Dom 15:00–18:00 | Solo arreglos; **H5 (18:00):** demo lista (video o láminas), formulario completo |
-| B6 | Dom 18:00–21:00 | Revisión final; **H6 (21:00): ENTREGA** |
+| B6 | Dom 18:00–21:00 | **Compuerta por criterio (18:00–19:00)**, revisión final; **H6 (21:00): ENTREGA** |
 | B7 | Dom 21:00–23:59 | Colchón. No se añaden funciones |
 
 **Puntos de decisión:**
 - **Sáb 23:00 — datos:** si IMERG no está descargado al menos en un 50 %, activar Plan B (sección 7).
 - **Dom 06:00 — mapa:** si el cálculo de todas las celdas no terminó, bajar a rejilla de 0.2° o a 30 puntos.
 - **Dom 12:00 — P2:** se hace P2 solo si P0 y P1 están desplegados y funcionando.
+- **Dom 18:00 — compuerta por criterio:** cada dueño (sección 1.5) comprueba la evidencia de su criterio. Lo que falte se corrige o se declara como limitación.
 
 **Sincronizaciones de 10 minutos:** 00:00, 06:00, 12:00, 15:00, 18:00.
 
@@ -477,6 +545,8 @@ Si al final son cinco personas: Rol 3 absorbe la auditoría de textos y el formu
 **B4–B5 (12:00–18:00)**
 - [ ] Terminar lo que quede de la segunda variable y del chequeo de 2014.
 - [ ] Lista de recursos externos del pipeline (datos y librerías) para el formulario.
+- [ ] P1: prueba de replicabilidad. Regenerar indicadores y tendencias con un recuadro menor (solo El Salvador) cambiando únicamente `config.yaml`; anotar tiempo y comandos para la sección "Otra región" del README.
+- [ ] Confirmar la cobertura de IMERG fuera del Triángulo antes de que el formulario afirme que es replicable.
 - [ ] Apoyo a Rol 2 en regeneración de JSON.
 
 **Listo cuando:** el cubo tiene 288 meses, la conversión está probada, y otra persona puede regenerar todo con un comando.
@@ -505,7 +575,7 @@ Si al final son cinco personas: Rol 3 absorbe la auditoría de textos y el formu
 **B2 (00:00–04:30)**
 - [ ] `04_trends.py` sobre todas las celdas y los indicadores. Medir tiempo en 50 celdas antes de lanzar todo.
 - [ ] Si es lento: paralelizar con `joblib` por celda.
-- [ ] `05_footprint.py`: 120 ventanas por serie.
+- [ ] `05_footprint.py`: 120 ventanas por serie con 2001–2024 (136 con 2001–2025).
 - [ ] FDR por indicador sobre las celdas de tierra.
 - [ ] `08_verdict.py` (sin la condición ENSO si Rol 3 aún no entrega; se añade después).
 - [ ] Exportar JSON v1 y avisar a Rol 4 y Rol 5. Es el H2.
@@ -518,6 +588,7 @@ Si al final son cinco personas: Rol 3 absorbe la auditoría de textos y el formu
 **B4–B5**
 - [ ] Revisar a mano 10 celdas al azar: ¿el veredicto coincide con lo que se ve en la serie y la huella?
 - [ ] Escribir el fragmento de "receta reproducible" del pasaporte.
+- [ ] Si son cinco personas: redactar el formulario en inglés (cifras de Rol 2, textos de Rol 3 y Rol 6).
 - [ ] Regeneraciones finales. Después de las 15:00 solo se regenera si hay un error.
 
 **Listo cuando:** las pruebas pasan, el mismo dato produce siempre el mismo JSON, y cada veredicto trae sus razones en `verdict_reasons`.
@@ -559,6 +630,7 @@ Si al final son cinco personas: Rol 3 absorbe la auditoría de textos y el formu
 - [ ] Auditoría de textos: revisar cada frase de la web, el video y el formulario contra la regla de oro. Marcar toda frase que suene a predicción o a causa.
 - [ ] Lista final de limitaciones (sección 4.9) para el pasaporte.
 - [ ] Preparar respuestas a preguntas probables del jurado: por qué no ML, por qué 24 años, por qué ONI, qué pasa con 2014.
+- [ ] Verificar cada afirmación sobre otras herramientas de NASA (sección 1.6) abriendo su documentación. Lo que no se pueda comprobar se quita o se escribe como "hasta donde pudimos comprobar".
 
 **Listo cuando:** cada afirmación científica de la entrega tiene un número en los JSON o una referencia leída que la respalde.
 
@@ -585,15 +657,17 @@ Si al final son cinco personas: Rol 3 absorbe la auditoría de textos y el formu
 **B3 (06:00–12:00)**
 - [ ] Conectar los JSON reales. Medir rendimiento con unas 2 000 celdas; si va lento, pasar a canvas o a una capa ráster.
 - [ ] Capas del mapa: veredicto (por defecto), pendiente, estabilidad (`sign_agreement`), respuesta a ENSO.
+- [ ] Selector de lente (Agricultura, Comunidades, Energía) que cambia el indicador mostrado y recolorea el mapa según `lenses` de `meta.json` (sección 4.12).
 - [ ] Leyenda por capa. Paleta distinguible para daltonismo; el veredicto no depende solo del color (añadir textura o icono).
 - [ ] Bordes de países y nombres de referencia.
 - [ ] Pantalla de entrada "Claim Investigator": tres preguntas que abren los 3 casos.
-- [ ] **Globo 3D (P1), solo cuando el mapa por celdas ya funcione con datos reales:**
-  - Vista inicial en proyección de globo, con textura estática de la Tierra y sin llamadas en vivo.
+- [ ] **Globo 3D (P1).** No depende de datos, así que se empieza en cuanto el mapa por celdas esté desplegado (primer despliegue de B1), y se avanza en los huecos de B1 y B2. Si Rol 4 no puede, lo toma Rol 5.
+  - Proyección de globo con una textura satelital de NASA (por ejemplo Blue Marble). Confirmar licencia y cita con Rol 6. Sin llamadas en vivo.
   - La región del Triángulo resaltada; Honduras marcada como foco.
   - Animación de acercamiento hasta la región; al llegar, se pasa a la vista por celdas.
   - Botón "saltar" para ir directo al mapa, y los enlaces profundos abren sin pasar por el globo.
-  - Tope de 3 a 4 horas. Si a las 12:00 no está, se recorta.
+  - Versión mínima antes del sueño (esfera, textura, acercamiento), aunque sea sencilla; los detalles después.
+  - Tope de 3 a 4 horas en total. Si a las 12:00 no está, se recorta.
 
 **B4–B5 (12:00–18:00)**
 - [ ] Interfaz ES/EN.
@@ -631,6 +705,7 @@ Si al final son cinco personas: Rol 3 absorbe la auditoría de textos y el formu
 
 **B4–B5 (12:00–18:00)**
 - [ ] Tarjetas leyendo `decision_rules.json`: Qué observamos / Preguntas para decidir / Datos locales que faltan. Ninguna tarjeta recomienda una acción.
+- [ ] Recorrido guiado de 4 pasos (sección 4.13): superposición sencilla sobre el panel, con botón "saltar", leyendo `tour.json`.
 - [ ] Junto al veredicto `limitada`, el texto "señal débil, no confirmada". Aviso de "indicador de canícula no aplica" donde corresponda.
 - [ ] Bloque de la segunda variable en los sitios de los casos.
 - [ ] Evidence Passport: descarga JSON, descarga Markdown, hoja de estilo para imprimir, botón de copiar enlace.
@@ -657,6 +732,7 @@ Si al final son cinco personas: Rol 3 absorbe la auditoría de textos y el formu
 - [ ] Enlaces de siguiente paso: SERVIR y NASA Harvest. Verificar que los enlaces abran.
 - [ ] **Decidir el formato de la demo** según la guía 2026: video de 30 s o 7 láminas (sección 8). Pasarse del límite puede dejar el proyecto fuera del juicio global.
 - [ ] Abrir el documento del formulario y dejar la estructura lista.
+- [ ] Anotar la fuente leída de al menos un dato que muestre por qué el Corredor Seco importa (para el formulario). Solo datos que alguien abrió y leyó.
 
 **B3 (05:30–12:00)**
 - [ ] Narrador (`10_narrate.py`):
@@ -666,10 +742,12 @@ Si al final son cinco personas: Rol 3 absorbe la auditoría de textos y el formu
   - Con unas 2 000 celdas, generar con IA solo los 3 casos y las celdas de sitios con nombre; el resto usa plantilla.
   - Plan B: plantillas de texto para todo.
 - [ ] Textos de los 3 casos a partir de lo que elija Rol 3.
+- [ ] `tour.json`: los 4 pasos del recorrido guiado, en ES y EN, en lenguaje simple (sección 4.13).
 - [ ] **Formulario en inglés, desde las 06:00 y en paralelo con todo lo demás.** Según la revisión del grupo, los jueces evalúan sobre todo el texto de la entrega. Se redacta por secciones y se completan las cifras cuando Rol 2 las tenga.
 - [ ] **Registro de uso de IA**, desde ya: qué herramienta, para qué y en qué archivos (narrador, código asistido, textos, voz sintética si la hay). Si la guía 2026 lo pide, marca de agua visible en imágenes o video generados con IA.
+  - El narrador escribe `generated_by` en cada texto de `narrative`; el código asistido lleva un comentario de cabecera; si hay voz sintética o imágenes generadas, se anotan y se marcan como pida la guía.
 - [ ] **Lista de recursos externos:** datos, librerías del pipeline y de la web, textura del globo, límites de países.
-- [ ] Protocolo de prueba con usuarios: 3 tareas ("encontrá tu zona", "¿la lluvia está bajando ahí?", "¿qué harías con esto?") y 2 preguntas de comprensión.
+- [ ] Protocolo de prueba con usuarios: 3 tareas ("encontrá tu zona", "¿la lluvia está bajando ahí?", "¿qué harías con esto?") y 2 preguntas de comprensión. Meta: 4 de 5 completan las 3 tareas y responden bien las 2 preguntas. Es una meta; se reportan los resultados reales, sean los que sean.
 - [ ] Reclutar 5 personas adultas (ideal: alguien de agricultura, un técnico municipal, un estudiante universitario, dos ajenos al tema). **Sin menores de 18, sin nombres, sin fotos ni grabación de rostros.** Los resultados se guardan anónimos.
 
 **B4 (12:00–15:00)**
@@ -679,6 +757,8 @@ Si al final son cinco personas: Rol 3 absorbe la auditoría de textos y el formu
 
 **B5 (15:00–18:00)**
 - [ ] Producir la demo sobre la app congelada: video con dos tomas de respaldo, o las 7 láminas. Si el video lleva voz en español, subtítulos en inglés.
+- [ ] Si la demo son láminas: la lámina 1 lleva nombre del equipo, integrantes y reto (campos de la guía; confirmar con la de 2026).
+- [ ] Ensayar la demo con cronómetro dos veces y mostrarla a una persona ajena. Si no entiende la idea en 30 segundos, se ajusta la primera lámina o escena.
 - [ ] Cerrar el formulario: completar cifras finales, datos NASA usados, datos auxiliares, uso de IA, recursos externos, trabajo futuro, enlaces al repo y a la demo.
 - [ ] README del repo: qué es, cómo reproducir, estructura, créditos, limitaciones.
 
@@ -719,6 +799,9 @@ App congelada (15:00)          ──► Rol 6: video (17:00) ──► entrega 
 | Falla el despliegue | Dom 12:00 sin URL pública | Segundo proveedor ya preparado; última opción: demo grabada |
 | El reto exige algo no previsto | Lectura de Rol 6 en B0 | Reunión de 10 minutos y ajuste del alcance |
 | Cansancio y errores de última hora | — | Congelación a las 15:00 y entrega a las 21:00 |
+| Rol 6 sin dueño a las 20:30 | Nadie ha leído las guías 2026 | Se nombra dueño en el kickoff; si son cinco, Rol 2 asume el formulario (sección 5) |
+| La textura del globo no tiene licencia clara | Rol 6 no la confirma | Textura sencilla propia o quitar el globo |
+| Una afirmación sobre otra herramienta de NASA no se puede comprobar | Rol 3 no la verifica | Se quita o se escribe "hasta donde pudimos comprobar" |
 
 ---
 
@@ -728,15 +811,17 @@ Rol 6 confirma en la guía 2026 qué formatos se aceptan. Si se aceptan los dos,
 
 ### Opción A — 7 láminas (borrador)
 
+La guía 2025 pedía en las láminas: nombre del equipo, integrantes, reto elegido, una imagen del proyecto, la experiencia de usuario y cómo se usaron los datos de agencias espaciales. El máximo es 7 láminas, incluida la portada. Confirmar con la guía 2026.
+
 | # | Contenido |
 |---|---|
-| 1 | La afirmación que todos repiten sobre la lluvia, y la pregunta: ¿se sostiene? |
-| 2 | Qué hace ALTARIS, en una frase, y los datos NASA que usa |
-| 3 | Del globo a Honduras: el mapa de veredictos |
+| 1 | Portada: nombre del equipo, integrantes, reto elegido y la pregunta "¿se sostiene lo que todos dicen de la lluvia?" |
+| 2 | Qué hace ALTARIS en una frase; datos NASA usados (IMERG, POWER) y datos auxiliares |
+| 3 | Experiencia de usuario: del globo a Honduras, el mapa de veredictos y el selector de lente |
 | 4 | La huella de estabilidad con un caso real: la tendencia que aparece y desaparece |
-| 5 | El efecto espejo: un mismo fenómeno, dos señales (o lo que muestren los datos) |
-| 6 | Qué tan fiable es el propio veredicto: falsos positivos, potencia, límites |
-| 7 | Para quién sirve: preguntas para decidir, resultados con 5 usuarios, enlace a la demo |
+| 5 | El efecto espejo (o lo que muestren los datos) y la segunda variable |
+| 6 | Qué tan fiable es el propio veredicto: falsos positivos, potencia y límites |
+| 7 | Para quién sirve: resultados de los 5 usuarios, replicable a otras regiones y enlace a la demo |
 
 ### Opción B — Video de 30 segundos (borrador)
 
@@ -767,6 +852,12 @@ Las frases de los segundos 12–26 se ajustan a lo que muestren los datos reales
 - [ ] Uso de IA declarado (narrador, y cualquier asistencia de código o texto)
 - [ ] Limitaciones visibles en la app y en el pasaporte
 - [ ] Resultados de la prueba con usuarios incluidos
+- [ ] Si la demo son láminas: la primera lleva nombre del equipo, integrantes y reto
+- [ ] `generated_by` en los textos del narrador y registro de uso de IA completo
+- [ ] Textura del globo con licencia y cita confirmadas
+- [ ] Afirmación de replicabilidad comprobada con un recorte de otro recuadro
+- [ ] Afirmaciones sobre otras herramientas de NASA verificadas
+- [ ] Compuerta por criterio de las 18:00 hecha por cada dueño (sección 1.5)
 - [ ] Botón "Submit for Judging" pulsado antes de las 21:00 y captura guardada
 
 ---
@@ -779,3 +870,5 @@ Las frases de los segundos 12–26 se ajustan a lo que muestren los datos reales
 3. ¿Quién tiene acceso a una API de IA generativa para el narrador, y con qué límite?
 4. ¿Hay alguien con contactos en agricultura o alcaldías para las 5 pruebas del domingo?
 5. ¿La asignación de roles de la sección 5 coincide con las fortalezas reales de cada uno?
+6. ¿Se aceptan los dueños de criterio de la compuerta de las 18:00 (sección 1.5)?
+7. ¿Quién puede construir el globo si Rol 4 no llega?
