@@ -55,7 +55,8 @@ def imerg_grid(bbox) -> tuple[np.ndarray, np.ndarray]:
 
 def cells_only(cfg):
     lat, lon = imerg_grid(cfg["bbox"])
-    shapes = imerg.load_country_shapes(natural_earth_shp(), list(imerg.COUNTRIES))
+    codes = imerg.active_countries(cfg)
+    shapes = imerg.load_country_shapes(natural_earth_shp(), codes)
     owner = imerg.assign_countries(lat, lon, shapes)
     OUT.mkdir(parents=True, exist_ok=True)
     import csv
@@ -65,7 +66,7 @@ def cells_only(cfg):
         for (la, lo), code in sorted(owner.items(), key=lambda kv: imerg.cell_id(*kv[0])):
             w.writerow([imerg.cell_id(la, lo), f"{la:.2f}", f"{lo:.2f}", code])
     imerg.write_json(imerg.borders_geojson(shapes), OUT / "borders.geojson")
-    by = {c: sum(1 for v in owner.values() if v == c) for c in imerg.COUNTRIES}
+    by = {c: sum(1 for v in owner.values() if v == c) for c in codes}
     print(f"Rejilla {len(lat)} × {len(lon)}; celdas de tierra: {len(owner)} {by}")
     pid = imerg.pilot_cell()
     print(f"Piloto {imerg.PILOT['name']} {pid[0]} → país {owner.get((pid[1], pid[2]))}")
@@ -100,7 +101,8 @@ def main():
     months = [(t.year, t.month) for t in times]
     cube = ds["precip_mm"].values
 
-    shapes = imerg.load_country_shapes(natural_earth_shp(), list(imerg.COUNTRIES))
+    codes = imerg.active_countries(cfg)
+    shapes = imerg.load_country_shapes(natural_earth_shp(), codes)
     owner = imerg.assign_countries(lat, lon, shapes)
     cells, monthly = [], {}
     li = {round(v, 2): i for i, v in enumerate(lat)}
@@ -109,7 +111,7 @@ def main():
         cid = imerg.cell_id(la, lo)
         cells.append({"cell_id": cid, "lat": la, "lon": lo, "country": code})
         monthly[cid] = cube[:, li[la], lj[lo]]
-    by_country = {c: sum(1 for x in cells if x["country"] == c) for c in imerg.COUNTRIES}
+    by_country = {c: sum(1 for x in cells if x["country"] == c) for c in codes}
     print(f"Celdas de tierra: {len(cells)} {by_country}")
 
     files = deliver.write_deliverables(OUT, cells, monthly, months, cfg)
@@ -127,7 +129,7 @@ def main():
         "indicators": {k: v["months"] for k, v in cfg["indicators"].items()},
         "validity_rule": "un indicador de un año es válido solo si existen todos sus meses; nunca se rellena con 0",
         "mask": {"source": "Natural Earth 10m admin 0 (auxiliar, no NASA)", "url": imerg.NATURAL_EARTH_URL,
-                 "rule": "centro de la celda dentro del país", "countries": imerg.COUNTRIES, "cells": by_country},
+                 "rule": "centro de la celda dentro del país", "countries": {c: imerg.COUNTRY_NAMES[c] for c in codes}, "cells": by_country},
         "pilot": dict(zip(("cell_id", "lat", "lon"), imerg.pilot_cell())) | {"name": imerg.PILOT["name"]},
         "quality": qc,
         "generated_at": imerg.now_iso(),

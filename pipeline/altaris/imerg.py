@@ -43,7 +43,9 @@ CITATION = ("Huffman, G.J., E.F. Stocker, D.T. Bolvin, E.J. Nelkin, J. Tan (2023
             "Data and Information Services Center (GES DISC), https://doi.org/10.5067/GPM/IMERG/3B-MONTH/07")
 OPENDAP_BASE = f"https://opendap.earthdata.nasa.gov/collections/{CONCEPT_ID}/granules/"
 VAR = "precipitation"
-COUNTRIES = {"GTM": "Guatemala", "SLV": "El Salvador", "HND": "Honduras"}
+COUNTRIES = {"GTM": "Guatemala", "SLV": "El Salvador", "HND": "Honduras"}   # region por defecto (Triangulo Norte)
+# Nombres de los paises que se pueden pedir con `countries:` en la config (ISO 3166-1 alfa-3, como en Natural Earth).
+COUNTRY_NAMES = {**COUNTRIES, "BLZ": "Belice", "NIC": "Nicaragua", "CRI": "Costa Rica", "PAN": "Panamá"}
 NATURAL_EARTH_URL = "https://naciscdn.org/naturalearth/10m/cultural/ne_10m_admin_0_countries.zip"
 
 # Choluteca (Honduras), sitio piloto del plan (zona del Corredor Seco).
@@ -207,6 +209,17 @@ def _jsonable(x):
 # Máscara de países (Natural Earth admin 0)
 # ---------------------------------------------------------------------------
 
+def active_countries(cfg: dict) -> list[str]:
+    """Paises de la corrida: `countries` de la config, o el Triangulo Norte si no se indica (no cambia corridas previas)."""
+    codes = list(cfg.get("countries") or COUNTRIES)
+    unknown = [c for c in codes if c not in COUNTRY_NAMES]
+    if unknown:
+        raise ValueError(f"Pais sin nombre en imerg.COUNTRY_NAMES: {unknown}")
+    if len(set(codes)) != len(codes):
+        raise ValueError(f"Pais repetido en `countries`: {codes}")
+    return codes
+
+
 def load_country_shapes(shp_path: Path, iso3: list[str]):
     """{ISO3: geometría shapely} desde el shapefile de Natural Earth 10m admin 0."""
     import shapefile  # pyshp
@@ -244,7 +257,7 @@ def borders_geojson(shapes: dict, tolerance: float = 0.005) -> dict:
 
     feats = []
     for code, geom in sorted(shapes.items()):
-        feats.append({"type": "Feature", "properties": {"iso3": code, "name": COUNTRIES[code]},
+        feats.append({"type": "Feature", "properties": {"iso3": code, "name": COUNTRY_NAMES[code]},
                       "geometry": mapping(geom.simplify(tolerance, preserve_topology=True))})
     return {"type": "FeatureCollection", "features": feats}
 

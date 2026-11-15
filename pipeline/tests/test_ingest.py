@@ -217,3 +217,16 @@ def test_power_media_estacional_no_rellena():
     vals = {(2001, m): float(m) for m in range(1, 13)} | {(2002, m): float(m) for m in range(1, 13)}
     vals[(2002, 7)] = None
     assert pw.seasonal_mean(vals, [2001, 2002], range(5, 11)) == [pytest.approx(7.5), None]
+
+
+def test_paises_activos_por_config():
+    # sin `countries` se conserva el Triangulo Norte: las corridas anteriores no cambian
+    assert imerg.active_countries({}) == ["GTM", "SLV", "HND"]
+    ca = ["GTM", "SLV", "HND", "BLZ", "NIC", "CRI", "PAN"]
+    assert imerg.active_countries({"countries": ca}) == ca
+    assert imerg.COUNTRY_NAMES["PAN"] == "Panamá" and set(imerg.COUNTRIES) <= set(imerg.COUNTRY_NAMES)
+    import pytest
+    with pytest.raises(ValueError):
+        imerg.active_countries({"countries": ["HND", "XXX"]})
+    with pytest.raises(ValueError):
+        imerg.active_countries({"countries": ["HND", "HND"]})
