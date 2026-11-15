@@ -1,8 +1,9 @@
-// Host independiente del panel; Rol 4 puede sustituirlo al integrar su mapa MapLibre.
+// Host del panel con el mapa MapLibre de Rol 4 (RegionMap) y la rejilla SVG como respaldo.
 import { CellMap } from './panel/components/CellMap';
 import { selectIndicator } from './panel/lenses';
 import { useEffect } from 'react';
 import { lazy, Suspense } from 'react';
+const RegionMap = lazy(() => import('./panel/components/RegionMap').then(m => ({ default: m.RegionMap })));
 const CellPanel = lazy(() => import('./panel/components/CellPanel').then(m => ({ default: m.CellPanel })));
 import { useBoot, useCell } from './panel/data';
 import { INDICATORS } from './panel/types';
@@ -32,6 +33,7 @@ export function Shell() {
   if (!boot) return <p>Cargando…</p>;
   const gridRow = boot.grid.find((c) => c.id === url.cell) ?? null;
   const es = url.lang === 'es';
+  const selectCell = (id: string) => setUrl({ cell: id, win: null }, 'push');
 
   return (
     <div className="shell">
@@ -57,7 +59,11 @@ export function Shell() {
         <button onClick={() => setUrl({ tour: 1 })}>{es ? 'Recorrido' : 'Tour'}</button>
       </header>
       {(boot.meta.data_kind !== 'observed' || boot.meta.pipeline_commit === 'MOCK') && <p role="note" className="notice">{es ? 'DEMOSTRACIÓN: datos simulados o sin validación de procedencia. No usar para decisiones.' : 'DEMO: simulated data or unverified provenance. Do not use for decisions.'}</p>}
-      <CellMap cells={boot.grid} meta={boot.meta} ind={url.ind} selected={url.cell} onSelect={id => setUrl({ cell: id, win: null }, 'push')} lang={url.lang} />
+      {/* Rol 4: MapLibre; si no hay WebGL se usa la rejilla SVG sin mapa base. */}
+      <Suspense fallback={<p className="region-map-loading">{es ? 'Cargando mapa…' : 'Loading map…'}</p>}>
+        <RegionMap cells={boot.grid} meta={boot.meta} ind={url.ind} selected={url.cell} onSelect={selectCell} lang={url.lang}
+          fallback={<CellMap cells={boot.grid} meta={boot.meta} ind={url.ind} selected={url.cell} onSelect={selectCell} lang={url.lang} />} />
+      </Suspense>
       <label className="mirror-picker no-print">{es ? 'Comparar con otra celda' : 'Compare another cell'} <select aria-label={es ? 'Celda espejo' : 'Mirror cell'} value={mirrorId ?? ''} onChange={e => { const q = new URLSearchParams(location.search); q.delete('case'); if (e.target.value) q.set('mirror', e.target.value); else q.delete('mirror'); history.replaceState(null, '', `?${q}`); dispatchEvent(new PopStateEvent('popstate')); }}><option value="">—</option>{boot.grid.filter(c => c.id !== url.cell).map(c => <option key={c.id}>{c.id}</option>)}</select></label>
       <Suspense fallback={<p>{es ? "Cargando panel…" : "Loading panel…"}</p>}><CellPanel cell={cell} gridRow={gridRow} meta={boot.meta} status={status} refs={boot.refs} mirror={mirror.cell} /></Suspense>
     </div>
