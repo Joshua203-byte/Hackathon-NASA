@@ -90,7 +90,7 @@ export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback
     map.touchZoomRotate.disableRotation();
     map.keyboard.disableRotation();
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
-    map.addControl(new maplibregl.AttributionControl({ compact: true, customAttribution: 'Bordes: Natural Earth · Lluvia: NASA GPM IMERG V07' }));
+    map.addControl(new maplibregl.AttributionControl({ compact: true, customAttribution: 'Natural Earth · NASA GPM IMERG V07' }));
     map.on('load', () => {
       const bordersUrl = new URL(`${import.meta.env.BASE_URL}geo/borders.geojson`, window.location.href).href;
       map.addSource('borders', { type: 'geojson', data: bordersUrl });
