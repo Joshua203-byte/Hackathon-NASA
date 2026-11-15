@@ -72,6 +72,7 @@ export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback
   useEffect(() => {
     if (!box.current) return;
     const [south, north] = meta.bbox.lat; const [west, east] = meta.bbox.lon;
+    const padX = Math.max(6, (east - west) * 0.7); const padY = Math.max(4, (north - south) * 0.35); // nunca menos que antes (6° y 4°)
     let map: MlMap;
     try {
       map = new maplibregl.Map({
@@ -79,7 +80,9 @@ export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback
         style: { version: 8, sources: {}, layers: [{ id: 'bg', type: 'background', paint: { 'background-color': '#dce8ef' } }] },
         bounds: [[west, south], [east, north]],
         fitBoundsOptions: { padding: 16 },
-        maxBounds: [[west - 6, south - 4], [east + 6, north + 4]],
+        // Margen proporcional al encuadre: la tarjeta de la izquierda y el panel de la derecha obligan a desplazar la cámara
+        // fuera del bbox. Con márgenes fijos (6° y 4°), 7 países dejaban 9 de las 80 celdas de Guatemala bajo la tarjeta.
+        maxBounds: [[west - padX, south - padY], [east + padX, north + padY]],
         attributionControl: false,
         dragRotate: false,
         pitchWithRotate: false,

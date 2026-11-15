@@ -1,0 +1,9 @@
+// Vista previa de Centroamérica (7 países): Worker APARTE de producción. Nunca usa el nombre "altaris".
+// `npm run deploy:ca` compila a ./dist-ca, le pone los datos de CA_DATA_DIR y publica aquí.
+// URL: https://altaris-ca.<subdominio-de-la-cuenta>.workers.dev. Requiere la misma sesión de `wrangler login` y CLOUDFLARE_ACCOUNT_ID.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "altaris-ca",
+  "compatibility_date": "2026-11-13",
+  "assets": { "directory": "./dist-ca" }
+}

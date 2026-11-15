@@ -1,2 +1,6 @@
 node_modules
 dist
+# Vista previa de Centroamérica (Rol 4): compilado, datos grandes (~340 MB) y env local de pruebas. No se versionan.
+dist-ca
+ca-data
+.env.local
