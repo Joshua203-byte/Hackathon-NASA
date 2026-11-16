@@ -28,7 +28,8 @@ async function newPage(viewport) {
   const ctx = await browser.newContext({ viewport });
   const page = await ctx.newPage();
   page.on('pageerror', e => results.errors.push(e.message));
-  page.on('console', m => { if (m.type() === 'error' && !/favicon/.test(m.text())) results.errors.push('console: ' + m.text()); });
+  // El 404 de /favicon.ico (index.html no declara icono) no cuenta: el texto del mensaje no trae la dirección, la ubicación sí.
+  page.on('console', m => { if (m.type() === 'error' && !/favicon/.test(m.text() + ' ' + (m.location()?.url ?? ''))) results.errors.push('console: ' + m.text()); });
   if (!process.env.BASE_URL) await page.route('http://ca.local/**', async route => {
     const p = new URL(route.request().url()).pathname;
     const file = resolve(root, '.' + (p === '/' ? '/index.html' : decodeURIComponent(p)));
