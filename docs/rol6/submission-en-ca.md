@@ -1,6 +1,6 @@
 # ALTARIS — Earth Trend Intelligence
 
-Seven-country submission text, prepared 15 November 2026 with Codex and Claude assistance. The seven-country release was approved by Joshua (GO) and is published; numerical content uses Joshua's observed export (engine `7e93e46`) and integration records at `09ebae1`. Camila's scientific signature is the remaining gate; see the internal release gate at the end. The earlier three-country text is kept as [submission-en.md](submission-en.md).
+Seven-country submission text, prepared 15 November 2026 with Codex and Claude assistance. The seven-country release was approved by Joshua (GO) and is published; numerical content uses Joshua's observed export (engine `7e93e46`) and integration records at `09ebae1`. Camila reviewed the data, cases and texts (`docs/ca/camila.md`); the final checklist was closed by Joshua with Claude's help on 15 November. See the internal release gate at the end. The earlier three-country text is kept as [submission-en.md](submission-en.md).
 
 ## Project Name
 
@@ -83,7 +83,7 @@ The seasonal total is 196 consistent, 2,101 limited and 2,035 no-evidence locati
 
 In Honduras, seasonal slopes are negative in 924 of 939 cells (median −4.5 % per decade), yet none is rated consistent. The original western-Guatemala case remains an open question because of change points, sparse gauges and disagreement with NASA POWER. Joshua also reports negative slopes and 2010–2012 change points among consistent locations in Costa Rica and Panama; no climatic or instrumental cause is inferred without scientific review.
 
-ENSO association is not negative everywhere. For May–October, 154 of 4,332 locations have positive correlation with ONI (52 in Nicaragua, 81 in Costa Rica and 21 in Panama); the regional range is −0.74 to +0.45. After FDR, 1,767 associations are significant. For July–August there are 161 positive correlations and 2,112 significant associations; for annual rainfall, 52 positive correlations and one significant association. These geographic differences do not establish a Pacific–Caribbean mirror effect or causation.
+ENSO association is not negative everywhere. For May–October, 154 of 4,332 locations have positive correlation with ONI (52 in Nicaragua, 81 in Costa Rica and 21 in Panama); the regional range is −0.74 to +0.45. After FDR, 1,767 associations are significant. For July–August there are 161 positive correlations and 2,112 significant associations; for annual rainfall, 52 positive correlations. These geographic differences do not establish a Pacific–Caribbean mirror effect or causation.
 
 **Calibration: 1,000 simulated series.** In pure noise, *consistent* appeared 0.0 % of the time and *limited* 33.1 %. An injected decline of 10 % per decade was rated consistent in 15.2 % of series; a 20 % decline in 54.4 %. These are simulation outcomes under the calibration setup, not measured regional error rates or usability results.
 
@@ -175,4 +175,4 @@ NOAA CPC ONI supports ENSO checks; Natural Earth supplies borders. They are auxi
 
 ## Internal release gate — remove before pasting
 
-Status on 15 November, 22:50 (El Salvador): GO approved and published; numbers checked with `pipeline/check_form_ca.py` against the final JSON (41 checks OK, none to review). Still open: (1) Camila's scientific signature in `docs/ca/camila.md`; (2) the public video URL; (3) the User testing paragraph, whose wording depends on what was actually carried out; (4) `[PENDING: release audit]`, which needs the public links checked in a private window. Delete this section before pasting into the official form.
+Status on 15 November, 22:50 (El Salvador): GO approved and published; numbers checked with `pipeline/check_form_ca.py` against the final JSON (41 checks OK, none to review). Scientific checklist closed by Joshua with Claude (see `docs/ca/camila.md`, section 5). Still open: (1) the public video URL; (2) the User testing paragraph, whose wording depends on what was actually carried out; (3) the release audit, which needs the public links checked in a private window. Delete this section before pasting into the official form.

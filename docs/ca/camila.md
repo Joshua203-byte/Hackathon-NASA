@@ -197,10 +197,10 @@ La ventana de 6 meses "empieza en mayo o junio" en 4 204 de 4 332 celdas, así q
 - [x] Limitaciones nuevas escritas y rellenas con datos (sección 4). `season_check.py` pegado.
 - [x] ENSO por país revisado; frase corregida (3.2). La correlación anual significativa se **retira** de los textos.
 - [x] Bandera por país (2.3): "sobre todo Guatemala" se mantiene; Panamá es la segunda.
-- [ ] **Formulario de 7 países** (`submission-en-ca.md`, de Andrés): comprobar que ninguna frase de la sección 3.2 sobrevive y que las cuatro reglas de la sección 6 se cumplen. Se revisa cuando lo suba.
-- [ ] Revisión final de las 18:00.
+- [x] **Formulario de 7 países** (`submission-en-ca.md`, de Andrés). **Revisado por Joshua con Claude el 15 nov, ~23:05 (no por Camila).** Se buscó cada fila de la tabla 3.2 y las cuatro reglas en el formulario, el README alternativo, la interfaz, el recorrido y el glosario publicados: ninguna frase de 3.2 sobrevive. **Se corrigió una violación de la regla 3**: el formulario citaba una asociación anual significativa con ENSO («one significant association»); se retiró. Cotejo de cifras: `check_form_ca.py`, 41 OK y 0 por revisar.
+- [x] Revisión final. **Hecha por Joshua con Claude, no a las 18:00 sino el 15 nov alrededor de las 23:05**, sobre `main`. Comprobado: la interfaz ya no dice «el único tipo de lugar» (caso 3, p ajustado 0,024), sin «normal», «es real» ni «bajó» en los textos nuevos; las 196 celdas se presentan como evidencia que pasa las pruebas del análisis y no como hallazgo climático. **Decisiones abiertas que no bloquean la entrega:** el color naranja de «limitada» en el mapa y la frase verde de «consistente» («La evidencia respalda que la lluvia está bajando…»), que sigue sin cambiar.
 
-**Revisión científica hecha. Firma de Camila:** ______________________  **Hora:** ________
+**Revisión científica hecha. Las secciones 1 a 4 y las cifras las revisó Camila; las dos últimas casillas las cerró Joshua con Claude. Firma de Joshua:** ______________________  **Hora:** ________
 
 ---
 
