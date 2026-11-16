@@ -37,8 +37,8 @@ export const VERDICT_PLAIN: Record<Verdict, L10n> = {
     en: 'There is a signal, but it does not pass every check. It could be a real trend or ordinary year-to-year variation. It is not enough to claim a change.',
   },
   sin_evidencia: {
-    es: 'Con estos 24 años no se distingue una tendencia del vaivén normal de la lluvia. No significa que nada cambie: significa que estos datos no permiten afirmarlo.',
-    en: 'With these 24 years, a trend cannot be told apart from normal rainfall ups and downs. It does not mean nothing is changing: it means these data cannot confirm it.',
+    es: 'Con estos 24 años no se distingue una tendencia del vaivén natural de la lluvia. No significa que nada cambie: significa que estos datos no permiten afirmarlo.',
+    en: 'With these 24 years, a trend cannot be told apart from the natural ups and downs of rainfall. It does not mean nothing is changing: it means these data cannot confirm it.',
   },
   incompleta: {
     es: 'Faltan demasiados años con datos para evaluar una tendencia.',
