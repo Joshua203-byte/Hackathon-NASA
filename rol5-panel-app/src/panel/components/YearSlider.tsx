@@ -51,7 +51,7 @@ export function YearSlider({ period, value, index, onChange, lang }: Props) {
   return (
     <div className="year-slider no-print" data-tour="years">
       <div className="ys-head">
-        <span className="ys-label">{es ? 'Cambia los años' : 'Change the years'}</span>
+        <span className="ys-label">{es ? 'Elige los años' : 'Choose the years'}</span>
         <span className="ys-range"><b>{a}–{b}</b> · {b - a + 1} {es ? 'años' : 'years'}{full ? (es ? ' (completo)' : ' (full)') : ''}</span>
       </div>
       <div className="ys-track">
@@ -63,9 +63,10 @@ export function YearSlider({ period, value, index, onChange, lang }: Props) {
       </div>
       <div className="ys-ticks" aria-hidden="true"><span>{period[0]}</span><span>{Math.round((period[0] + period[1]) / 2)}</span><span>{period[1]}</span></div>
       <div className="ys-actions">
-        <button type="button" className="ys-play" onClick={play} aria-pressed={playing}>{playing ? (es ? '❚❚ Pausar' : '❚❚ Pause') : es ? '▶ Ver cómo cambia' : '▶ Watch it change'}</button>
+        <button type="button" className="ys-play" onClick={play} aria-pressed={playing}>{playing ? (es ? '❚❚ Pausar' : '❚❚ Pause') : es ? '▶ Recorrer los años' : '▶ Step through the years'}</button>
         <button type="button" className="ys-reset" onClick={() => { stop(); onChange(null); }} disabled={full}>{es ? 'Periodo completo' : 'Full period'}</button>
       </div>
+      <p className="ys-note">{es ? 'Cada periodo se compara consigo mismo, no con una norma climática.' : 'Each period is compared with itself, not with a climate norm.'}</p>
       <p className="ys-result" role="status" aria-live="polite">
         {w ? (
           <>

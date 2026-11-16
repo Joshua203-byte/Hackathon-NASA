@@ -75,8 +75,8 @@ export const NEXT_STEP: Record<Verdict, L10n> = {
     en: 'Read the limitations and compare with a nearby rain gauge before using this to decide.',
   },
   limitada: {
-    es: 'Cambia los años en el gráfico de abajo. Si la historia cambia mucho, tómala con cautela.',
-    en: 'Change the years in the chart below. If the story changes a lot, treat it with caution.',
+    es: 'Elige otros años en el gráfico de abajo. Si la historia cambia mucho, tómala con cautela.',
+    en: 'Choose other years in the chart below. If the story changes a lot, treat it with caution.',
   },
   sin_evidencia: {
     es: 'Si necesitas planificar, revisa también la lluvia que mide tu municipalidad o un pluviómetro cercano.',

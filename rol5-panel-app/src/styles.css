@@ -74,6 +74,7 @@ h1, h2, h3, h4 { font-family:var(--font-display); text-wrap:balance; letter-spac
 .intro { padding:1.1rem 1.2rem 1.15rem; }
 .intro h1 { font-size:1.7rem; line-height:1.08; margin:0 0 .55rem; color:var(--brand); }
 .intro p { margin:0; color:var(--ink-2); font-size:.98rem; }
+.intro .intro-places { margin-top:.5rem; font-size:.88rem; }
 .case-links { padding:.7rem; display:flex; flex-direction:column; gap:4px; }
 .case-links > strong { font-size:.72rem; text-transform:uppercase; letter-spacing:.07em; color:var(--ink-3); padding:.1rem .45rem .3rem; }
 .case-link { display:flex; gap:.7rem; align-items:center; padding:.5rem .55rem; border-radius:10px; color:inherit; text-decoration:none; }
