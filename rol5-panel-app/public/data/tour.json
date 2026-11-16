@@ -1,93 +1,244 @@
 {
-  "context": {
+ "context": {
+  "cell": "N1475W08765",
+  "ind": "may_oct_mm",
+  "lens": "agri",
+  "enso": false,
+  "win": null
+ },
+ "steps": [
+  {
+   "anchor": "intro",
+   "title": {
+    "es": "Qué es ALTARIS",
+    "en": "What ALTARIS is"
+   },
+   "body": {
+    "es": "Aquí está la idea en pocas palabras: una línea que baja unos años no prueba, por sí sola, una tendencia. ALTARIS compara años de lluvia medida por satélites de la NASA y te dice cuánta confianza merece cada tendencia.",
+    "en": "The idea in a few words: a line that falls for a few years does not prove a trend on its own. ALTARIS compares years of rainfall measured by NASA satellites and tells you how much confidence each trend deserves."
+   },
+   "set": {
+    "cell": null,
+    "win": null,
+    "enso": false
+   }
+  },
+  {
+   "anchor": "cases",
+   "title": {
+    "es": "Empieza por un ejemplo",
+    "en": "Start with an example"
+   },
+   "body": {
+    "es": "Son tres lugares ya elegidos para que veas cómo funciona: uno sin evidencia de tendencia, uno que cambia según los años que mires y uno con evidencia consistente, que aun así se presenta como una pregunta abierta. Toca uno para abrirlo.",
+    "en": "Three places already chosen to show how it works: one with no evidence of a trend, one that changes depending on the years you look at, and one with consistent evidence that is still presented as an open question. Tap one to open it."
+   },
+   "set": {
+    "cell": null,
+    "win": null,
+    "enso": false
+   }
+  },
+  {
+   "anchor": "controls",
+   "title": {
+    "es": "Elige qué lluvia ver",
+    "en": "Choose which rainfall to see"
+   },
+   "body": {
+    "es": "Con estos selectores eliges qué lluvia mirar (de temporada, de julio y agosto o de todo el año) y para qué la necesitas: agricultura, comunidades y agua, o energía. También puedes ir a un lugar por su código o compararlo con otro.",
+    "en": "These selectors let you choose which rainfall to look at (rainy season, July–August or the whole year) and what you need it for: agriculture, communities and water, or energy. You can also jump to a place by its code or compare it with another."
+   },
+   "set": {
+    "cell": null,
+    "win": null,
+    "enso": false
+   }
+  },
+  {
+   "anchor": "map",
+   "title": {
+    "es": "El mapa",
+    "en": "The map"
+   },
+   "body": {
+    "es": "Cada cuadro es un lugar de unos 11 × 11 km. Su color dice cuánta confianza merece la tendencia de lluvia de ese lugar, no cuánto llueve. Toca un cuadro para abrir su análisis.",
+    "en": "Each square is a place of about 11 × 11 km. Its colour tells how much confidence the rainfall trend there deserves, not how much rain falls. Tap a square to open its analysis."
+   },
+   "set": {
+    "cell": null,
+    "win": null,
+    "enso": false
+   }
+  },
+  {
+   "anchor": "layers",
+   "title": {
+    "es": "Cambia lo que muestra el mapa",
+    "en": "Change what the map shows"
+   },
+   "body": {
+    "es": "Veredicto es la respuesta del análisis. Pendiente muestra hacia dónde va la lluvia, Estabilidad si esa dirección se mantiene al cambiar los años y Relación con ENSO cuánto sigue el patrón de El Niño y La Niña (una asociación, no una causa). La leyenda de abajo explica los colores.",
+    "en": "Verdict is the analysis’s answer. Slope shows where rainfall is heading, Stability whether that direction holds when the years change, and ENSO relation how closely it follows the El Niño / La Niña pattern (an association, not a cause). The legend below explains the colours."
+   },
+   "set": {
+    "cell": null,
+    "win": null,
+    "enso": false
+   }
+  },
+  {
+   "anchor": "mapctl",
+   "title": {
+    "es": "Acércate y vuelve",
+    "en": "Zoom in and come back"
+   },
+   "body": {
+    "es": "Arrastra el mapa para moverte y usa + y − o la rueda del ratón para acercarte o alejarte, hasta ver el planeta entero. «Centrar región» te devuelve al encuadre inicial si te pierdes.",
+    "en": "Drag the map to move and use + and − or the mouse wheel to zoom in or out, all the way to the whole planet. “Frame region” brings you back to the starting view if you get lost."
+   },
+   "set": {
+    "cell": null,
+    "win": null,
+    "enso": false
+   }
+  },
+  {
+   "anchor": "topbar",
+   "title": {
+    "es": "Ayuda en cada zona",
+    "en": "Help on every zone"
+   },
+   "body": {
+    "es": "Cuando termine el recorrido verás un círculo «?» sobre cada zona: tócalo y te explica qué es y cómo leerla. El botón «Recorrido» repite esta guía y «EN» cambia el idioma.",
+    "en": "When the tour ends you will see a “?” circle on every zone: tap it for a short explanation of what it is and how to read it. The “Tour” button repeats this guide and “ES” switches the language."
+   },
+   "set": {
+    "cell": null,
+    "win": null,
+    "enso": false
+   }
+  },
+  {
+   "anchor": "verdict",
+   "glossary": "intervalo_confianza",
+   "title": {
+    "es": "Sin evidencia de tendencia",
+    "en": "No evidence of a trend"
+   },
+   "body": {
+    "es": "Abrimos el lugar N1475W08765, en Honduras. Los 24 años están completos, pero el intervalo incluye cero y el veredicto es sin evidencia. Una pendiente negativa no basta para afirmar que la lluvia disminuye.",
+    "en": "We open place N1475W08765, in Honduras. All 24 years are complete, but the interval includes zero and the verdict is no evidence. A negative slope alone does not establish declining rainfall."
+   },
+   "set": {
     "cell": "N1475W08765",
     "ind": "may_oct_mm",
     "lens": "agri",
     "enso": false,
     "win": null
+   }
   },
-  "steps": [
-    {
-      "anchor": "series",
-      "glossary": "pendiente_sen",
-      "title": {
-        "es": "Un caso real de Honduras",
-        "en": "A real case in Honduras"
-      },
-      "body": {
-        "es": "N1475W08765: lluvia de mayo a octubre, IMERG 2001–2024. La pendiente es −48,3 mm por década; el IC 95 % va de −163,7 a +108,0. La línea gris resume el periodo completo.",
-        "en": "N1475W08765: May–October rainfall, IMERG 2001–2024. The slope is −48.3 mm per decade; its 95% CI spans −163.7 to +108.0. The grey line summarises the full period."
-      },
-      "set": {
-        "cell": "N1475W08765",
-        "ind": "may_oct_mm",
-        "lens": "agri",
-        "enso": false,
-        "win": null
-      }
-    },
-    {
-      "anchor": "verdict",
-      "glossary": "intervalo_confianza",
-      "title": {
-        "es": "Sin evidencia de tendencia",
-        "en": "No evidence of a trend"
-      },
-      "body": {
-        "es": "Los 24 años están completos, pero el intervalo incluye cero y el veredicto es sin evidencia. Una pendiente negativa no basta para afirmar que la lluvia disminuye.",
-        "en": "All 24 years are complete, but the interval includes zero and the verdict is no evidence. A negative slope alone does not establish declining rainfall."
-      },
-      "set": {
-        "cell": "N1475W08765",
-        "ind": "may_oct_mm",
-        "lens": "agri",
-        "enso": false,
-        "win": null
-      }
-    },
-    {
-      "anchor": "footprint",
-      "glossary": "huella_estabilidad",
-      "title": {
-        "es": "Cambiar los años cambia la lectura",
-        "en": "Changing the years changes the reading"
-      },
-      "body": {
-        "es": "Ahora comparamos 2001–2010, solo 10 años, con 2001–2024 en la misma celda. La pendiente cambia de −48,3 a +381,9 mm por década y el veredicto de ventana es limitado. Este recorte corto invierte el signo: no confirma un aumento de la lluvia. Las ventanas se solapan y sus pruebas no se corrigen por comparaciones múltiples.",
-        "en": "Now compare 2001–2010, only 10 years, with 2001–2024 in the same cell. The slope changes from −48.3 to +381.9 mm per decade and the window verdict is limited. This short window reverses the sign: it does not confirm increasing rainfall. Windows overlap and their tests are not corrected for multiple comparisons."
-      },
-      "set": {
-        "cell": "N1475W08765",
-        "ind": "may_oct_mm",
-        "lens": "agri",
-        "enso": false,
-        "win": [
-          2001,
-          2010
-        ]
-      }
-    },
-    {
-      "anchor": "passport",
-      "glossary": "completitud",
-      "title": {
-        "es": "Llévate la evidencia",
-        "en": "Take the evidence with you"
-      },
-      "body": {
-        "es": "Descarga el pasaporte JSON o Markdown. Conserva los datos del periodo base y de la ventana 2001–2010, la completitud, los controles ENSO y de 2014 y la procedencia NASA. Copia el enlace para reproducir esta selección.",
-        "en": "Download the JSON or Markdown passport. It preserves the base-period and 2001–2010 window results, completeness, ENSO and 2014 checks, and NASA provenance. Copy the link to reproduce this selection."
-      },
-      "set": {
-        "cell": "N1475W08765",
-        "ind": "may_oct_mm",
-        "lens": "agri",
-        "enso": false,
-        "win": [
-          2001,
-          2010
-        ]
-      }
-    }
-  ]
+  {
+   "anchor": "series",
+   "glossary": "pendiente_sen",
+   "title": {
+    "es": "Un caso real de Honduras",
+    "en": "A real case in Honduras"
+   },
+   "body": {
+    "es": "N1475W08765: lluvia de mayo a octubre, IMERG 2001–2024. La pendiente es −48,3 mm por década; el IC 95 % va de −163,7 a +108,0. La línea gris resume el periodo completo.",
+    "en": "N1475W08765: May–October rainfall, IMERG 2001–2024. The slope is −48.3 mm per decade; its 95% CI spans −163.7 to +108.0. The grey line summarises the full period."
+   },
+   "set": {
+    "cell": "N1475W08765",
+    "ind": "may_oct_mm",
+    "lens": "agri",
+    "enso": false,
+    "win": null
+   }
+  },
+  {
+   "anchor": "years",
+   "title": {
+    "es": "Elige los años",
+    "en": "Choose the years"
+   },
+   "body": {
+    "es": "Mueve los dos extremos para elegir qué años entran en el cálculo, o pulsa «Recorrer los años» para verlo cambiar. Cada periodo se compara consigo mismo, no con una norma climática.",
+    "en": "Move the two ends to choose which years enter the calculation, or press “Step through the years” to watch it change. Each period is compared with itself, not with a climate norm."
+   },
+   "set": {
+    "cell": "N1475W08765",
+    "ind": "may_oct_mm",
+    "lens": "agri",
+    "enso": false,
+    "win": null
+   }
+  },
+  {
+   "anchor": "footprint",
+   "glossary": "huella_estabilidad",
+   "title": {
+    "es": "Cambiar los años cambia la lectura",
+    "en": "Changing the years changes the reading"
+   },
+   "body": {
+    "es": "Ahora comparamos 2001–2010, solo 10 años, con 2001–2024 en la misma celda. La pendiente cambia de −48,3 a +381,9 mm por década y el veredicto de ventana es limitado. Este recorte corto invierte el signo: no confirma un aumento de la lluvia. Las ventanas se solapan y sus pruebas no se corrigen por comparaciones múltiples.",
+    "en": "Now compare 2001–2010, only 10 years, with 2001–2024 in the same cell. The slope changes from −48.3 to +381.9 mm per decade and the window verdict is limited. This short window reverses the sign: it does not confirm increasing rainfall. Windows overlap and their tests are not corrected for multiple comparisons."
+   },
+   "set": {
+    "cell": "N1475W08765",
+    "ind": "may_oct_mm",
+    "lens": "agri",
+    "enso": false,
+    "win": [
+     2001,
+     2010
+    ]
+   }
+  },
+  {
+   "anchor": "passport",
+   "glossary": "completitud",
+   "title": {
+    "es": "Llévate la evidencia",
+    "en": "Take the evidence with you"
+   },
+   "body": {
+    "es": "Descarga el pasaporte JSON o Markdown. Conserva los datos del periodo base y de la ventana 2001–2010, la completitud, los controles ENSO y de 2014 y la procedencia NASA. Copia el enlace para reproducir esta selección.",
+    "en": "Download the JSON or Markdown passport. It preserves the base-period and 2001–2010 window results, completeness, ENSO and 2014 checks, and NASA provenance. Copy the link to reproduce this selection."
+   },
+   "set": {
+    "cell": "N1475W08765",
+    "ind": "may_oct_mm",
+    "lens": "agri",
+    "enso": false,
+    "win": [
+     2001,
+     2010
+    ]
+   }
+  },
+  {
+   "anchor": "cards",
+   "title": {
+    "es": "Preguntas para decidir",
+    "en": "Questions for deciding"
+   },
+   "body": {
+    "es": "Según para qué necesites la lluvia, aquí ves qué puede y qué no puede decirte este resultado, y qué información local conviene revisar antes de decidir.",
+    "en": "Depending on what you need the rainfall for, here you see what this result can and cannot tell you, and what local information is worth checking before deciding."
+   },
+   "set": {
+    "cell": "N1475W08765",
+    "ind": "may_oct_mm",
+    "lens": "agri",
+    "enso": false,
+    "win": [
+     2001,
+     2010
+    ]
+   }
+  }
+ ]
 }

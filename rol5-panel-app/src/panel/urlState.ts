@@ -17,7 +17,8 @@ export interface PanelUrlState {
 
 const CELL_RE = /^[NS]\d{4}[EW]\d{5}$/;
 const WIN_RE = /^(\d{4})-(\d{4})$/;
-export const TOUR_STEPS = 4;
+/** Tope de pasos que se acepta en la URL; la cantidad real la da `tour.json`. */
+export const MAX_TOUR_STEPS = 40;
 
 export function parseWin(raw: string | null): Win | null {
   const m = raw ? WIN_RE.exec(raw) : null;
@@ -41,7 +42,7 @@ export function parsePanelUrl(search: string): PanelUrlState {
     enso: q.get('enso') === 'on',
     lang: q.get('lang') === 'en' ? 'en' : 'es',
     lens: lens === 'com' || lens === 'ene' ? lens : 'agri',
-    tour: Number.isInteger(tour) && tour >= 1 && tour <= TOUR_STEPS ? tour : 0,
+    tour: Number.isInteger(tour) && tour >= 1 && tour <= MAX_TOUR_STEPS ? tour : 0,
   };
 }
 

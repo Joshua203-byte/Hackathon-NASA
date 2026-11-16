@@ -12,7 +12,6 @@ import { MirrorView } from './MirrorView';
 import { MonthlyCycle } from './MonthlyCycle';
 import { Narrative } from './Narrative';
 import { PassportView } from './PassportView';
-import { TourOverlay } from './TourOverlay';
 import { SectionBoundary } from './SectionBoundary';
 import { SeriesChart } from './SeriesChart';
 import { selectIndicator } from '../lenses';
@@ -202,10 +201,6 @@ export function CellPanel({ cell, gridRow, meta, status, refs, mirror }: Props) 
       <SectionBoundary key={`p/${resetKey}`} name={es ? 'Pasaporte' : 'Passport'}>
         <div className="card"><PassportView cell={cell} gridRow={gridRow} meta={meta} ind={url.ind} win={sel.isBase ? null : url.win} lang={lang} /></div>
       </SectionBoundary>
-
-      {url.tour > 0 && (
-        <TourOverlay step={url.tour} tour={refs.tour} glossary={refs.glossary} lang={lang} onStep={(n) => setUrl({ tour: n })} onSetWin={(w) => setUrl({ win: parseWin(w) })} />
-      )}
     </aside>
   );
 }

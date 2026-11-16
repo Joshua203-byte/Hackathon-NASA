@@ -18,10 +18,10 @@ function visibleRect(el: HTMLElement): DOMRect | null {
   return bottom - top < 24 || right - left < 24 ? null : new DOMRect(left, top, right - left, bottom - top);
 }
 
-interface Props { lang: Lang; onClose: () => void }
+interface Props { lang: Lang }
 
-/** Un «?» en la esquina de cada zona visible; al tocarlo, una explicación corta. Una sola abierta a la vez. */
-export function HelpLayer({ lang, onClose }: Props) {
+/** Siempre activa: un «?» en la esquina de cada zona visible; al tocarlo, una explicación corta. Una sola abierta a la vez. */
+export function HelpLayer({ lang }: Props) {
   const es = lang === 'es';
   const [pos, setPos] = useState<Pos[]>([]);
   const [open, setOpen] = useState<string | null>(null);
@@ -29,8 +29,11 @@ export function HelpLayer({ lang, onClose }: Props) {
   openRef.current = open;
 
   useEffect(() => {
-    let raf = 0, last = '';
-    const tick = () => {
+    let raf = 0, last = '', t0 = 0;
+    const tick = (now = 0) => {
+      raf = requestAnimationFrame(tick);
+      if (now - t0 < 120) return; // unas 8 veces por segundo bastan para seguir el desplazamiento
+      t0 = now;
       const next: Pos[] = [];
       for (const z of HELP_ZONES) {
         // Un selector con coma ofrece alternativas (p. ej. la leyenda no existe en pantallas angostas): vale la primera visible.
@@ -41,11 +44,10 @@ export function HelpLayer({ lang, onClose }: Props) {
           const top = vr && document.elementFromPoint(vr.left + vr.width / 2, vr.top + vr.height / 2);
           if (vr && top && el.contains(top)) { r = vr; break; }
         }
-        if (r) next.push({ key: z.key, x: Math.round(r.right - 34), y: Math.round(r.top + 6) });
+        if (r) next.push(z.side === 'left' ? { key: z.key, x: Math.round(r.left - 34), y: Math.round(r.top + 2) } : { key: z.key, x: Math.round(r.right - 34), y: Math.round(r.top + 6) });
       }
       const sig = JSON.stringify(next);
       if (sig !== last) { last = sig; setPos(next); }
-      raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
@@ -54,11 +56,11 @@ export function HelpLayer({ lang, onClose }: Props) {
   useEffect(() => {
     const k = (e: KeyboardEvent) => {
       if (e.key !== 'Escape') return;
-      if (openRef.current) setOpen(null); else onClose();
+      if (openRef.current) setOpen(null);
     };
     window.addEventListener('keydown', k);
     return () => window.removeEventListener('keydown', k);
-  }, [onClose]);
+  }, []);
 
   const toGlossary = () => {
     const g = document.querySelector<HTMLDetailsElement>('[data-glossary]');

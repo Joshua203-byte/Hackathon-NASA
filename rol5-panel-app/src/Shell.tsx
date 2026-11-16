@@ -9,6 +9,7 @@ import { shouldPlayIntro } from './panel/space/introPlan';
 import { countryBounds, countryCodes, markGuideSeen, shouldShowGuide } from './panel/guide';
 import { Welcome } from './panel/components/Welcome';
 import { HelpLayer } from './panel/components/HelpLayer';
+import { TourOverlay } from './panel/components/TourOverlay';
 import { lazy, Suspense } from 'react';
 const RegionMap = lazy(() => import('./panel/components/RegionMap').then(m => ({ default: m.RegionMap })));
 const CellPanel = lazy(() => import('./panel/components/CellPanel').then(m => ({ default: m.CellPanel })));
@@ -31,7 +32,6 @@ export function Shell() {
   const [playIntro] = useState(shouldPlayIntro);
   const [introing, setIntroing] = useState(playIntro);
   const [guideOpen, setGuideOpen] = useState(shouldShowGuide);
-  const [help, setHelp] = useState(false);
   const [focus, setFocus] = useState<[[number, number], [number, number]] | null>(null);
   const { boot, error } = useBoot();
   const [url, setUrl] = usePanelUrl();
@@ -79,10 +79,12 @@ export function Shell() {
   const openCase = (c: CaseLink) => { history.pushState(null, '', caseSearch(location.search, c) + location.hash); dispatchEvent(new PopStateEvent('popstate')); };
 
   const startTour = () => {
-    if (!boot.refs.tour?.context) return setUrl({ tour: 1 });
+    // El recorrido empieza siempre en el estado inicial (sin celda abierta) para poder explicar también la zona de la izquierda.
     const q = new URLSearchParams(window.location.search);
-    for (const key of ['dataset', 'case', 'mirror']) q.delete(key);
-    window.location.assign(patchSearch(`?${q}`, { ...boot.refs.tour.context, tour: 1, lang: url.lang }));
+    for (const key of ['dataset', 'case', 'mirror', 'cell', 'win']) q.delete(key);
+    q.set('tour', '1');
+    history.pushState(null, '', `?${q}` + location.hash);
+    dispatchEvent(new PopStateEvent('popstate'));
   };
 
   const closeGuide = () => { markGuideSeen(); setGuideOpen(false); };
@@ -90,14 +92,13 @@ export function Shell() {
   const closeCell = () => { const q = new URLSearchParams(location.search); for (const k of ['cell', 'win', 'mirror', 'case', 'tour']) q.delete(k); history.pushState(null, '', `?${q}` + location.hash); dispatchEvent(new PopStateEvent('popstate')); };
 
   return (
-    <div className={introing ? 'shell intro-playing' : 'shell'}>
+    <div className={['shell', introing && 'intro-playing', url.cell && 'has-cell'].filter(Boolean).join(' ')}>
       <header className="topbar no-print">
         <div className="brand">
           <strong>ALTARIS</strong>
           <span className="tagline">{es ? '¿Cuánta confianza merece una tendencia de lluvia?' : 'How much confidence does a rainfall trend deserve?'}</span>
         </div>
-        <div className="topbar-actions">
-          <button className="btn-ghost help-toggle" aria-pressed={help} aria-label={es ? '¿No entiendes algo?' : 'Don’t understand something?'} onClick={() => setHelp(h => !h)}><span className="hl-long">{es ? '¿No entiendes algo?' : 'Don’t understand something?'}</span><span className="hl-short" aria-hidden="true">?</span></button>
+        <div className="topbar-actions" data-tour="topbar">
           <button className="btn-primary" onClick={startTour}>{es ? 'Recorrido' : 'Tour'}</button>
           <button className="btn-ghost" aria-label={es ? 'Switch to English' : 'Cambiar a español'} onClick={() => setUrl({ lang: es ? 'en' : 'es' })}>{es ? 'EN' : 'ES'}</button>
         </div>
@@ -113,10 +114,12 @@ export function Shell() {
           onClose={closeGuide} />
       )}
 
-      {help && <HelpLayer lang={url.lang} onClose={() => setHelp(false)} />}
+      {/* Siempre activa: un «?» sobre cada zona. Se oculta durante la intro, la guía y el recorrido, que ya explican. */}
+      {!introing && !guideOpen && url.tour === 0 && <HelpLayer lang={url.lang} />}
+      {url.tour > 0 && <TourOverlay step={url.tour} tour={boot.refs.tour} glossary={boot.refs.glossary} lang={url.lang} onStep={n => setUrl({ tour: n })} onSetWin={w => setUrl({ win: parseWin(w) })} />}
 
       <div className={url.cell ? 'stage has-cell' : 'stage'}>
-        <div className="workspace-map">
+        <div className="workspace-map" data-tour="map">
           {/* Rol 4: MapLibre; si no hay WebGL se usa la rejilla SVG sin mapa base. */}
           <Suspense fallback={<p className="region-map-loading">{es ? 'Cargando mapa…' : 'Loading map…'}</p>}>
             <RegionMap cells={boot.grid} meta={boot.meta} ind={url.ind} selected={url.cell} onSelect={selectCell} lang={url.lang}
@@ -127,7 +130,7 @@ export function Shell() {
 
         <div className="overlay-left no-print">
           {!url.cell && (
-            <section className="intro">
+            <section className="intro" data-tour="intro">
               <h1>{es ? 'Una línea que baja no siempre es una tendencia' : 'A falling line is not always a trend'}</h1>
               <p>{es
                 ? `Que llueva menos unos años no significa que la lluvia esté cambiando. ALTARIS compara ${yearsN} años de datos de la NASA y te dice cuánta confianza merece cada tendencia. Toca un lugar del mapa y mira si lo que ves se sostiene o puede ser solo el vaivén natural de la lluvia.`
@@ -137,7 +140,7 @@ export function Shell() {
             </section>
           )}
           {cases.length > 0 && (
-            <nav className="case-links" aria-label={es ? 'Casos de estudio' : 'Case studies'}>
+            <nav className="case-links" data-tour="cases" aria-label={es ? 'Casos de estudio' : 'Case studies'}>
               <strong>{es ? (url.cell ? 'Ejemplos' : 'O empieza con un ejemplo') : url.cell ? 'Examples' : 'Or start with an example'}</strong>
               {cases.map(c => {
                 const v = boot.grid.find(g => g.id === c.cell)?.ind[c.ind]?.verdict;
@@ -153,7 +156,7 @@ export function Shell() {
             </nav>
           )}
           {narrow && url.cell
-            ? <details className="controls-fold"><summary>{es ? 'Cambiar lluvia, lugar o comparar' : 'Change rainfall, place or compare'}</summary>          <div className="controls">
+            ? <details className="controls-fold"><summary>{es ? 'Cambiar lluvia, lugar o comparar' : 'Change rainfall, place or compare'}</summary>          <div className="controls" data-tour="controls">
             <label className="control control-cell">{es ? 'Ir a una celda por su código' : 'Go to a cell by its code'}
               <select value={url.cell ?? ''} onChange={(e) => setUrl({ cell: e.target.value || null, win: null }, 'push')}>
                 <option value="">—</option>
@@ -173,7 +176,7 @@ export function Shell() {
             </label>
             <label className="control mirror-picker">{es ? 'Comparar con otra celda' : 'Compare another cell'} <select aria-label={es ? 'Celda espejo' : 'Mirror cell'} value={mirrorId ?? ''} onChange={e => { const q = new URLSearchParams(location.search); q.delete('case'); if (e.target.value) q.set('mirror', e.target.value); else q.delete('mirror'); history.replaceState(null, '', `?${q}`); dispatchEvent(new PopStateEvent('popstate')); }}><option value="">—</option>{boot.grid.filter(c => c.id !== url.cell).map(c => <option key={c.id}>{c.id}</option>)}</select></label>
           </div></details>
-            :           <div className="controls">
+            :           <div className="controls" data-tour="controls">
             <label className="control control-cell">{es ? 'Ir a una celda por su código' : 'Go to a cell by its code'}
               <select value={url.cell ?? ''} onChange={(e) => setUrl({ cell: e.target.value || null, win: null }, 'push')}>
                 <option value="">—</option>

@@ -69,7 +69,7 @@ h1, h2, h3, h4 { font-family:var(--font-display); text-wrap:balance; letter-spac
 .cell-map { position:absolute; inset:0; overflow:auto; background:var(--surface); padding:1rem; pointer-events:auto; }
 
 /* ---------- Columna flotante izquierda: entrada, ejemplos, controles ---------- */
-.overlay-left { position:absolute; z-index:4; top:12px; left:12px; width:400px; max-height:calc(100% - 130px); overflow-y:auto; display:flex; flex-direction:column; gap:10px; scrollbar-width:thin; }
+.overlay-left { position:absolute; z-index:4; top:12px; left:12px; width:400px; max-height:calc(100% - var(--map-bottom, 130px) - 24px); overflow-y:auto; display:flex; flex-direction:column; gap:10px; scrollbar-width:thin; }
 .overlay-left > * { background:var(--surface); border:1px solid var(--line); border-radius:14px; box-shadow:0 10px 30px #0d3b6624; }
 .intro { padding:1.1rem 1.2rem 1.15rem; }
 .intro h1 { font-size:1.7rem; line-height:1.08; margin:0 0 .55rem; color:var(--brand); }
@@ -356,7 +356,6 @@ dl dd { margin:0; color:var(--ink-2); }
 .case-strip span { color:var(--ink-2); font-size:.72rem; }
 .case-strip b { overflow-wrap:anywhere; }
 @media (max-width: 600px) { .case-strip { grid-template-columns:repeat(2, minmax(0, 1fr)); } }
-.help-toggle[aria-pressed="true"] { background:#fff; color:var(--brand); }
 .hl-short { display:none; font-weight:700; }
 @media (max-width: 600px) { .hl-long { display:none; } .hl-short { display:inline; } }
 .help-layer { position:fixed; inset:0; pointer-events:none; z-index:25; }
@@ -369,3 +368,14 @@ dl dd { margin:0; color:var(--ink-2); }
 .help-pop p { margin:.3rem 0 .45rem; color:var(--ink-2); }
 .help-gloss { background:none; border:0; padding:0; color:var(--brand-2); text-decoration:underline; cursor:pointer; font:inherit; font-size:.82rem; }
 .help-pop.up { top:auto; bottom:34px; }
+
+/* Recorrido: tarjeta fija arriba, junto a la columna de la izquierda, para no tapar capas, leyenda ni el panel que explica. */
+@media (min-width: 1024px) {
+  .tour { left:436px; transform:none; top:calc(var(--topbar-h) + 14px); bottom:auto; width:min(480px, calc(100vw - 436px - 24px)); }
+  .shell.has-cell .tour { left:274px; width:min(480px, calc(100vw - 274px - var(--panel-w) - 24px)); }
+}
+
+/* El resaltado del recorrido se dibuja por dentro cuando el elemento está dentro de un contenedor que recorta (columna izquierda y mapa). */
+.overlay-left .tour-focus, .workspace-map.tour-focus { outline-offset:-4px; }
+/* Espacio para el «?» de ayuda en la esquina de la leyenda y de la barra de capas, para que no tape texto. */
+.region-map-layers, .map-legend { padding-right:2.6rem; }

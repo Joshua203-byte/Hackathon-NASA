@@ -5,13 +5,55 @@ export interface HelpZone {
   key: string;
   /** Selector del elemento al que se pega el «?». Los de data-tour son los mismos del recorrido. */
   selector: string;
+  /** Dónde se pega el «?»: por defecto en la esquina superior derecha de la zona; «left» a su izquierda (zonas pequeñas). */
+  side?: 'left';
   question: L10n;
   body: L10n;
 }
 
 export const HELP_ZONES: readonly HelpZone[] = [
   {
-    key: 'map', selector: '.map-legend, .region-map-layers',
+    key: 'intro', selector: '[data-tour="intro"]',
+    question: { es: '¿Qué es ALTARIS?', en: 'What is ALTARIS?' },
+    body: {
+      es: 'Compara años de lluvia medida por satélites de la NASA y te dice cuánta confianza merece cada tendencia. Una línea que baja unos años no prueba, por sí sola, que la lluvia esté cambiando.',
+      en: 'It compares years of rainfall measured by NASA satellites and tells you how much confidence each trend deserves. A line that falls for a few years does not prove, by itself, that rainfall is changing.',
+    },
+  },
+  {
+    key: 'cases', selector: '[data-tour="cases"]',
+    question: { es: '¿Qué son estos ejemplos?', en: 'What are these examples?' },
+    body: {
+      es: 'Tres lugares ya elegidos para ver cómo funciona: uno sin evidencia, uno que cambia según los años que mires y otro con evidencia consistente. Toca uno para abrirlo.',
+      en: 'Three places already chosen to show how it works: one with no evidence, one that changes with the years you look at, and one with consistent evidence. Tap one to open it.',
+    },
+  },
+  {
+    key: 'controls', selector: '[data-tour="controls"]',
+    question: { es: '¿Qué cambia cada selector?', en: 'What does each selector change?' },
+    body: {
+      es: 'Eliges qué lluvia ver (de temporada, de julio y agosto o de todo el año) y para qué la necesitas. También puedes ir a un lugar por su código o compararlo con otro.',
+      en: 'You choose which rainfall to see (rainy season, July–August or the whole year) and what you need it for. You can also go to a place by its code or compare it with another.',
+    },
+  },
+  {
+    key: 'layers', selector: '.region-map-layers',
+    question: { es: '¿Qué muestra cada capa?', en: 'What does each layer show?' },
+    body: {
+      es: 'Veredicto es la respuesta del análisis. Pendiente, hacia dónde va la lluvia. Estabilidad, si esa dirección se mantiene al cambiar los años. ENSO, cuánto sigue el patrón de El Niño y La Niña (asociación, no causa).',
+      en: 'Verdict is the analysis’s answer. Slope, where rainfall is heading. Stability, whether that direction holds when the years change. ENSO, how closely it follows El Niño / La Niña (an association, not a cause).',
+    },
+  },
+  {
+    key: 'mapctl', selector: '.space-tools', side: 'left',
+    question: { es: '¿Cómo me muevo por el mapa?', en: 'How do I move around the map?' },
+    body: {
+      es: 'Arrastra para moverte y usa + y − o la rueda del ratón para acercarte o alejarte. «Centrar región» te devuelve al encuadre inicial si te pierdes.',
+      en: 'Drag to move and use + and − or the mouse wheel to zoom in or out. “Frame region” takes you back to the starting view if you get lost.',
+    },
+  },
+  {
+    key: 'legend', selector: '.map-legend',
     question: { es: '¿Qué es cada cuadro y qué significan los colores?', en: 'What is each square and what do the colours mean?' },
     body: {
       es: 'Cada cuadro es un lugar de unos 11 × 11 km. En la capa «Veredicto», el color dice cuánta confianza merece la tendencia de lluvia de ese lugar, no cuánto llueve.',

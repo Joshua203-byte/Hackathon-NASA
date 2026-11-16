@@ -90,6 +90,7 @@ export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback
 }) {
   const es = lang === 'es';
   const box = useRef<HTMLDivElement>(null);
+  const secRef = useRef<HTMLElement>(null);
   const mapRef = useRef<MlMap | null>(null);
   const onSelectRef = useRef(onSelect);
   onSelectRef.current = onSelect;
@@ -304,14 +305,36 @@ export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback
     const wide = window.innerWidth >= 980;
     const padding = { top: 0, bottom: wide ? 70 : 56, left: wide ? (c ? 262 : 420) : 0, right: wide && c ? Math.min(640, window.innerWidth * 0.46) : 0 };
     if (c) map.flyTo({ center: [c.lon, c.lat], zoom: Math.max(map.getZoom(), wide ? 6.9 : 6.4), padding, duration: 1400 });
-    else { const [s, n] = meta.bbox.lat; const [w, e] = meta.bbox.lon; map.fitBounds([[w, s], [e, n]], { padding: { top: 16, bottom: padding.bottom + 16, left: padding.left + 16, right: 16 }, duration: 900 }); }
-  }, [ready, selected, byId]);
+    else {
+      // Sin celda: vuelve al encuadre de la región. Se calcula con margen cero (regionCamera): con el margen de la celda que se cierra todavía
+      // puesto, en pantallas de ~1100 px los márgenes sumaban más que el ancho y MapLibre fallaba al calcular la cámara (fitBounds).
+      const cam = regionCamera(map);
+      if (cam) map.flyTo({ center: cam.center, zoom: cam.zoom, padding: NO_PADDING, bearing: 0, pitch: 0, duration: 900 });
+    }
+  }, [ready, selected, byId, regionCamera]);
 
   useEffect(() => {
     const map = mapRef.current;
     if (!ready || !map || !focusBounds || introRef.current) return;
     map.fitBounds(focusBounds, { padding: finalPadding(), duration: 1200, maxZoom: 9 });
   }, [ready, focusBounds]);
+
+  // Altura de lo que ocupa la parte baja del mapa (capas + leyenda): la columna de la izquierda se acorta lo necesario para no taparse con ella.
+  useEffect(() => {
+    const sec = secRef.current; const stage = sec?.closest<HTMLElement>('.stage');
+    if (!sec || !stage) return;
+    const measure = () => {
+      const l = sec.querySelector<HTMLElement>('.region-map-layers'); const g = sec.querySelector<HTMLElement>('.map-legend');
+      const pb = parseFloat(getComputedStyle(sec).paddingBottom) || 12;
+      const h = (l?.offsetHeight ?? 0) + (g?.offsetHeight ?? 0) + (l && g ? 8 : 0) + pb;
+      stage.style.setProperty('--map-bottom', `${h}px`);
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    sec.querySelectorAll('.region-map-layers, .map-legend').forEach(e => ro.observe(e));
+    return () => ro.disconnect();
+    // se vuelve a medir cuando cambia la capa (la leyenda cambia de forma) o el mapa termina de cargar
+  }, [ready, active, failed]);
 
   if (failed) return <>{fallback}</>;
 
@@ -328,13 +351,13 @@ export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback
   const g = h?.ind[ind];
 
   return (
-    <section className="region-map no-print" aria-labelledby="region-map-title">
+    <section ref={secRef} className="region-map no-print" aria-labelledby="region-map-title">
       <h2 id="region-map-title">{es ? 'Mapa de evidencia por celda' : 'Evidence map by cell'}</h2>
       <p className="region-map-help">
         {es ? `${cells.length} celdas de 0,1° en ${regionNames(cells, 'es')}. Haz clic en una celda para ver su evidencia. También puedes ir a una celda por su código.`
           : `${cells.length} cells of 0.1° across ${regionNames(cells, 'en')}. Click a cell to inspect its evidence. You can also go to a cell by its code.`}
       </p>
-      <fieldset className="region-map-layers">
+      <fieldset className="region-map-layers" data-tour="layers">
         <legend>{es ? 'Capa' : 'Layer'}</legend>
         {MAP_LAYERS.map(l => (
           <label key={l} title={l === 'enso' && !ensoOk ? (es ? 'Sin resultados ENSO en estos datos' : 'No ENSO results in this data') : undefined}>
@@ -358,7 +381,7 @@ export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback
           </div>
         )}
         {phase === 'idle' && ready && (
-          <div className="space-tools">
+          <div className="space-tools" data-tour="mapctl">
             <button type="button" onClick={recenter} title={es ? 'Volver a encuadrar la región' : 'Frame the region again'}>{es ? 'Centrar región' : 'Frame region'}</button>
           </div>
         )}
