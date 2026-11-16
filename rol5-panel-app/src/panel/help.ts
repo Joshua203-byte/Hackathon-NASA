@@ -14,8 +14,8 @@ export const HELP_ZONES: readonly HelpZone[] = [
     key: 'map', selector: '.map-legend, .region-map-layers',
     question: { es: '¿Qué es cada cuadro y qué significan los colores?', en: 'What is each square and what do the colours mean?' },
     body: {
-      es: 'Cada cuadro es un lugar de unos 11 × 11 km. El color dice cuánta confianza merece la tendencia de lluvia de ese lugar, no cuánto llueve.',
-      en: 'Each square is a place of about 11 × 11 km. The colour tells how much confidence the rainfall trend of that place deserves, not how much rain falls.',
+      es: 'Cada cuadro es un lugar de unos 11 × 11 km. En la capa «Veredicto», el color dice cuánta confianza merece la tendencia de lluvia de ese lugar, no cuánto llueve.',
+      en: 'Each square is a place of about 11 × 11 km. In the “Verdict” layer, the colour tells how much confidence the rainfall trend of that place deserves, not how much rain falls.',
     },
   },
   {
@@ -30,8 +30,8 @@ export const HELP_ZONES: readonly HelpZone[] = [
     key: 'series', selector: '[data-tour="series"]',
     question: { es: '¿Cómo leo esta gráfica?', en: 'How do I read this chart?' },
     body: {
-      es: 'Cada punto es un año. La recta resume hacia dónde va la lluvia y la banda muestra cuánta incertidumbre tiene esa recta.',
-      en: 'Each dot is a year. The line summarises where rainfall is heading and the band shows how uncertain that line is.',
+      es: 'Cada punto es un año. La recta resume hacia dónde apunta la lluvia en estos años y la banda muestra cuánta incertidumbre tiene esa recta.',
+      en: 'Each dot is a year. The line summarises where rainfall points over these years and the band shows how uncertain that line is.',
     },
   },
   {
@@ -46,8 +46,8 @@ export const HELP_ZONES: readonly HelpZone[] = [
     key: 'footprint', selector: '[data-tour="footprint"]',
     question: { es: '¿Qué es este triángulo?', en: 'What is this triangle?' },
     body: {
-      es: 'Cada casilla es un periodo distinto. Muestra de un vistazo en cuáles hay tendencia y en cuáles no.',
-      en: 'Each box is a different period. It shows at a glance which periods show a trend and which do not.',
+      es: 'Cada casilla es un periodo distinto. Muestra de un vistazo en cuáles se distingue una tendencia y en cuáles no.',
+      en: 'Each box is a different period. It shows at a glance in which periods a trend can be distinguished and in which it cannot.',
     },
   },
   {
