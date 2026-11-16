@@ -1,33 +1,33 @@
-# Validación independiente con NASA Giovanni — Caso Choluteca
+# Independent validation with NASA Giovanni — Choluteca case
 
-**Fecha:** 2026-11-15  
-**Proyecto:** ALTARIS — Earth Trend Intelligence (NASA Space Apps Challenge 2026, "Be An Earth System Trend Detective")  
-**Caso verificado:** Ejemplo 1 · Choluteca, Corredor Seco (Honduras) · celda `N1335W08715` · 13.35°N, 87.15°O  
-**Indicador:** lluvia de temporada, suma mayo–octubre (mm/temporada), 2001–2024  
-
----
-
-## 1. Qué hicimos y por qué
-
-El análisis de ALTARIS se calcula con nuestros propios scripts, que descargan IMERG desde el archivo GES DISC. Ninguna herramienta de la lista del reto (Giovanni, Hydrology Time Series, AppEEARS, Climate Data Online) forma parte de ese cálculo.
-
-Para contrastar el resultado, extrajimos **una serie independiente de la misma celda** con **NASA Giovanni**, una de las herramientas que lista el reto, y comparamos contra la salida del pipeline.
-
-**Alcance:** esto es una **verificación de un caso**. No sustituye nuestro pipeline ni valida por sí sola el resto de celdas. No se debe describir como «usamos Giovanni» para el análisis.
+**Date:** 2026-11-15  
+**Project:** ALTARIS — Earth Trend Intelligence (NASA Space Apps Challenge 2026, "Be An Earth System Trend Detective")  
+**Case checked:** Example 1 · Choluteca, Dry Corridor (Honduras) · cell `N1335W08715` · 13.35°N, 87.15°W  
+**Indicator:** rainy-season rainfall, May–October sum (mm/season), 2001–2024  
 
 ---
 
-## 2. Parámetros en Giovanni (v 4.40)
+## 1. What we did and why
 
-| Parámetro | Valor |
+The ALTARIS analysis is computed with our own scripts, which download IMERG from the GES DISC archive. None of the tools on the challenge's resource list (Giovanni, Hydrology Time Series, AppEEARS, Climate Data Online) is part of that computation.
+
+To cross-check the result, we extracted **an independent series for the same cell** with **NASA Giovanni**, one of the tools listed by the challenge, and compared it with the pipeline output.
+
+**Scope:** this is a **one-case check**. It does not replace our pipeline and does not by itself validate the other cells. It must not be described as "we used Giovanni" for the analysis.
+
+---
+
+## 2. Giovanni parameters (v 4.40)
+
+| Parameter | Value |
 |---|---|
-| Tipo de gráfica | Time Series, Area-Averaged |
-| Variable | Merged satellite-gauge precipitation estimate – Final Run (recommended for general use), `GPM_3IMERGM v07`, mensual, 0.1°, mm/hr |
-| Periodo | 2001-01-01 a 2024-12-31 |
-| Región | `-87.15,13.35,-87.15,13.35` (un solo punto; Giovanni confirma que la región analizable es ese punto) |
-| Datos descargados | CSV `docs/validacion_giovanni/g4.areaAvgTimeSeries.GPM_3IMERGM_07_precipitation.20010101-20241231.87W_13N_87W_13N.csv` |
+| Plot type | Time Series, Area-Averaged |
+| Variable | Merged satellite-gauge precipitation estimate – Final Run (recommended for general use), `GPM_3IMERGM v07`, monthly, 0.1°, mm/hr |
+| Period | 2001-01-01 a 2024-12-31 |
+| Region | `-87.15,13.35,-87.15,13.35` (a single point; Giovanni confirms that the analysable region is that point) |
+| Downloaded data | CSV `docs/validacion_giovanni/g4.areaAvgTimeSeries.GPM_3IMERGM_07_precipitation.20010101-20241231.87W_13N_87W_13N.csv` |
 
-**Enlace para reproducir el resultado en Giovanni** (requiere cuenta Earthdata):
+**Link to reproduce the result in Giovanni** (requires an Earthdata account):
 
 ```
 https://giovanni.gsfc.nasa.gov/giovanni/#service=ArAvTs&starttime=2001-01-01T00:00:00Z&endtime=2024-12-31T23:59:59Z&bbox=-87.15,13.35,-87.15,13.35&data=GPM_3IMERGM_07_precipitation&variableFacets=dataFieldMeasurement%3APrecipitation%3B&dataKeyword=IMERG&portal=GIOVANNI&format=json
@@ -35,21 +35,21 @@ https://giovanni.gsfc.nasa.gov/giovanni/#service=ArAvTs&starttime=2001-01-01T00:
 
 ---
 
-## 3. Gráfica generada directamente en NASA Giovanni
+## 3. Plot generated directly in NASA Giovanni
 
-![Serie temporal en Giovanni](img/giovanni_time_series_choluteca.jpg)
+![Time series in Giovanni](img/giovanni_time_series_choluteca.jpg)
 
 ---
 
-## 4. Cálculo aplicado a la serie de Giovanni
+## 4. Computation applied to the Giovanni series
 
-1. Giovanni entrega la tasa media mensual en **mm/hora**. Se convirtió a mm por mes multiplicando por `24 × días reales del mes` (años bisiestos incluidos).
-2. Se sumaron mayo a octubre de cada año (24 años completos, 2001–2024).
-3. Se calculó la **pendiente de Sen** (Theil-Sen) con su **IC 95 %**, expresada por década, y una prueba de tendencia de Kendall (scipy `kendalltau`), equivalente a Mann–Kendall sin corrección por empates.
+1. Giovanni returns the monthly mean rate in **mm/hour**. It was converted to mm per month by multiplying by `24 × real days of the month` (leap years included).
+2. May to October of each year were summed (24 complete years, 2001–2024).
+3. The **Sen slope** (Theil–Sen) was computed with its **95 % CI**, expressed per decade, together with a Kendall trend test (scipy `kendalltau`), equivalent to Mann–Kendall without tie correction.
 
-### Totales mayo–octubre obtenidos (mm/temporada)
+### May–October totals obtained (mm/season)
 
-| Año | mm | Año | mm | Año | mm |
+| Year | mm | Year | mm | Year | mm |
 |---|---|---|---|---|---|
 | 2001 | 1061.0 | 2009 | 1179.4 | 2017 | 1572.6 |
 | 2002 | 1404.0 | 2010 | 2103.6 | 2018 | 1418.9 |
@@ -62,37 +62,37 @@ https://giovanni.gsfc.nasa.gov/giovanni/#service=ArAvTs&starttime=2001-01-01T00:
 
 ---
 
-## 5. Resultado de la comparación
+## 5. Result of the comparison
 
-| Métrica | ALTARIS (pipeline) | Giovanni (cálculo aparte) | ¿Coincide? |
+| Metric | ALTARIS (pipeline) | Giovanni (separate computation) | Match? |
 |---|---|---|---|
-| Pendiente de Sen | −48.1 mm/década | −48.1 mm/década | Sí |
-| IC 95 % de la pendiente | [−257.4, 170.9] | [−257.4, 170.9] | Sí |
-| Lluvia media may–oct | 1464 mm/temporada | 1464.4 mm/temporada | Sí |
-| Cambio relativo | −3.3 % | −3.3 % | Sí |
-| Valor p | 0.785 (Mann–Kendall) | 0.787 (tau de Kendall) | Diferencia de 0.002 |
-| Años válidos | 24/24 | 24/24 | Sí |
+| Sen slope | −48.1 mm/decade | −48.1 mm/decade | Yes |
+| 95 % CI of the slope | [−257.4, 170.9] | [−257.4, 170.9] | Yes |
+| Mean May–Oct rainfall | 1464 mm/season | 1464.4 mm/season | Yes |
+| Relative change | −3.3 % | −3.3 % | Yes |
+| p-value | 0.785 (Mann–Kendall) | 0.787 (Kendall tau) | Difference of 0.002 |
+| Valid years | 24/24 | 24/24 | Yes |
 
-**Veredicto de ALTARIS para esta celda:** *Sin evidencia de tendencia* (el IC incluye el cero, p alto, no significativa tras FDR).
+**ALTARIS verdict for this cell:** *No evidence of a trend* (the CI includes zero, high p, not significant after FDR).
 
-**Lectura:** la serie que entrega Giovanni para el mismo punto, producto, versión y periodo reproduce la pendiente y el intervalo del pipeline hasta la primera decimal. Esto indica que:
-- (a) La descarga de IMERG V07 del pipeline coincide exactamente con la de Giovanni.
-- (b) La conversión de mm/hr a mm/temporada y la estimación de tendencia están bien implementadas.
-
----
-
-## 6. Limitaciones de esta validación
-
-- Cubre **un solo caso** (Choluteca). Las demás celdas no se verificaron con Giovanni.
-- Giovanni y el pipeline leen el mismo producto (IMERG V07 Final), así que esto **confirma la implementación, no la exactitud del producto satelital** frente a mediciones en tierra.
-- No se contrastaron aquí las pruebas de ENSO, la ventana de años ni la corrección FDR del pipeline; la verificación se limitó a pendiente, intervalo y media.
-- El valor p de la verificación se calculó con una prueba equivalente, no idéntica, a la del pipeline.
+**Reading:** the series that Giovanni returns for the same point, product, version and period reproduces the pipeline's slope and interval to the first decimal. This indicates that:
+- (a) The pipeline's IMERG V07 download matches Giovanni's exactly.
+- (b) The conversion from mm/hr to mm/season and the trend estimation are correctly implemented.
 
 ---
 
-## 7. Cómo reproducirlo
+## 6. Limitations of this validation
 
-1. Entrar a Giovanni con una cuenta de NASA Earthdata y abrir el enlace de la sección 2, o configurar manualmente los parámetros de la tabla.
-2. Pulsar *Plot Data* y descargar el CSV.
-3. Convertir mm/hr a mm/mes (`× 24 × días del mes`), sumar mayo–octubre por año y calcular la pendiente de Sen con IC 95 % por década.
-4. Comparar con el panel de la celda `N1335W08715` en ALTARIS (indicador `may_oct_mm`).
+- It covers **a single case** (Choluteca). The other cells were not checked with Giovanni.
+- Giovanni and the pipeline read the same product (IMERG V07 Final), so this **confirms the implementation, not the accuracy of the satellite product** against ground measurements.
+- The ENSO tests, the year window and the pipeline's FDR correction were not cross-checked here; the check was limited to slope, interval and mean.
+- The p-value of the check was computed with an equivalent, not identical, test to the pipeline's.
+
+---
+
+## 7. How to reproduce it
+
+1. Log in to Giovanni with a NASA Earthdata account and open the link in section 2, or set the parameters in the table manually.
+2. Press *Plot Data* and download the CSV.
+3. Convert mm/hr to mm/month (`× 24 × days in the month`), sum May–October per year and compute the Sen slope with a 95 % CI per decade.
+4. Compare with the panel of cell `N1335W08715` in ALTARIS (indicator `may_oct_mm`).

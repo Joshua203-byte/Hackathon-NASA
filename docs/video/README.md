@@ -1,50 +1,50 @@
-# Video de 30 segundos (inglés)
+# 30-second demo video (English)
 
-Producido el 15 de noviembre de 2026 por Joshua con asistencia de Claude. **Duración: 28,6 s**, 1920×1080, 30 fps, H.264 + AAC (pista de audio en silencio). El archivo `altaris_demo.mp4` no está en el repositorio (16 MB): se entrega aparte y se sube a una plataforma pública.
+Produced on 15 November 2026 by Joshua with assistance from Claude. **Duration: 28.6 s**, 1920×1080, 30 fps, H.264 + AAC (silent audio track in the silent version). The file `altaris_demo.mp4` is not in the repository (16 MB): it is delivered separately and uploaded to a public platform.
 
-## Qué se ve (todo en inglés, todo real)
-| Tiempo | Imagen | Rótulo |
+## What is shown (all in English, all real)
+| Time | Image | Caption |
 |---|---|---|
-| 0:00–0:02,5 | Globo desde el espacio | NASA Space Apps Challenge 2026 · Team ALTARIS |
-| 0:02,5–0:05 | Vuelo a Centroamérica | The challenge: Be An Earth System Trend Detective! |
-| 0:05–0:10 | Se encienden las 4 332 celdas | ALTARIS · How much confidence does a rainfall trend deserve? · NASA GPM IMERG V07 · 4,332 places · 7 countries · 2001–2024 |
-| 0:10–0:13 | Caso de Honduras (interfaz real) | Open any place: 24 years of NASA satellite rainfall, one square at a time. |
-| 0:13–0:18 | El deslizador pasa de 2001–2024 a 2001–2010; la pendiente cambia de −48,3 a +381,9 mm por década | Change the years. The same place tells a different story. |
-| 0:18–0:23 | Tabla con el veredicto «Limited evidence» y sus razones | Read the evidence: A weak signal is not a confirmed change. |
-| 0:23–0:25 | Pasaporte de evidencia | Audit it: Every result ships with an evidence passport. |
-| 0:25–0:28,6 | Cierre con la dirección, el equipo y los créditos | Turn any rainfall line into a question you can test. Next: more places, more variables, and every student a data detective. |
+| 0:00–0:02.5 | Globe seen from space | NASA Space Apps Challenge 2026 · Team ALTARIS |
+| 0:02.5–0:05 | Flight to Central America | The challenge: Be An Earth System Trend Detective! |
+| 0:05–0:10 | The 4,332 cells light up | ALTARIS · How much confidence does a rainfall trend deserve? · NASA GPM IMERG V07 · 4,332 places · 7 countries · 2001–2024 |
+| 0:10–0:13 | Honduras case (real interface) | Open any place: 24 years of NASA satellite rainfall, one square at a time. |
+| 0:13–0:18 | The slider moves from 2001–2024 to 2001–2010; the slope changes from −48.3 to +381.9 mm per decade | Change the years. The same place tells a different story. |
+| 0:18–0:23 | Table with the verdict "Limited evidence" and its reasons | Read the evidence: A weak signal is not a confirmed change. |
+| 0:23–0:25 | Evidence passport | Audit it: Every result ships with an evidence passport. |
+| 0:25–0:28.6 | Closing card with the address, the team and credits | Turn any rainfall line into a question you can test. Next: more places, more variables, and every student a data detective. |
 
-## Cómo se hizo (declaración de producción)
-- Las imágenes son **capturas reales de la aplicación** con los datos observados del JSON de 7 países (`pipeline_commit` 7e93e46), compilada desde `main` (`bb8ee96`). No hay imágenes ni video generados con IA ni fotografías externas; la versión en silencio no tiene audio y la versión con música lleva una banda sonora original generada con código (ver abajo).
-- La captura es determinista: un guion en Playwright calcula la cámara del globo, el deslizador y el desplazamiento en cada instante y toma una imagen por cuadro (`capture.cjs`); `encode.py` mezcla las dos escenas y codifica con ffmpeg. Los rótulos son una capa HTML sobre la misma página.
-- El globo usa el Blue Marble de la NASA, las nubes de NASA GIBS (VIIRS NOAA-20) y las estrellas del catálogo Hipparcos/Yale. Fuentes: Inter y Space Grotesk.
-- **Asistencia de IA:** los guiones de captura y montaje y el código de la aplicación se escribieron con asistencia de IA (Claude); las decisiones de contenido y el guion son del equipo. Declararlo en el formulario («Use of AI»).
-- La copia de captura de la aplicación lleva una línea añadida en `RegionMap.tsx` (`window.__map = map`) para poder mover la cámara; esa línea **no** está en el código publicado.
+## How it was made (production statement)
+- The images are **real screen captures of the application** using the observed data of the 7-country JSON (`pipeline_commit` 7e93e46), built from `main` (`bb8ee96`). There are no AI-generated images or video and no external photographs. The silent version has no audio; the music version carries an original soundtrack generated with code (see below).
+- The capture is deterministic: a Playwright script computes the globe camera, the slider and the scroll at every instant and takes one image per frame (`capture.cjs`); `encode.py` blends the two scenes and encodes with ffmpeg. The captions are an HTML layer over the same page.
+- The globe uses NASA Blue Marble, NASA GIBS clouds (VIIRS NOAA-20) and stars from the Hipparcos/Yale catalogue. Fonts: Inter and Space Grotesk.
+- **AI assistance:** the capture and montage scripts and the application code were written with AI assistance (Claude); content decisions and the script are the team's. This is declared in the form ("Use of AI").
+- The capture copy of the application has one added line in `RegionMap.tsx` (`window.__map = map`) so the camera can be moved; that line is **not** in the published code.
 
-## Versión con música (opcional)
-Hay dos archivos: `altaris_demo.mp4` (en silencio) y `altaris_demo_music.mp4` (con fondo musical). El mensaje lo llevan los rótulos en las dos.
-- **La música es original y generada con código** (`music.py`, síntesis con numpy; sin muestras, sin música de terceros), compuesta con asistencia de IA (Claude). Sigue el video: pad abierto mientras el globo cruza el espacio, golpe grave suave al aparecer el título, arpegio constante al explorar, un barrido descendente en sincronía con el deslizador de años (13,3–16,8 s), acordes suspendidos sin tercera en «a weak signal is not a confirmed change», y una resolución luminosa en el cierre.
-- **Medido:** −18,9 LUFS integrados, pico −4,8 dBFS, sin saturación, 28,6 s. **No se pudo escuchar** durante la producción: hay que oírla antes de usarla, con auriculares y en el celular.
-- **Declaración obligatoria si se usa:** el audio generado exige declaración en el texto y en los metadatos. El archivo ya lo trae en sus metadatos. En «Use of AI» del formulario añadir: *«The background music of the demo video is an original score synthesised with code (no samples or third-party music) and composed with AI assistance (Claude); it is AI-generated audio.»* Si se entrega la versión en silencio, no hace falta.
+## Music version (optional)
+There are two files: `altaris_demo.mp4` (silent) and `altaris_demo_music.mp4` (with background music). The message is carried by the captions in both.
+- **The music is original and generated with code** (`music.py`, numpy synthesis; no samples, no third-party music), composed with AI assistance (Claude). It follows the video: an open pad while the globe crosses space, a soft low hit when the title appears, a steady arpeggio while exploring, a descending sweep in sync with the year slider (13.3–16.8 s), suspended chords (no third) over "a weak signal is not a confirmed change", and a bright resolution at the close.
+- **Measured:** −18.9 LUFS integrated, peak −4.8 dBFS, no clipping, 28.6 s. It **could not be listened to** during production: it must be heard before use, with headphones and on a phone.
+- **Mandatory disclosure when used:** generated audio requires disclosure in the descriptive text and in the metadata. In "Use of AI" of the form: *"The background music of the demo video is an original score synthesised with code (no samples or third-party music) and composed with AI assistance (Claude); it is AI-generated audio."* If the silent version is delivered, this is not needed.
 
-## Requisitos del reto y estado
-| Requisito | Estado |
+## Challenge requirements and status
+| Requirement | Status |
 |---|---|
-| Máximo 30 segundos | **Cumple**: 28,6 s (`ffprobe`) |
-| Presentarse: nombre y equipo | **Cumple** (0:00–0:02,5) |
-| El reto que aborda | **Cumple** (0:02,5–0:05) |
-| Nombre y lema del proyecto | **Cumple** (0:05–0:10) |
-| Cómo funciona, con imágenes y el uso de datos abiertos de NASA | **Cumple**: interfaz real; IMERG V07, GIBS y Blue Marble citados |
-| Mirada al futuro | **Cumple**, de forma breve (cierre) |
-| Legible y sin necesidad de contexto previo | Rótulos de 46–64 px a 1080p; interfaz ampliada 1,25×. **Falta** que una persona ajena lo vea sin sonido y en celular |
-| Sin menores de 18 años ni datos personales | **Cumple**: solo aparecen los nombres de pila del equipo |
-| Enlace público sin contraseña ni registro | **Pendiente**: lo hace Andrés al subirlo |
-| La dirección del cierre abre la versión publicada | **Pendiente**: comprobar `altaris.altaris-panel-rol5.workers.dev` |
+| 30 seconds at most | **Met**: 28.6 s (`ffprobe`) |
+| Introduce yourself: name and team | **Met** (0:00–0:02.5) |
+| The challenge addressed | **Met** (0:02.5–0:05) |
+| Project name and tagline | **Met** (0:05–0:10) |
+| How it works, with images and use of open NASA data | **Met**: real interface; IMERG V07, GIBS and Blue Marble cited |
+| Look to the future | **Met**, briefly (closing card) |
+| Readable without prior context | Captions of 46–64 px at 1080p; interface enlarged 1.25×. Still to check: someone outside the team watching without sound on a phone |
+| No one under 18, no personal data | **Met**: only the team's first names appear |
+| Public link, no password or registration | Done when uploading; test it in a private window |
+| The closing address opens the published version | Check `altaris.altaris-panel-rol5.workers.dev` |
 
-## Regenerar
-Requiere la aplicación compilada con la línea de captura, `vite` en el puerto 5300 y Playwright con ffmpeg.
+## Regenerate
+Requires the application built with the capture line, `vite` on port 5300 and Playwright with ffmpeg.
 ```bash
-node capture.cjs            # 858 cuadros en frames/ (≈ 15 min)
-python3 encode.py           # altaris_demo.mp4 y altaris_demo.en.srt
+node capture.cjs            # 858 frames in frames/ (about 15 min)
+python3 encode.py           # altaris_demo.mp4 and altaris_demo.en.srt
 ```
-Los textos están al principio de `capture.cjs` (capa de rótulos) y en la lista `cues` de `encode.py` (subtítulos).
+The texts are at the top of `capture.cjs` (caption layer) and in the `cues` list of `encode.py` (subtitles).
