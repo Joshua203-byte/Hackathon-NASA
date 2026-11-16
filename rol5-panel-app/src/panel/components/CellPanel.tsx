@@ -86,6 +86,14 @@ export function CellPanel({ cell, gridRow, meta, status, refs, mirror }: Props) 
   return (
     <aside className="panel">
       {meta.analysis_scope && <p role="note" className="notice pilot-status">{meta.analysis_scope.note[lang]}</p>}
+      {kase && (
+        <ol className="case-strip" aria-label={es ? 'Los cuatro pasos de este ejemplo' : 'The four steps of this example'}>
+          <li><span>1 {es ? 'Pregunta' : 'Question'}</span><b>{kase.title[lang]}</b></li>
+          <li><span>2 {es ? 'Variable' : 'Variable'}</span><b>{IND_LABEL[url.ind][lang]}</b></li>
+          <li><span>3 {es ? 'Lugar' : 'Place'}</span><b>{gridRow ? `${countryName(gridRow.country, lang)} · ` : ''}{cell.id}</b></li>
+          <li><span>4 {es ? 'Veredicto' : 'Verdict'}</span><b>{VERDICT_UI[d.verdict]?.label[lang] ?? d.verdict}</b></li>
+        </ol>
+      )}
       <header className="cell-head">
         <p className="cell-kicker">{gridRow ? `${countryName(gridRow.country, lang)} · ${Math.abs(gridRow.lat).toFixed(2)}°${gridRow.lat >= 0 ? 'N' : 'S'}, ${Math.abs(gridRow.lon).toFixed(2)}°${gridRow.lon >= 0 ? 'E' : 'W'} · ` : ''}{es ? 'celda' : 'cell'} {cell.id}</p>
         <h2 className="cell-title">{cell.name ?? IND_LABEL[url.ind][lang]}</h2>
