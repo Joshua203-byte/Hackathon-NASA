@@ -36,7 +36,7 @@ export const HELP_ZONES: readonly HelpZone[] = [
   },
   {
     key: 'years', selector: '[data-tour="years"]',
-    question: { es: '¿Para qué sirve elegir los años?', en: 'What is choosing the years for?' },
+    question: { es: '¿Para qué sirve elegir los años?', en: 'Why choose the years?' },
     body: {
       es: 'Prueba si la historia se sostiene: si al acortar o alargar el periodo la tendencia cambia mucho, hay que tomarla con cautela.',
       en: 'It tests whether the story holds up: if the trend changes a lot when the period is shortened or lengthened, treat it with caution.',
@@ -47,7 +47,7 @@ export const HELP_ZONES: readonly HelpZone[] = [
     question: { es: '¿Qué es este triángulo?', en: 'What is this triangle?' },
     body: {
       es: 'Cada casilla es un periodo distinto. Muestra de un vistazo en cuáles hay tendencia y en cuáles no.',
-      en: 'Each cell is a different period. It shows at a glance in which ones there is a trend and in which ones there is not.',
+      en: 'Each box is a different period. It shows at a glance which periods show a trend and which do not.',
     },
   },
   {
