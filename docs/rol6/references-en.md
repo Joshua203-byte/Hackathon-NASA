@@ -21,6 +21,15 @@ Claude and OpenAI Codex assisted code, tests, integration and documentation. Cla
 
 The prototype WebM is a rehearsal with synthetic data and must not be submitted. The final video has not been recorded in this work. Disclose actual tools and media in the final release; mark generated visuals as required by the [2026 submission guide](https://www.spaceappschallenge.org/resources/project-submission-guide/). Code/data and generated audio assistance must also be acknowledged in descriptive text and metadata. This proposed video uses software captures without music or external photographs. Do not claim a NASA texture or third-party media asset unless it is actually included and credited.
 
+## Added on 15 November: opening globe, sky and demo video
+
+- **NASA Blue Marble** (NASA Earth Observatory, public domain) and **NASA Black Marble** night lights, as packaged in the MIT-licensed `three-globe` npm package; reprojected to tiles by `rol5-panel-app/scripts/build_space_assets.py`.
+- **NASA GIBS**, VIIRS NOAA-20 true-colour imagery of the last complete day, loaded at run time for the opening globe; GIBS Blue Marble for close zoom. If GIBS does not respond the page falls back to the local Blue Marble.
+- **Star catalogue and constellation lines**: Hipparcos / Yale Bright Star via `d3-celestial` (BSD-3-Clause). **Planet, Moon and Sun positions**: `astronomy-engine` (MIT).
+- **Fonts**: Inter and Space Grotesk (SIL Open Font License) through `@fontsource-variable`.
+- **Demo video**: real screen captures of the app with observed data, rendered frame by frame with Playwright and encoded with ffmpeg (`docs/video/`). No generated imagery, voice or music. Claude assisted with the capture and editing scripts.
+- Details, limits and what is real versus approximate: [docs/11-entrada-espacial.md](../11-entrada-espacial.md).
+
 ## Release items still to verify
 
 Expanded-run provenance is in `data/ca/rol1/provenance.json` and `data/ca/json-light/meta.json` in integration. Still verify final media and map assets, dependency/license notices, repository license, English linked material, public links and the final SI inventory. The current materials do not report human testing results. Testing the three-country app, if completed, must be described with that scope.
