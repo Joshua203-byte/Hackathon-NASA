@@ -23,6 +23,7 @@ import { VerdictBadge } from './VerdictBadge';
 import { IND_LABEL, countryName, unitLabel } from '../labels';
 import { CASES } from '../cases';
 import { YearSlider } from './YearSlider';
+import { useDetailPref } from '../detailPref';
 
 /** Tarjeta de sección: título en lenguaje simple y una línea de cómo leerla. */
 function Card({ title, hint, children }: { title: string; hint?: string; children: React.ReactNode }) {
@@ -46,6 +47,7 @@ export function CellPanel({ cell, gridRow, meta, status, refs, mirror }: Props) 
   const [url, setUrl] = usePanelUrl();
   const { lang } = url;
   const es = lang === 'es';
+  const [detail, setDetail] = useDetailPref();
   const d = cell?.indicators[url.ind] ?? null;
   const period = meta.period;
   useEffect(() => {
@@ -87,6 +89,7 @@ export function CellPanel({ cell, gridRow, meta, status, refs, mirror }: Props) 
       <header className="cell-head">
         <p className="cell-kicker">{gridRow ? `${countryName(gridRow.country, lang)} · ${Math.abs(gridRow.lat).toFixed(2)}°${gridRow.lat >= 0 ? 'N' : 'S'}, ${Math.abs(gridRow.lon).toFixed(2)}°${gridRow.lon >= 0 ? 'E' : 'W'} · ` : ''}{es ? 'celda' : 'cell'} {cell.id}</p>
         <h2 className="cell-title">{cell.name ?? IND_LABEL[url.ind][lang]}</h2>
+        <label className="detail-pref no-print"><input type="checkbox" checked={detail} onChange={(e) => setDetail(e.target.checked)} /> {es ? 'Mostrar siempre el detalle estadístico' : 'Always show statistical detail'}</label>
         <p className="cell-sub">{cell.name ? `${IND_LABEL[url.ind][lang]} · ` : ''}{period[0]}–{period[1]} · {es ? 'área de unos 11 × 11 km' : 'area of about 11 × 11 km'}</p>
       </header>
       {kase?.story && (
@@ -96,7 +99,7 @@ export function CellPanel({ cell, gridRow, meta, status, refs, mirror }: Props) 
         </section>
       )}
       <SectionBoundary key={`v/${resetKey}`} name={es ? 'Veredicto' : 'Verdict'}>
-        <VerdictBadge cell={cell} ind={url.ind} lang={lang} validYears={valid} totalYears={total} />
+        <VerdictBadge cell={cell} ind={url.ind} lang={lang} validYears={valid} totalYears={total} glossary={refs.glossary} detailOpen={detail} />
         {s && (
           <dl className="keystats">
             <div><dt>{es ? 'Cambio por década' : 'Change per decade'}</dt><dd>{typeof slope === 'number' && slope !== 0 && <span className={`arrow ${slope < 0 ? 'down' : 'up'}`} aria-hidden="true">{slope < 0 ? '▼' : '▲'}</span>}{fmtSlope(slope, lang).replace(/ mm\/.*/, '')} <small>mm</small>{pct !== null && d.verdict !== 'consistente' && <span className="keystat-sub">{pct > 0 ? '+' : ''}{fmtNum(pct, 1)} % {es ? 'de la lluvia media' : 'of mean rainfall'}</span>}</dd></div>

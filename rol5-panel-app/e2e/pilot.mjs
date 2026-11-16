@@ -31,8 +31,8 @@ try {
   assert.match(page.url(), /dataset=pilot/);
   assert.match(await page.locator('.pilot-status').innerText(), /FDR.*solo esta celda/);
   assert.match(await page.locator('.verdict').innerText(), /24\/24/);
-  assert.match(await page.locator('.verdict').innerText(), /Control ENSO pendiente/);
-  assert.match(await page.locator('.verdict').innerText(), /Chequeo del salto de 2014 pendiente/);
+  assert.match(await page.locator('.verdict').textContent(), /Control ENSO pendiente/);
+  assert.match(await page.locator('.verdict').textContent(), /Chequeo del salto de 2014 pendiente/);
   assert.ok(await page.getByLabel('Quitar años ENSO fuertes').isDisabled());
   for (const ind of ['may_oct_mm', 'jul_aug_mm', 'annual_mm']) {
     const lens = ind === 'annual_mm' ? 'com' : 'agri';

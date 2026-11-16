@@ -78,5 +78,35 @@
       "es": "El Niño y La Niña son fases de una oscilación del Pacífico tropical. El ONI resume anomalías de temperatura del mar durante periodos de tres meses.",
       "en": "El Niño and La Niña are phases of a tropical Pacific oscillation. ONI summarises sea surface temperature anomalies over three-month periods."
     }
+  },
+  "tendencia": {
+    "term": {
+      "es": "Tendencia",
+      "en": "Trend"
+    },
+    "definition": {
+      "es": "Hacia dónde va un valor con los años: si en general sube o baja, más allá de los altibajos de cada año.",
+      "en": "Where a value is heading over the years: generally rising or falling, beyond the ups and downs of each year."
+    }
+  },
+  "significativo": {
+    "term": {
+      "es": "Significativo",
+      "en": "Significant"
+    },
+    "definition": {
+      "es": "Que es poco probable que se deba solo al azar. No quiere decir grande ni importante.",
+      "en": "Unlikely to be due to chance alone. It does not mean large or important."
+    }
+  },
+  "decada": {
+    "term": {
+      "es": "Década",
+      "en": "Decade"
+    },
+    "definition": {
+      "es": "Diez años. «−48 mm por década» es el cambio que estima la recta cada diez años.",
+      "en": "Ten years. “−48 mm per decade” is the change the line estimates every ten years."
+    }
   }
 }
