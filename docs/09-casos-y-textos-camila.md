@@ -1,6 +1,8 @@
 # Casos, textos y revisión científica final (Camila, Rol 3, domingo 15 de noviembre, 05:00)
 
-Cifras del JSON de `rol5-panel-app/public/data/` (motor `802a9b0`) y del contraste NASA POWER guardado en [`data/rol3/casos_power/`](../data/rol3/casos_power/). Las decisiones que justifican estos textos están en [08](08-revision-camila.md#resolución-domingo-15-0415-camila-con-claude).
+**Actualizado para 7 países (domingo 15, 15:30).** Las cifras por celda no cambiaron. Cambian solo el número de celdas (2 025 → 4 332), el p ajustado y cuántos lugares son `consistente` (44 → 196 en temporada); el análisis de 7 países está en [docs/ca/camila.md](ca/camila.md).
+
+Cifras del JSON de `rol5-panel-app/public/data/` (motor `802a9b0` en la primera versión, `7e93e46` en la de 7 países) y del contraste NASA POWER guardado en [`data/rol3/casos_power/`](../data/rol3/casos_power/). Las decisiones que justifican estos textos están en [08](08-revision-camila.md#resolución-domingo-15-0415-camila-con-claude).
 
 ## 0. Corrección a la resolución de docs/08
 
@@ -25,9 +27,9 @@ Español para el panel y la demo, inglés para el formulario. Toda cifra sale de
 
 ### Caso 1. Corredor Seco, Honduras (`N1335W08715`, Choluteca)
 
-**ES.** En Choluteca, la lluvia de temporada (mayo–octubre) de 2001–2024 tiene una pendiente de −48 mm por década, pero el intervalo de confianza va de −257 a +171: incluye el cero. Tras corregir por las 2 025 celdas, el p ajustado es 0,88. Veredicto: **sin evidencia de tendencia**. No encontrar una tendencia también es un hallazgo: con 24 años de datos no se puede afirmar que la lluvia esté bajando aquí. Lo que sí se ve es ENSO: los años El Niño son más secos (correlación con ONI −0,64). NASA POWER da incluso el signo contrario (+171 mm por década, no significativo).
+**ES.** En Choluteca, la lluvia de temporada (mayo–octubre) de 2001–2024 tiene una pendiente de −48 mm por década, pero el intervalo de confianza va de −257 a +171: incluye el cero. Tras corregir por las 4 332 celdas, el p ajustado es 0,87. Veredicto: **sin evidencia de tendencia**. No encontrar una tendencia también es un hallazgo: con 24 años de datos no se puede afirmar que la lluvia esté bajando aquí. Lo que sí se ve es ENSO: los años El Niño son más secos (correlación con ONI −0,64). NASA POWER da incluso el signo contrario (+171 mm por década, no significativo).
 
-**EN.** In Choluteca, 2001–2024 rainy-season rainfall (May–October) has a slope of −48 mm per decade, but the 95 % confidence interval runs from −257 to +171 and includes zero. After correcting across 2,025 cells, the adjusted p-value is 0.88. Verdict: **no evidence of a trend**. Not finding a trend is a finding too: 24 years of data cannot support the claim that rainfall is falling here. What the record does show is ENSO: El Niño years are drier (correlation with ONI −0.64). NASA POWER even gives the opposite sign (+171 mm per decade, not significant).
+**EN.** In Choluteca, 2001–2024 rainy-season rainfall (May–October) has a slope of −48 mm per decade, but the 95 % confidence interval runs from −257 to +171 and includes zero. After correcting across 4,332 cells, the adjusted p-value is 0.87. Verdict: **no evidence of a trend**. Not finding a trend is a finding too: 24 years of data cannot support the claim that rainfall is falling here. What the record does show is ENSO: El Niño years are drier (correlation with ONI −0.64). NASA POWER even gives the opposite sign (+171 mm per decade, not significant).
 
 **No decir:** "la lluvia baja en el Corredor Seco".
 
@@ -53,7 +55,7 @@ The change comes from the years chosen, not from the rain: 2008 is the wettest y
 
 ### Caso 3. Dos sitios, dos veredictos (`N1495W09125`, Guatemala, frente a `N1335W08715`)
 
-**ES.** En las tierras altas del oeste de Guatemala, la lluvia de temporada media es de 1 478 mm y IMERG da una pendiente de −452 mm por década (IC de −641 a −282, p ajustado 0,032), estable en casi todas las ventanas. Es el único tipo de lugar donde el motor dice **tendencia consistente**. A unos 480 km, en Choluteca: **sin evidencia**. Mismo producto, mismos años, mismas fases de ENSO.
+**ES.** En las tierras altas del oeste de Guatemala, la lluvia de temporada media es de 1 478 mm y IMERG da una pendiente de −452 mm por década (IC de −641 a −282, p ajustado 0,024), estable en casi todas las ventanas. El motor dice **tendencia consistente** aquí y en otras zonas de Centroamérica (196 celdas de temporada, en Guatemala, Costa Rica, Panamá y Nicaragua). A unos 480 km, en Choluteca: **sin evidencia**. Mismo producto, mismos años, mismas fases de ENSO.
 
 Pero esto es una pregunta abierta, no un hallazgo climático:
 
@@ -63,7 +65,7 @@ Pero esto es una pregunta abierta, no un hallazgo climático:
 
 Puede ser una señal real o un artefacto del producto. Con este registro no se puede separar.
 
-**EN.** In Guatemala's western highlands, mean rainy-season rainfall is 1,478 mm and IMERG gives a slope of −452 mm per decade (CI −641 to −282, adjusted p 0.032), stable across almost every window. This is the only kind of place where the engine returns a **consistent trend**. About 480 km away, in Choluteca: **no evidence**. Same product, same years, same ENSO phases.
+**EN.** In Guatemala's western highlands, mean rainy-season rainfall is 1,478 mm and IMERG gives a slope of −452 mm per decade (CI −641 to −282, adjusted p 0.024), stable across almost every window. The engine returns a **consistent trend** here and in other parts of Central America (196 rainy-season cells, in Guatemala, Costa Rica, Panama and Nicaragua). About 480 km away, in Choluteca: **no evidence**. Same product, same years, same ENSO phases.
 
 But this is an open question, not a climate finding:
 
@@ -82,7 +84,7 @@ It may be a real signal or a product artefact. This record cannot separate them.
 Las seis de `pipeline/config.yaml` quedan aprobadas tal cual. Cambiarlas obligaría a regenerar el JSON, y son correctas. Para el formulario y la demo se añaden dos frases que **no** van al pasaporte:
 
 - La bandera del salto de 2013–2015 se da **por país**. En lluvia de temporada: 111 de 917 celdas en Guatemala (12,1 %), 1 en Honduras y 1 en El Salvador. En canícula: 320 en Guatemala (34,9 %), 21 en Honduras (2,2 %) y 15 en El Salvador (8,9 %).
-- La franja `consistente` de Guatemala va con la salvedad del caso 3.
+- Las zonas `consistente` (Guatemala, Costa Rica, Panamá y Nicaragua) van con la salvedad del caso 3.
 
 ## 3. Revisión de la narrativa (tarea 10, con Andrés)
 
@@ -127,11 +129,11 @@ No toqué los `[PENDING: URL]` ni los `[PENDING: guide]`, que son de Andrés, Iz
 |---|---|
 | ¿Por qué 24 años y no 30 o más? | IMERG empieza a mediados de 2000; 2001 es el primer año completo, y 2025 no estaba completo al empezar. Es una limitación declarada: 24 años no separan tendencia y variabilidad decenal. Por eso el producto existe |
 | ¿No es demasiado estricto? Nadie sale `consistente` en Honduras | La calibración dice que `consistente` casi nunca aparece en ruido (0,0 %) y detecta una caída del 20 % por década en el 54 % de los casos. Es estricto a propósito: el objetivo es no afirmar de más |
-| ¿Por qué Guatemala sí y Honduras no? | Porque allí IMERG muestra una caída muy grande. Pero POWER no la ve, la zona tiene pocos pluviómetros y el cambio se concentra hacia 2009. Lo presentamos como pregunta abierta |
+| ¿Por qué algunas zonas de montaña sí y Honduras no? | Porque allí IMERG muestra una caída muy grande. Pero en las celdas donde contrastamos, POWER no la reproduce, las zonas tienen pocos pluviómetros y el cambio se ubica hacia 2009–2012. Lo presentamos como pregunta abierta |
 | ¿Y el cambio de satélites TRMM→GPM? | Hay una prueba de Pettitt con bandera en 2013–2015, y una celda con bandera no pasa de `limitada`. Es sobre todo un fenómeno de Guatemala. 2015 coincide con El Niño fuerte, así que la bandera no separa instrumento y sequía real |
 | ¿Cambiaron umbrales después de ver resultados? | Una vez, documentada en `threshold_changes`, y solo hizo los veredictos más conservadores. La revisión de la regla de 2014 se cerró **sin** cambiarla, precisamente para no ajustar después de ver el mapa |
-| ¿ENSO explica la tendencia? | No. ENSO explica cuánto llueve de un año a otro (El Niño más seco en toda la región), pero ningún veredicto `consistente` depende de ENSO, y la tendencia de la franja sobrevive al quitarlo |
-| ¿Hay efecto espejo Pacífico–Caribe? | No en este registro: la correlación con ONI es negativa en todas las celdas para la temporada |
+| ¿ENSO explica la tendencia? | No. ENSO explica cuánto llueve de un año a otro (todas las correlaciones significativas son negativas: El Niño, más seco), pero ningún veredicto `consistente` depende de ENSO, y la tendencia de esas zonas sobrevive al quitarlo |
+| ¿Hay efecto espejo Pacífico–Caribe? | No en este registro: todas las correlaciones significativas con ONI son negativas. Unas pocas celdas de Costa Rica, Nicaragua y Panamá tienen signo positivo, sin significancia |
 | ¿Por qué no usar estaciones? | No tenemos acceso abierto a una red homogénea para los tres países. El panel le pide al usuario contrastar con pluviómetros locales |
 | ¿Usaron IA para las cifras? | No. Las cifras y los veredictos son deterministas (Python, reglas en `config.yaml`). La IA se usó para código, pruebas y textos, y está declarada |
 | ¿Es reproducible? | La receta de docs/06 §6 regenera el JSON con las mismas cifras. Hay 73 pruebas del motor, 38 del panel y una revisión independiente de 9 celdas con `scipy` |
