@@ -1,0 +1,41 @@
+1
+00:00:00,000 --> 00:00:02,500
+NASA Space Apps Challenge 2026
+Team ALTARIS
+
+2
+00:00:02,500 --> 00:00:05,000
+The challenge:
+Be An Earth System Trend Detective!
+
+3
+00:00:05,000 --> 00:00:10,000
+ALTARIS: how much confidence does a rainfall trend deserve?
+NASA GPM IMERG V07 · 4,332 places · 7 countries · 2001–2024
+
+4
+00:00:10,200 --> 00:00:13,200
+Open any place:
+24 years of NASA satellite rainfall, one square at a time.
+
+5
+00:00:13,200 --> 00:00:18,000
+Change the years.
+The same place tells a different story.
+
+6
+00:00:18,300 --> 00:00:23,000
+Read the evidence:
+A weak signal is not a confirmed change.
+
+7
+00:00:23,000 --> 00:00:25,400
+Audit it:
+Every result ships with an evidence passport.
+
+8
+00:00:25,400 --> 00:00:28,600
+Turn any rainfall line into a question you can test.
+Next: more places, more variables, and every student a data detective.
+altaris.altaris-panel-rol5.workers.dev
+
