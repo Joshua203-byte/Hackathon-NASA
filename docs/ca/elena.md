@@ -41,6 +41,18 @@ URL: <https://altaris.altaris-panel-rol5.workers.dev> (7 países, 4 332 celdas, 
 - `scripts/smoke-ca.mjs` contra producción: 28/28 celdas, casos 1–3 en escritorio y teléfono, 0 errores, código 0. **Corregí el filtro del favicon** que señaló Izel: ahora mira la dirección del recurso, no solo el texto del mensaje.
 - Simulado no es real: la GPU de un teléfono real puede ir más lenta o más rápida con el globo. Por eso falta la prueba de abajo.
 
+### Cambio de una celda a otra
+
+Ya con el mapa cargado: se toca una celda y luego otra vecina, y se cronometra desde el segundo toque hasta que el panel muestra el veredicto **de la celda nueva** (su código en pantalla). Son 4 cambios por perfil, sin caché, así que cada cambio descarga su `cells/{id}.json`.
+
+| Perfil | Mediana | Máximo |
+|---|---:|---:|
+| Escritorio 1440×900, red normal | 0,34 s | 0,53 s |
+| Celular (Pixel 7 emulado), red normal | 0,35 s | 0,35 s |
+| Celular, 4G (9 Mbps, 85 ms) | 0,20 s | 0,29 s |
+
+**En celular real (Elena):** al ubicarse en una zona del mapa y pasar a otra, los datos cambian muy rápido. Coincide con lo medido. El vuelo de la cámara hacia la celda nueva (1,4 s) es animación: el panel se actualiza antes de que termine.
+
 ## Prueba en celular real (Elena con Izel)
 
 En cada dispositivo, con datos móviles (no wifi) si se puede:
