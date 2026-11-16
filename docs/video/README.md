@@ -15,11 +15,17 @@ Producido el 15 de noviembre de 2026 por Joshua con asistencia de Claude. **Dura
 | 0:25–0:28,6 | Cierre con la dirección, el equipo y los créditos | Turn any rainfall line into a question you can test. Next: more places, more variables, and every student a data detective. |
 
 ## Cómo se hizo (declaración de producción)
-- Las imágenes son **capturas reales de la aplicación** con los datos observados del JSON de 7 países (`pipeline_commit` 7e93e46), compilada desde `main` (`bb8ee96`). No hay imágenes ni video generados con IA, ni fotografías externas, ni música.
+- Las imágenes son **capturas reales de la aplicación** con los datos observados del JSON de 7 países (`pipeline_commit` 7e93e46), compilada desde `main` (`bb8ee96`). No hay imágenes ni video generados con IA ni fotografías externas; la versión en silencio no tiene audio y la versión con música lleva una banda sonora original generada con código (ver abajo).
 - La captura es determinista: un guion en Playwright calcula la cámara del globo, el deslizador y el desplazamiento en cada instante y toma una imagen por cuadro (`capture.cjs`); `encode.py` mezcla las dos escenas y codifica con ffmpeg. Los rótulos son una capa HTML sobre la misma página.
 - El globo usa el Blue Marble de la NASA, las nubes de NASA GIBS (VIIRS NOAA-20) y las estrellas del catálogo Hipparcos/Yale. Fuentes: Inter y Space Grotesk.
 - **Asistencia de IA:** los guiones de captura y montaje y el código de la aplicación se escribieron con asistencia de IA (Claude); las decisiones de contenido y el guion son del equipo. Declararlo en el formulario («Use of AI»).
 - La copia de captura de la aplicación lleva una línea añadida en `RegionMap.tsx` (`window.__map = map`) para poder mover la cámara; esa línea **no** está en el código publicado.
+
+## Versión con música (opcional)
+Hay dos archivos: `altaris_demo.mp4` (en silencio) y `altaris_demo_music.mp4` (con fondo musical). El mensaje lo llevan los rótulos en las dos.
+- **La música es original y generada con código** (`music.py`, síntesis con numpy; sin muestras, sin música de terceros), compuesta con asistencia de IA (Claude). Sigue el video: pad abierto mientras el globo cruza el espacio, golpe grave suave al aparecer el título, arpegio constante al explorar, un barrido descendente en sincronía con el deslizador de años (13,3–16,8 s), acordes suspendidos sin tercera en «a weak signal is not a confirmed change», y una resolución luminosa en el cierre.
+- **Medido:** −18,9 LUFS integrados, pico −4,8 dBFS, sin saturación, 28,6 s. **No se pudo escuchar** durante la producción: hay que oírla antes de usarla, con auriculares y en el celular.
+- **Declaración obligatoria si se usa:** el audio generado exige declaración en el texto y en los metadatos. El archivo ya lo trae en sus metadatos. En «Use of AI» del formulario añadir: *«The background music of the demo video is an original score synthesised with code (no samples or third-party music) and composed with AI assistance (Claude); it is AI-generated audio.»* Si se entrega la versión en silencio, no hace falta.
 
 ## Requisitos del reto y estado
 | Requisito | Estado |
