@@ -9,7 +9,6 @@ import { VERDICTS, type GridCell, type IndicatorKey, type Lang, type Meta, type 
 import { VERDICT_UI } from '../verdict';
 import { countryName, regionNames } from '../labels';
 import { SpaceSky } from '../space/SpaceSky';
-import { markIntroSeen } from '../space/introPlan';
 import { warmEarthTiles } from '../space/warmTiles';
 import { addHdLayer, addNightLayer, addViirsLayer, buildNightCanvas, buildViirsCanvas, imageryDate, introStartLon, liveAllowed } from '../space/liveEarth';
 import { subsolarPoint } from '../space/sun';
@@ -78,14 +77,14 @@ function writeLayer(layer: MapLayer) {
 
 const fmt = (v: number | null | undefined, digits = 1) => (typeof v === 'number' ? v.toFixed(digits) : '—');
 
-export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback, cases = [], onCase, intro, onIntroStart, onIntroEnd }: {
+export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback, cases = [], onCase, intro, onIntroEnd }: {
   cells: GridCell[]; meta: Meta; ind: IndicatorKey; selected: string | null; onSelect: (id: string) => void; lang: Lang;
   /** Casos de estudio: se marcan con su número sobre la celda. */
   cases?: { n: number; id: string }[]; onCase?: (n: number) => void;
   /** Se muestra si el navegador no puede crear el contexto WebGL. */
   fallback: ReactNode;
   /** Reproduce la entrada espacial (planeta, estrellas, vuelo a la región) al cargar. */
-  intro?: boolean; onIntroStart?: () => void; onIntroEnd?: () => void;
+  intro?: boolean; onIntroEnd?: () => void;
 }) {
   const es = lang === 'es';
   const box = useRef<HTMLDivElement>(null);
@@ -101,8 +100,6 @@ export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback
   const introRef = useRef(!!intro);
   const onIntroEndRef = useRef(onIntroEnd);
   onIntroEndRef.current = onIntroEnd;
-  const onIntroStartRef = useRef(onIntroStart);
-  onIntroStartRef.current = onIntroStart;
   const runRef = useRef(0);
   const startRef = useRef(INTRO_START);
   /** Fecha de la imagen de GIBS si respondió; null = solo el Blue Marble propio. */
@@ -224,7 +221,6 @@ export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback
   const finishIntro = useCallback((map: MlMap) => {
     introRef.current = false;
     setPhase('idle');
-    markIntroSeen();
     if (map.getLayer('cells-fill')) {
       map.setPaintProperty('cells-fill', 'fill-opacity', 0.86);
       map.setPaintProperty('borders-line', 'line-opacity', 1);
@@ -232,7 +228,7 @@ export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback
     onIntroEndRef.current?.();
   }, []);
 
-  const playIntro = useCallback((replay: boolean) => {
+  const playIntro = useCallback(() => {
     const map = mapRef.current;
     if (!map) return;
     const run = ++runRef.current;
@@ -240,7 +236,6 @@ export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback
     const timers: number[] = []; flightRef.current = { timers };
     introRef.current = true; setPhase('hold');
     warmEarthTiles(new URL(import.meta.env.BASE_URL, window.location.href).href + EARTH_TILES, meta.bbox);
-    if (replay) onIntroStartRef.current?.();
     if (map.getLayer('cells-fill')) { map.setPaintProperty('cells-fill', 'fill-opacity', 0); map.setPaintProperty('borders-line', 'line-opacity', 0); }
     const fly = () => {
       if (run !== runRef.current) return;
@@ -252,8 +247,7 @@ export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback
     };
     let begun = false; // `idle` y el plazo de seguridad pueden llegar los dos: el vuelo empieza una sola vez
     const begin = () => { if (begun || run !== runRef.current) return; begun = true; timers.push(window.setTimeout(fly, INTRO_HOLD_MS)); };
-    if (replay) { map.flyTo({ ...startRef.current, padding: introPadding(), bearing: 0, pitch: 0, duration: 2600, easing: easeInOut, essential: true }); map.once('moveend', () => { if (run === runRef.current) begin(); }); }
-    else if (map.loaded()) begin();
+    if (map.loaded()) begin();
     else { map.once('idle', begin); timers.push(window.setTimeout(begin, 3500)); }
   }, [regionCamera, finishIntro, meta]);
 
@@ -268,7 +262,7 @@ export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback
     finishIntro(map);
   }, [regionCamera, finishIntro]);
 
-  useEffect(() => { if (ready && introRef.current && runRef.current === 0) playIntro(false); }, [ready, playIntro]);
+  useEffect(() => { if (ready && introRef.current && runRef.current === 0) playIntro(); }, [ready, playIntro]);
 
   // Nombres de país como marcadores HTML (no hay servidor de fuentes para etiquetas de MapLibre). Solo se ven con la región a la vista.
   const labelKey = useMemo(() => [...new Set(cells.map(c => c.country))].sort().join(','), [cells]);
@@ -358,7 +352,6 @@ export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback
         {phase === 'idle' && ready && (
           <div className="space-tools">
             <button type="button" onClick={recenter} title={es ? 'Volver a encuadrar la región' : 'Frame the region again'}>{es ? 'Centrar región' : 'Frame region'}</button>
-            <button type="button" onClick={() => playIntro(true)} title={es ? 'Volver a ver la Tierra desde el espacio' : 'See Earth from space again'}>{es ? 'Ver desde el espacio' : 'View from space'}</button>
           </div>
         )}
         {!ready && <p className="region-map-loading">{es ? 'Cargando mapa…' : 'Loading map…'}</p>}

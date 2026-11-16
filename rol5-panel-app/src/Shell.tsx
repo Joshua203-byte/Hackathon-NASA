@@ -101,7 +101,7 @@ export function Shell() {
           {/* Rol 4: MapLibre; si no hay WebGL se usa la rejilla SVG sin mapa base. */}
           <Suspense fallback={<p className="region-map-loading">{es ? 'Cargando mapa…' : 'Loading map…'}</p>}>
             <RegionMap cells={boot.grid} meta={boot.meta} ind={url.ind} selected={url.cell} onSelect={selectCell} lang={url.lang}
-              cases={cases.map(c => ({ n: c.n, id: c.cell }))} intro={playIntro} onIntroStart={() => setIntroing(true)} onIntroEnd={() => setIntroing(false)} onCase={n => { const c = CASES.find(k => k.n === n); if (c) openCase(c); }}
+              cases={cases.map(c => ({ n: c.n, id: c.cell }))} intro={playIntro} onIntroEnd={() => setIntroing(false)} onCase={n => { const c = CASES.find(k => k.n === n); if (c) openCase(c); }}
               fallback={<CellMap cells={boot.grid} meta={boot.meta} ind={url.ind} selected={url.cell} onSelect={selectCell} lang={url.lang} />} />
           </Suspense>
         </div>
