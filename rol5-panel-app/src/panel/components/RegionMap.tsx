@@ -77,7 +77,7 @@ function writeLayer(layer: MapLayer) {
 
 const fmt = (v: number | null | undefined, digits = 1) => (typeof v === 'number' ? v.toFixed(digits) : '—');
 
-export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback, cases = [], onCase, intro, onIntroEnd }: {
+export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback, cases = [], onCase, intro, onIntroEnd, focusBounds }: {
   cells: GridCell[]; meta: Meta; ind: IndicatorKey; selected: string | null; onSelect: (id: string) => void; lang: Lang;
   /** Casos de estudio: se marcan con su número sobre la celda. */
   cases?: { n: number; id: string }[]; onCase?: (n: number) => void;
@@ -85,6 +85,8 @@ export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback
   fallback: ReactNode;
   /** Reproduce la entrada espacial (planeta, estrellas, vuelo a la región) al cargar. */
   intro?: boolean; onIntroEnd?: () => void;
+  /** Encuadra estos límites [[oeste, sur], [este, norte]] (la guía de primera visita los usa al elegir un país). */
+  focusBounds?: [[number, number], [number, number]] | null;
 }) {
   const es = lang === 'es';
   const box = useRef<HTMLDivElement>(null);
@@ -304,6 +306,12 @@ export function RegionMap({ cells, meta, ind, selected, onSelect, lang, fallback
     if (c) map.flyTo({ center: [c.lon, c.lat], zoom: Math.max(map.getZoom(), wide ? 6.9 : 6.4), padding, duration: 1400 });
     else { const [s, n] = meta.bbox.lat; const [w, e] = meta.bbox.lon; map.fitBounds([[w, s], [e, n]], { padding: { top: 16, bottom: padding.bottom + 16, left: padding.left + 16, right: 16 }, duration: 900 }); }
   }, [ready, selected, byId]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!ready || !map || !focusBounds || introRef.current) return;
+    map.fitBounds(focusBounds, { padding: finalPadding(), duration: 1200, maxZoom: 9 });
+  }, [ready, focusBounds]);
 
   if (failed) return <>{fallback}</>;
 

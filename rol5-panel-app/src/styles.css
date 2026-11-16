@@ -340,3 +340,14 @@ dl dd { margin:0; color:var(--ink-2); }
 .stat-list dd { margin:0; }
 .stat-def { display:block; font-size:.8rem; color:var(--ink-2); font-weight:400; }
 .stat-detail code { font-size:.72rem; color:var(--ink-2); }
+.welcome { position:fixed; left:50%; transform:translateX(-50%); bottom:1rem; width:min(560px, 92vw); z-index:31; }
+.welcome-box { background:var(--surface); border:2px solid var(--brand); border-radius:14px; padding:.8rem 1rem; box-shadow:0 12px 36px #0006; outline:none; }
+.welcome-box:focus-visible { box-shadow:0 0 0 3px #fff, 0 0 0 6px var(--brand), 0 12px 36px #0006; }
+.welcome-head { display:flex; justify-content:space-between; align-items:center; gap:.6rem; margin-bottom:.4rem; }
+.welcome-box p { margin:.2rem 0 .6rem; color:var(--ink-2); }
+.welcome-options { display:flex; flex-wrap:wrap; gap:.45rem; margin-top:.4rem; }
+.welcome button { background:var(--surface); border:1px solid #b5c3cf; border-radius:8px; padding:.4rem .75rem; cursor:pointer; font:inherit; color:var(--ink); min-height:36px; }
+.welcome button:hover { border-color:var(--brand); }
+.welcome .welcome-skip { border:0; background:none; text-decoration:underline; color:var(--ink-2); padding:.2rem .4rem; }
+.welcome .welcome-primary, .welcome .welcome-example { background:var(--brand); color:#fff; border-color:var(--brand); }
+.welcome-nav { display:flex; gap:.5rem; justify-content:flex-end; margin-top:.4rem; }

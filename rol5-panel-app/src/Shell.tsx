@@ -6,6 +6,8 @@ import { IND_OPTION, LENS_LABEL, regionNames } from './panel/labels';
 import { selectIndicator } from './panel/lenses';
 import { useEffect, useState, useSyncExternalStore } from 'react';
 import { shouldPlayIntro } from './panel/space/introPlan';
+import { countryBounds, countryCodes, markGuideSeen, shouldShowGuide } from './panel/guide';
+import { Welcome } from './panel/components/Welcome';
 import { lazy, Suspense } from 'react';
 const RegionMap = lazy(() => import('./panel/components/RegionMap').then(m => ({ default: m.RegionMap })));
 const CellPanel = lazy(() => import('./panel/components/CellPanel').then(m => ({ default: m.CellPanel })));
@@ -27,6 +29,8 @@ export function Shell() {
   // La entrada espacial se decide una sola vez; mientras suena, el resto de la interfaz espera.
   const [playIntro] = useState(shouldPlayIntro);
   const [introing, setIntroing] = useState(playIntro);
+  const [guideOpen, setGuideOpen] = useState(shouldShowGuide);
+  const [focus, setFocus] = useState<[[number, number], [number, number]] | null>(null);
   const { boot, error } = useBoot();
   const [url, setUrl] = usePanelUrl();
   const { cell, status } = useCell(url.cell);
@@ -79,6 +83,7 @@ export function Shell() {
     window.location.assign(patchSearch(`?${q}`, { ...boot.refs.tour.context, tour: 1, lang: url.lang }));
   };
 
+  const closeGuide = () => { markGuideSeen(); setGuideOpen(false); };
   const yearsN = boot.meta.period[1] - boot.meta.period[0] + 1;
   const closeCell = () => { const q = new URLSearchParams(location.search); for (const k of ['cell', 'win', 'mirror', 'case', 'tour']) q.delete(k); history.pushState(null, '', `?${q}` + location.hash); dispatchEvent(new PopStateEvent('popstate')); };
 
@@ -96,12 +101,21 @@ export function Shell() {
       </header>
       {(boot.meta.data_kind !== 'observed' || boot.meta.pipeline_commit === 'MOCK') && <p role="note" className="notice demo-notice">{es ? 'DEMOSTRACIÓN: datos simulados o sin validación de procedencia. No usar para decisiones.' : 'DEMO: simulated data or unverified provenance. Do not use for decisions.'}</p>}
 
+      {guideOpen && !introing && (
+        <Welcome lang={url.lang} countries={countryCodes(boot.grid)} hasExample={cases.length > 0}
+          onPickInd={ind => setUrl({ ind, win: null })}
+          onPickCountry={code => setFocus(countryBounds(boot.grid, code))}
+          onExample={() => { closeGuide(); openCase(cases[0]); }}
+          onTour={() => { closeGuide(); startTour(); }}
+          onClose={closeGuide} />
+      )}
+
       <div className={url.cell ? 'stage has-cell' : 'stage'}>
         <div className="workspace-map">
           {/* Rol 4: MapLibre; si no hay WebGL se usa la rejilla SVG sin mapa base. */}
           <Suspense fallback={<p className="region-map-loading">{es ? 'Cargando mapa…' : 'Loading map…'}</p>}>
             <RegionMap cells={boot.grid} meta={boot.meta} ind={url.ind} selected={url.cell} onSelect={selectCell} lang={url.lang}
-              cases={cases.map(c => ({ n: c.n, id: c.cell }))} intro={playIntro} onIntroEnd={() => setIntroing(false)} onCase={n => { const c = CASES.find(k => k.n === n); if (c) openCase(c); }}
+              cases={cases.map(c => ({ n: c.n, id: c.cell }))} focusBounds={focus} intro={playIntro} onIntroEnd={() => setIntroing(false)} onCase={n => { const c = CASES.find(k => k.n === n); if (c) openCase(c); }}
               fallback={<CellMap cells={boot.grid} meta={boot.meta} ind={url.ind} selected={url.cell} onSelect={selectCell} lang={url.lang} />} />
           </Suspense>
         </div>
