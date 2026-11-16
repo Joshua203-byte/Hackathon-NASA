@@ -1,7 +1,8 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { markIntroSeen, shouldPlayIntro } from '../space/introPlan';
+import { shouldPlayIntro } from '../space/introPlan';
 
 function env({ search = '', reduced = false, webdriver = false, seen = false } = {}) {
+  // `seen` simula una sesión con almacenamiento previo: ya no influye, la intro se reproduce en cada carga
   const store = new Map<string, string>(seen ? [['altaris-intro-seen', '1']] : []);
   vi.stubGlobal('window', {
     location: { search },
@@ -15,12 +16,7 @@ afterEach(() => vi.unstubAllGlobals());
 
 describe('entrada espacial: cuándo se reproduce', () => {
   it('se reproduce en la primera visita normal', () => { env(); expect(shouldPlayIntro()).toBe(true); });
-  it('no se repite en la misma sesión', () => { env({ seen: true }); expect(shouldPlayIntro()).toBe(false); });
-  it('marcar como vista la apaga para la siguiente carga', () => {
-    env(); markIntroSeen();
-    const stored = (window as unknown as { sessionStorage: { getItem(k: string): string | null } }).sessionStorage.getItem('altaris-intro-seen');
-    expect(stored).toBe('1');
-  });
+  it('se reproduce en cada carga, también en la misma sesión (recargar con F5)', () => { env({ seen: true }); expect(shouldPlayIntro()).toBe(true); });
   it('no se reproduce con movimiento reducido', () => { env({ reduced: true }); expect(shouldPlayIntro()).toBe(false); });
   it('no hace esperar a quien llega por un enlace a algo concreto', () => {
     for (const q of ['?cell=N1335W08715', '?case=3', '?layer=slope', '?ind=annual_mm', '?tour=1', '?dataset=pilot', '?lens=com']) {
@@ -31,7 +27,7 @@ describe('entrada espacial: cuándo se reproduce', () => {
     env({ webdriver: true }); expect(shouldPlayIntro()).toBe(false);
     env({ webdriver: true, search: '?intro=1' }); expect(shouldPlayIntro()).toBe(true);
   });
-  it('?intro=0 la apaga y ?intro=1 la fuerza aunque ya se haya visto', () => {
+  it('?intro=0 la apaga y ?intro=1 la fuerza', () => {
     env({ search: '?intro=0' }); expect(shouldPlayIntro()).toBe(false);
     env({ search: '?intro=1', seen: true }); expect(shouldPlayIntro()).toBe(true);
   });
@@ -39,7 +35,6 @@ describe('entrada espacial: cuándo se reproduce', () => {
     vi.stubGlobal('window', { location: { search: '' }, matchMedia: () => ({ matches: false }), get sessionStorage() { throw new Error('bloqueado'); } });
     vi.stubGlobal('navigator', { webdriver: false });
     expect(shouldPlayIntro()).toBe(true);
-    expect(() => markIntroSeen()).not.toThrow();
   });
 });
 

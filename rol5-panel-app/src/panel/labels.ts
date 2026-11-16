@@ -37,8 +37,8 @@ export const VERDICT_PLAIN: Record<Verdict, L10n> = {
     en: 'There is a signal, but it does not pass every check. It could be a real trend or ordinary year-to-year variation. It is not enough to claim a change.',
   },
   sin_evidencia: {
-    es: 'Con estos 24 años no se distingue una tendencia del vaivén normal de la lluvia. No significa que nada cambie: significa que estos datos no permiten afirmarlo.',
-    en: 'With these 24 years, a trend cannot be told apart from normal rainfall ups and downs. It does not mean nothing is changing: it means these data cannot confirm it.',
+    es: 'Con estos 24 años no se distingue una tendencia del vaivén natural de la lluvia. No significa que nada cambie: significa que estos datos no permiten afirmarlo.',
+    en: 'With these 24 years, a trend cannot be told apart from the natural ups and downs of rainfall. It does not mean nothing is changing: it means these data cannot confirm it.',
   },
   incompleta: {
     es: 'Faltan demasiados años con datos para evaluar una tendencia.',
@@ -75,8 +75,8 @@ export const NEXT_STEP: Record<Verdict, L10n> = {
     en: 'Read the limitations and compare with a nearby rain gauge before using this to decide.',
   },
   limitada: {
-    es: 'Cambia los años en el gráfico de abajo. Si la historia cambia mucho, tómala con cautela.',
-    en: 'Change the years in the chart below. If the story changes a lot, treat it with caution.',
+    es: 'Elige otros años en el gráfico de abajo. Si la historia cambia mucho, tómala con cautela.',
+    en: 'Choose other years in the chart below. If the story changes a lot, treat it with caution.',
   },
   sin_evidencia: {
     es: 'Si necesitas planificar, revisa también la lluvia que mide tu municipalidad o un pluviómetro cercano.',

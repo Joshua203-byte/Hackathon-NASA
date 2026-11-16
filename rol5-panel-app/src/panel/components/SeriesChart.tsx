@@ -28,6 +28,9 @@ export const SeriesChart = memo(function SeriesChart({ data, period, selected, l
     return buildChartRows(data.series, period, base, sel);
   }, [data, period, selected]);
 
+  const slope = data.statistics?.slope_per_decade;
+  const trendColor = typeof slope === 'number' && slope < 0 ? '#8c510a' : typeof slope === 'number' && slope > 0 ? '#01665e' : '#555';
+
   return (
     <figure data-tour={tourAnchor ?? undefined} style={{ margin: 0 }}>
       <ResponsiveContainer width="100%" height={240}>
@@ -42,17 +45,22 @@ export const SeriesChart = memo(function SeriesChart({ data, period, selected, l
           {selected && <ReferenceArea x1={selected.start} x2={selected.end} fillOpacity={0.08} />}
           {satelliteEra && <ReferenceLine x={GPM_FIRST_YEAR} strokeDasharray="4 3" label={{ value: 'TRMM → GPM', position: 'insideTopRight', fontSize: 10 }} />}
           {/* IC 95 % de la pendiente (abanico), no de los valores */}
-          <Area dataKey="band" name={es ? 'IC 95 % de la pendiente' : '95% CI of the slope'} stroke="none" fill="#2a78d6" fillOpacity={0.14} isAnimationActive animationDuration={700} connectNulls={false} />
-          <Line dataKey="sen" name={es ? 'Recta de Sen (periodo base)' : 'Sen line (base period)'} stroke="#555" dot={false} strokeWidth={1.5} isAnimationActive={false} />
-          <Line dataKey="winSen" name={es ? 'Recta de Sen (ventana)' : 'Sen line (window)'} stroke="#111" dot={false} strokeWidth={2.5} isAnimationActive={false} connectNulls={false} />
+          <Area dataKey="band" name={es ? 'Margen de error de la tendencia' : 'Margin of error of the trend'} stroke="none" fill={trendColor} fillOpacity={0.16} isAnimationActive animationDuration={700} connectNulls={false} />
+          <Line dataKey="sen" name={es ? 'Tendencia estimada (periodo completo)' : 'Estimated trend (full period)'} stroke={trendColor} dot={false} strokeWidth={1.5} isAnimationActive={false} />
+          <Line dataKey="winSen" name={es ? 'Tendencia estimada (años elegidos)' : 'Estimated trend (chosen years)'} stroke="#111" dot={false} strokeWidth={2.5} isAnimationActive={false} connectNulls={false} />
           {/* connectNulls={false}: un año sin dato corta la línea; nunca se dibuja como 0 */}
-          <Line dataKey="value" name={unitLabel(data.units, lang)} stroke="#2a78d6" strokeWidth={2} dot={{ r: 3.5, strokeWidth: 0, fill: '#2a78d6' }} activeDot={{ r: 6 }} isAnimationActive animationDuration={900} connectNulls={false} />
+          <Line dataKey="value" name={unitLabel(data.units, lang)} stroke="#44586a" strokeWidth={2} dot={{ r: 3.5, strokeWidth: 0, fill: '#44586a' }} activeDot={{ r: 6 }} isAnimationActive animationDuration={900} connectNulls={false} />
         </ComposedChart>
       </ResponsiveContainer>
+      <ul className="chart-legend" aria-label={es ? 'Leyenda' : 'Legend'} style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 14px', listStyle: 'none', padding: 0, margin: '4px 0', fontSize: 12 }}>
+        <li><span aria-hidden="true" style={{ color: '#44586a' }}>●</span> {es ? 'lluvia de cada año' : 'rainfall each year'}</li>
+        <li><span aria-hidden="true" style={{ color: trendColor, fontWeight: 700 }}>—</span> {es ? 'tendencia estimada' : 'estimated trend'}</li>
+        <li><span aria-hidden="true" style={{ color: trendColor, opacity: 0.5 }}>▒</span> {es ? 'margen de error de la tendencia' : 'margin of error of the trend'}</li>
+      </ul>
       <figcaption>
         {!data.statistics?.ci_95 ? (es ? 'Sin intervalo de confianza proporcionado por el pipeline. Los años sin dato quedan en blanco.' : 'No confidence interval supplied by the pipeline. Missing years are left blank.') : es
-          ? 'La banda es el IC 95 % de la pendiente, no un rango de valores esperados. Los años sin dato quedan en blanco.'
-          : 'The band is the 95% CI of the slope, not a range of expected values. Years without data are left blank.'}
+          ? 'Cada punto es la lluvia de un año. La banda sombreada muestra hasta dónde podría llegar la recta con estos datos: si es ancha o cruza la horizontal, la tendencia es incierta. Los años sin dato quedan en blanco.'
+          : 'Each dot is the rainfall of one year. The shaded band shows how far the line could go with these data: if it is wide or crosses the horizontal, the trend is uncertain. Years without data are left blank.'}
       </figcaption>
     </figure>
   );

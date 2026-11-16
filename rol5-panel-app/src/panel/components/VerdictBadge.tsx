@@ -1,5 +1,8 @@
 import { VERDICT_UI, reasonText, verdictNotices } from '../verdict';
 import type { CellDetail, IndicatorKey, Lang } from '../types';
+import type { RefData } from '../refs';
+import { reasonPlain } from '../plain';
+import { StatDetail } from './StatDetail';
 import { NEXT_STEP, VERDICT_PLAIN, answerLine } from '../labels';
 
 /** Los tres niveles del motor, de menos a más evidencia. Es una escala ordinal, no una probabilidad. */
@@ -12,10 +15,13 @@ interface Props {
   lang: Lang;
   validYears: number;
   totalYears: number;
+  glossary?: RefData['glossary'];
+  /** Preferencia «Mostrar siempre el detalle estadístico». */
+  detailOpen?: boolean;
 }
 
 /** Único componente autorizado a pintar un veredicto. Nadie más lee `verdict` para mostrar texto. */
-export function VerdictBadge({ cell, ind, lang, validYears, totalYears }: Props) {
+export function VerdictBadge({ cell, ind, lang, validYears, totalYears, glossary = null, detailOpen = false }: Props) {
   const d = cell.indicators[ind];
   if (!d) return null;
   const ui = VERDICT_UI[d.verdict];
@@ -43,8 +49,9 @@ export function VerdictBadge({ cell, ind, lang, validYears, totalYears }: Props)
         <details className="verdict-why" open>
           <summary>{lang === 'es' ? 'Por qué este veredicto' : 'Why this verdict'}</summary>
           <ul className="verdict-reasons">
-            {d.verdict_reasons.map((r) => <li key={r}>{reasonText(r, lang)}</li>)}
+            {d.verdict_reasons.map((r) => <li key={r}>{reasonPlain(r, lang, reasonText)}</li>)}
           </ul>
+          <StatDetail d={d} lang={lang} glossary={glossary} open={detailOpen} />
         </details>
       )}
       {notices.filter((n) => n.kind !== 'caveat' && n.kind !== 'overlap').map((n) => (

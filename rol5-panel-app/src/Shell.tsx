@@ -6,6 +6,9 @@ import { IND_OPTION, LENS_LABEL, regionNames } from './panel/labels';
 import { selectIndicator } from './panel/lenses';
 import { useEffect, useState, useSyncExternalStore } from 'react';
 import { shouldPlayIntro } from './panel/space/introPlan';
+import { countryBounds, countryCodes, markGuideSeen, shouldShowGuide } from './panel/guide';
+import { Welcome } from './panel/components/Welcome';
+import { HelpLayer } from './panel/components/HelpLayer';
 import { lazy, Suspense } from 'react';
 const RegionMap = lazy(() => import('./panel/components/RegionMap').then(m => ({ default: m.RegionMap })));
 const CellPanel = lazy(() => import('./panel/components/CellPanel').then(m => ({ default: m.CellPanel })));
@@ -27,6 +30,9 @@ export function Shell() {
   // La entrada espacial se decide una sola vez; mientras suena, el resto de la interfaz espera.
   const [playIntro] = useState(shouldPlayIntro);
   const [introing, setIntroing] = useState(playIntro);
+  const [guideOpen, setGuideOpen] = useState(shouldShowGuide);
+  const [help, setHelp] = useState(false);
+  const [focus, setFocus] = useState<[[number, number], [number, number]] | null>(null);
   const { boot, error } = useBoot();
   const [url, setUrl] = usePanelUrl();
   const { cell, status } = useCell(url.cell);
@@ -79,6 +85,7 @@ export function Shell() {
     window.location.assign(patchSearch(`?${q}`, { ...boot.refs.tour.context, tour: 1, lang: url.lang }));
   };
 
+  const closeGuide = () => { markGuideSeen(); setGuideOpen(false); };
   const yearsN = boot.meta.period[1] - boot.meta.period[0] + 1;
   const closeCell = () => { const q = new URLSearchParams(location.search); for (const k of ['cell', 'win', 'mirror', 'case', 'tour']) q.delete(k); history.pushState(null, '', `?${q}` + location.hash); dispatchEvent(new PopStateEvent('popstate')); };
 
@@ -90,18 +97,30 @@ export function Shell() {
           <span className="tagline">{es ? '¿Cuánta confianza merece una tendencia de lluvia?' : 'How much confidence does a rainfall trend deserve?'}</span>
         </div>
         <div className="topbar-actions">
+          <button className="btn-ghost help-toggle" aria-pressed={help} aria-label={es ? '¿No entiendes algo?' : 'Don’t understand something?'} onClick={() => setHelp(h => !h)}><span className="hl-long">{es ? '¿No entiendes algo?' : 'Don’t understand something?'}</span><span className="hl-short" aria-hidden="true">?</span></button>
           <button className="btn-primary" onClick={startTour}>{es ? 'Recorrido' : 'Tour'}</button>
           <button className="btn-ghost" aria-label={es ? 'Switch to English' : 'Cambiar a español'} onClick={() => setUrl({ lang: es ? 'en' : 'es' })}>{es ? 'EN' : 'ES'}</button>
         </div>
       </header>
       {(boot.meta.data_kind !== 'observed' || boot.meta.pipeline_commit === 'MOCK') && <p role="note" className="notice demo-notice">{es ? 'DEMOSTRACIÓN: datos simulados o sin validación de procedencia. No usar para decisiones.' : 'DEMO: simulated data or unverified provenance. Do not use for decisions.'}</p>}
 
+      {guideOpen && !introing && (
+        <Welcome lang={url.lang} countries={countryCodes(boot.grid)} hasExample={cases.length > 0}
+          onPickInd={ind => setUrl({ ind, win: null })}
+          onPickCountry={code => setFocus(countryBounds(boot.grid, code))}
+          onExample={() => { closeGuide(); openCase(cases[0]); }}
+          onTour={() => { closeGuide(); startTour(); }}
+          onClose={closeGuide} />
+      )}
+
+      {help && <HelpLayer lang={url.lang} onClose={() => setHelp(false)} />}
+
       <div className={url.cell ? 'stage has-cell' : 'stage'}>
         <div className="workspace-map">
           {/* Rol 4: MapLibre; si no hay WebGL se usa la rejilla SVG sin mapa base. */}
           <Suspense fallback={<p className="region-map-loading">{es ? 'Cargando mapa…' : 'Loading map…'}</p>}>
             <RegionMap cells={boot.grid} meta={boot.meta} ind={url.ind} selected={url.cell} onSelect={selectCell} lang={url.lang}
-              cases={cases.map(c => ({ n: c.n, id: c.cell }))} intro={playIntro} onIntroStart={() => setIntroing(true)} onIntroEnd={() => setIntroing(false)} onCase={n => { const c = CASES.find(k => k.n === n); if (c) openCase(c); }}
+              cases={cases.map(c => ({ n: c.n, id: c.cell }))} focusBounds={focus} intro={playIntro} onIntroEnd={() => setIntroing(false)} onCase={n => { const c = CASES.find(k => k.n === n); if (c) openCase(c); }}
               fallback={<CellMap cells={boot.grid} meta={boot.meta} ind={url.ind} selected={url.cell} onSelect={selectCell} lang={url.lang} />} />
           </Suspense>
         </div>
@@ -111,8 +130,9 @@ export function Shell() {
             <section className="intro">
               <h1>{es ? 'Una línea que baja no siempre es una tendencia' : 'A falling line is not always a trend'}</h1>
               <p>{es
-                ? `${yearsN} años de lluvia medida por satélites de la NASA en ${regionNames(boot.grid, 'es')}. Toca cualquier lugar del mapa y mira cuánta evidencia hay de que la lluvia esté cambiando.`
-                : `${yearsN} years of rainfall measured by NASA satellites over ${regionNames(boot.grid, 'en')}. Tap any place on the map and see how much evidence there is that rainfall is changing.`}</p>
+                ? `Que llueva menos unos años no significa que la lluvia esté cambiando. ALTARIS compara ${yearsN} años de datos de la NASA y te dice cuánta confianza merece cada tendencia. Toca un lugar del mapa y mira si lo que ves se sostiene o puede ser solo el vaivén natural de la lluvia.`
+                : `Rain falling for a few years does not mean rainfall is changing. ALTARIS compares ${yearsN} years of NASA data and tells you how much confidence each trend deserves. Tap a place on the map and see whether what you see holds up or may be just the natural ups and downs of rainfall.`}</p>
+              <p className="intro-places">{es ? `Lugares analizados: ${regionNames(boot.grid, 'es')}.` : `Places analysed: ${regionNames(boot.grid, 'en')}.`}</p>
               <p className="intro-links"><a href="https://github.com/Joshua203-byte/Hackathon-NASA" target="_blank" rel="noreferrer">{es ? 'Código y método' : 'Code and method'}</a> · <a href="?dataset=pilot&cell=N1335W08715&ind=may_oct_mm&lang=es">Piloto real · Choluteca</a></p>
             </section>
           )}

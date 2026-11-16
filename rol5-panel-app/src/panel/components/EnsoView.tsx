@@ -41,7 +41,7 @@ export const EnsoView = memo(function EnsoView({ data, period, enso, strongOff, 
   return (
     <section data-tour="enso">
       <h3>{es ? 'El Niño y La Niña (ENSO)' : 'El Niño and La Niña (ENSO)'}</h3>
-      <p className="card-hint">{es ? 'Cada barra es un año: cuánto llovió por encima o por debajo de lo normal. El color indica si fue año de El Niño o de La Niña.' : 'Each bar is one year: how far rainfall was above or below normal. Colour shows whether it was an El Niño or La Niña year.'}</p>
+      <p className="card-hint">{es ? 'Cada barra es un año: cuánto llovió por encima o por debajo de lo habitual. El color indica si fue año de El Niño o de La Niña.' : 'Each bar is one year: how far rainfall was above or below its usual level. Colour shows whether it was an El Niño or La Niña year.'}</p>
       <ResponsiveContainer width="100%" height={170}>
         <BarChart data={rows} margin={{ top: 4, right: 8, bottom: 14, left: 4 }}>
           <CartesianGrid strokeOpacity={0.2} vertical={false} />
