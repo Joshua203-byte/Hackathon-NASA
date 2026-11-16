@@ -149,13 +149,14 @@ try {
   await page.waitForSelector('.compare');
   await page.getByRole('button', { name: 'Recorrido', exact: true }).click();
   await page.waitForSelector('.tour');
-  for (let step = 1; step <= 4; step++) {
-    await page.waitForFunction(n => document.querySelector('.tour-head')?.textContent.includes(`${n}/4`), step);
-    if (step < 4) await page.getByRole('button', { name: 'Siguiente', exact: true }).click();
+  const N = (await loadJson('tour.json')).steps.length;
+  for (let step = 1; step <= N; step++) {
+    await page.waitForFunction(([n, total]) => document.querySelector('.tour-head')?.textContent.includes(`${n}/${total}`), [step, N]);
+    if (step < N) await page.getByRole('button', { name: 'Siguiente', exact: true }).click();
   }
   await page.getByRole('button', { name: 'Terminar', exact: true }).click();
   assert.equal(await page.locator('.tour').count(), 0);
-  pass('recorrido: 4 pasos y cierre');
+  pass(`recorrido: ${N} pasos y cierre`);
 
   // 6. Enlaces cortos de los 3 casos (solo si el simulado trae esas celdas)
   for (const [n, id] of CASE_CELLS.entries()) {

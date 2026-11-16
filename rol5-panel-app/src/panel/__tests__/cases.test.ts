@@ -10,7 +10,8 @@ describe('enlaces de casos (Rol 4)', () => {
     const tourPath = fileURLToPath(new URL('../../../public/data/tour.json', import.meta.url));
     const tour = JSON.parse(readFileSync(tourPath, 'utf8'));
     const kase = findCase('2')!;
-    for (const step of tour.steps.slice(2)) {
+    // los pasos que fijan una ventana de años (huella, pasaporte y preguntas finales) deben coincidir con el caso 2
+    for (const step of tour.steps.filter((s: { set?: { win?: unknown } }) => s.set?.win)) {
       expect(step.set.cell).toBe(kase.cell);
       expect(step.set.ind).toBe(kase.ind);
       expect(step.set.win.join('-')).toBe(kase.win);

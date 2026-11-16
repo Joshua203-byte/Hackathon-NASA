@@ -129,20 +129,25 @@ try {
     await page.waitForSelector('.compare');
     await page.getByRole('button', { name: lang === 'es' ? 'Recorrido' : 'Tour', exact: true }).click();
     await page.waitForSelector('.tour');
-    assert.equal(new URL(page.url()).searchParams.get('cell'), tour.context.cell);
-    for (let step = 1; step <= 4; step++) {
-      await page.waitForFunction(n => document.querySelector('.tour-head')?.textContent.includes(`${n}/4`), step);
-      assert.ok((await page.locator('.tour').innerText()).includes(tour.steps[step - 1].title[lang]));
-      if (step === 3) {
+    // El recorrido empieza siempre sin celda abierta (para explicar la zona de la izquierda) y abre la celda de ejemplo al llegar al panel.
+    const N = tour.steps.length;
+    assert.equal(new URL(page.url()).searchParams.get('cell'), null);
+    for (let step = 1; step <= N; step++) {
+      const s = tour.steps[step - 1];
+      await page.waitForFunction(([n, total]) => document.querySelector('.tour-head')?.textContent.includes(`${n}/${total}`), [step, N]);
+      assert.ok((await page.locator('.tour').innerText()).includes(s.title[lang]));
+      if (s.set?.cell) await page.waitForFunction(c => new URLSearchParams(location.search).get('cell') === c, s.set.cell);
+      else assert.equal(new URL(page.url()).searchParams.get('cell'), null);
+      if (s.anchor === 'footprint') {
         await page.waitForFunction(() => new URLSearchParams(location.search).get('win') === '2001-2010');
         assert.ok((await page.locator('.compare').innerText()).includes('+381.9'));
         await page.reload();
         await page.waitForSelector('.tour');
-        assert.equal(new URL(page.url()).searchParams.get('tour'), '3');
+        assert.equal(new URL(page.url()).searchParams.get('tour'), String(step));
       }
-      if (step < 4) await page.getByRole('button', { name: lang === 'es' ? 'Siguiente' : 'Next', exact: true }).click();
+      if (s.anchor === 'passport') assert.equal(await page.locator('[data-tour="passport"]').evaluate(el => el.classList.contains('tour-focus')), true);
+      if (step < N) await page.getByRole('button', { name: lang === 'es' ? 'Siguiente' : 'Next', exact: true }).click();
     }
-    assert.equal(await page.locator('[data-tour="passport"]').evaluate(el => el.classList.contains('tour-focus')), true);
     await page.screenshot({ path: `${output}/tour-passport-${lang}.png`, fullPage: true });
     await page.getByRole('button', { name: lang === 'es' ? 'Terminar' : 'Done', exact: true }).click();
     assert.equal(await page.locator('.tour').count(), 0);
@@ -169,10 +174,9 @@ try {
   await page.waitForSelector('.tour');
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'Sin desbordamiento horizontal en móvil');
   await page.screenshot({ path: `${output}/mobile-tour.png` });
-  await page.getByRole('button', { name: 'Siguiente', exact: true }).click();
-  await page.getByRole('button', { name: 'Siguiente', exact: true }).click();
+  // Recorre todos los pasos hasta el último (la ventana 2001–2010 queda fijada desde el paso de la huella) y lo cierra.
+  for (let i = 1; i < tour.steps.length; i++) await page.getByRole('button', { name: 'Siguiente', exact: true }).click();
   await page.waitForFunction(() => new URLSearchParams(location.search).get('win') === '2001-2010');
-  await page.getByRole('button', { name: 'Siguiente', exact: true }).click();
   await page.getByRole('button', { name: 'Terminar', exact: true }).click();
   const mobilePassport = JSON.parse(await download('Descargar JSON', 'mobile-passport.json'));
   assert.equal(mobilePassport.cell.id, 'N1475W08765');
