@@ -8,6 +8,7 @@ import { useEffect, useState, useSyncExternalStore } from 'react';
 import { shouldPlayIntro } from './panel/space/introPlan';
 import { countryBounds, countryCodes, markGuideSeen, shouldShowGuide } from './panel/guide';
 import { Welcome } from './panel/components/Welcome';
+import { HelpLayer } from './panel/components/HelpLayer';
 import { lazy, Suspense } from 'react';
 const RegionMap = lazy(() => import('./panel/components/RegionMap').then(m => ({ default: m.RegionMap })));
 const CellPanel = lazy(() => import('./panel/components/CellPanel').then(m => ({ default: m.CellPanel })));
@@ -30,6 +31,7 @@ export function Shell() {
   const [playIntro] = useState(shouldPlayIntro);
   const [introing, setIntroing] = useState(playIntro);
   const [guideOpen, setGuideOpen] = useState(shouldShowGuide);
+  const [help, setHelp] = useState(false);
   const [focus, setFocus] = useState<[[number, number], [number, number]] | null>(null);
   const { boot, error } = useBoot();
   const [url, setUrl] = usePanelUrl();
@@ -95,6 +97,7 @@ export function Shell() {
           <span className="tagline">{es ? '¿Cuánta confianza merece una tendencia de lluvia?' : 'How much confidence does a rainfall trend deserve?'}</span>
         </div>
         <div className="topbar-actions">
+          <button className="btn-ghost help-toggle" aria-pressed={help} aria-label={es ? '¿No entiendes algo?' : 'Don’t understand something?'} onClick={() => setHelp(h => !h)}><span className="hl-long">{es ? '¿No entiendes algo?' : 'Don’t understand something?'}</span><span className="hl-short" aria-hidden="true">?</span></button>
           <button className="btn-primary" onClick={startTour}>{es ? 'Recorrido' : 'Tour'}</button>
           <button className="btn-ghost" aria-label={es ? 'Switch to English' : 'Cambiar a español'} onClick={() => setUrl({ lang: es ? 'en' : 'es' })}>{es ? 'EN' : 'ES'}</button>
         </div>
@@ -109,6 +112,8 @@ export function Shell() {
           onTour={() => { closeGuide(); startTour(); }}
           onClose={closeGuide} />
       )}
+
+      {help && <HelpLayer lang={url.lang} onClose={() => setHelp(false)} />}
 
       <div className={url.cell ? 'stage has-cell' : 'stage'}>
         <div className="workspace-map">
