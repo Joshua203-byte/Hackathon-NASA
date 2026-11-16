@@ -1,6 +1,6 @@
 # ALTARIS — Earth Trend Intelligence
 
-Working copy for seven countries, prepared 15 November 2026 with Codex assistance. This is a conditional submission draft, not a statement that the expansion has shipped. Numerical content uses Joshua's observed export (engine `7e93e46`) and integration records at `09ebae1`. Scientific sign-off and release approval remain open; see the internal release gate below. The three-country fallback is [submission-en.md](submission-en.md).
+Seven-country submission text, prepared 15 November 2026 with Codex and Claude assistance. The seven-country release was approved by Joshua (GO) and is published; numerical content uses Joshua's observed export (engine `7e93e46`) and integration records at `09ebae1`. Camila's scientific signature is the remaining gate; see the internal release gate at the end. The earlier three-country text is kept as [submission-en.md](submission-en.md).
 
 ## Project Name
 
@@ -14,11 +14,13 @@ Across the expanded region, 196 locations meet the consistent-evidence rule for 
 
 ## Link to Project Demo
 
-`[PENDING: video]` Public final video URL, 30 seconds or less, recorded against the frozen observed release. The simulated prototype is a rehearsal and must not be submitted. See [production script](guion-video-30s.md).
+`[PENDING: video]` Paste here the public URL of the final video (28.6 s, English, real screen captures of the frozen seven-country release; file `altaris_demo.mp4`). It must open without a password, permission or registration: test it in a private window. The simulated prototype is not submitted. Production record: [docs/video/README.md](../video/README.md).
 
 ## Link to Final Project
 
-`[PENDING: deployment]` Final public URL approved after Joshua's GO decision and Elena's production verification. The existing [three-country app](https://altaris.altaris-panel-rol5.workers.dev/?lang=en) remains the fallback; do not label it as seven-country coverage before deployment.
+https://altaris.altaris-panel-rol5.workers.dev/?lang=en
+
+The seven-country release (4,332 observed cells in Honduras, Guatemala, El Salvador, Belize, Nicaragua, Costa Rica and Panama), published from the frozen `main`; the application has not changed since commit `bb8ee96`. Joshua approved the release (GO) and checked the published site on a phone.
 
 ## Detailed Project Description
 
@@ -159,11 +161,11 @@ Camila, Joshua, Elena, Izel, David and Andrés work across science, data, web an
 
 ## Use of Super Intelligence (SI)
 
-Claude and OpenAI Codex assisted with code, tests, documentation and bilingual copy. Codex also assisted with the simulated prototype video (a rehearsal that is not submitted) and the conditional expansion materials. Claude also assisted with the seven-country interface, the opening globe and sky, and the scripts that rendered the final 30-second demo: every image in it is a real screen capture of the app, and it contains no generated images, video, voice or music. Cell narratives are produced offline with deterministic templates; no generative model computes statistics or assigns verdicts. The project idea, scientific decisions and case selection are the team's own, as recorded in the team's existing attribution. Code and data assistance is documented in text and metadata. For the materials currently prepared, this assistance is recorded in the [English resource inventory](references-en.md). `[PENDING: final media inventory]` Reconcile that inventory with the frozen release and any generated audio/visual material. Generated images or video require visible marks; generated audio requires text and metadata disclosure. No claim is made that a final video already exists.
+Claude and OpenAI Codex assisted with code, tests, documentation and bilingual copy. Codex also assisted with the simulated prototype video (a rehearsal that is not submitted) and the early seven-country drafts. Claude also assisted with the seven-country interface, the opening globe and sky, and the scripts that rendered the final 30-second demo: every image in it is a real screen capture of the app, and it contains no generated images, video, voice or music. Cell narratives are produced offline with deterministic templates; no generative model computes statistics or assigns verdicts. The project idea, scientific decisions and case selection are the team's own, as recorded in the team's existing attribution. Code and data assistance is documented in text and metadata. For the materials currently prepared, this assistance is recorded in the [English resource inventory](references-en.md). The inventory was reconciled with the frozen release on 15 November, including the opening globe assets and the demo video. No generated images, video, voice or music are used: the demo is made of real screen captures of the app, so no visible AI mark is required, and its production is recorded in [docs/video/README.md](../video/README.md).
 
 ## NASA Data
 
-NASA GPM IMERG Final Run monthly V07, 0.1°, 2001–2024: [DOI 10.5067/GPM/IMERG/3B-MONTH/07](https://doi.org/10.5067/GPM/IMERG/3B-MONTH/07). Monthly files are obtained through Earthdata from GES DISC. The [challenge resources](https://www.spaceappschallenge.org/2026/challenges/earth-system-trend-detective/?tab=resources) link GES DISC's Hydrology Time Series tool, but do not explicitly name IMERG. ALTARIS uses IMERG observations from that archive; it does not claim to use the linked time-series tool. `[PENDING: NASA resource eligibility]` Confirm any challenge-specific eligibility interpretation with the organizers before submission; no organizer approval is claimed.
+NASA GPM IMERG Final Run monthly V07, 0.1°, 2001–2024: [DOI 10.5067/GPM/IMERG/3B-MONTH/07](https://doi.org/10.5067/GPM/IMERG/3B-MONTH/07). Monthly files are obtained through Earthdata from GES DISC. The [challenge resources](https://www.spaceappschallenge.org/2026/challenges/earth-system-trend-detective/?tab=resources) link GES DISC's Hydrology Time Series tool, but do not explicitly name IMERG. The challenge background does name the Global Precipitation Measurement (GPM) mission among the instruments that provide analyzable variables, and IMERG is a GPM product. ALTARIS uses IMERG observations from that archive; it does not claim to use the linked time-series tool, and no organizer approval of this interpretation is claimed. As an independent check, one case (Choluteca, cell `N1335W08715`, May–October rainfall) was reproduced with NASA Giovanni using the same IMERG V07 monthly product: the Sen slope (−48.1 mm per decade) and its 95% interval (−257.4 to 170.9) match the pipeline to the first decimal. This verifies the implementation for one case; it does not validate the other cells or the accuracy of the satellite product ([record](https://github.com/Joshua203-byte/Hackathon-NASA/tree/main/docs/validacion_giovanni)).
 
 NASA POWER supplies rainfall comparisons and temperature/solar radiation at the original case sites. Expanded-run provenance is in `data/ca/rol1/provenance.json`; the input comparison reports identical original locations. POWER provenance remains in `data/rol1/power_casos/provenance.json`. Do not imply POWER coverage throughout all seven countries.
 
@@ -173,4 +175,4 @@ NOAA CPC ONI supports ENSO checks; Natural Earth supplies borders. They are auxi
 
 ## Internal release gate — remove before pasting
 
-Joshua owns GO/NO-GO. No change to the official form, root README or production URL is implied by this draft. Resolve all markers, compare numbers with the observed JSON using Joshua's adapted checker, obtain Camila's signature and verify Elena's deployed URL before switching. Use `pipeline/check_form_ca.py` from integration for this expanded form; `check_form_numbers.py` remains the fixed-expectation three-country check. The CA checker covers supported tables and phrases, not every numeric statement. See [cotejo-formulario-ca.md](cotejo-formulario-ca.md) for evidence and remaining release gates. Keep the original form and [alternative README](README-en-ca.md) available for the decision.
+Status on 15 November, 22:50 (El Salvador): GO approved and published; numbers checked with `pipeline/check_form_ca.py` against the final JSON (41 checks OK, none to review). Still open: (1) Camila's scientific signature in `docs/ca/camila.md`; (2) the public video URL; (3) the User testing paragraph, whose wording depends on what was actually carried out; (4) `[PENDING: release audit]`, which needs the public links checked in a private window. Delete this section before pasting into the official form.
